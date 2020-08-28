@@ -24,6 +24,7 @@ public class MainApp extends Application {
 
 	        showView();
 	        //minjyo commit!
+	        //new repo
 	}
 
 	 /**
