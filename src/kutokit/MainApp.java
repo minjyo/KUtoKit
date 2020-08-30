@@ -1,13 +1,18 @@
+//yeonji-test commit
 package kutokit;
 
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import kutokit.view.CseController;
+import kutokit.view.PmmController;
+import kutokit.view.CtmController;
+import kutokit.view.UtmController;
+import kutokit.view.RootLayoutController;
 
 public class MainApp extends Application {
 	
@@ -15,55 +20,131 @@ public class MainApp extends Application {
 	 private BorderPane rootLayout;
 	 
 	@Override
-	//main에 앱이 실행되면 자동으로 호출
+	//auto execute after main execute
 	public void start(Stage primaryStage) {
 		 this.primaryStage = primaryStage;
 	        this.primaryStage.setTitle("Kutokit");
 
 	        initRootLayout();
 
-	        showView();
-	        //minjyo commit!
+	        //showCseView();
 	}
 
 	 /**
-     * 상위 레이아웃을 초기화한다.
+     * init root layout
      */
 	private void initRootLayout() {
 		try {
-            // fxml 파일에서 상위 레이아웃을 가져온다.
+            // get root layout
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
 
-            // 상위 레이아웃을 포함하는 scene을 보여준다.
+            //add root layout to scene
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
+            
+            //add controller
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+            
         } catch (IOException e) {
             e.printStackTrace();
         }	
 	}
 	
 	/**
-     * 상위 레이아웃 안에 연락처 요약(person overview)을 보여준다.
+     * called when cseButton clicked
      */
-    public void showView() {
+    public void showCseView() {
         try {
-            // 연락처 요약을 가져온다.
+            // get maker scene
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/View.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/CseView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
-            // 연락처 요약을 상위 레이아웃 가운데로 설정한다.
+            // add scene in center of root layout 
             rootLayout.setCenter(View);
+            
+            //add controller
+            CseController controller = loader.getController();
+            controller.setMainApp(this);
+            
+            System.out.println("a");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * called when ctmButton clicked
+     */
+    public void showCtmView() {
+        try {
+            // get maker scene
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
+            AnchorPane View = (AnchorPane) loader.load();
+
+            // add scene in center of root layout 
+            rootLayout.setCenter(View);
+            
+            //add controller
+            CtmController controller = loader.getController();
+            controller.setMainApp(this);
+            System.out.println("a");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * called when utmButton clicked
+     */
+    public void showUtmView() {
+        try {
+            // get maker scene
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/UtmView.fxml"));
+            AnchorPane View = (AnchorPane) loader.load();
+
+            // add scene in center of root layout 
+            rootLayout.setCenter(View);
+            
+            //add controller
+            UtmController controller = loader.getController();
+            controller.setMainApp(this);
+            System.out.println("a");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * called when pmmButton clicked
+     */
+    public void showPmmView() {
+        try {
+            // get maker scene
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/PmmView.fxml"));
+            AnchorPane View = (AnchorPane) loader.load();
+
+            // add scene in center of root layout 
+            rootLayout.setCenter(View);
+            
+            //add controller
+            PmmController controller = loader.getController();
+            controller.setMainApp(this);
+            System.out.println("a");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-	 * 메인 스테이지를 반환한다.
+	 * return main stage
 	 * @return
 	 */
 	public Stage getPrimaryStage() {
