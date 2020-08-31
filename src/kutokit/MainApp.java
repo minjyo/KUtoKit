@@ -1,4 +1,3 @@
-//yeonji-test commit
 package kutokit;
 
 import java.io.IOException;
