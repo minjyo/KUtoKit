@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -48,15 +46,15 @@ public class CtmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        fc.setInitialDirectory(new File("C:/")); // default µğ·ºÅä¸® ¼³Á¤
+        fc.setInitialDirectory(new File("C:/")); // default ë””ë ‰í† ë¦¬ ì„¤ì •
         
-        // È®ÀåÀÚ Á¦ÇÑ
+        // í™•ì¥ì ì œí•œ
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
         fc.getExtensionFilters().addAll(txtType);
          
 	    selectedFile =  fc.showOpenDialog(null);
         if(selectedFile != null) {
-	        //System.out.println(selectedFile);  // ¼±ÅÃÇÑ °æ·Î Ãâ·Â
+	        //System.out.println(selectedFile);  // ì„ íƒí•œ ê²½ë¡œ ì¶œë ¥
 	        //System.out.println(selectedFile.getName());
 	        filename.setText(selectedFile.getName());
         }

@@ -33,24 +33,24 @@ public class PmmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        fc.setInitialDirectory(new File("C:/")); // default µğ·ºÅä¸® ¼³Á¤
+        fc.setInitialDirectory(new File("C:/")); // default ë””ë ‰í† ë¦¬ ì„¤ì •
         
-        // È®ÀåÀÚ Á¦ÇÑ
+        // í™•ì¥ì ì œí•œ
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
         fc.getExtensionFilters().addAll(txtType);
          
 	    selectedFile =  fc.showOpenDialog(null);
         if(selectedFile != null) {
-	        //System.out.println(selectedFile);  // ¼±ÅÃÇÑ °æ·Î Ãâ·Â
+	        //System.out.println(selectedFile);  // ì„ íƒí•œ ê²½ë¡œ ì¶œë ¥
 	        //System.out.println(selectedFile.getName());
 	        filename.setText(selectedFile.getName());
 	         
-	        // ÆÄÀÏÀ» InputStreamÀ¸·Î ÀĞ¾î¿È
+	        // íŒŒì¼ì„ InputStreamìœ¼ë¡œ ì½ì–´ì˜´
 	        try {
-	            // ÆÄÀÏ ÀĞ¾î¿À±â
+	            // íŒŒì¼ ì½ì–´ì˜¤ê¸°
 	            FileInputStream fis = new FileInputStream(selectedFile);
 	            BufferedInputStream bis = new BufferedInputStream(fis);
-	            //System.out.println(bis);  // ¼±ÅÃÇÑ ÆÄÀÏ Ãâ·Â
+	            //System.out.println(bis);  // ì„ íƒí•œ íŒŒì¼ ì¶œë ¥
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
 	        }
@@ -63,11 +63,10 @@ public class PmmController {
 			AddFile.getChildren().clear();
             
             /*
-             * ÆÄ½Ì ÄÚµå Ãß°¡
+             * íŒŒì‹± ì½”ë“œ ì¶”ê°€
              * 
              */
             
 		}
 	}
-	
 }
