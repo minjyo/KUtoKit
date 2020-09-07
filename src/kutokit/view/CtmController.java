@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,7 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kutokit.MainApp;
-import kutokit.model.ContextTableDataModel;
+import kutokit.model.CTM;
 
 public class CtmController {
 
@@ -29,16 +31,19 @@ public class CtmController {
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
 	
-	@FXML private TableView contextTable;
-	@FXML private TableColumn CAColumn, casesColumn, noColumn, contextsColumn, hazardousColumn;
+	@FXML private TableView<CTM> contextTable;
+	@FXML private TableColumn<CTM, String> CAColumn, casesColumn, contextsColumn;
+	@FXML private TableColumn<CTM, Boolean> hazardousColumn;
+	@FXML private TableColumn<CTM, Integer> noColumn;
 	
+	private String[] contexts = new String[10];
 	// constructor
 	public CtmController() {
 		
 	}
 
 	//set MainApp
-	public void setMainApp(MainApp mainApp) {
+	public void setMainApp(MainApp mainApp)  {
 		this.mainApp = mainApp;
 	}
 	
@@ -46,8 +51,9 @@ public class CtmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
-        
+        // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+        // minjyo - mac
+        fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
         // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
         fc.getExtensionFilters().addAll(txtType);
@@ -62,45 +68,100 @@ public class CtmController {
 	
 	@FXML
 	public void ApplyFile() throws IOException {
+		
 		if(selectedFile != null) {
 			AddFile.getChildren().clear();
-			
+	
 			// 1. Read MCS File
 	        try {
 	            FileInputStream fis = new FileInputStream(selectedFile);
 	            BufferedInputStream bis = new BufferedInputStream(fis);
 	            
 	            byte [] buffer = new byte[512];
+	            String temp="";
 	            while((bis.read(buffer)) != -1) {
-	            	System.out.println(new String(buffer));
+//	            	System.out.println(new String(buffer));
+	            	temp = new String(buffer);
+	            	
 	            }    
 	           
-	            /*
-	             * 2. Add Parsing File
-	             * 
-	             */
+	            //2. Add Parsing File
+	            String[] temps = new String[10];
+	            temps = temp.split(" Λ ");
 	            
-		    // 3. Create Data list ex)
-		   		ObservableList<ContextTableDataModel> myTable = FXCollections.observableArrayList(
-		   		   new ContextTableDataModel("Action1", "case1", 1, "c1"),
-		   		   new ContextTableDataModel("Action2", "case2", 2 , "c2"),
-		   		   new ContextTableDataModel("Action3", "case3", 3 ,"c3")
-		   		);
-		   		
-		   	// 4. Parsing Data & Connecting with table
-		   		CAColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, String>("controlAction"));
-		   		casesColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, String>("cases"));
-		   		noColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, Integer>("no"));
-		   		contextsColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, String>("contexts"));
-		   		hazardousColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, ComboBox>("hazardous"));
-		   		
-		        contextTable.setItems(myTable);
-	         
+	            this.ParseMSC(temps);
+	            
+	            
+	            this.MakeTable();
+	            
 	            bis.close();    
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
 	        }
 		}
+	}
+	
+
+	private void ParseMSC(String[] temps) {
+		//MSC ex 
+//		detect_term≤0.1sec Λ 
+//		detect_length≥1m Λ
+//		sensor_error=false Λ 
+//		malfunc_check_clear=true Λ 
+//		path_check=true Λ 
+//		gps_one=true
+		int i=0;
+		while(i < temps.length) {
+			if(temps[i].contains("≤")) { 
+				String[] splits = temps[i].split("≤");
+				
+				if(splits.length > 2) { // a ≤ x ≤ b
+					contexts[i] = splits[0] + " <= x <= " +  splits[2];
+				}else { // x ≤ a 
+					contexts[i] = "x <= " +  splits[1];
+				}
+			}else if(temps[i].contains("≥")) {
+				String[] splits = temps[i].split("≥");
+				contexts[i] = "x >= " +  splits[1];
+			}else if(temps[i].contains("=")) { // x = true or false
+				String[] splits = temps[i].split("=");
+				contexts[i] = splits[1];
+			}else {
+				contexts[i] = "N/A";
+			}
+			i++;
+		}
+		
+	}
+	
+	private void MakeTable() {
+		
+		// 3. Create Data list ex
+		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
+		
+		int i=0;
+		while(i < contexts.length) {
+			 mcsData.add(new CTM("Action", "case", i, contexts[i]));
+			 i++;
+		}  
+       
+        // 4. Set table row 
+        CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
+   	 	casesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("cases"));
+ 	 	noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
+ 	    contextsColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts"));
+ 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, Boolean>("hazardous?"));
+ 	   		
+	   	// 5. Put data in table
+	   	CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
+	   	casesColumn.setCellValueFactory(cellData -> cellData.getValue().getCasesProperty());
+	   	noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
+	   	contextsColumn.setCellValueFactory(cellData -> cellData.getValue().getContextsProperty());
+	   	hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());
+	   	
+	    contextTable.setItems(mcsData);
+	 	   
+		
 	}
 	
 }
