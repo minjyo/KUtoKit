@@ -10,29 +10,34 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CtmController">
    <children>
-      <TableView fx:id="contextTable" layoutY="-3.0" prefHeight="307.0" prefWidth="600.0">
+      <TableView fx:id="contextTable" layoutY="-11.0" prefHeight="307.0" prefWidth="600.0">
         <columns>
-          <TableColumn fx:id="CAColumn" prefWidth="144.0" text="Control Action" />
           <TableColumn fx:id="casesColumn" minWidth="6.0" prefWidth="79.0" text="Cases" />
             <TableColumn fx:id="noColumn" minWidth="6.0" prefWidth="45.0" text="No." />
             <TableColumn fx:id="contextsColumn" minWidth="6.0" prefWidth="229.0" text="Contexts" />
             <TableColumn fx:id="hazardousColumn" minWidth="3.0" prefWidth="102.0" text="Hazardous?" />
+          <TableColumn fx:id="CAColumn" prefWidth="144.0" text="Control Action" />
         </columns>
       </TableView>
       <Pane fx:id="AddFile" layoutX="181.0" layoutY="96.0" prefHeight="109.0" prefWidth="238.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#86da81" height="24.0" stroke="BLACK" strokeType="INSIDE" width="238.0" />
             <Label layoutX="8.0" layoutY="5.0" text="Add File" />
-            <AnchorPane layoutX="2.0" layoutY="26.0" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="238.0">
+            <AnchorPane layoutX="2.0" layoutY="26.0" minHeight="0.0" minWidth="0.0" prefHeight="84.0" prefWidth="238.0">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="87.0" layoutX="-2.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="238.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="217.0" />
                   <Button layoutX="197.0" layoutY="16.0" mnemonicParsing="false" onAction="#AddFile" prefHeight="14.0" prefWidth="28.0" text="..." />
-                  <Button layoutX="92.0" layoutY="50.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
+                  <Button layoutX="88.0" layoutY="50.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
                   <Label fx:id="filename" layoutX="14.0" layoutY="20.0" />
                </children>
             </AnchorPane>
          </children>
       </Pane>
+      <AnchorPane layoutX="473.0" layoutY="242.0" prefHeight="61.0" prefWidth="131.0">
+         <children>
+            <Button layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#CreateUCA" text="Create UCA" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

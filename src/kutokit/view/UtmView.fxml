@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.UtmController">
    <children>
+      <TableView prefHeight="300.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="ControlAction" prefWidth="120.0" text="Control Action" />
+          <TableColumn fx:id="Providing" prefWidth="120.0" text="Providing Causes Hazard" />
+            <TableColumn fx:id="notProviding" prefWidth="120.0" text="Not Providing Causes Hazard" />
+            <TableColumn fx:id="IncorrectTime" prefWidth="120.0" text="Incorrect Timing/Order" />
+            <TableColumn fx:id="StoppedTooLong" prefWidth="120.0" text="Stopped Too Soon/Applied Too Long" />
+        </columns>
+      </TableView>
       <Text layoutX="276.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UtmView" />
    </children>
 </AnchorPane>
