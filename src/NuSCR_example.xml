@@ -1,0 +1,2934 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<NuSRS modified="Mon Aug 17 18:23:58 KST 2020" version="NuEditor 2.0">
+    <FOD clock="" constants=""
+        description="BP&#xc5d0; &#xb300;&#xd55c; &#xcd5c;&#xc0c1;&#xc704; FOD"
+        id="2" memoVar="" name="Root" node_counter="452" prevStateVar=""
+        templateNum="" transition_counter="2039">
+        <gml>Creator	"yFiles"&#xd;
+Version	2.2&#xd;
+graph&#xd;
+[&#xd;
+	label	""&#xd;
+	directed	1&#xd;
+	node&#xd;
+	[&#xd;
+		id	0&#xd;
+		label	"g_BP"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	484.617919921875&#xd;
+			y	-299.25390625&#xd;
+			w	100.0&#xd;
+			h	100.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"g_BP"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	1&#xd;
+		label	"f_LO_SG1_LEVEL_PV"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	155.81521606445312&#xd;
+			y	-408.78662109375&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PV"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	2&#xd;
+		label	"f_LO_SG1_LEVEL_MT_Val"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	155.81521606445312&#xd;
+			y	-373.7865905761719&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_MT_Val"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	3&#xd;
+		label	"f_LO_SG1_LEVEL_AT_Val"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	155.81521606445312&#xd;
+			y	-339.7865905761719&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_AT_Val"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	4&#xd;
+		label	"f_LO_SG1_LEVEL_PT_Val"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	155.81521606445312&#xd;
+			y	-304.7865905761719&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PT_Val"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	5&#xd;
+		label	"f_LO_SG1_LEVEL_MT_Query"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	154.71868896484375&#xd;
+			y	-271.8831481933594&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_MT_Query"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	6&#xd;
+		label	"f_LO_SG1_LEVEL_PT_Query"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	154.71868896484375&#xd;
+			y	-236.88314819335938&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PT_Query"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	7&#xd;
+		label	"f_LO_SG1_LEVEL_AT_Query"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	154.71868896484375&#xd;
+			y	-202.88314819335938&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_AT_Query"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	8&#xd;
+		label	"f_LO_SG1_LEVEL_Val_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	798.7640991210938&#xd;
+			y	-405.1568298339844&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Val_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	9&#xd;
+		label	"th_LO_SG1_LEVEL_Ptrp_Logic"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	798.7861328125&#xd;
+			y	-370.4383850097656&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"th_LO_SG1_LEVEL_Ptrp_Logic"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	10&#xd;
+		label	"f_Mod_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	135.05433654785156&#xd;
+			y	-7.520260810852051&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_Mod_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	11&#xd;
+		label	"f_LO_SG1_LEVEL_Op_Byp_Init"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	153.37013244628906&#xd;
+			y	-169.91578674316406&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Op_Byp_Init"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	12&#xd;
+		label	"th_LO_SG1_LEVEL_Trip_Logic"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	798.7861328125&#xd;
+			y	-334.43841552734375&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"th_LO_SG1_LEVEL_Trip_Logic"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	13&#xd;
+		label	"f_LO_SG1_LEVEL_PV_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	797.7861328125&#xd;
+			y	-297.43841552734375&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PV_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	14&#xd;
+		label	"f_LO_SG1_LEVEL_Ptrp_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	797.7861328125&#xd;
+			y	-262.43841552734375&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Ptrp_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	15&#xd;
+		label	"f_LO_SG1_LEVEL_Trip_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	797.7861328125&#xd;
+			y	-227.4384002685547&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Trip_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	16&#xd;
+		label	"f_LO_SG1_LEVEL_Chan_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	150.33883666992188&#xd;
+			y	-135.7145233154297&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Chan_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	1&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	2&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	3&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	4&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	5&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	7&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	8&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	9&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	10&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	11&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	12&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	13&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	15&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	6&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	16&#xd;
+		target	0&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+]&#xd;
+</gml>
+        <nodes>
+            <FOD clock="" constants="" description="Bistable Processor"
+                id="19" memoVar="" name="g_BP" prevStateVar=""
+                templateNum="" yindex="0">
+                <gml>Creator	"yFiles"&#xd;
+Version	2.2&#xd;
+graph&#xd;
+[&#xd;
+	label	""&#xd;
+	directed	1&#xd;
+	node&#xd;
+	[&#xd;
+		id	0&#xd;
+		label	"f_LO_SG1_LEVEL_PV"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	273.359375&#xd;
+			y	-80.3125&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PV"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	1&#xd;
+		label	"f_LO_SG1_LEVEL_MT_Val"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	273.359375&#xd;
+			y	-41.78724670410156&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_MT_Val"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	2&#xd;
+		label	"f_LO_SG1_LEVEL_AT_Val"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	273.359375&#xd;
+			y	-1.6054306030273438&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_AT_Val"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	3&#xd;
+		label	"f_LO_SG1_LEVEL_PT_Val"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	273.359375&#xd;
+			y	40.23295593261719&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PT_Val"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	4&#xd;
+		label	"f_LO_SG1_LEVEL_MT_Query"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	270.0462341308594&#xd;
+			y	82.07133483886719&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_MT_Query"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	5&#xd;
+		label	"f_LO_SG1_LEVEL_AT_Query"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	266.7331237792969&#xd;
+			y	160.77841186523438&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_AT_Query"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	6&#xd;
+		label	"f_LO_SG1_LEVEL_Val_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	950.9541015625&#xd;
+			y	24.910675048828125&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Val_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	7&#xd;
+		label	"th_LO_SG1_LEVEL_Ptrp_Logic"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	949.050048828125&#xd;
+			y	58.0267333984375&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"th_LO_SG1_LEVEL_Ptrp_Logic"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	8&#xd;
+		label	"f_Mod_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	275.36553955078125&#xd;
+			y	336.3466796875&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_Mod_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	9&#xd;
+		label	"f_LO_SG1_LEVEL_Op_Byp_Init"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	270.5821838378906&#xd;
+			y	198.25222778320312&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Op_Byp_Init"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	10&#xd;
+		label	"th_LO_SG1_LEVEL_Trip_Logic"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	948.6307983398438&#xd;
+			y	95.27407836914062&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"th_LO_SG1_LEVEL_Trip_Logic"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	11&#xd;
+		label	"f_LO_SG1_LEVEL_PV_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	947.888427734375&#xd;
+			y	129.3597412109375&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PV_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	12&#xd;
+		label	"f_LO_SG1_LEVEL_Ptrp_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	948.6307983398438&#xd;
+			y	163.76861572265625&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Ptrp_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	13&#xd;
+		label	"f_LO_SG1_LEVEL_Trip_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	945.640869140625&#xd;
+			y	195.92996215820312&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Trip_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	14&#xd;
+		label	"g_LO_SG1_LEVEL"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	599.416748046875&#xd;
+			y	119.81527709960938&#xd;
+			w	100.0&#xd;
+			h	100.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"g_LO_SG1_LEVEL"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	15&#xd;
+		label	"f_LO_SG1_LEVEL_PT_Query"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	275.53668212890625&#xd;
+			y	117.11216735839844&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PT_Query"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	16&#xd;
+		label	"f_LO_SG1_LEVEL_Chan_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	267.66790771484375&#xd;
+			y	234.35829162597656&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Chan_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	1&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	2&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	3&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	4&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	5&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	8&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	9&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	14&#xd;
+		target	6&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	14&#xd;
+		target	7&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	14&#xd;
+		target	10&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	14&#xd;
+		target	11&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	14&#xd;
+		target	12&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	14&#xd;
+		target	13&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	15&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	16&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+]&#xd;
+</gml>
+                <nodes>
+                    <input id="67" name="f_LO_SG1_LEVEL_PV" yindex="0"/>
+                    <input id="68" name="f_LO_SG1_LEVEL_MT_Val" yindex="1"/>
+                    <input id="69" name="f_LO_SG1_LEVEL_AT_Val" yindex="2"/>
+                    <input id="70" name="f_LO_SG1_LEVEL_PT_Val" yindex="3"/>
+                    <input id="71" name="f_LO_SG1_LEVEL_MT_Query" yindex="4"/>
+                    <input id="73" name="f_LO_SG1_LEVEL_AT_Query" yindex="5"/>
+                    <output id="74" name="f_LO_SG1_LEVEL_Val_Out" yindex="6"/>
+                    <output id="78" name="th_LO_SG1_LEVEL_Ptrp_Logic" yindex="7"/>
+                    <input id="79" name="f_Mod_Err" yindex="8"/>
+                    <input id="81" name="f_LO_SG1_LEVEL_Op_Byp_Init" yindex="9"/>
+                    <output id="89" name="th_LO_SG1_LEVEL_Trip_Logic" yindex="10"/>
+                    <output id="91" name="f_LO_SG1_LEVEL_PV_Err" yindex="11"/>
+                    <output id="93" name="f_LO_SG1_LEVEL_Ptrp_Out" yindex="12"/>
+                    <output id="95" name="f_LO_SG1_LEVEL_Trip_Out" yindex="13"/>
+                    <FOD clock="" constants=""
+                        description="&#xc99d;&#xae30;&#xbc1c;&#xc0dd;&#xae30;-1 &#xc800;&#xc218;&#xc704; &#xd2b8;&#xb9bd;(&#xace0;&#xc815;/&#xd558;&#xac15;/&#xc6b0;&#xd68c;&#xc5c6;&#xc74c;)"
+                        id="96" memoVar="" name="g_LO_SG1_LEVEL"
+                        prevStateVar="" templateNum="" yindex="14">
+                        <gml>Creator	"yFiles"&#xd;
+Version	2.2&#xd;
+graph&#xd;
+[&#xd;
+	label	""&#xd;
+	directed	1&#xd;
+	node&#xd;
+	[&#xd;
+		id	0&#xd;
+		label	"f_LO_SG1_LEVEL_PV"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	97.0&#xd;
+			y	42.0&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PV"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	1&#xd;
+		label	"f_LO_SG1_LEVEL_MT_Val"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	98.0&#xd;
+			y	75.0&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_MT_Val"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	2&#xd;
+		label	"f_LO_SG1_LEVEL_AT_Val"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	98.0&#xd;
+			y	112.0&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_AT_Val"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	3&#xd;
+		label	"f_LO_SG1_LEVEL_PT_Val"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	95.4375&#xd;
+			y	152.125&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PT_Val"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	4&#xd;
+		label	"f_LO_SG1_LEVEL_MT_Query"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	96.3125&#xd;
+			y	194.0&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_MT_Query"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	5&#xd;
+		label	"f_LO_SG1_LEVEL_AT_Query"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	94.0&#xd;
+			y	267.0&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_AT_Query"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	6&#xd;
+		label	"f_Mod_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	93.0&#xd;
+			y	479.0&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_Mod_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	7&#xd;
+		label	"f_LO_SG1_LEVEL_Op_Byp_Init"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	94.0&#xd;
+			y	602.0&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Op_Byp_Init"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	8&#xd;
+		label	"f_LO_SG1_LEVEL_Val_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	295.7361145019531&#xd;
+			y	122.84762573242188&#xd;
+			w	100.0&#xd;
+			h	100.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#CCCCFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Val_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	9&#xd;
+		label	"th_LO_SG1_LEVEL_Ptrp_Logic"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	555.146484375&#xd;
+			y	204.11111450195312&#xd;
+			w	110.0&#xd;
+			h	60.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#FFAFAF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"th_LO_SG1_LEVEL_Ptrp_Logic"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	10&#xd;
+		label	"th_LO_SG1_LEVEL_Trip_Logic"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	478.62432861328125&#xd;
+			y	299.4141540527344&#xd;
+			w	110.0&#xd;
+			h	60.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#FFAFAF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"th_LO_SG1_LEVEL_Trip_Logic"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	11&#xd;
+		label	"f_LO_SG1_LEVEL_PV_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	374.6111145019531&#xd;
+			y	373.22222900390625&#xd;
+			w	100.0&#xd;
+			h	100.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#CCCCFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PV_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	12&#xd;
+		label	"f_LO_SG1_LEVEL_Ptrp_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	603.80810546875&#xd;
+			y	478.40277099609375&#xd;
+			w	100.0&#xd;
+			h	100.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#CCCCFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Ptrp_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	13&#xd;
+		label	"f_LO_SG1_LEVEL_Trip_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	594.0555419921875&#xd;
+			y	666.1818237304688&#xd;
+			w	100.0&#xd;
+			h	100.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#CCCCFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Trip_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	14&#xd;
+		label	"f_LO_SG1_LEVEL_Val_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	764.9697265625&#xd;
+			y	113.1919174194336&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Val_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	15&#xd;
+		label	"th_LO_SG1_LEVEL_Ptrp_Logic"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	761.6565551757812&#xd;
+			y	203.5353546142578&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"th_LO_SG1_LEVEL_Ptrp_Logic"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	16&#xd;
+		label	"th_LO_SG1_LEVEL_Trip_Logic"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	766.2828369140625&#xd;
+			y	317.10101318359375&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"th_LO_SG1_LEVEL_Trip_Logic"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	17&#xd;
+		label	"f_LO_SG1_LEVEL_PV_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	767.3131103515625&#xd;
+			y	373.2323303222656&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PV_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	18&#xd;
+		label	"f_LO_SG1_LEVEL_Ptrp_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	763.2828369140625&#xd;
+			y	478.9595947265625&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Ptrp_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	19&#xd;
+		label	"f_LO_SG1_LEVEL_Trip_Out"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	771.565673828125&#xd;
+			y	665.9393920898438&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Trip_Out"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	20&#xd;
+		label	"f_LO_SG1_LEVEL_PT_Query"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	95.36482238769531&#xd;
+			y	231.8621826171875&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_PT_Query"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	21&#xd;
+		label	"f_LO_SG1_LEVEL_Chan_Err"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	91.66791534423828&#xd;
+			y	540.3582763671875&#xd;
+			w	120.0&#xd;
+			h	30.0&#xd;
+			type	"rectangle"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Chan_Err"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	8&#xd;
+		target	9&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	8&#xd;
+		target	10&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	8&#xd;
+		target	11&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	9&#xd;
+		target	12&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	11&#xd;
+		target	12&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	10&#xd;
+		target	13&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	8&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	1&#xd;
+		target	8&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	2&#xd;
+		target	8&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	3&#xd;
+		target	8&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	4&#xd;
+		target	8&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	5&#xd;
+		target	8&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	6&#xd;
+		target	12&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	7&#xd;
+		target	12&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	6&#xd;
+		target	13&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	7&#xd;
+		target	13&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	8&#xd;
+		target	14&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	9&#xd;
+		target	15&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	10&#xd;
+		target	16&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	11&#xd;
+		target	17&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	12&#xd;
+		target	18&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	13&#xd;
+		target	19&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	20&#xd;
+		target	8&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	21&#xd;
+		target	12&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	21&#xd;
+		target	13&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	11&#xd;
+		target	13&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+	]&#xd;
+]&#xd;
+</gml>
+                        <nodes>
+                            <input id="67" name="f_LO_SG1_LEVEL_PV" yindex="0"/>
+                            <input id="68" name="f_LO_SG1_LEVEL_MT_Val" yindex="1"/>
+                            <input id="69" name="f_LO_SG1_LEVEL_AT_Val" yindex="2"/>
+                            <input id="70" name="f_LO_SG1_LEVEL_PT_Val" yindex="3"/>
+                            <input id="71"
+                                name="f_LO_SG1_LEVEL_MT_Query" yindex="4"/>
+                            <input id="73"
+                                name="f_LO_SG1_LEVEL_AT_Query" yindex="5"/>
+                            <input id="79" name="f_Mod_Err" yindex="6"/>
+                            <input id="81"
+                                name="f_LO_SG1_LEVEL_Op_Byp_Init" yindex="7"/>
+                            <SDT clock="" constants=""
+                                description="5.4.6 &#xc785;&#xb825;&#xc2e0;&#xd638; &#xc120;&#xd0dd; &#xbaa8;&#xb4c8; > 5.4.6.1 &#xc785;&#xb825;&#xc2e0;&#xd638; &#xc120;&#xd0dd;&#xbe14;&#xb85d;"
+                                id="103" memoVar=""
+                                name="f_LO_SG1_LEVEL_Val_Out"
+                                prevStateVar="f_LO_SG1_LEVEL_Val_Out_t0 : 0..30000; "
+                                templateNum="" yindex="8">
+                                <condition nCol="9" nRow="3">
+                                    <cell col="0" row="0" value="f_LO_SG1_LEVEL_MT_Query = true"/>
+                                    <cell col="1" row="0" value="T"/>
+                                    <cell col="2" row="0" value="F"/>
+                                    <cell col="3" row="0" value="F"/>
+                                    <cell col="4" row="0" value="F"/>
+                                    <cell col="5" row="0" value="T"/>
+                                    <cell col="6" row="0" value="T"/>
+                                    <cell col="7" row="0" value="T"/>
+                                    <cell col="8" row="0" value="F"/>
+                                    <cell col="0" row="1" value="f_LO_SG1_LEVEL_AT_Query = true"/>
+                                    <cell col="1" row="1" value="F"/>
+                                    <cell col="2" row="1" value="T"/>
+                                    <cell col="3" row="1" value="F"/>
+                                    <cell col="4" row="1" value="F"/>
+                                    <cell col="5" row="1" value="T"/>
+                                    <cell col="6" row="1" value="T"/>
+                                    <cell col="7" row="1" value="F"/>
+                                    <cell col="8" row="1" value="T"/>
+                                    <cell col="0" row="2" value="f_LO_SG1_LEVEL_PT_Query = true"/>
+                                    <cell col="1" row="2" value="F"/>
+                                    <cell col="2" row="2" value="F"/>
+                                    <cell col="3" row="2" value="T"/>
+                                    <cell col="4" row="2" value="F"/>
+                                    <cell col="5" row="2" value="T"/>
+                                    <cell col="6" row="2" value="F"/>
+                                    <cell col="7" row="2" value="T"/>
+                                    <cell col="8" row="2" value="T"/>
+                                </condition>
+                                <action nCol="9" nRow="5">
+                                    <cell col="0" row="0" value="f_LO_SG1_LEVEL_Val_Out := f_LO_SG1_LEVEL_MT_Val"/>
+                                    <cell col="1" row="0" value="O"/>
+                                    <cell col="2" row="0" value=" "/>
+                                    <cell col="3" row="0" value=""/>
+                                    <cell col="4" row="0" value=""/>
+                                    <cell col="5" row="0" value=""/>
+                                    <cell col="6" row="0" value=""/>
+                                    <cell col="7" row="0" value=""/>
+                                    <cell col="8" row="0" value=""/>
+                                    <cell col="0" row="1" value="f_LO_SG1_LEVEL_Val_Out := f_LO_SG1_LEVEL_AT_Val"/>
+                                    <cell col="1" row="1" value=""/>
+                                    <cell col="2" row="1" value="O"/>
+                                    <cell col="3" row="1" value=""/>
+                                    <cell col="4" row="1" value=""/>
+                                    <cell col="5" row="1" value=""/>
+                                    <cell col="6" row="1" value=""/>
+                                    <cell col="7" row="1" value=""/>
+                                    <cell col="8" row="1" value=""/>
+                                    <cell col="0" row="2" value="f_LO_SG1_LEVEL_Val_Out := f_LO_SG1_LEVEL_PT_Val"/>
+                                    <cell col="1" row="2" value=""/>
+                                    <cell col="2" row="2" value=""/>
+                                    <cell col="3" row="2" value="O"/>
+                                    <cell col="4" row="2" value=""/>
+                                    <cell col="5" row="2" value=""/>
+                                    <cell col="6" row="2" value=""/>
+                                    <cell col="7" row="2" value=""/>
+                                    <cell col="8" row="2" value=""/>
+                                    <cell col="0" row="3" value="f_LO_SG1_LEVEL_Val_Out := f_LO_SG1_LEVEL_PV"/>
+                                    <cell col="1" row="3" value=" "/>
+                                    <cell col="2" row="3" value=""/>
+                                    <cell col="3" row="3" value=""/>
+                                    <cell col="4" row="3" value="O"/>
+                                    <cell col="5" row="3" value=""/>
+                                    <cell col="6" row="3" value=""/>
+                                    <cell col="7" row="3" value=""/>
+                                    <cell col="8" row="3" value=""/>
+                                    <cell col="0" row="4" value="f_LO_SG1_LEVEL_Val_Out := f_LO_SG1_LEVEL_Val_Out_t0"/>
+                                    <cell col="1" row="4" value=""/>
+                                    <cell col="2" row="4" value=""/>
+                                    <cell col="3" row="4" value=""/>
+                                    <cell col="4" row="4" value=""/>
+                                    <cell col="5" row="4" value="O"/>
+                                    <cell col="6" row="4" value="O"/>
+                                    <cell col="7" row="4" value="O"/>
+                                    <cell col="8" row="4" value="O"/>
+                                </action>
+                            </SDT>
+                            <TTS clock="time_1 : 0..4; "
+                                constants="k_LO_SG1_LEVEL_Ptrp_Dly := 480; k_LO_SG1_LEVEL_Ptrp_Hyst := 300; k_LO_SG1_LEVEL_Ptrp_Set := 13900; "
+                                description="5.4.8 &#xc124;&#xc815;&#xce58; &#xd558;&#xac15; &#xbe44;&#xad50;&#xb17c;&#xb9ac; &#xbaa8;&#xb4c8; > 5.4.8.1 &#xc608;&#xbe44;&#xd2b8;&#xb9bd; &#xb17c;&#xb9ac; &#xbe14;&#xb85d;"
+                                id="104" initialRef="110" memoVar=""
+                                name="th_LO_SG1_LEVEL_Ptrp_Logic"
+                                prevStateVar="" templateNum="" yindex="9">
+                                <gml>Creator	"yFiles"&#xd;
+Version	2.2&#xd;
+graph&#xd;
+[&#xd;
+	label	""&#xd;
+	directed	1&#xd;
+	node&#xd;
+	[&#xd;
+		id	0&#xd;
+		label	"Normal"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	-81.5&#xd;
+			y	33.5&#xd;
+			w	70.0&#xd;
+			h	70.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#00FFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"Normal"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	1&#xd;
+		label	"Waiting"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	388.5&#xd;
+			y	34.5&#xd;
+			w	70.0&#xd;
+			h	70.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"Waiting"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	2&#xd;
+		label	"Pretrip"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	139.5&#xd;
+			y	326.5&#xd;
+			w	70.0&#xd;
+			h	70.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"Pretrip"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	1&#xd;
+		label	"f_LO_SG1_LEVEL_Val_Out &lt; 
+k_LO_SG1_LEVEL_Ptrp_Set / 
+th_LO_SG1_LEVEL_Ptrp_Logic := false"&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Val_Out &lt; 
+k_LO_SG1_LEVEL_Ptrp_Set / 
+th_LO_SG1_LEVEL_Ptrp_Logic := false"&#xd;
+			fontSize	11&#xd;
+			fontName	"Dialog"&#xd;
+			alignment	"left"&#xd;
+			model	"six_pos"&#xd;
+			position	"head"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	1&#xd;
+		target	0&#xd;
+		label	"
+f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LEVEL_Ptrp_Set / 
+th_LO_SG1_LEVEL_Ptrp_Logic := false"&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+			Line&#xd;
+			[&#xd;
+				point&#xd;
+				[&#xd;
+					x	388.5&#xd;
+					y	34.5&#xd;
+				]&#xd;
+				point&#xd;
+				[&#xd;
+					x	137.0&#xd;
+					y	75.5&#xd;
+				]&#xd;
+				point&#xd;
+				[&#xd;
+					x	-81.5&#xd;
+					y	33.5&#xd;
+				]&#xd;
+			]&#xd;
+		]&#xd;
+		edgeAnchor&#xd;
+		[&#xd;
+			xSource	0.2675226330757141&#xd;
+			ySource	-0.1003209799528122&#xd;
+			xTarget	0.2675226330757141&#xd;
+			yTarget	-0.1003209799528122&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"
+f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LEVEL_Ptrp_Set / 
+th_LO_SG1_LEVEL_Ptrp_Logic := false"&#xd;
+			fontSize	11&#xd;
+			fontName	"Dialog"&#xd;
+			alignment	"left"&#xd;
+			model	"six_pos"&#xd;
+			position	"ttail"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	1&#xd;
+		target	2&#xd;
+		label	"[k_LO_SG1_LEVEL_Ptrp_Dly, k_LO_SG1_LEVEL_Ptrp_Dly] 
+f_LO_SG1_LEVEL_Val_Out &lt; 
+k_LO_SG1_LEVEL_Ptrp_Set / 
+th_LO_SG1_LEVEL_Ptrp_Logic := true"&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"[k_LO_SG1_LEVEL_Ptrp_Dly, k_LO_SG1_LEVEL_Ptrp_Dly] 
+f_LO_SG1_LEVEL_Val_Out &lt; 
+k_LO_SG1_LEVEL_Ptrp_Set / 
+th_LO_SG1_LEVEL_Ptrp_Logic := true"&#xd;
+			fontSize	11&#xd;
+			fontName	"Dialog"&#xd;
+			alignment	"left"&#xd;
+			model	"six_pos"&#xd;
+			position	"tail"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	2&#xd;
+		target	0&#xd;
+		label	"f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LEVEL_Ptrp_Set +
+k_LO_SG1_LEVEL_Ptrp_Hyst / 
+th_LO_SG1_LEVEL_Ptrp_Logic := false"&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LEVEL_Ptrp_Set +
+k_LO_SG1_LEVEL_Ptrp_Hyst / 
+th_LO_SG1_LEVEL_Ptrp_Logic := false"&#xd;
+			fontSize	11&#xd;
+			fontName	"Dialog"&#xd;
+			alignment	"left"&#xd;
+			model	"six_pos"&#xd;
+			position	"head"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+		]&#xd;
+	]&#xd;
+]&#xd;
+</gml>
+                                <states>
+                                    <state id="110" name="Normal" yindex="0"/>
+                                    <state id="111" name="Waiting" yindex="1"/>
+                                    <state id="112" name="Pretrip" yindex="2"/>
+                                </states>
+                                <transitions>
+                                    <transition id="1164" yindex="0">
+                                    <source refId="110" refName="Normal"/>
+                                    <target refId="111" refName="Waiting"/>
+                                    <conditions>f_LO_SG1_LEVEL_Val_Out &lt; 
+k_LO_SG1_LEVEL_Ptrp_Set</conditions>
+                                    <assignments>
+th_LO_SG1_LEVEL_Ptrp_Logic := false</assignments>
+                                    </transition>
+                                    <transition id="1165" yindex="1">
+                                    <source refId="111" refName="Waiting"/>
+                                    <target refId="110" refName="Normal"/>
+                                    <conditions>
+f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LEVEL_Ptrp_Set</conditions>
+                                    <assignments>
+th_LO_SG1_LEVEL_Ptrp_Logic := false</assignments>
+                                    </transition>
+                                    <transition id="1167" yindex="2">
+                                    <source refId="111" refName="Waiting"/>
+                                    <target refId="112" refName="Pretrip"/>
+                                    <time
+                                    end="k_LO_SG1_LEVEL_Ptrp_Dly" start="k_LO_SG1_LEVEL_Ptrp_Dly"/>
+                                    <conditions>
+f_LO_SG1_LEVEL_Val_Out &lt; 
+k_LO_SG1_LEVEL_Ptrp_Set</conditions>
+                                    <assignments>
+th_LO_SG1_LEVEL_Ptrp_Logic := true</assignments>
+                                    </transition>
+                                    <transition id="1181" yindex="3">
+                                    <source refId="112" refName="Pretrip"/>
+                                    <target refId="110" refName="Normal"/>
+                                    <conditions>f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LEVEL_Ptrp_Set +
+k_LO_SG1_LEVEL_Ptrp_Hyst</conditions>
+                                    <assignments>
+th_LO_SG1_LEVEL_Ptrp_Logic := false</assignments>
+                                    </transition>
+                                </transitions>
+                            </TTS>
+                            <TTS clock="time_1 : 0..4; "
+                                constants="k_LO_SG1_LVL_Trip_Dly := 480; k_LO_SG1_LVL_Trip_Hyst := 300; k_LO_SG1_LVL_Trip_Set := 12900; "
+                                description="5.4.8 &#xc124;&#xc815;&#xce58; &#xd558;&#xac15; &#xbe44;&#xad50;&#xb17c;&#xb9ac; &#xbaa8;&#xb4c8; > 5.4.8.2 &#xd2b8;&#xb9bd; &#xb17c;&#xb9ac; &#xbe14;&#xb85d;"
+                                id="105" initialRef="113" memoVar=""
+                                name="th_LO_SG1_LEVEL_Trip_Logic"
+                                prevStateVar="" templateNum="" yindex="10">
+                                <gml>Creator	"yFiles"&#xd;
+Version	2.2&#xd;
+graph&#xd;
+[&#xd;
+	label	""&#xd;
+	directed	1&#xd;
+	node&#xd;
+	[&#xd;
+		id	0&#xd;
+		label	"Normal"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	177.0&#xd;
+			y	172.0&#xd;
+			w	70.0&#xd;
+			h	70.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#00FFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"Normal"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	1&#xd;
+		label	"Waiting"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	589.0&#xd;
+			y	185.0&#xd;
+			w	70.0&#xd;
+			h	70.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"Waiting"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	node&#xd;
+	[&#xd;
+		id	2&#xd;
+		label	"Trip"&#xd;
+		graphics&#xd;
+		[&#xd;
+			x	400.0&#xd;
+			y	432.0&#xd;
+			w	70.0&#xd;
+			h	70.0&#xd;
+			type	"ellipse"&#xd;
+			fill	"#FFFFFF"&#xd;
+			outline	"#000000"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"Trip"&#xd;
+			fontSize	12&#xd;
+			fontName	"Dialog"&#xd;
+			anchor	"c"&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	0&#xd;
+		target	1&#xd;
+		label	"f_LO_SG1_LEVEL_Val_Out &lt; 
+k_LO_SG1_LVL_Trip_Set / 
+th_LO_SG1_LEVEL_Trip_Logic := false"&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+			Line&#xd;
+			[&#xd;
+				point&#xd;
+				[&#xd;
+					x	177.0&#xd;
+					y	172.0&#xd;
+				]&#xd;
+				point&#xd;
+				[&#xd;
+					x	398.0&#xd;
+					y	112.0&#xd;
+				]&#xd;
+				point&#xd;
+				[&#xd;
+					x	589.0&#xd;
+					y	185.0&#xd;
+				]&#xd;
+			]&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"f_LO_SG1_LEVEL_Val_Out &lt; 
+k_LO_SG1_LVL_Trip_Set / 
+th_LO_SG1_LEVEL_Trip_Logic := false"&#xd;
+			fontSize	11&#xd;
+			fontName	"Dialog"&#xd;
+			alignment	"left"&#xd;
+			model	"six_pos"&#xd;
+			position	"thead"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	1&#xd;
+		target	0&#xd;
+		label	"
+f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LVL_Trip_Set / 
+th_LO_SG1_LEVEL_Trip_Logic := false"&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+			Line&#xd;
+			[&#xd;
+				point&#xd;
+				[&#xd;
+					x	589.0&#xd;
+					y	185.0&#xd;
+				]&#xd;
+				point&#xd;
+				[&#xd;
+					x	407.5&#xd;
+					y	254.5&#xd;
+				]&#xd;
+				point&#xd;
+				[&#xd;
+					x	389.0&#xd;
+					y	261.0&#xd;
+				]&#xd;
+				point&#xd;
+				[&#xd;
+					x	177.0&#xd;
+					y	172.0&#xd;
+				]&#xd;
+			]&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"
+f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LVL_Trip_Set / 
+th_LO_SG1_LEVEL_Trip_Logic := false"&#xd;
+			fontSize	11&#xd;
+			fontName	"Dialog"&#xd;
+			alignment	"left"&#xd;
+			model	"six_pos"&#xd;
+			position	"ttail"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	1&#xd;
+		target	2&#xd;
+		label	"[k_LO_SG1_LVL_Trip_Dly, k_LO_SG1_LVL_Trip_Dly] 
+f_LO_SG1_LEVEL_Val_Out &lt;
+k_LO_SG1_LVL_Trip_Set / 
+th_LO_SG1_LEVEL_Trip_Logic := true"&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"[k_LO_SG1_LVL_Trip_Dly, k_LO_SG1_LVL_Trip_Dly] 
+f_LO_SG1_LEVEL_Val_Out &lt;
+k_LO_SG1_LVL_Trip_Set / 
+th_LO_SG1_LEVEL_Trip_Logic := true"&#xd;
+			fontSize	11&#xd;
+			fontName	"Dialog"&#xd;
+			alignment	"left"&#xd;
+			model	"six_pos"&#xd;
+			position	"tail"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+		]&#xd;
+	]&#xd;
+	edge&#xd;
+	[&#xd;
+		source	2&#xd;
+		target	0&#xd;
+		label	"
+f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LVL_Trip_Set + 
+k_LO_SG1_LVL_Trip_Hyst / 
+th_LO_SG1_LEVEL_Trip_Logic := false"&#xd;
+		graphics&#xd;
+		[&#xd;
+			fill	"#000000"&#xd;
+			targetArrow	"standard"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+			text	"
+f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LVL_Trip_Set + 
+k_LO_SG1_LVL_Trip_Hyst / 
+th_LO_SG1_LEVEL_Trip_Logic := false"&#xd;
+			fontSize	11&#xd;
+			fontName	"Dialog"&#xd;
+			alignment	"left"&#xd;
+			model	"six_pos"&#xd;
+			position	"shead"&#xd;
+		]&#xd;
+		LabelGraphics&#xd;
+		[&#xd;
+		]&#xd;
+	]&#xd;
+]&#xd;
+</gml>
+                                <states>
+                                    <state id="113" name="Normal" yindex="0"/>
+                                    <state id="114" name="Waiting" yindex="1"/>
+                                    <state id="115" name="Trip" yindex="2"/>
+                                </states>
+                                <transitions>
+                                    <transition id="1175" yindex="0">
+                                    <source refId="113" refName="Normal"/>
+                                    <target refId="114" refName="Waiting"/>
+                                    <conditions>f_LO_SG1_LEVEL_Val_Out &lt; 
+k_LO_SG1_LVL_Trip_Set</conditions>
+                                    <assignments>
+th_LO_SG1_LEVEL_Trip_Logic := false</assignments>
+                                    </transition>
+                                    <transition id="1176" yindex="1">
+                                    <source refId="114" refName="Waiting"/>
+                                    <target refId="113" refName="Normal"/>
+                                    <conditions>
+f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LVL_Trip_Set</conditions>
+                                    <assignments>
+th_LO_SG1_LEVEL_Trip_Logic := false</assignments>
+                                    </transition>
+                                    <transition id="1177" yindex="2">
+                                    <source refId="114" refName="Waiting"/>
+                                    <target refId="115" refName="Trip"/>
+                                    <time
+                                    end="k_LO_SG1_LVL_Trip_Dly" start="k_LO_SG1_LVL_Trip_Dly"/>
+                                    <conditions>
+f_LO_SG1_LEVEL_Val_Out &lt;
+k_LO_SG1_LVL_Trip_Set</conditions>
+                                    <assignments>
+th_LO_SG1_LEVEL_Trip_Logic := true</assignments>
+                                    </transition>
+                                    <transition id="1330" yindex="3">
+                                    <source refId="115" refName="Trip"/>
+                                    <target refId="113" refName="Normal"/>
+                                    <conditions>
+f_LO_SG1_LEVEL_Val_Out &gt;= 
+k_LO_SG1_LVL_Trip_Set + 
+k_LO_SG1_LVL_Trip_Hyst</conditions>
+                                    <assignments>
+th_LO_SG1_LEVEL_Trip_Logic := false</assignments>
+                                    </transition>
+                                </transitions>
+                            </TTS>
+                            <SDT clock=""
+                                constants="k_LO_SG1_LEVEL_PV_Max := 29400; k_LO_SG1_LEVEL_PV_Min := 600; "
+                                description="5.4.8 &#xc124;&#xc815;&#xce58; &#xd558;&#xac15; &#xbe44;&#xad50;&#xb17c;&#xb9ac; &#xbaa8;&#xb4c8; > 5.4.8.3 &#xd2b8;&#xb9bd; &#xbc0f; &#xc608;&#xbe44;&#xd2b8;&#xb9bd; &#xacb0;&#xc815; &#xbe14;&#xb85d; (&#xc77c;&#xbd80;)"
+                                id="106" memoVar=""
+                                name="f_LO_SG1_LEVEL_PV_Err"
+                                prevStateVar="" templateNum="" yindex="11">
+                                <condition nCol="5" nRow="2">
+                                    <cell col="0" row="0" value="f_LO_SG1_LEVEL_Val_Out > k_LO_SG1_LEVEL_PV_Max"/>
+                                    <cell col="1" row="0" value="T"/>
+                                    <cell col="2" row="0" value="T"/>
+                                    <cell col="3" row="0" value="F"/>
+                                    <cell col="4" row="0" value="F"/>
+                                    <cell col="0" row="1" value="f_LO_SG1_LEVEL_Val_Out &lt; k_LO_SG1_LEVEL_PV_Min"/>
+                                    <cell col="1" row="1" value="T"/>
+                                    <cell col="2" row="1" value="F"/>
+                                    <cell col="3" row="1" value="T"/>
+                                    <cell col="4" row="1" value="F"/>
+                                </condition>
+                                <action nCol="5" nRow="2">
+                                    <cell col="0" row="0" value="f_LO_SG1_LEVEL_PV_Err := true"/>
+                                    <cell col="1" row="0" value="O"/>
+                                    <cell col="2" row="0" value="O"/>
+                                    <cell col="3" row="0" value="O"/>
+                                    <cell col="4" row="0" value=""/>
+                                    <cell col="0" row="1" value="f_LO_SG1_LEVEL_PV_Err := false"/>
+                                    <cell col="1" row="1" value=""/>
+                                    <cell col="2" row="1" value=""/>
+                                    <cell col="3" row="1" value=""/>
+                                    <cell col="4" row="1" value="O"/>
+                                </action>
+                            </SDT>
+                            <SDT clock="" constants=""
+                                description="5.4.8 &#xc124;&#xc815;&#xce58; &#xd558;&#xac15; &#xbe44;&#xad50;&#xb17c;&#xb9ac; &#xbaa8;&#xb4c8; > 5.4.8.3 &#xd2b8;&#xb9bd; &#xbc0f; &#xc608;&#xbe44;&#xd2b8;&#xb9bd; &#xacb0;&#xc815; &#xbe14;&#xb85d; (&#xc77c;&#xbd80;)"
+                                id="107" memoVar=""
+                                name="f_LO_SG1_LEVEL_Ptrp_Out"
+                                prevStateVar="" templateNum="" yindex="12">
+                                <condition nCol="5" nRow="2">
+                                    <cell col="0" row="0" value="th_LO_SG1_LEVEL_Ptrp_Logic = true &amp; f_LO_SG1_LEVEL_Op_Byp_Init = false"/>
+                                    <cell col="1" row="0" value="T"/>
+                                    <cell col="2" row="0" value="T"/>
+                                    <cell col="3" row="0" value="F"/>
+                                    <cell col="4" row="0" value="F"/>
+                                    <cell col="0" row="1" value="f_Mod_Err = true | f_LO_SG1_LEVEL_Chan_Err = true | f_LO_SG1_LEVEL_PV_Err = true"/>
+                                    <cell col="1" row="1" value="T"/>
+                                    <cell col="2" row="1" value="F"/>
+                                    <cell col="3" row="1" value="T"/>
+                                    <cell col="4" row="1" value="F"/>
+                                </condition>
+                                <action nCol="5" nRow="2">
+                                    <cell col="0" row="0" value="f_LO_SG1_LEVEL_Ptrp_Out := true"/>
+                                    <cell col="1" row="0" value="O"/>
+                                    <cell col="2" row="0" value="O"/>
+                                    <cell col="3" row="0" value="O"/>
+                                    <cell col="4" row="0" value=""/>
+                                    <cell col="0" row="1" value="f_LO_SG1_LEVEL_Ptrp_Out := false"/>
+                                    <cell col="1" row="1" value=""/>
+                                    <cell col="2" row="1" value=""/>
+                                    <cell col="3" row="1" value=""/>
+                                    <cell col="4" row="1" value="O"/>
+                                </action>
+                            </SDT>
+                            <SDT clock="" constants=""
+                                description="5.4.8 &#xc124;&#xc815;&#xce58; &#xd558;&#xac15; &#xbe44;&#xad50;&#xb17c;&#xb9ac; &#xbaa8;&#xb4c8; > 5.4.8.3 &#xd2b8;&#xb9bd; &#xbc0f; &#xc608;&#xbe44;&#xd2b8;&#xb9bd; &#xacb0;&#xc815; &#xbe14;&#xb85d; (&#xc77c;&#xbd80;)"
+                                id="108" memoVar=""
+                                name="f_LO_SG1_LEVEL_Trip_Out"
+                                prevStateVar="" templateNum="" yindex="13">
+                                <condition nCol="5" nRow="2">
+                                    <cell col="0" row="0" value="th_LO_SG1_LEVEL_Trip_Logic = true &amp; f_LO_SG1_LEVEL_Op_Byp_Init = false"/>
+                                    <cell col="1" row="0" value="T"/>
+                                    <cell col="2" row="0" value="T"/>
+                                    <cell col="3" row="0" value="F"/>
+                                    <cell col="4" row="0" value="F"/>
+                                    <cell col="0" row="1" value="f_Mod_Err = true | f_LO_SG1_LEVEL_Chan_Err = true | f_LO_SG1_LEVEL_PV_Err = true"/>
+                                    <cell col="1" row="1" value="T"/>
+                                    <cell col="2" row="1" value="F"/>
+                                    <cell col="3" row="1" value="T"/>
+                                    <cell col="4" row="1" value="F"/>
+                                </condition>
+                                <action nCol="5" nRow="2">
+                                    <cell col="0" row="0" value="f_LO_SG1_LEVEL_Trip_Out := true"/>
+                                    <cell col="1" row="0" value="O"/>
+                                    <cell col="2" row="0" value="O"/>
+                                    <cell col="3" row="0" value="O"/>
+                                    <cell col="4" row="0" value=""/>
+                                    <cell col="0" row="1" value="f_LO_SG1_LEVEL_Trip_Out := false"/>
+                                    <cell col="1" row="1" value=""/>
+                                    <cell col="2" row="1" value=""/>
+                                    <cell col="3" row="1" value=""/>
+                                    <cell col="4" row="1" value="O"/>
+                                </action>
+                            </SDT>
+                            <output id="74"
+                                name="f_LO_SG1_LEVEL_Val_Out" yindex="14"/>
+                            <output id="78"
+                                name="th_LO_SG1_LEVEL_Ptrp_Logic" yindex="15"/>
+                            <output id="89"
+                                name="th_LO_SG1_LEVEL_Trip_Logic" yindex="16"/>
+                            <output id="91" name="f_LO_SG1_LEVEL_PV_Err" yindex="17"/>
+                            <output id="93"
+                                name="f_LO_SG1_LEVEL_Ptrp_Out" yindex="18"/>
+                            <output id="95"
+                                name="f_LO_SG1_LEVEL_Trip_Out" yindex="19"/>
+                            <input id="72"
+                                name="f_LO_SG1_LEVEL_PT_Query" yindex="20"/>
+                            <input id="368"
+                                name="f_LO_SG1_LEVEL_Chan_Err" yindex="21"/>
+                        </nodes>
+                        <transitions>
+                            <transition id="1138" yindex="0">
+                                <source refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                                <target refId="104" refName="th_LO_SG1_LEVEL_Ptrp_Logic"/>
+                            </transition>
+                            <transition id="1139" yindex="1">
+                                <source refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                                <target refId="105" refName="th_LO_SG1_LEVEL_Trip_Logic"/>
+                            </transition>
+                            <transition id="1140" yindex="2">
+                                <source refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                                <target refId="106" refName="f_LO_SG1_LEVEL_PV_Err"/>
+                            </transition>
+                            <transition id="1141" yindex="3">
+                                <source refId="104" refName="th_LO_SG1_LEVEL_Ptrp_Logic"/>
+                                <target refId="107" refName="f_LO_SG1_LEVEL_Ptrp_Out"/>
+                            </transition>
+                            <transition id="1142" yindex="4">
+                                <source refId="106" refName="f_LO_SG1_LEVEL_PV_Err"/>
+                                <target refId="107" refName="f_LO_SG1_LEVEL_Ptrp_Out"/>
+                            </transition>
+                            <transition id="1143" yindex="5">
+                                <source refId="105" refName="th_LO_SG1_LEVEL_Trip_Logic"/>
+                                <target refId="108" refName="f_LO_SG1_LEVEL_Trip_Out"/>
+                            </transition>
+                            <transition id="1144" yindex="6">
+                                <source refId="67" refName="f_LO_SG1_LEVEL_PV"/>
+                                <target refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                            </transition>
+                            <transition id="1145" yindex="7">
+                                <source refId="68" refName="f_LO_SG1_LEVEL_MT_Val"/>
+                                <target refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                            </transition>
+                            <transition id="1146" yindex="8">
+                                <source refId="69" refName="f_LO_SG1_LEVEL_AT_Val"/>
+                                <target refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                            </transition>
+                            <transition id="1147" yindex="9">
+                                <source refId="70" refName="f_LO_SG1_LEVEL_PT_Val"/>
+                                <target refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                            </transition>
+                            <transition id="1148" yindex="10">
+                                <source refId="71" refName="f_LO_SG1_LEVEL_MT_Query"/>
+                                <target refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                            </transition>
+                            <transition id="1150" yindex="11">
+                                <source refId="73" refName="f_LO_SG1_LEVEL_AT_Query"/>
+                                <target refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                            </transition>
+                            <transition id="1151" yindex="12">
+                                <source refId="79" refName="f_Mod_Err"/>
+                                <target refId="107" refName="f_LO_SG1_LEVEL_Ptrp_Out"/>
+                            </transition>
+                            <transition id="1153" yindex="13">
+                                <source refId="81" refName="f_LO_SG1_LEVEL_Op_Byp_Init"/>
+                                <target refId="107" refName="f_LO_SG1_LEVEL_Ptrp_Out"/>
+                            </transition>
+                            <transition id="1154" yindex="14">
+                                <source refId="79" refName="f_Mod_Err"/>
+                                <target refId="108" refName="f_LO_SG1_LEVEL_Trip_Out"/>
+                            </transition>
+                            <transition id="1156" yindex="15">
+                                <source refId="81" refName="f_LO_SG1_LEVEL_Op_Byp_Init"/>
+                                <target refId="108" refName="f_LO_SG1_LEVEL_Trip_Out"/>
+                            </transition>
+                            <transition id="1168" yindex="16">
+                                <source refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                                <target refId="74" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                            </transition>
+                            <transition id="1169" yindex="17">
+                                <source refId="104" refName="th_LO_SG1_LEVEL_Ptrp_Logic"/>
+                                <target refId="78" refName="th_LO_SG1_LEVEL_Ptrp_Logic"/>
+                            </transition>
+                            <transition id="1170" yindex="18">
+                                <source refId="105" refName="th_LO_SG1_LEVEL_Trip_Logic"/>
+                                <target refId="89" refName="th_LO_SG1_LEVEL_Trip_Logic"/>
+                            </transition>
+                            <transition id="1171" yindex="19">
+                                <source refId="106" refName="f_LO_SG1_LEVEL_PV_Err"/>
+                                <target refId="91" refName="f_LO_SG1_LEVEL_PV_Err"/>
+                            </transition>
+                            <transition id="1172" yindex="20">
+                                <source refId="107" refName="f_LO_SG1_LEVEL_Ptrp_Out"/>
+                                <target refId="93" refName="f_LO_SG1_LEVEL_Ptrp_Out"/>
+                            </transition>
+                            <transition id="1173" yindex="21">
+                                <source refId="108" refName="f_LO_SG1_LEVEL_Trip_Out"/>
+                                <target refId="95" refName="f_LO_SG1_LEVEL_Trip_Out"/>
+                            </transition>
+                            <transition id="1180" yindex="22">
+                                <source refId="72" refName="f_LO_SG1_LEVEL_PT_Query"/>
+                                <target refId="103" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                            </transition>
+                            <transition id="1809" yindex="23">
+                                <source refId="368" refName="f_LO_SG1_LEVEL_Chan_Err"/>
+                                <target refId="107" refName="f_LO_SG1_LEVEL_Ptrp_Out"/>
+                            </transition>
+                            <transition id="1810" yindex="24">
+                                <source refId="368" refName="f_LO_SG1_LEVEL_Chan_Err"/>
+                                <target refId="108" refName="f_LO_SG1_LEVEL_Trip_Out"/>
+                            </transition>
+                            <transition id="1992" yindex="25">
+                                <source refId="106" refName="f_LO_SG1_LEVEL_PV_Err"/>
+                                <target refId="108" refName="f_LO_SG1_LEVEL_Trip_Out"/>
+                            </transition>
+                        </transitions>
+                    </FOD>
+                    <input id="72" name="f_LO_SG1_LEVEL_PT_Query" yindex="15"/>
+                    <input id="368" name="f_LO_SG1_LEVEL_Chan_Err" yindex="16"/>
+                </nodes>
+                <transitions>
+                    <transition id="1122" yindex="0">
+                        <source refId="67" refName="f_LO_SG1_LEVEL_PV"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                    <transition id="1123" yindex="1">
+                        <source refId="68" refName="f_LO_SG1_LEVEL_MT_Val"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                    <transition id="1124" yindex="2">
+                        <source refId="69" refName="f_LO_SG1_LEVEL_AT_Val"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                    <transition id="1125" yindex="3">
+                        <source refId="70" refName="f_LO_SG1_LEVEL_PT_Val"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                    <transition id="1126" yindex="4">
+                        <source refId="71" refName="f_LO_SG1_LEVEL_MT_Query"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                    <transition id="1128" yindex="5">
+                        <source refId="73" refName="f_LO_SG1_LEVEL_AT_Query"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                    <transition id="1129" yindex="6">
+                        <source refId="79" refName="f_Mod_Err"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                    <transition id="1131" yindex="7">
+                        <source refId="81" refName="f_LO_SG1_LEVEL_Op_Byp_Init"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                    <transition id="1157" yindex="8">
+                        <source refId="96" refName="g_LO_SG1_LEVEL"/>
+                        <target refId="74" refName="f_LO_SG1_LEVEL_Val_Out"/>
+                    </transition>
+                    <transition id="1158" yindex="9">
+                        <source refId="96" refName="g_LO_SG1_LEVEL"/>
+                        <target refId="78" refName="th_LO_SG1_LEVEL_Ptrp_Logic"/>
+                    </transition>
+                    <transition id="1159" yindex="10">
+                        <source refId="96" refName="g_LO_SG1_LEVEL"/>
+                        <target refId="89" refName="th_LO_SG1_LEVEL_Trip_Logic"/>
+                    </transition>
+                    <transition id="1160" yindex="11">
+                        <source refId="96" refName="g_LO_SG1_LEVEL"/>
+                        <target refId="91" refName="f_LO_SG1_LEVEL_PV_Err"/>
+                    </transition>
+                    <transition id="1161" yindex="12">
+                        <source refId="96" refName="g_LO_SG1_LEVEL"/>
+                        <target refId="93" refName="f_LO_SG1_LEVEL_Ptrp_Out"/>
+                    </transition>
+                    <transition id="1162" yindex="13">
+                        <source refId="96" refName="g_LO_SG1_LEVEL"/>
+                        <target refId="95" refName="f_LO_SG1_LEVEL_Trip_Out"/>
+                    </transition>
+                    <transition id="1179" yindex="14">
+                        <source refId="72" refName="f_LO_SG1_LEVEL_PT_Query"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                    <transition id="1801" yindex="15">
+                        <source refId="368" refName="f_LO_SG1_LEVEL_Chan_Err"/>
+                        <target refId="96" refName="g_LO_SG1_LEVEL"/>
+                    </transition>
+                </transitions>
+            </FOD>
+            <input id="67" name="f_LO_SG1_LEVEL_PV" yindex="1"/>
+            <input id="68" name="f_LO_SG1_LEVEL_MT_Val" yindex="2"/>
+            <input id="69" name="f_LO_SG1_LEVEL_AT_Val" yindex="3"/>
+            <input id="70" name="f_LO_SG1_LEVEL_PT_Val" yindex="4"/>
+            <input id="71" name="f_LO_SG1_LEVEL_MT_Query" yindex="5"/>
+            <input id="72" name="f_LO_SG1_LEVEL_PT_Query" yindex="6"/>
+            <input id="73" name="f_LO_SG1_LEVEL_AT_Query" yindex="7"/>
+            <output id="74" name="f_LO_SG1_LEVEL_Val_Out" yindex="8"/>
+            <output id="78" name="th_LO_SG1_LEVEL_Ptrp_Logic" yindex="9"/>
+            <input id="79" name="f_Mod_Err" yindex="10"/>
+            <input id="81" name="f_LO_SG1_LEVEL_Op_Byp_Init" yindex="11"/>
+            <output id="89" name="th_LO_SG1_LEVEL_Trip_Logic" yindex="12"/>
+            <output id="91" name="f_LO_SG1_LEVEL_PV_Err" yindex="13"/>
+            <output id="93" name="f_LO_SG1_LEVEL_Ptrp_Out" yindex="14"/>
+            <output id="95" name="f_LO_SG1_LEVEL_Trip_Out" yindex="15"/>
+            <input id="368" name="f_LO_SG1_LEVEL_Chan_Err" yindex="16"/>
+        </nodes>
+        <transitions>
+            <transition id="1062" yindex="0">
+                <source refId="67" refName="f_LO_SG1_LEVEL_PV"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+            <transition id="1063" yindex="1">
+                <source refId="68" refName="f_LO_SG1_LEVEL_MT_Val"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+            <transition id="1064" yindex="2">
+                <source refId="69" refName="f_LO_SG1_LEVEL_AT_Val"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+            <transition id="1065" yindex="3">
+                <source refId="70" refName="f_LO_SG1_LEVEL_PT_Val"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+            <transition id="1066" yindex="4">
+                <source refId="71" refName="f_LO_SG1_LEVEL_MT_Query"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+            <transition id="1068" yindex="5">
+                <source refId="73" refName="f_LO_SG1_LEVEL_AT_Query"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+            <transition id="1069" yindex="6">
+                <source refId="19" refName="g_BP"/>
+                <target refId="74" refName="f_LO_SG1_LEVEL_Val_Out"/>
+            </transition>
+            <transition id="1087" yindex="7">
+                <source refId="19" refName="g_BP"/>
+                <target refId="78" refName="th_LO_SG1_LEVEL_Ptrp_Logic"/>
+            </transition>
+            <transition id="1088" yindex="8">
+                <source refId="79" refName="f_Mod_Err"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+            <transition id="1090" yindex="9">
+                <source refId="81" refName="f_LO_SG1_LEVEL_Op_Byp_Init"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+            <transition id="1098" yindex="10">
+                <source refId="19" refName="g_BP"/>
+                <target refId="89" refName="th_LO_SG1_LEVEL_Trip_Logic"/>
+            </transition>
+            <transition id="1105" yindex="11">
+                <source refId="19" refName="g_BP"/>
+                <target refId="91" refName="f_LO_SG1_LEVEL_PV_Err"/>
+            </transition>
+            <transition id="1109" yindex="12">
+                <source refId="19" refName="g_BP"/>
+                <target refId="93" refName="f_LO_SG1_LEVEL_Ptrp_Out"/>
+            </transition>
+            <transition id="1115" yindex="13">
+                <source refId="19" refName="g_BP"/>
+                <target refId="95" refName="f_LO_SG1_LEVEL_Trip_Out"/>
+            </transition>
+            <transition id="1178" yindex="14">
+                <source refId="72" refName="f_LO_SG1_LEVEL_PT_Query"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+            <transition id="1798" yindex="15">
+                <source refId="368" refName="f_LO_SG1_LEVEL_Chan_Err"/>
+                <target refId="19" refName="g_BP"/>
+            </transition>
+        </transitions>
+    </FOD>
+    <TypeTable>
+        <entry name="f_LO_PZR_PRESS_Op_Byp_Perm" type="f_LO_PZR_PRESS_Op_Byp_Perm : boolean"/>
+        <entry name="f_BS02_PT_Query" type="f_BS02_PT_Query : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_Ptrp_Out" type="f_LO_SG1_LEVEL_Ptrp_Out : boolean"/>
+        <entry name="f_BS07_AT_Query" type="f_BS07_AT_Query : boolean"/>
+        <entry name="f_PT_Out" type="f_PT_Out : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_PV_Err" type="f_LO_SG1_LEVEL_PV_Err : boolean"/>
+        <entry name="f_BS03_PT_Query" type="f_BS03_PT_Query : boolean"/>
+        <entry name="f_BS08_AT_Query" type="f_BS08_AT_Query : boolean"/>
+        <entry name="f_BS17_AT_Query" type="f_BS17_AT_Query : boolean"/>
+        <entry name="f_BS13_PT_Query" type="f_BS13_PT_Query : boolean"/>
+        <entry name="f_BS04_PT_Query" type="f_BS04_PT_Query : boolean"/>
+        <entry name="f_BS09_AT_Query" type="f_BS09_AT_Query : boolean"/>
+        <entry name="f_BS18_AT_Query" type="f_BS18_AT_Query : boolean"/>
+        <entry name="f_BS05_PT_Query" type="f_BS05_PT_Query : boolean"/>
+        <entry name="h_VAR_OVER_PWR_Int_SP_" type="h_VAR_OVER_PWR_Int_SP_ : boolean"/>
+        <entry name="f_aaa" type="f_aaa : 0..1000"/>
+        <entry name="f_HB_Err_Out" type="f_HB_Err_Out : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_PT_Val" type="f_LO_SG1_LEVEL_PT_Val : 0..30000"/>
+        <entry name="f_LO_SG1_LEVEL_PT_Query" type="f_LO_SG1_LEVEL_PT_Query : boolean"/>
+        <entry name="f_BS10_AT_Query" type="f_BS10_AT_Query : boolean"/>
+        <entry name="f_Mod_Err" type="f_Mod_Err : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_MT_Query" type="f_LO_SG1_LEVEL_MT_Query : boolean"/>
+        <entry name="th_PT_Out" type="th_PT_Out : boolean"/>
+        <entry name="th_LO_SG1_LEVEL_Ptrp_Logic" type="th_LO_SG1_LEVEL_Ptrp_Logic : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_Val_Out" type="f_LO_SG1_LEVEL_Val_Out : 0..30000"/>
+        <entry name="f_LO_SG1_LEVEL_AT_Val" type="f_LO_SG1_LEVEL_AT_Val : 0..30000"/>
+        <entry name="th_LO_SG1_LEVEL_Trip_Logic" type="th_LO_SG1_LEVEL_Trip_Logic : boolean"/>
+        <entry name="f_BS16_PT_Query" type="f_BS16_PT_Query : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_PV" type="f_LO_SG1_LEVEL_PV : 0..30000"/>
+        <entry name="f_BS02_AT_Query" type="f_BS02_AT_Query : boolean"/>
+        <entry name="f_PT_Start" type="f_PT_Start : boolean"/>
+        <entry name="f_BS07_PT_Query" type="f_BS07_PT_Query : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_MT_Val" type="f_LO_SG1_LEVEL_MT_Val : 0..30000"/>
+        <entry name="f_BS17_PT_Query" type="f_BS17_PT_Query : boolean"/>
+        <entry name="f_BS03_AT_Query" type="f_BS03_AT_Query : boolean"/>
+        <entry name="f_OB_MT_Query" type="f_OB_MT_Query : boolean"/>
+        <entry name="f_BS08_PT_Query" type="f_BS08_PT_Query : boolean"/>
+        <entry name="f_BS18_PT_Query" type="f_BS18_PT_Query : boolean"/>
+        <entry name="f_Manu_Test" type="f_Manu_Test : boolean"/>
+        <entry name="f_BS13_AT_Query" type="f_BS13_AT_Query : boolean"/>
+        <entry name="f_BS04_AT_Query" type="f_BS04_AT_Query : boolean"/>
+        <entry name="h_HB_Out" type="h_HB_Out : 0..100"/>
+        <entry name="th_PT_Start" type="th_PT_Start : boolean"/>
+        <entry name="f_BS09_PT_Query" type="f_BS09_PT_Query : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_Op_Byp_Init" type="f_LO_SG1_LEVEL_Op_Byp_Init : boolean"/>
+        <entry name="f_BS05_AT_Query" type="f_BS05_AT_Query : boolean"/>
+        <entry name="th_Exec" type="th_Exec : 0..100"/>
+        <entry name="h_HB_Err_Cnt" type="h_HB_Err_Cnt : 0..100"/>
+        <entry name="f_LO_SG1_LEVEL_AT_Query" type="f_LO_SG1_LEVEL_AT_Query : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_Chan_Err" type="f_LO_SG1_LEVEL_Chan_Err : boolean"/>
+        <entry name="f_LO_SG1_LEVEL_Trip_Out" type="f_LO_SG1_LEVEL_Trip_Out : boolean"/>
+        <entry name="f_Manu_Trip_Test" type="f_Manu_Trip_Test : boolean"/>
+        <entry name="f_BS10_PT_Query" type="f_BS10_PT_Query : boolean"/>
+        <entry name="f_BS16_AT_Query" type="f_BS16_AT_Query : boolean"/>
+        <entry name="f_Manu_Ptrp_Test" type="f_Manu_Ptrp_Test : boolean"/>
+        <entry name="f_BS01_MT_Query" type="f_BS01_MT_Query : boolean"/>
+    </TypeTable>
+</NuSRS>
