@@ -28,6 +28,7 @@ public class CtmController {
 
 	private MainApp mainApp;
 	private File selectedFile;
+	private ObservableList<ContextTableDataModel> myTable;
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
 	
@@ -60,7 +61,7 @@ public class CtmController {
          
 	    selectedFile =  fc.showOpenDialog(null);
         if(selectedFile != null) {
-	        //System.out.println(selectedFile);  // 선택한 경로 출력
+	        //System.out.println(selectedFile);  // �꽑�깮�븳 寃쎈줈 異쒕젰
 	        //System.out.println(selectedFile.getName());
 	        filename.setText(selectedFile.getName());
         }
@@ -80,9 +81,7 @@ public class CtmController {
 	            byte [] buffer = new byte[512];
 	            String temp="";
 	            while((bis.read(buffer)) != -1) {
-//	            	System.out.println(new String(buffer));
 	            	temp = new String(buffer);
-	            	
 	            }    
 	           
 	            //2. Add Parsing File
@@ -93,14 +92,13 @@ public class CtmController {
 	            
 	            
 	            this.MakeTable();
-	            
+
 	            bis.close();    
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
 	        }
 		}
 	}
-	
 
 	private void ParseMSC(String[] temps) {
 		//MSC ex 
@@ -161,7 +159,6 @@ public class CtmController {
 	   	
 	    contextTable.setItems(mcsData);
 	 	   
-		
 	}
 	
 }
