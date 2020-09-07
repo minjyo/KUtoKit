@@ -8,14 +8,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Contexts")
 public class ContextTableWrapper {
 	
-	private List<ContextTableDataModel> Contexts;
+	private List<CTM> Contexts;
 	
 	@XmlElement(name = "Context")
-	public List<ContextTableDataModel> getContexts() {
+	public List<CTM> getContexts() {
 		return Contexts;
 	}
 	
-	public void setContextTables(List<ContextTableDataModel> Contexts) {
+	public void setContextTables(List<CTM> Contexts) {
 		this.Contexts = Contexts;
 	}
 

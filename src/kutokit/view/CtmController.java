@@ -28,7 +28,7 @@ public class CtmController {
 
 	private MainApp mainApp;
 	private File selectedFile;
-	private ObservableList<ContextTableDataModel> myTable;
+	private ObservableList<CTM> myTable;
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
 	
@@ -161,4 +161,9 @@ public class CtmController {
 	 	   
 	}
 	
+	public ObservableList<CTM> getContextTableData() {
+
+	       System.out.println(myTable.get(0));
+	      return myTable;
+	   }
 }
