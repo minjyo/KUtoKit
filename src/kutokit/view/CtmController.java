@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,7 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kutokit.MainApp;
-import kutokit.model.ContextTableDataModel;
+import kutokit.model.CTM;
 
 public class CtmController {
 
@@ -29,8 +31,10 @@ public class CtmController {
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
 	
-	@FXML private TableView contextTable;
-	@FXML private TableColumn CAColumn, casesColumn, noColumn, contextsColumn, hazardousColumn;
+	@FXML private TableView<CTM> contextTable;
+	@FXML private TableColumn<CTM, String> CAColumn, casesColumn, contextsColumn;
+	@FXML private TableColumn<CTM, Boolean> hazardousColumn;
+	@FXML private TableColumn<CTM, Integer> noColumn;
 	
 	// constructor
 	public CtmController() {
@@ -38,8 +42,9 @@ public class CtmController {
 	}
 
 	//set MainApp
-	public void setMainApp(MainApp mainApp) {
+	public void setMainApp(MainApp mainApp)  {
 		this.mainApp = mainApp;
+		this.MakeTable();
 	}
 	
 	@FXML
@@ -63,9 +68,10 @@ public class CtmController {
 	
 	@FXML
 	public void ApplyFile() throws IOException {
+		
 		if(selectedFile != null) {
 			AddFile.getChildren().clear();
-			
+	
 			// 1. Read MCS File
 	        try {
 	            FileInputStream fis = new FileInputStream(selectedFile);
@@ -79,29 +85,40 @@ public class CtmController {
 	            /*
 	             * 2. Add Parsing File
 	             * 
-	             */
-	            
-		    // 3. Create Data list ex)
-		   		ObservableList<ContextTableDataModel> myTable = FXCollections.observableArrayList(
-		   		   new ContextTableDataModel("Action1", "case1", 1, "c1"),
-		   		   new ContextTableDataModel("Action2", "case2", 2 , "c2"),
-		   		   new ContextTableDataModel("Action3", "case3", 3 ,"c3")
-		   		);
-		   		
-		   	// 4. Parsing Data & Connecting with table
-		   		CAColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, String>("controlAction"));
-		   		casesColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, String>("cases"));
-		   		noColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, Integer>("no"));
-		   		contextsColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, String>("contexts"));
-		   		hazardousColumn.setCellValueFactory(new PropertyValueFactory<ContextTableDataModel, ComboBox>("hazardous"));
-		   		
-		        contextTable.setItems(myTable);
-	         
+	             */ 
 	            bis.close();    
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
 	        }
 		}
 	}
+	
+	private void MakeTable() {
+		
+		// 3. Create Data list ex
+		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
+        mcsData.add(new CTM("Action1", "case1", 1, "c1"));
+        mcsData.add(new CTM("Action2", "case2", 2, "c2"));
+        mcsData.add(new CTM("Action3", "case3", 3, "c3"));
+       
+        // 4. Set table row 
+        CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
+   	 	casesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("cases"));
+ 	 	noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
+ 	    contextsColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts"));
+ 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, Boolean>("hazardous?"));
+ 	   		
+	   	// 5. Put data in table
+ 	    contextTable.setItems(mcsData);
+ 	   
+	   	CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
+	   	casesColumn.setCellValueFactory(cellData -> cellData.getValue().getCasesProperty());
+	   	noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
+	   	contextsColumn.setCellValueFactory(cellData -> cellData.getValue().getContextsProperty());
+	   	hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());
+		
+	}
+	
+	
 	
 }
