@@ -44,7 +44,6 @@ public class CtmController {
 	//set MainApp
 	public void setMainApp(MainApp mainApp)  {
 		this.mainApp = mainApp;
-		this.MakeTable();
 	}
 	
 	@FXML
@@ -86,6 +85,9 @@ public class CtmController {
 	             * 2. Add Parsing File
 	             * 
 	             */ 
+	            
+	            this.MakeTable();
+	            
 	            bis.close();    
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
@@ -119,6 +121,14 @@ public class CtmController {
 		
 	}
 	
-	
+	private void SetTable() {
+		//MSC ex 
+//		detect_term≤0.1sec Λ 
+//		detect_length≥1m Λ
+//		sensor_error=false Λ 
+//		malfunc_check_clear=true Λ 
+//		path_check=true Λ 
+//		gps_one=true
+	}
 	
 }

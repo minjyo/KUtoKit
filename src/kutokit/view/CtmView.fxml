@@ -18,7 +18,7 @@
       </TableView>
       <Pane fx:id="AddFile" layoutX="181.0" layoutY="96.0" prefHeight="109.0" prefWidth="238.0">
          <children>
-          <!--   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#86da81" height="24.0" stroke="BLACK" strokeType="INSIDE" width="238.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#86da81" height="24.0" stroke="BLACK" strokeType="INSIDE" width="238.0" />
             <Label layoutX="8.0" layoutY="5.0" text="Add File" />
             <AnchorPane layoutX="2.0" layoutY="26.0" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="238.0">
                <children>
@@ -28,8 +28,7 @@
                   <Button layoutX="92.0" layoutY="50.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
                   <Label fx:id="filename" layoutX="14.0" layoutY="20.0" />
                </children>
-            </AnchorPane> -->
+            </AnchorPane>
          </children>
-      </Pane>
    </children>
 </AnchorPane>
