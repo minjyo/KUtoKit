@@ -1,5 +1,6 @@
 package kutokit.model;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -11,7 +12,7 @@ public class ContextTableDataModel {
 	private SimpleStringProperty cases;
 	private SimpleIntegerProperty no;
 	private SimpleStringProperty contexts;
-	private ComboBox hazardous;
+	private SimpleBooleanProperty hazardous;
 	
 
 	public ContextTableDataModel(String controlAction, String cases, int no, String contexts) {
@@ -19,8 +20,8 @@ public class ContextTableDataModel {
 		this.cases = new SimpleStringProperty(cases);
 		this.no = new SimpleIntegerProperty(no);
 		this.contexts = new SimpleStringProperty(contexts);
-		this.hazardous = new ComboBox();
-		this.hazardous.setItems(FXCollections.observableArrayList("No select", "O", "X"));
+		this.hazardous = new SimpleBooleanProperty(false);
+//		this.hazardous.setItems(FXCollections.observableArrayList("No select", "O", "X"));
 	}
 
 
@@ -40,12 +41,12 @@ public class ContextTableDataModel {
 		return contexts.get();
 	}
 
-	public ComboBox getHazardous() {
-		return hazardous;
+	public boolean getHazardous() {
+		return hazardous.get();
 	}
 	
-	public void setHazardous(ComboBox hazardous) {
-		this.hazardous = hazardous;
+	public void setHazardous(boolean hazardous) {
+		this.hazardous.set(hazardous);
 	}
 	
 }
