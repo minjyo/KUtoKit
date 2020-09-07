@@ -55,7 +55,6 @@ public class RootLayoutController {
 	}
 	
 	
-
     @FXML
     private void handleOpen() {
         FileChooser fileChooser = new FileChooser();
@@ -69,22 +68,43 @@ public class RootLayoutController {
         File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
 
         if (file != null) {
-            /*
-             * 파싱코드
-             * 
-             * 
-             */	
+        	mainApp.loadContextTableDataFromFile(file);
         }
     }
-/*
+
     @FXML
     private void handleSave() {
-        File personFile = mainApp.getPersonFilePath();
-        if (personFile != null) {
-            mainApp.savePersonDataToFile(personFile);
+        File ContextFile = mainApp.getContextTableFilePath();
+        if (ContextFile != null) {
+        	mainApp.saveContextTableDataToFile(ContextFile);
         } else {
             handleSaveAs();
         }
     }
-*/
+    
+    /**
+     * FileChooser를 열어서 사용자가 저장할 파일을 선택하게 한다.
+     */
+    @FXML
+    private void handleSaveAs() {
+		FileChooser fileChooser = new FileChooser();
+
+		// 확장자 필터를 설정한다.
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+				"XML files (*.xml)", "*.xml");
+		fileChooser.getExtensionFilters().add(extFilter);
+
+		// Save File Dialog를 보여준다.
+		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+
+		if (file != null) {
+			// 정확한 확장자를 가져야 한다.
+			if (!file.getPath().endsWith(".xml")) {
+				file = new File(file.getPath() + ".xml");
+			}
+			mainApp.saveContextTableDataToFile(file);
+		}
+	}
+
+
 }

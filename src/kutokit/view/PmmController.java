@@ -33,24 +33,26 @@ public class PmmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+        fc.setInitialDirectory(new File("C:/")); // default �뵒�젆�넗由� �꽕�젙
         
-        // 확장자 제한
-        ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
-        fc.getExtensionFilters().addAll(txtType);
+        // �솗�옣�옄 �젣�븳
+
+        ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "XML files (*.xml)", "*.xml");
+        fc.getExtensionFilters().add(extFilter);
          
 	    selectedFile =  fc.showOpenDialog(null);
         if(selectedFile != null) {
-	        //System.out.println(selectedFile);  // 선택한 경로 출력
+	        //System.out.println(selectedFile);  // �꽑�깮�븳 寃쎈줈 異쒕젰
 	        //System.out.println(selectedFile.getName());
 	        filename.setText(selectedFile.getName());
 	         
-	        // 파일을 InputStream으로 읽어옴
+	        // �뙆�씪�쓣 InputStream�쑝濡� �씫�뼱�샂
 	        try {
-	            // 파일 읽어오기
+	            // �뙆�씪 �씫�뼱�삤湲�
 	            FileInputStream fis = new FileInputStream(selectedFile);
 	            BufferedInputStream bis = new BufferedInputStream(fis);
-	            //System.out.println(bis);  // 선택한 파일 출력
+	            //System.out.println(bis);  // �꽑�깮�븳 �뙆�씪 異쒕젰
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
 	        }
@@ -63,7 +65,7 @@ public class PmmController {
 			AddFile.getChildren().clear();
             
             /*
-             * 파싱 코드 추가
+             * �뙆�떛 肄붾뱶 異붽�
              * 
              */
             

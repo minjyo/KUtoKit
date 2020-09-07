@@ -1,9 +1,18 @@
 package kutokit;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.prefs.Preferences;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -12,11 +21,13 @@ import kutokit.view.PmmController;
 import kutokit.view.CtmController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
+import kutokit.model.*;
 
 public class MainApp extends Application {
 	
 	 private Stage primaryStage;
 	 private BorderPane rootLayout;
+	 private CtmController controller;
 	 
 	@Override
 	//auto execute after main execute
@@ -50,7 +61,12 @@ public class MainApp extends Application {
             
         } catch (IOException e) {
             e.printStackTrace();
-        }	
+        }
+		
+		File file = getContextTableFilePath();
+		if(file != null) {
+			loadContextTableDataFromFile(file);
+		}
 	}
 	
 	/**
@@ -90,7 +106,7 @@ public class MainApp extends Application {
             rootLayout.setCenter(View);
             
             //add controller
-            CtmController controller = loader.getController();
+            controller = loader.getController();
             controller.setMainApp(this);
             System.out.println("a");
         } catch (IOException e) {
@@ -153,5 +169,101 @@ public class MainApp extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	
+	
+	
+	public File getContextTableFilePath() {
+	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+	    String filePath = prefs.get("filePath", null);
+	    if (filePath != null) {
+	        return new File(filePath);
+	    } else {
+	        return null;
+	    }
+	}
+
+	/**
+	 * 현재 불러온 파일의 경로를 설정한다. 이 경로는 OS 특정 레지스트리에 저장된다.
+	 *
+	 * @param file the file or null to remove the path
+	 */
+	public void setContextTableFilePath(File file) {
+	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+	    if (file != null) {
+	        prefs.put("filePath", file.getPath());
+
+	        // Stage 타이틀을 업데이트한다.
+	        primaryStage.setTitle("AddressApp - " + file.getName());
+	    } else {
+	        prefs.remove("filePath");
+
+	        // Stage 타이틀을 업데이트한다.
+	        primaryStage.setTitle("AddressApp");
+	    }
+	}
+	
+	/**
+	 * 지정한 파일로부터 ContextTable을 가져온다.
+	 * @param file
+	 */
+	public void loadContextTableDataFromFile(File file) {
+	    try {
+	        JAXBContext context = JAXBContext
+	                .newInstance(ContextTableWrapper.class);
+	        Unmarshaller um = context.createUnmarshaller();
+
+	        // 파일로부터 XML을 읽은 다음 역 마샬링한다.
+	        ContextTableWrapper wrapper = (ContextTableWrapper) um.unmarshal(file);
+
+	        //ContextTableDataModel.clear();
+	        //ContextTableDataModel.addAll(wrapper.getContextTableDataModel());
+
+	        // 파일 경로를 레지스트리에 저장한다.
+	        setContextTableFilePath(file);
+
+	    } catch (Exception e) { // 예외를 잡는다
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not load data");
+	        alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+	        alert.showAndWait();
+	    }
+	}
+
+	/**
+	 * 현재 ContextTable을 지정한 파일에 저장한다.
+	 * @param file
+	 */
+	public void saveContextTableDataToFile(File file) {
+	    try {
+	        JAXBContext context = JAXBContext
+	                .newInstance(ContextTableWrapper.class);
+	        Marshaller m = context.createMarshaller();
+	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+	        ContextTableWrapper wrapper = new ContextTableWrapper();
+	        wrapper.setContextTables(controller.getContextTableData());
+	        
+	        //test
+	        System.out.println(controller.getContextTableData());
+	        
+	        
+	        
+	        // 마샬링 후 XML을 파일에 저장한다.
+	        m.marshal(wrapper, file);
+
+	        // 파일 경로를 레지스트리에 저장한다.
+	        setContextTableFilePath(file);
+	    } catch (Exception e) { // 예외를 잡는다.
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not save data");
+	        alert.setContentText("Could not save data to file:\n" + file.getPath());
+
+	        alert.showAndWait();
+	    }
 	}
 }

@@ -26,6 +26,7 @@ public class CtmController {
 
 	private MainApp mainApp;
 	private File selectedFile;
+	private ObservableList<ContextTableDataModel> myTable;
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
 	
@@ -46,15 +47,17 @@ public class CtmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+        fc.setInitialDirectory(new File("C:/")); // default �뵒�젆�넗由� �꽕�젙
         
-        // 확장자 제한
-        ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
-        fc.getExtensionFilters().addAll(txtType);
+        // �솗�옣�옄 �젣�븳
+
+        ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "XML files (*.xml)", "*.xml");
+        fc.getExtensionFilters().add(extFilter);
          
 	    selectedFile =  fc.showOpenDialog(null);
         if(selectedFile != null) {
-	        //System.out.println(selectedFile);  // 선택한 경로 출력
+	        //System.out.println(selectedFile);  // �꽑�깮�븳 寃쎈줈 異쒕젰
 	        //System.out.println(selectedFile.getName());
 	        filename.setText(selectedFile.getName());
         }
@@ -72,7 +75,7 @@ public class CtmController {
 	            
 	            byte [] buffer = new byte[512];
 	            while((bis.read(buffer)) != -1) {
-	            	System.out.println(new String(buffer));
+	            	//System.out.println(new String(buffer));
 	            }    
 	           
 	            /*
@@ -81,7 +84,7 @@ public class CtmController {
 	             */
 	            
 		    // 3. Create Data list ex)
-		   		ObservableList<ContextTableDataModel> myTable = FXCollections.observableArrayList(
+		   		myTable = FXCollections.observableArrayList(
 		   		   new ContextTableDataModel("Action1", "case1", 1, "c1"),
 		   		   new ContextTableDataModel("Action2", "case2", 2 , "c2"),
 		   		   new ContextTableDataModel("Action3", "case3", 3 ,"c3")
@@ -101,6 +104,12 @@ public class CtmController {
 	            e.printStackTrace();
 	        }
 		}
+	}
+	
+	public ObservableList<ContextTableDataModel> getContextTableData() {
+
+    	System.out.println(myTable.get(0));
+		return myTable;
 	}
 	
 }
