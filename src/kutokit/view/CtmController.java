@@ -36,6 +36,7 @@ public class CtmController {
 	@FXML private TableColumn<CTM, Boolean> hazardousColumn;
 	@FXML private TableColumn<CTM, Integer> noColumn;
 	
+	private String[] contexts = new String[10];
 	// constructor
 	public CtmController() {
 		
@@ -77,14 +78,19 @@ public class CtmController {
 	            BufferedInputStream bis = new BufferedInputStream(fis);
 	            
 	            byte [] buffer = new byte[512];
+	            String temp="";
 	            while((bis.read(buffer)) != -1) {
-	            	System.out.println(new String(buffer));
+//	            	System.out.println(new String(buffer));
+	            	temp = new String(buffer);
+	            	
 	            }    
 	           
-	            /*
-	             * 2. Add Parsing File
-	             * 
-	             */ 
+	            //2. Add Parsing File
+	            String[] temps = new String[10];
+	            temps = temp.split(" Λ ");
+	            
+	            this.ParseMSC(temps);
+	            
 	            
 	            this.MakeTable();
 	            
@@ -95,13 +101,49 @@ public class CtmController {
 		}
 	}
 	
+
+	private void ParseMSC(String[] temps) {
+		//MSC ex 
+//		detect_term≤0.1sec Λ 
+//		detect_length≥1m Λ
+//		sensor_error=false Λ 
+//		malfunc_check_clear=true Λ 
+//		path_check=true Λ 
+//		gps_one=true
+		int i=0;
+		while(i < temps.length) {
+			if(temps[i].contains("≤")) { 
+				String[] splits = temps[i].split("≤");
+				
+				if(splits.length > 2) { // a ≤ x ≤ b
+					contexts[i] = splits[0] + " <= x <= " +  splits[2];
+				}else { // x ≤ a 
+					contexts[i] = "x <= " +  splits[1];
+				}
+			}else if(temps[i].contains("≥")) {
+				String[] splits = temps[i].split("≥");
+				contexts[i] = "x >= " +  splits[1];
+			}else if(temps[i].contains("=")) { // x = true or false
+				String[] splits = temps[i].split("=");
+				contexts[i] = splits[1];
+			}else {
+				contexts[i] = "N/A";
+			}
+			i++;
+		}
+		
+	}
+	
 	private void MakeTable() {
 		
 		// 3. Create Data list ex
 		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
-        mcsData.add(new CTM("Action1", "case1", 1, "c1"));
-        mcsData.add(new CTM("Action2", "case2", 2, "c2"));
-        mcsData.add(new CTM("Action3", "case3", 3, "c3"));
+		
+		int i=0;
+		while(i < contexts.length) {
+			 mcsData.add(new CTM("Action", "case", i, contexts[i]));
+			 i++;
+		}  
        
         // 4. Set table row 
         CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
@@ -111,24 +153,15 @@ public class CtmController {
  	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, Boolean>("hazardous?"));
  	   		
 	   	// 5. Put data in table
- 	    contextTable.setItems(mcsData);
- 	   
 	   	CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
 	   	casesColumn.setCellValueFactory(cellData -> cellData.getValue().getCasesProperty());
 	   	noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
 	   	contextsColumn.setCellValueFactory(cellData -> cellData.getValue().getContextsProperty());
 	   	hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());
+	   	
+	    contextTable.setItems(mcsData);
+	 	   
 		
-	}
-	
-	private void SetTable() {
-		//MSC ex 
-//		detect_term≤0.1sec Λ 
-//		detect_length≥1m Λ
-//		sensor_error=false Λ 
-//		malfunc_check_clear=true Λ 
-//		path_check=true Λ 
-//		gps_one=true
 	}
 	
 }
