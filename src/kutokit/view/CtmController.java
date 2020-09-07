@@ -166,4 +166,17 @@ public class CtmController {
 	       System.out.println(myTable.get(0));
 	      return myTable;
 	   }
+	@FXML
+	public void CreateUCA() throws IOException{
+		int index = 100;
+		for(int i = 0; i < index;i++)
+		{
+			if(hazardousColumn.getCellData(i)=="O")
+			{
+
+			}
+		}
+
+		System.out.println("b");
+	}
 }
