@@ -5,7 +5,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
- 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -33,7 +32,9 @@ public class PmmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+        // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+        // minjyo - mac
+        fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
         
         // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");

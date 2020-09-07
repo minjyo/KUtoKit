@@ -46,8 +46,9 @@ public class CtmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
-        
+        // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+        // minjyo - mac
+        fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
         // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
         fc.getExtensionFilters().addAll(txtType);
