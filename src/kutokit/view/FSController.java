@@ -36,7 +36,6 @@ public class FSController {
 		
 	}
 	
-	
 	//add row into table
 	@FXML
 	public void addRow() {
