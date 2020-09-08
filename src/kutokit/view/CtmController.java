@@ -62,7 +62,7 @@ public class CtmController {
          
 	    selectedFile =  fc.showOpenDialog(null);
         if(selectedFile != null) {
-	        //System.out.println(selectedFile);  // �꽑�깮�븳 寃쎈줈 異쒕젰
+	        //System.out.println(selectedFile);  // 占쎄퐨占쎄문占쎈립 野껋럥以� �빊�뮆�젾
 	        //System.out.println(selectedFile.getName());
 	        filename.setText(selectedFile.getName());
         }
@@ -87,7 +87,7 @@ public class CtmController {
 	           
 	            //2. Add Parsing File
 	            String[] temps = new String[10];
-	            temps = temp.split(" Λ ");
+	            temps = temp.split(" �� ");
 	            
 	            this.ParseMSC(temps);
 	            
@@ -103,24 +103,24 @@ public class CtmController {
 
 	private void ParseMSC(String[] temps) {
 		//MSC ex 
-//		detect_term≤0.1sec Λ 
-//		detect_length≥1m Λ
-//		sensor_error=false Λ 
-//		malfunc_check_clear=true Λ 
-//		path_check=true Λ 
+//		detect_term�돞0.1sec �� 
+//		detect_length�돟1m ��
+//		sensor_error=false �� 
+//		malfunc_check_clear=true �� 
+//		path_check=true �� 
 //		gps_one=true
 		int i=0;
 		while(i < temps.length) {
-			if(temps[i].contains("≤")) { 
-				String[] splits = temps[i].split("≤");
+			if(temps[i].contains("�돞")) { 
+				String[] splits = temps[i].split("�돞");
 				
-				if(splits.length > 2) { // a ≤ x ≤ b
+				if(splits.length > 2) { // a �돞 x �돞 b
 					contexts[i] = splits[0] + " <= x <= " +  splits[2];
-				}else { // x ≤ a 
+				}else { // x �돞 a 
 					contexts[i] = "x <= " +  splits[1];
 				}
-			}else if(temps[i].contains("≥")) {
-				String[] splits = temps[i].split("≥");
+			}else if(temps[i].contains("�돟")) {
+				String[] splits = temps[i].split("�돟");
 				contexts[i] = "x >= " +  splits[1];
 			}else if(temps[i].contains("=")) { // x = true or false
 				String[] splits = temps[i].split("=");

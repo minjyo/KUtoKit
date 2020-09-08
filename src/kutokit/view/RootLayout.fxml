@@ -33,6 +33,7 @@
             </MenuBar>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
+                  <Button mnemonicParsing="false" onAction="#handleLHCButton" text="LHC" />
                 <Button mnemonicParsing="false" onAction="#handleCseButton" text="CSE" />
                   <Button mnemonicParsing="false" onAction="#handlePmmButton" text="PMM" />
                   <Button mnemonicParsing="false" onAction="#handleCtmButton" text="CTM" />

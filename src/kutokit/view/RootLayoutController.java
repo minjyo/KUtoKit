@@ -35,6 +35,11 @@ public class RootLayoutController {
 	}
 	
 	@FXML
+	private void handleLHCButton() {
+		this.mainApp.showFSView();
+	}
+	
+	@FXML
 	private void handleCseButton() {
 		this.mainApp.showCseView();
 	}
@@ -59,12 +64,12 @@ public class RootLayoutController {
     private void handleOpen() {
         FileChooser fileChooser = new FileChooser();
 
-        // 확장자 필터를 설정한다.
+        // �솗�옣�옄 �븘�꽣瑜� �꽕�젙�븳�떎.
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
                 "XML files (*.xml)", "*.xml");
         fileChooser.getExtensionFilters().add(extFilter);
 
-        // Save File Dialog를 보여준다.
+        // Save File Dialog瑜� 蹂댁뿬以��떎.
         File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
 
         if (file != null) {
@@ -83,22 +88,22 @@ public class RootLayoutController {
     }
     
     /**
-     * FileChooser를 열어서 사용자가 저장할 파일을 선택하게 한다.
+     * FileChooser瑜� �뿴�뼱�꽌 �궗�슜�옄媛� ���옣�븷 �뙆�씪�쓣 �꽑�깮�븯寃� �븳�떎.
      */
     @FXML
     private void handleSaveAs() {
 		FileChooser fileChooser = new FileChooser();
 
-		// 확장자 필터를 설정한다.
+		// �솗�옣�옄 �븘�꽣瑜� �꽕�젙�븳�떎.
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
 				"XML files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
 
-		// Save File Dialog를 보여준다.
+		// Save File Dialog瑜� 蹂댁뿬以��떎.
 		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
 
 		if (file != null) {
-			// 정확한 확장자를 가져야 한다.
+			// �젙�솗�븳 �솗�옣�옄瑜� 媛��졇�빞 �븳�떎.
 			if (!file.getPath().endsWith(".xml")) {
 				file = new File(file.getPath() + ".xml");
 			}
