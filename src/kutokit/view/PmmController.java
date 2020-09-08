@@ -33,11 +33,11 @@ public class PmmController {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
     
-        // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+        fc.setInitialDirectory(new File("C:/")); // default �뵒�젆�넗由� �꽕�젙
         // minjyo - mac
-        fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
+        //fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
         
-        // �솗�옣�옄 �젣�븳
+        // 占쎌넇占쎌삢占쎌쁽 占쎌젫占쎈립
 
         ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
                 "XML files (*.xml)", "*.xml");
@@ -45,16 +45,16 @@ public class PmmController {
          
 	    selectedFile =  fc.showOpenDialog(null);
         if(selectedFile != null) {
-	        //System.out.println(selectedFile);  // �꽑�깮�븳 寃쎈줈 異쒕젰
+	        //System.out.println(selectedFile);  // 占쎄퐨占쎄문占쎈립 野껋럥以� �빊�뮆�젾
 	        //System.out.println(selectedFile.getName());
 	        filename.setText(selectedFile.getName());
 	         
-	        // �뙆�씪�쓣 InputStream�쑝濡� �씫�뼱�샂
+	        // 占쎈솁占쎌뵬占쎌뱽 InputStream占쎌몵嚥∽옙 占쎌뵭占쎈선占쎌긾
 	        try {
-	            // �뙆�씪 �씫�뼱�삤湲�
+	            // 占쎈솁占쎌뵬 占쎌뵭占쎈선占쎌궎疫뀐옙
 	            FileInputStream fis = new FileInputStream(selectedFile);
 	            BufferedInputStream bis = new BufferedInputStream(fis);
-	            //System.out.println(bis);  // �꽑�깮�븳 �뙆�씪 異쒕젰
+	            //System.out.println(bis);  // 占쎄퐨占쎄문占쎈립 占쎈솁占쎌뵬 �빊�뮆�젾
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
 	        }
@@ -67,7 +67,7 @@ public class PmmController {
 			AddFile.getChildren().clear();
             
             /*
-             * �뙆�떛 肄붾뱶 異붽�
+             * 占쎈솁占쎈뼓 �굜遺얜굡 �빊遺쏙옙
              * 
              */
             

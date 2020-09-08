@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import kutokit.view.CseController;
 import kutokit.view.PmmController;
 import kutokit.view.CtmController;
+import kutokit.view.FSController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
 import kutokit.model.*;
@@ -68,6 +69,29 @@ public class MainApp extends Application {
 			loadContextTableDataFromFile(file);
 		}
 	}
+	
+	/**
+	 * called when first step button clicked
+	 */
+	public void showFSView() {
+        try {
+            // get maker scene
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/FirstStep.fxml"));
+            AnchorPane View = (AnchorPane) loader.load();
+
+            // add scene in center of root layout 
+            rootLayout.setCenter(View);
+            
+            //add controller
+            FSController controller = loader.getController();
+            controller.setMainApp(this);
+            
+            System.out.println("a");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	/**
      * called when cseButton clicked
