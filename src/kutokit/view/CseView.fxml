@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CseController">
    <children>
-      <Text layoutX="276.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CSEditor" />
+      <Rectangle fx:id="r1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="86.0" layoutX="240.0" layoutY="35.0" onDragDetected="#setOnDragDetected" onDragDone="#setOnDragDone" stroke="BLACK" strokeType="INSIDE" width="171.0" />
+      <Rectangle fx:id="r2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="86.0" layoutX="240.0" layoutY="183.0" stroke="BLACK" strokeType="INSIDE" width="171.0" />
+      <Label layoutX="380.0" layoutY="94.0" text="c1" />
+      <Label layoutX="378.0" layoutY="246.0" text="c2" />
    </children>
 </AnchorPane>
