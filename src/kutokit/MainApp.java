@@ -108,7 +108,7 @@ public class MainApp extends Application {
             
             //add controller
             CseController controller = loader.getController();
-            controller.setMainApp(this);
+            controller.setMainApp(this, primaryStage);
             
             System.out.println("a");
         } catch (IOException e) {
@@ -209,7 +209,7 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * ÇöÀç ºÒ·¯¿Â ÆÄÀÏÀÇ °æ·Î¸¦ ¼³Á¤ÇÑ´Ù. ÀÌ °æ·Î´Â OS Æ¯Á¤ ·¹Áö½ºÆ®¸®¿¡ ÀúÀåµÈ´Ù.
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½ï¿½ ï¿½ï¿½Î´ï¿½ OS Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È´ï¿½.
 	 *
 	 * @param file the file or null to remove the path
 	 */
@@ -218,18 +218,18 @@ public class MainApp extends Application {
 	    if (file != null) {
 	        prefs.put("filePath", file.getPath());
 
-	        // Stage Å¸ÀÌÆ²À» ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
+	        // Stage Å¸ï¿½ï¿½Æ²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ñ´ï¿½.
 	        primaryStage.setTitle("AddressApp - " + file.getName());
 	    } else {
 	        prefs.remove("filePath");
 
-	        // Stage Å¸ÀÌÆ²À» ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
+	        // Stage Å¸ï¿½ï¿½Æ²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ñ´ï¿½.
 	        primaryStage.setTitle("AddressApp");
 	    }
 	}
 	
 	/**
-	 * ÁöÁ¤ÇÑ ÆÄÀÏ·ÎºÎÅÍ ContextTableÀ» °¡Á®¿Â´Ù.
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·Îºï¿½ï¿½ï¿½ ContextTableï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
 	 * @param file
 	 */
 	public void loadContextTableDataFromFile(File file) {
@@ -238,16 +238,16 @@ public class MainApp extends Application {
 	                .newInstance(ContextTableWrapper.class);
 	        Unmarshaller um = context.createUnmarshaller();
 
-	        // ÆÄÀÏ·ÎºÎÅÍ XMLÀ» ÀÐÀº ´ÙÀ½ ¿ª ¸¶¼£¸µÇÑ´Ù.
+	        // ï¿½ï¿½ï¿½Ï·Îºï¿½ï¿½ï¿½ XMLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	        ContextTableWrapper wrapper = (ContextTableWrapper) um.unmarshal(file);
 
 	        //ContextTableDataModel.clear();
 	        //ContextTableDataModel.addAll(wrapper.getContextTableDataModel());
 
-	        // ÆÄÀÏ °æ·Î¸¦ ·¹Áö½ºÆ®¸®¿¡ ÀúÀåÇÑ´Ù.
+	        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	        setContextTableFilePath(file);
 
-	    } catch (Exception e) { // ¿¹¿Ü¸¦ Àâ´Â´Ù
+	    } catch (Exception e) { // ï¿½ï¿½ï¿½Ü¸ï¿½ ï¿½ï¿½Â´ï¿½
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not load data");
@@ -258,7 +258,7 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * ÇöÀç ContextTableÀ» ÁöÁ¤ÇÑ ÆÄÀÏ¿¡ ÀúÀåÇÑ´Ù.
+	 * ï¿½ï¿½ï¿½ï¿½ ContextTableï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	 * @param file
 	 */
 	public void saveContextTableDataToFile(File file) {
@@ -276,12 +276,12 @@ public class MainApp extends Application {
 	        
 	        
 	        
-	        // ¸¶¼£¸µ ÈÄ XMLÀ» ÆÄÀÏ¿¡ ÀúÀåÇÑ´Ù.
+	        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ XMLï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	        m.marshal(wrapper, file);
 
-	        // ÆÄÀÏ °æ·Î¸¦ ·¹Áö½ºÆ®¸®¿¡ ÀúÀåÇÑ´Ù.
+	        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	        setContextTableFilePath(file);
-	    } catch (Exception e) { // ¿¹¿Ü¸¦ Àâ´Â´Ù.
+	    } catch (Exception e) { // ï¿½ï¿½ï¿½Ü¸ï¿½ ï¿½ï¿½Â´ï¿½.
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");

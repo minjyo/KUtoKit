@@ -52,10 +52,10 @@ public class CtmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        fc.setInitialDirectory(new File("C:/")); // default �뵒�젆�넗由� �꽕�젙
+        fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
         // minjyo - mac
-        //fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
-        // �솗�옣�옄 �젣�븳
+//        fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
+        // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
         fc.getExtensionFilters().addAll(txtType);
          
