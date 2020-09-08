@@ -1,5 +1,6 @@
 package kutokit.view;
 
+import kutokit.Info;
 import kutokit.MainApp;
 import kutokit.model.xmlTest;
 
@@ -46,9 +47,7 @@ public class PmmController {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
     
-         fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
-//        fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
-        
+      fc.setInitialDirectory(new File(Info.directory)); // default 디렉토리 설정
 
         ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
                 "XML files (*.xml)", "*.xml");
