@@ -1,26 +1,39 @@
 package kutokit.view;
 
 import kutokit.MainApp;
+import kutokit.model.xmlTest;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import org.w3c.dom.NodeList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class PmmController {
 
+	private xmlTest reader;
 	private MainApp mainApp;
 	private File selectedFile;
+	private ObservableList<String> valuelist;
+	
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
+	@FXML private ListView<String> PM;
 	
 	//constructor
 	public PmmController() {
-		
+		valuelist = FXCollections.observableArrayList();
 	}
 
 	//set MainApp
@@ -33,11 +46,9 @@ public class PmmController {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
     
-        // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
-        // minjyo - mac
-        fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
+         fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+//        fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
         
-        // �솗�옣�옄 �젣�븳
 
         ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
                 "XML files (*.xml)", "*.xml");
@@ -65,12 +76,29 @@ public class PmmController {
 	public void ApplyFile() {
 		if(selectedFile != null) {
 			AddFile.getChildren().clear();
-            
-            /*
-             * �뙆�떛 肄붾뱶 異붽�
-             * 
-             */
-            
+			// this.showList();
+	        reader = new xmlTest(selectedFile.getName());
+			this.makeModel(reader.getNodeList(reader.getNode("f_LO_SG1_LEVEL_Val_Out"), "/condition"));
+	        this.makeModel(reader.getNodeList(reader.getNode("f_LO_SG1_LEVEL_Val_Out"), "/action")); 
 		}
+	}
+	
+	/* Select SDT(TTS or FSM)
+	public void showList() {
+		ListView sdtList = new ListView();
+    	ObservableList<String> valuelist = 
+    			FXCollections.observableArrayList("f_LO_SG1_LEVEL_Val_Out","f_LO_SG1_LEVEL_PV_Err","f_LO_SG1_LEVEL_Ptrp_Out","f_LO_SG1_LEVEL_Trip_Out");
+		sdtList.setItems(valuelist);
+		AddFile.getChildren().add(sdtList);
+		
+	}
+	*/
+	
+	// Make process model 
+	public void makeModel(NodeList list) {
+		for(int i = 0 ; i< list.getLength(); i++) {
+			this.valuelist.add(list.item(i).getAttributes().getNamedItem("value").getTextContent());
+		}
+		PM.setItems(valuelist);
 	}
 }
