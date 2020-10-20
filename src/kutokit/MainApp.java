@@ -31,6 +31,8 @@ public class MainApp extends Application {
 	 private BorderPane rootLayout;
 	 private CtmController controller;
 	 
+	 public Components components;
+	 
 	@Override
 	//auto execute after main execute
 	public void start(Stage primaryStage) {
@@ -38,13 +40,17 @@ public class MainApp extends Application {
 	        this.primaryStage.setTitle("Kutokit");
 
 	        initRootLayout();
-
-	        //showCseView();
+	        initDataStore();
 	}
 
 	 /**
      * init root layout
      */
+	
+	private void initDataStore() {
+		components = new Components();
+	}
+	
 	private void initRootLayout() {
 		try {
             // get root layout
@@ -110,8 +116,6 @@ public class MainApp extends Application {
             //add controller
             CseController controller = loader.getController();
             controller.setMainApp(this, primaryStage);
-            
-            System.out.println("a");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,7 +157,8 @@ public class MainApp extends Application {
             
             //add controller
             UtmController controller = loader.getController();
-            controller.setUcaTable(contextTable);
+            //error
+            //controller.setUcaTable(contextTable);
             controller.setMainApp(this);
             System.out.println("a");
         } catch (IOException e) {
@@ -302,7 +307,8 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
 			AnchorPane View = (AnchorPane) loader.load();
 			CtmController controller = loader.getController();
-			ctmList = controller.getContextTable();
+			//error
+			//ctmList = controller.getContextTable();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
