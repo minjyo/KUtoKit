@@ -1,170 +1,234 @@
 package kutokit.view;
 
 import javafx.event.EventHandler;
+import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import kutokit.MainApp;
+import javafx.stage.WindowEvent;
+import javafx.scene.shape.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import java.awt.MouseInfo;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.SubScene;
+import java.awt.Point;
+import java.io.IOException;
+
 import javafx.scene.Scene;
 import javafx.scene.input.*;
-import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+
+import kutokit.MainApp;
+import kutokit.view.CompoPopupController;
+import kutokit.view.components.*;
 
 public class CseController {
 
 	private MainApp mainApp;
 	private Stage mainStage;
 	
-	@FXML
-	Rectangle r1, r2;
 	
+	@FXML
+	Group root = new Group();
+	@FXML
+	AnchorPane board = new AnchorPane();
+	@FXML
+	ImageView touch, component, ca, feedback, text;
+	
+	String popUpValue = "none";
 	
 	//constructor
 	public CseController() {
 		
 		
 	}
-
-	static class Delta { double x, y; }
 	
 	private void initialize() {
 		
+		//Scene scene =  mainStage.getScene();
 		
-		Group g = new Group();
-		
-		//Scene scene = new Scene(root, 400, 200);
-		Scene scene =  mainStage.getScene();
-	    //scene.setFill(Color.BLUE);
-	    
-	    //scene.setRoot(root);
-	    
-	   
-//		Text source = new Text(50, 100, "drag");
-//		Text target = new Text(250, 100, "drop");
-		
-		
+//		Circle r = new Circle(5,5,5);
+//		enableDrag(r);
 //		
-//		 r1.setOnDragDetected(new EventHandler <MouseEvent>() {
-//	           
-//	        });
-		 
-//		 
-//		 r2.setOnDragOver(new EventHandler <DragEvent>() {
-//	           
-//	        });
+//		root = new Group(r);
+//		board = new Scene(root);
+		//scene.setRoot(root);
+		
+//		root = new Group();
+//		Scene board = new Scene(root, 300, 300, Color.BLACK);
+
+//		Rectangle r = new Rectangle(25,25,250,250);
+//		r.setFill(Color.BLUE);
 //
-//	        r2.setOnDragEntered(new EventHandler <DragEvent>() {
+//		root.getChildren().add(r);
+		
+		//Add through click
+		component.setOnMouseClicked(new EventHandler <MouseEvent>() {
+	          public void handle(MouseEvent event) {
+	              System.out.println("Add");
+	              
+	              popUp();
+	              
+	              
+//	              if(!popUpValue.equals("Controller Name")) {
+//	            	  System.out.println("name: " + popUpValue);
+//	            	  Rectangle r = new Rectangle(100,50);
+//		              enableDrag(r);
+//		    
+//		              root.getChildren().add(r);
+//	              } 
+	              event.consume();
+	          }
+	      });
+		
+		//Add through click
+		ca.setOnMouseClicked(new EventHandler <MouseEvent>() {
+	          public void handle(MouseEvent event) {
+	              System.out.println("Add");
+	              
+	              Arc r = new Arc(100,50, 0, 0, 0, 0);
+	              enableDrag(r);
+	    
+	              root.getChildren().add(r);
+	              
+	              event.consume();
+	          }
+	      });
+		
+		//Add through drag&drop
+//		component.setOnDragDetected(new EventHandler <MouseEvent>() {
+//	          public void handle(MouseEvent event) {
+//	              /* drag was detected, start drag-and-drop gesture*/
+//	              System.out.println("onDragDetected");
+//	              
+//	              /* allow any transfer mode */
+//	              Dragboard db = component.startDragAndDrop(TransferMode.ANY);
+//	              
+//	              /* put a string on dragboard */
+//	              ClipboardContent content = new ClipboardContent();
+//	              content.putString("component");
+//	              db.setContent(content);
+//	              db.setDragView(new Image("assets/component.png", 100, 40, false, false));
+//	             
+//	              event.consume();
+//	          }
+//	      });
+//		
+//		component.setOnDragDone(new EventHandler <DragEvent>() {
+//	            public void handle(DragEvent event) {
+//	            	
+//	                /* the drag-and-drop gesture ended */
+//	                System.out.println("onDragDone");
+		
+//					 Circle r = new Circle(5,5,5);
+//			         enableDrag(r);
+//			
+//			         root.getChildren().add(r);
+//			         
+//			         event.consume();
 //	           
+//	                
+//	                event.consume();
+//	            }
 //	        });
-//
-//	        r2.setOnDragExited(new EventHandler <DragEvent>() {
-//	            
-//	        });
-//	        
-//	        r2.setOnDragDropped(new EventHandler <DragEvent>() {
-//	            
-//	        });
-//
-//	        r1.setOnDragDone(new EventHandler <DragEvent>() {
-//	           
-//	        });
-	        
-	     //   g.getChildren().add(r1);
-	     //   g.getChildren().add(r2);
-	        mainStage.setScene(scene);
-	        mainStage.show();
+		
 	}
 	
-	@FXML
-	public void setOnDragDetected() {
-         /* drag was detected, start drag-and-drop gesture*/
-         System.out.println("onDragDetected");
-         
-         /* allow any transfer mode */
-         Dragboard db = r1.startDragAndDrop(TransferMode.ANY);
-         
-         /* put a string on dragboard */
-         ClipboardContent content = new ClipboardContent();
-         content.putString(r1.getId());
-         db.setContent(content);
-         r1.setFill(Color.BLACK);
-         
+	
+	
+	private String popUp() {
+	  FXMLLoader loader = new FXMLLoader();
+	  loader.setLocation(getClass().getResource("CompoPopup.fxml"));
+	  Parent popUproot;
+	  
+	  try {
+		  	popUproot = (Parent) loader.load();
+			
+			Scene scene = new Scene(popUproot);
+			CompoPopupController pop = loader.getController();
+			
+			  Stage stage = new Stage();
+			  stage.setScene(scene);
+			  stage.show();
+			  
+			  //add controller with name when popup closed
+			  stage.setOnHidden(new EventHandler<WindowEvent>() {
+				    @Override
+				    public void handle(WindowEvent e) {
+
+				    	popUpValue = pop.name;
+				    	
+				    	System.out.println("name: " + popUpValue);
+		            	Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
+		            	
+			            enableDrag(r);
+			    
+			            root.getChildren().add(r);
+				    }
+				  });
+			  return popUpValue;
+	  } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return "error";
+	  }
 	}
-//	 
-//	 public void setOnDragOver(DragEvent event,  Rectangle target) {
-//         /* data is dragged over the target */
-//         System.out.println("onDragOver");
-//         
-//         /* accept it only if it is  not dragged from the same node 
-//          * and if it has a string data */
-//         if (event.getGestureSource() != target &&
-//                 event.getDragboard().hasString()) {
-//             /* allow for both copying and moving, whatever user chooses */
-//             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-//         }
-//         
-//         event.consume();
-//     }
-//	 
-//	 public void setOnDragEntered(DragEvent event, Rectangle target) {
-//         /* the drag-and-drop gesture entered the target */
-//         System.out.println("onDragEntered");
-//         /* show to the user that it is an actual gesture target */
-//         if (event.getGestureSource() != target &&
-//                 event.getDragboard().hasString()) {
-//        	 System.out.println("onDragEntered");
-//             target.setFill(Color.GREEN);
-//         }
-//         
-//         event.consume();
-//     }
-//	 
-//	 public void setOnDragExited(DragEvent event, Rectangle target) {
-//         /* mouse moved away, remove the graphical cues */
-//		 
-//		 System.out.println("setOnDragExited");
-//		 target.setFill(Color.RED);
-//         event.consume();
-//     }
-//	 
-//	 public void setOnDragDropped(DragEvent event, Rectangle target) {
-//         /* data dropped */
-//         System.out.println("onDragDropped");
-//         /* if there is a string data on dragboard, read it and use it */
-//         Dragboard db = event.getDragboard();
-//         boolean success = false;
-//         if (db.hasString()) {
-//        	 System.out.println("onDragDropped");
-//             //target.setText(db.getString());
-//        	 target.setFill(Color.YELLOW);
-//             success = true;
-//         }
-//         /* let the source know whether the string was successfully 
-//          * transferred and used */
-//         event.setDropCompleted(success);
-//         
-//         event.consume();
-//     }
-//	 
-	 @FXML
-	 public void setOnDragDone(DragEvent event) {
-         /* the drag-and-drop gesture ended */
-         System.out.println("onDragDone");
-         /* if the data was successfully moved, clear it */
-         if (event.getTransferMode() == TransferMode.MOVE) {
-        	 System.out.println("onDragDone");
-        	 r1.setFill(Color.YELLOW);
-         }
-         
-         r2.setFill(Color.BLACK);
-     }
+	
+	static class Delta { double x, y; }
+	// make a node movable by dragging it around with the mouse.
+	private void enableDrag(final Shape shape) {
+		final Delta dragDelta = new Delta();
+		
+		shape.setOnMousePressed(new EventHandler<MouseEvent>() {
+		  @Override public void handle(MouseEvent mouseEvent) {
+		    // record a delta distance for the drag and drop operation.
+		    dragDelta.x = shape.getLayoutX() - mouseEvent.getX();
+		    dragDelta.y = shape.getLayoutY() - mouseEvent.getY();
+		    shape.getScene().setCursor(Cursor.MOVE);
+		  }
+		});
+		shape.setOnMouseReleased(new EventHandler<MouseEvent>() {
+		  @Override public void handle(MouseEvent mouseEvent) {
+			  shape.getScene().setCursor(Cursor.HAND);
+		  }
+		});
+		shape.setOnMouseDragged(new EventHandler<MouseEvent>() {
+		  @Override public void handle(MouseEvent mouseEvent) {
+			  shape.setLayoutX(mouseEvent.getX() + dragDelta.x);
+			  shape.setLayoutY(mouseEvent.getY() + dragDelta.y);
+		  }
+		});
+		shape.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		  @Override public void handle(MouseEvent mouseEvent) {
+		    if (!mouseEvent.isPrimaryButtonDown()) {
+		    	shape.getScene().setCursor(Cursor.HAND);
+		    }
+		  }
+		});
+		shape.setOnMouseExited(new EventHandler<MouseEvent>() {
+		  @Override public void handle(MouseEvent mouseEvent) {
+		    if (!mouseEvent.isPrimaryButtonDown()) {
+		    	shape.getScene().setCursor(Cursor.DEFAULT);
+		    }
+		  }
+		});
+	}
+	
 	
 	//set MainApp
 	public void setMainApp(MainApp mainApp, Stage mainStage) {
