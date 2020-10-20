@@ -9,6 +9,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -152,11 +153,11 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/UtmView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout 
             rootLayout.setCenter(View);
             
             //add controller
             UtmController controller = loader.getController();
+            controller.setUcaTable(contextTable);
             controller.setMainApp(this);
             System.out.println("a");
         } catch (IOException e) {
@@ -293,5 +294,22 @@ public class MainApp extends Application {
 
 	        alert.showAndWait();
 	    }
+	}
+
+	//ContextTable(myTable) 불러오기
+	private ObservableList<CTM> getContextTable()
+	{
+		ObservableList<CTM> ctmList = null;
+		try {
+			// get maker scene
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
+			AnchorPane View = (AnchorPane) loader.load();
+			CtmController controller = loader.getController();
+			ctmList = controller.getContextTable();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ctmList;
 	}
 }

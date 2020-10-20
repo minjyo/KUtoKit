@@ -29,7 +29,7 @@ public class CtmController {
 
 	private MainApp mainApp;
 	private File selectedFile;
-	private ObservableList<CTM> myTable;
+	private static ObservableList<CTM> myTable;
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
 	
@@ -159,12 +159,10 @@ public class CtmController {
 	   	hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());
 	   	
 	    contextTable.setItems(mcsData);
-	 	   
+	    myTable = mcsData;
 	}
-	
-	public ObservableList<CTM> getContextTableData() {
 
-	       System.out.println(myTable.get(0));
-	      return myTable;
-	   }
+	public ObservableList<CTM> getContextTableData() {
+		return myTable;
+	}
 }
