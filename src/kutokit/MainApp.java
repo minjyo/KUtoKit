@@ -30,6 +30,8 @@ public class MainApp extends Application {
 	 private BorderPane rootLayout;
 	 private CtmController controller;
 	 
+	 public Components components;
+	 
 	@Override
 	//auto execute after main execute
 	public void start(Stage primaryStage) {
@@ -37,13 +39,17 @@ public class MainApp extends Application {
 	        this.primaryStage.setTitle("Kutokit");
 
 	        initRootLayout();
-
-	        //showCseView();
+	        initDataStore();
 	}
 
 	 /**
      * init root layout
      */
+	
+	private void initDataStore() {
+		components = new Components();
+	}
+	
 	private void initRootLayout() {
 		try {
             // get root layout

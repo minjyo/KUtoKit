@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -21,8 +22,11 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
+import javafx.scene.control.Label;
+
 import java.awt.Point;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.scene.Scene;
 import javafx.scene.input.*;
@@ -35,12 +39,15 @@ import javafx.scene.image.Image;
 import kutokit.MainApp;
 import kutokit.view.CompoPopupController;
 import kutokit.view.components.*;
+import kutokit.model.Components;
 
 public class CseController {
 
 	private MainApp mainApp;
 	private Stage mainStage;
 	
+	private Components dataStore;
+	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	
 	@FXML
 	Group root = new Group();
@@ -48,49 +55,29 @@ public class CseController {
 	AnchorPane board = new AnchorPane();
 	@FXML
 	ImageView touch, component, ca, feedback, text;
-	
-	String popUpValue = "none";
-	
+		
 	//constructor
 	public CseController() {
-		
 		
 	}
 	
 	private void initialize() {
+		dataStore = mainApp.components;
 		
-		//Scene scene =  mainStage.getScene();
-		
-//		Circle r = new Circle(5,5,5);
-//		enableDrag(r);
-//		
-//		root = new Group(r);
-//		board = new Scene(root);
-		//scene.setRoot(root);
-		
-//		root = new Group();
-//		Scene board = new Scene(root, 300, 300, Color.BLACK);
-
-//		Rectangle r = new Rectangle(25,25,250,250);
-//		r.setFill(Color.BLUE);
-//
-//		root.getChildren().add(r);
+		//draw board from data store
+		controllers = dataStore.getControllers();
+		for(Controller c : controllers) {
+	    	Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
+	    	StackPane s = makeRectangle(r, c.getName());
+	    	
+	    	addComponent(s, c);
+		}
 		
 		//Add through click
 		component.setOnMouseClicked(new EventHandler <MouseEvent>() {
 	          public void handle(MouseEvent event) {
-	              System.out.println("Add");
-	              
 	              popUp();
-	              
-	              
-//	              if(!popUpValue.equals("Controller Name")) {
-//	            	  System.out.println("name: " + popUpValue);
-//	            	  Rectangle r = new Rectangle(100,50);
-//		              enableDrag(r);
-//		    
-//		              root.getChildren().add(r);
-//	              } 
+
 	              event.consume();
 	          }
 	      });
@@ -101,7 +88,7 @@ public class CseController {
 	              System.out.println("Add");
 	              
 	              Arc r = new Arc(100,50, 0, 0, 0, 0);
-	              enableDrag(r);
+	              //enableDrag(r);
 	    
 	              root.getChildren().add(r);
 	              
@@ -150,7 +137,7 @@ public class CseController {
 	
 	
 	
-	private String popUp() {
+	private void popUp() {
 	  FXMLLoader loader = new FXMLLoader();
 	  loader.setLocation(getClass().getResource("CompoPopup.fxml"));
 	  Parent popUproot;
@@ -169,29 +156,48 @@ public class CseController {
 			  stage.setOnHidden(new EventHandler<WindowEvent>() {
 				    @Override
 				    public void handle(WindowEvent e) {
-
-				    	popUpValue = pop.name;
+				    	Controller c = new Controller(10, 10, pop.name, dataStore.curId);
 				    	
-				    	System.out.println("name: " + popUpValue);
-		            	Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
-		            	
-			            enableDrag(r);
-			    
-			            root.getChildren().add(r);
+				    	Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
+				    	StackPane s = makeRectangle(r, c.getName());
+				    	
+				    	dataStore.addComponent(c);
+				    	addComponent(s, c);
 				    }
 				  });
-			  return popUpValue;
+			 
 	  } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return "error";
 	  }
+	}
+	
+	//add controller to board
+	private void addComponent(StackPane s, Controller c) {
+		enableDrag(s);
+		
+        s.setLayoutX(c.getX());
+        s.setLayoutY(c.getY());
+        
+        root.getChildren().add(s);
+	}
+	
+	private StackPane makeRectangle(Shape shape, String name) {
+		StackPane stack = new StackPane();
+	    stack.getChildren().addAll(shape, new Label(name));
+	    
+	    return stack;
+	}
+	
+	private void modifyRectangle(StackPane stack, String name) {
+		stack.getChildren().remove(1);
+		stack.getChildren().add(new Label(name));
 	}
 	
 	static class Delta { double x, y; }
 	// make a node movable by dragging it around with the mouse.
-	private void enableDrag(final Shape shape) {
+	private void enableDrag(final StackPane shape) {
 		final Delta dragDelta = new Delta();
 		
 		shape.setOnMousePressed(new EventHandler<MouseEvent>() {

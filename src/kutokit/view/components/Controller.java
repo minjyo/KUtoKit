@@ -1,19 +1,27 @@
 package kutokit.view.components;
 
-import javafx.scene.paint.Paint;
-
 public class Controller {
 
-	double width, height;
-	Paint fill;
+	double x, y;
 	String name;
+	int id;
 	
-	public Controller(double width, double height, Paint fill, String name) {
-		this.width = width;
-		this.height = height;
-		this.fill = fill;
+	public Controller(double x, double y, String name, int id) {
+		this.x = x;
+		this.y = y;
 		this.name = name;
+		this.id = id;
 	}
 	
+	public double getX() {
+		return x;
+	}
 	
+	public double getY() {
+		return y;
+	}
+	
+	public String getName() {
+		return name;
+	}
 }
