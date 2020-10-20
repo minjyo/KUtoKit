@@ -115,8 +115,6 @@ public class MainApp extends Application {
             //add controller
             CseController controller = loader.getController();
             controller.setMainApp(this, primaryStage);
-            
-            System.out.println("a");
         } catch (IOException e) {
             e.printStackTrace();
         }

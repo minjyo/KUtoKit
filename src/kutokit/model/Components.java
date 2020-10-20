@@ -28,19 +28,6 @@ public class Components {
 		curId++;
 	}
 	
-	public void removeComponent(int id) {
-		
-	}
-	
-	public void modifyComponent(int id, String name) {
-		for (Controller c : controllers) {
-            if (c.getId()==id) {
-                c.setName(name);
-                return;
-            }
-        }
-	}
-	
 	public void moveComponent(int id, double x, double y) {
 		for (Controller c : controllers) {
             if (c.getId()==id) {
@@ -51,6 +38,18 @@ public class Components {
         }
 	}
 	
+	public void deleteComponent(int id) {
+		
+	}
+	
+	public void modifyController(int id, String name) {
+		for (Controller c : controllers) {
+            if (c.getId()==id) {
+                c.setName(name);
+                return;
+            }
+        }
+	}
 	
 //	public void addComponent(ControlAction controlaction) {
 //		controlActions.add(controlaction);

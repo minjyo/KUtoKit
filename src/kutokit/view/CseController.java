@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
@@ -255,7 +254,7 @@ public class CseController {
 		label.setText(name);
 		
 		int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
-    	dataStore.modifyComponent(id, name);
+    	dataStore.modifyController(id, name);
 	}
 	
 	static class Delta { double x, y; }
@@ -280,7 +279,8 @@ public class CseController {
 		  @Override public void handle(MouseEvent mouseEvent) {
 			  shape.setLayoutX(mouseEvent.getX() + dragDelta.x);
 			  shape.setLayoutY(mouseEvent.getY() + dragDelta.y);
-			  shape.getChildren().get(0);
+			  int id = Integer.parseInt(((Label) shape.getChildren().get(2)).getText());
+			  dataStore.moveComponent(id, shape.getLayoutX(), shape.getLayoutY());
 		  }
 		});
 		shape.setOnMouseEntered(new EventHandler<MouseEvent>() {
