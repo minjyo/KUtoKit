@@ -1,43 +1,33 @@
 package kutokit.view;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.shape.*;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import java.awt.MouseInfo;
-import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.SubScene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.scene.Scene;
-import javafx.scene.input.*;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
 
 import kutokit.MainApp;
-import kutokit.view.CompoPopupController;
 import kutokit.view.components.*;
 import kutokit.model.Components;
 
@@ -48,6 +38,9 @@ public class CseController {
 	
 	private Components dataStore;
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
+	
+	private ContextMenu contextMenu;
+	private MenuItem item1, item2, item3;
 	
 	@FXML
 	Group root = new Group();
@@ -68,7 +61,7 @@ public class CseController {
 		controllers = dataStore.getControllers();
 		for(Controller c : controllers) {
 	    	Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
-	    	StackPane s = makeRectangle(r, c.getName());
+	    	StackPane s = makeRectangle(r, c.getName(), c.getId());
 	    	
 	    	addComponent(s, c);
 		}
@@ -76,7 +69,7 @@ public class CseController {
 		//Add through click
 		component.setOnMouseClicked(new EventHandler <MouseEvent>() {
 	          public void handle(MouseEvent event) {
-	              popUp();
+	        	  addPopUp();
 
 	              event.consume();
 	          }
@@ -95,6 +88,37 @@ public class CseController {
 	              event.consume();
 	          }
 	      });
+		
+		contextMenu = new ContextMenu();
+		
+		item1 = new MenuItem("Modfiy");
+        item1.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+            //	modifyRectangle(getParentMenu().get)
+            	StackPane stack = (StackPane) item1.getParentPopup().getOwnerNode();
+            	modifyPopUp(stack);
+            }
+        });
+        item2 = new MenuItem("Delete");
+        item2.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                
+            }
+        });
+        item3 = new MenuItem("Process Model");
+        item3.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                
+            }
+        });
+        
+        contextMenu.getItems().addAll(item1, item2, item3);
 		
 		//Add through drag&drop
 //		component.setOnDragDetected(new EventHandler <MouseEvent>() {
@@ -135,9 +159,7 @@ public class CseController {
 		
 	}
 	
-	
-	
-	private void popUp() {
+	private void addPopUp() {
 	  FXMLLoader loader = new FXMLLoader();
 	  loader.setLocation(getClass().getResource("CompoPopup.fxml"));
 	  Parent popUproot;
@@ -159,17 +181,15 @@ public class CseController {
 				    	Controller c = new Controller(10, 10, pop.name, dataStore.curId);
 				    	
 				    	Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
-				    	StackPane s = makeRectangle(r, c.getName());
+				    	StackPane s = makeRectangle(r, c.getName(), c.getId());
 				    	
 				    	dataStore.addComponent(c);
 				    	addComponent(s, c);
 				    }
 				  });
-			 
 	  } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
 	  }
 	}
 	
@@ -177,22 +197,65 @@ public class CseController {
 	private void addComponent(StackPane s, Controller c) {
 		enableDrag(s);
 		
+		s.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+ 
+            @Override
+            public void handle(ContextMenuEvent event) {
+            	
+                contextMenu.show(s, event.getScreenX(), event.getScreenY());
+            }
+        });
+		
         s.setLayoutX(c.getX());
         s.setLayoutY(c.getY());
         
         root.getChildren().add(s);
 	}
 	
-	private StackPane makeRectangle(Shape shape, String name) {
+	private StackPane makeRectangle(Shape shape, String name, int id) {
 		StackPane stack = new StackPane();
-	    stack.getChildren().addAll(shape, new Label(name));
+		Label idLabel = new Label(Integer.toString(id));
+		idLabel.setVisible(false);
+		
+	    stack.getChildren().addAll(shape, new Label(name), idLabel);
 	    
 	    return stack;
 	}
 	
+	private void modifyPopUp(StackPane stack) {
+		 FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(getClass().getResource("CompoPopup.fxml"));
+		  Parent popUproot;
+		  
+		  try {
+			  	popUproot = (Parent) loader.load();
+				
+				Scene scene = new Scene(popUproot);
+				CompoPopupController pop = loader.getController();
+				
+				  Stage stage = new Stage();
+				  stage.setScene(scene);
+				  stage.show();
+				  
+				  //add controller with name when popup closed
+				  stage.setOnHidden(new EventHandler<WindowEvent>() {
+					    @Override
+					    public void handle(WindowEvent e) {
+					    	modifyRectangle(stack, pop.name);
+					    }
+					  });
+		  } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		  }
+	}
+	
 	private void modifyRectangle(StackPane stack, String name) {
-		stack.getChildren().remove(1);
-		stack.getChildren().add(new Label(name));
+		Label label = (Label) stack.getChildren().get(1);
+		label.setText(name);
+		
+		int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
+    	dataStore.modifyComponent(id, name);
 	}
 	
 	static class Delta { double x, y; }
@@ -217,6 +280,7 @@ public class CseController {
 		  @Override public void handle(MouseEvent mouseEvent) {
 			  shape.setLayoutX(mouseEvent.getX() + dragDelta.x);
 			  shape.setLayoutY(mouseEvent.getY() + dragDelta.y);
+			  shape.getChildren().get(0);
 		  }
 		});
 		shape.setOnMouseEntered(new EventHandler<MouseEvent>() {

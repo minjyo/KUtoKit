@@ -10,7 +10,7 @@ public class Components {
 	public int curId;
 	
 	public Components() {
-		curId = 0;
+		curId = 3;
 		
 		//curID 나중에 수정 필
 		//===================temp========================
@@ -32,8 +32,23 @@ public class Components {
 		
 	}
 	
-	public void modifyComponent(int id) {
-		
+	public void modifyComponent(int id, String name) {
+		for (Controller c : controllers) {
+            if (c.getId()==id) {
+                c.setName(name);
+                return;
+            }
+        }
+	}
+	
+	public void moveComponent(int id, double x, double y) {
+		for (Controller c : controllers) {
+            if (c.getId()==id) {
+                c.setX(x);
+                c.setY(y);
+                return;
+            }
+        }
 	}
 	
 	

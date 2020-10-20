@@ -24,4 +24,24 @@ public class Controller {
 	public String getName() {
 		return name;
 	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setX(double x) {
+		this.x = x;
+	}
+	
+	public void setY(double y) {
+		this.y = y;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 }
