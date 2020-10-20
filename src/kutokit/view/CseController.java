@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +29,7 @@ import javafx.scene.image.ImageView;
 
 import kutokit.MainApp;
 import kutokit.view.components.*;
+import kutokit.view.popup.ControllerPopUpController;
 import kutokit.model.Components;
 
 public class CseController {
@@ -105,7 +107,16 @@ public class CseController {
  
             @Override
             public void handle(ActionEvent event) {
-                
+            	StackPane stack = (StackPane) item1.getParentPopup().getOwnerNode();
+            	int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
+            	dataStore.deleteComponent(id);
+            	
+            	for(Node c : root.getChildren()) {
+            		if(c.equals(stack)){
+            			root.getChildren().remove(c);
+            			return;
+            		}
+            	}
             }
         });
         item3 = new MenuItem("Process Model");
@@ -160,14 +171,14 @@ public class CseController {
 	
 	private void addPopUp() {
 	  FXMLLoader loader = new FXMLLoader();
-	  loader.setLocation(getClass().getResource("CompoPopup.fxml"));
+	  loader.setLocation(getClass().getResource("popup/ControllerPopUpView.fxml"));
 	  Parent popUproot;
 	  
 	  try {
 		  	popUproot = (Parent) loader.load();
 			
 			Scene scene = new Scene(popUproot);
-			CompoPopupController pop = loader.getController();
+			ControllerPopUpController pop = loader.getController();
 			
 			  Stage stage = new Stage();
 			  stage.setScene(scene);
@@ -223,14 +234,14 @@ public class CseController {
 	
 	private void modifyPopUp(StackPane stack) {
 		 FXMLLoader loader = new FXMLLoader();
-		  loader.setLocation(getClass().getResource("CompoPopup.fxml"));
+		  loader.setLocation(getClass().getResource("popup/ControllerPopUpView.fxml"));
 		  Parent popUproot;
 		  
 		  try {
 			  	popUproot = (Parent) loader.load();
 				
 				Scene scene = new Scene(popUproot);
-				CompoPopupController pop = loader.getController();
+				ControllerPopUpController pop = loader.getController();
 				
 				  Stage stage = new Stage();
 				  stage.setScene(scene);

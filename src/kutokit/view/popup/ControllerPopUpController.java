@@ -1,16 +1,16 @@
-package kutokit.view;
+package kutokit.view.popup;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
  
-public class CompoPopupController {
+public class ControllerPopUpController {
 
 	  @FXML 
 	  private TextField text;
 	  public String name;
 	  
-	  public CompoPopupController() {
+	  public ControllerPopUpController() {
 		  name = "Controller Name";
 	  }
 	  

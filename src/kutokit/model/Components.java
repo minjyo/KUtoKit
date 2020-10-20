@@ -39,7 +39,12 @@ public class Components {
 	}
 	
 	public void deleteComponent(int id) {
-		
+		for (Controller c : controllers) {
+            if (c.getId()==id) {
+                controllers.remove(c);
+                return;
+            }
+        }
 	}
 	
 	public void modifyController(int id, String name) {
