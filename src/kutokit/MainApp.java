@@ -157,7 +157,8 @@ public class MainApp extends Application {
             
             //add controller
             UtmController controller = loader.getController();
-            controller.setUcaTable(contextTable);
+            //error
+            //controller.setUcaTable(contextTable);
             controller.setMainApp(this);
             System.out.println("a");
         } catch (IOException e) {
@@ -306,7 +307,8 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
 			AnchorPane View = (AnchorPane) loader.load();
 			CtmController controller = loader.getController();
-			ctmList = controller.getContextTable();
+			//error
+			//ctmList = controller.getContextTable();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
