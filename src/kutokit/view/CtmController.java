@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -34,7 +35,7 @@ public class CtmController {
 	
 	@FXML private TableView<CTM> contextTable;
 	@FXML private TableColumn<CTM, String> CAColumn, casesColumn, contextsColumn;
-	@FXML private TableColumn<CTM, Boolean> hazardousColumn;
+	@FXML private TableColumn<CTM, String> hazardousColumn;
 	@FXML private TableColumn<CTM, Integer> noColumn;
 	
 	private String[] contexts = new String[10];
@@ -54,7 +55,7 @@ public class CtmController {
         fc.setTitle("Add File");
         // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
         // minjyo - mac
-        fc.setInitialDirectory(new File("/Users/minjyo/eclipse-workspace/KUtoKit/"));
+        fc.setInitialDirectory(new File("/Users/akdl5/eclipse-workspace/KUtoKit/"));
         // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
         fc.getExtensionFilters().addAll(txtType);
@@ -138,25 +139,35 @@ public class CtmController {
 		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
 		
 		int i=0;
+		/*
 		while(i < contexts.length) {
-			 mcsData.add(new CTM("Action", "case", i, contexts[i]));
-			 i++;
-		}  
+			//mcsData.add(new CTM("Action", "case", i, contexts[i]));
+			new CTM("Action", "case", i, contexts[i]);
+			i++;
+		};*/
+		mcsData = FXCollections.observableArrayList(
+			new CTM("Action", "case", i, contexts[i++], FXCollections.observableArrayList("hihihi","hihihi1")),
+			new CTM("Action", "case", i, contexts[i++], FXCollections.observableArrayList("hihihi")),
+			new CTM("Action", "case", i, contexts[i++], FXCollections.observableArrayList("hihihi")),
+			new CTM("Action", "case", i, contexts[i++], FXCollections.observableArrayList("hihihi")),
+			new CTM("Action", "case", i, contexts[i++], FXCollections.observableArrayList("hihihi"))
+		);
        
         // 4. Set table row 
         CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
    	 	casesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("cases"));
  	 	noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
  	    contextsColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts"));
- 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, Boolean>("hazardous?"));
- 	   		
+ 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous?"));
+ 	    
 	   	// 5. Put data in table
-	   	CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
+	   	/*CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
 	   	casesColumn.setCellValueFactory(cellData -> cellData.getValue().getCasesProperty());
 	   	noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
 	   	contextsColumn.setCellValueFactory(cellData -> cellData.getValue().getContextsProperty());
-	   	hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());
-	   	
+	   	hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());*/
+	   	//hazardousColumn.setCellFactory(ComboBoxTableCell.forTableColumn("Friends", "Family", "Work Contacts"));
+
 	    contextTable.setItems(mcsData);
 	 	   
 	}

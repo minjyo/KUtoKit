@@ -15,15 +15,16 @@ public class CTM {
 	private SimpleStringProperty cases;
 	private SimpleIntegerProperty no;
 	private SimpleStringProperty contexts;
-	private SimpleBooleanProperty hazardous;
+	private ComboBox<String> hazardous;
 	
 
-	public CTM(String controlAction, String cases, int no, String contexts) {
+	public CTM(String controlAction, String cases, int no, String contexts, ObservableList<String> hazardous) {
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.cases = new SimpleStringProperty(cases);
 		this.no = new SimpleIntegerProperty(no);
 		this.contexts = new SimpleStringProperty(contexts);
-		this.hazardous = new SimpleBooleanProperty(false);
+		this.hazardous = new ComboBox<String>(hazardous);
+		//this.hazardous = new SimpleStringProperty(hazardous);
 //		this.hazardous.setItems(FXCollections.observableArrayList("No select", "O", "X"));
 	}
 
@@ -60,17 +61,26 @@ public class CTM {
 	public StringProperty getContextsProperty() {
 		return contexts;
 	}
-
-	public boolean getHazardous() {
-		return hazardous.get();
-	}
 	
-	public BooleanProperty getHazardousProperty() {
+	public ComboBox<String> getHazardousProperty() {
 		return hazardous;
 	}
 	
-	public void setHazardous(boolean hazardous) {
-		this.hazardous.set(hazardous);
+	public void setHazardous(ComboBox<String> hazardous) {
+		this.hazardous = hazardous;
 	}
+
+	/*
+	public String getHazardous() {
+		return hazardous.get();
+	}
+	
+	public StringProperty getHazardousProperty() {
+		return hazardous;
+	}
+	
+	public void setHazardous(String hazardous) {
+		this.hazardous.set(hazardous);
+	}*/
 	
 }
