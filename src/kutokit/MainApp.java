@@ -19,8 +19,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import kutokit.view.CseController;
 import kutokit.view.PmmController;
+import kutokit.view.RoadMap;
 import kutokit.view.CtmController;
-import kutokit.view.FSController;
+import kutokit.view.LhcController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
 import kutokit.model.*;
@@ -78,20 +79,20 @@ public class MainApp extends Application {
 	}
 	
 	/**
-	 * called when first step button clicked
+	 * called when LHC button clicked
 	 */
-	public void showFSView() {
+	public void showLhcView() {
         try {
-            // get maker scene
+            // get table scene
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/FirstStep.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/LhcView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
             // add scene in center of root layout 
             rootLayout.setCenter(View);
             
             //add controller
-            FSController controller = loader.getController();
+            LhcController controller = loader.getController();
             controller.setMainApp(this);
             
             System.out.println("a");
@@ -186,6 +187,27 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
+    
+    //called when help button clicked
+	public void showRoadMapView() {
+        try {
+            // get maker scene
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/RoadMapView.fxml"));
+            AnchorPane View = (AnchorPane) loader.load();
+
+            // add scene in center of root layout 
+            rootLayout.setCenter(View);
+            
+            //add controller
+            RoadMap controller = loader.getController();
+            controller.setMainApp(this);
+            
+            System.out.println("a");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
 	 * return main stage
@@ -214,7 +236,7 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * ���� �ҷ��� ������ ��θ� �����Ѵ�. �� ��δ� OS Ư�� ������Ʈ���� ����ȴ�.
+	 * 占쏙옙占쏙옙 占쌀뤄옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙罐占� 占쏙옙占쏙옙占싼댐옙. 占쏙옙 占쏙옙灌占� OS 특占쏙옙 占쏙옙占쏙옙占쏙옙트占쏙옙占쏙옙 占쏙옙占쏙옙홱占�.
 	 *
 	 * @param file the file or null to remove the path
 	 */
@@ -223,18 +245,18 @@ public class MainApp extends Application {
 	    if (file != null) {
 	        prefs.put("filePath", file.getPath());
 
-	        // Stage Ÿ��Ʋ�� ������Ʈ�Ѵ�.
+	        // Stage 타占쏙옙틀占쏙옙 占쏙옙占쏙옙占쏙옙트占싼댐옙.
 	        primaryStage.setTitle("AddressApp - " + file.getName());
 	    } else {
 	        prefs.remove("filePath");
 
-	        // Stage Ÿ��Ʋ�� ������Ʈ�Ѵ�.
+	        // Stage 타占쏙옙틀占쏙옙 占쏙옙占쏙옙占쏙옙트占싼댐옙.
 	        primaryStage.setTitle("AddressApp");
 	    }
 	}
 	
 	/**
-	 * ������ ���Ϸκ��� ContextTable�� �����´�.
+	 * 占쏙옙占쏙옙占쏙옙 占쏙옙占싹로븝옙占쏙옙 ContextTable占쏙옙 占쏙옙占쏙옙占승댐옙.
 	 * @param file
 	 */
 	public void loadContextTableDataFromFile(File file) {
@@ -243,16 +265,16 @@ public class MainApp extends Application {
 	                .newInstance(ContextTableWrapper.class);
 	        Unmarshaller um = context.createUnmarshaller();
 
-	        // ���Ϸκ��� XML�� ���� ���� �� �������Ѵ�.
+	        // 占쏙옙占싹로븝옙占쏙옙 XML占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙占쏙옙占싼댐옙.
 	        ContextTableWrapper wrapper = (ContextTableWrapper) um.unmarshal(file);
 
 	        //ContextTableDataModel.clear();
 	        //ContextTableDataModel.addAll(wrapper.getContextTableDataModel());
 
-	        // ���� ��θ� ������Ʈ���� �����Ѵ�.
+	        // 占쏙옙占쏙옙 占쏙옙罐占� 占쏙옙占쏙옙占쏙옙트占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙.
 	        setContextTableFilePath(file);
 
-	    } catch (Exception e) { // ���ܸ� ��´�
+	    } catch (Exception e) { // 占쏙옙占쌤몌옙 占쏙옙쨈占�
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not load data");
@@ -263,7 +285,7 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * ���� ContextTable�� ������ ���Ͽ� �����Ѵ�.
+	 * 占쏙옙占쏙옙 ContextTable占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占싹울옙 占쏙옙占쏙옙占싼댐옙.
 	 * @param file
 	 */
 	public void saveContextTableDataToFile(File file) {
@@ -281,12 +303,12 @@ public class MainApp extends Application {
 	        
 	        
 	        
-	        // ������ �� XML�� ���Ͽ� �����Ѵ�.
+	        // 占쏙옙占쏙옙占쏙옙 占쏙옙 XML占쏙옙 占쏙옙占싹울옙 占쏙옙占쏙옙占싼댐옙.
 	        m.marshal(wrapper, file);
 
-	        // ���� ��θ� ������Ʈ���� �����Ѵ�.
+	        // 占쏙옙占쏙옙 占쏙옙罐占� 占쏙옙占쏙옙占쏙옙트占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙.
 	        setContextTableFilePath(file);
-	    } catch (Exception e) { // ���ܸ� ��´�.
+	    } catch (Exception e) { // 占쏙옙占쌤몌옙 占쏙옙쨈占�.
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");
@@ -296,7 +318,7 @@ public class MainApp extends Application {
 	    }
 	}
 
-	//ContextTable(myTable) 불러오기
+	//ContextTable(myTable) 遺덈윭�삤湲�
 	private ObservableList<CTM> getContextTable()
 	{
 		ObservableList<CTM> ctmList = null;

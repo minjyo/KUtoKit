@@ -89,7 +89,7 @@ public class CtmController {
 	            String[] temps = new String[10];
 	            temps = temp.split(" �� ");
 	            
-	            this.ParseMSC(temps);
+	            this.ParseMCS(temps);
 	            
 	            
 	            this.MakeTable();
@@ -101,7 +101,7 @@ public class CtmController {
 		}
 	}
 
-	private void ParseMSC(String[] temps) {
+	private void ParseMCS(String[] temps) {
 		//MSC ex 
 //		detect_term�돞0.1sec �� 
 //		detect_length�돟1m ��

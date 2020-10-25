@@ -36,7 +36,7 @@ public class RootLayoutController {
 	
 	@FXML
 	private void handleLHCButton() {
-		this.mainApp.showFSView();
+		this.mainApp.showLhcView();
 	}
 	
 	@FXML
@@ -110,6 +110,11 @@ public class RootLayoutController {
 			mainApp.saveContextTableDataToFile(file);
 		}
 	}
+    
+    @FXML
+    private void handleHelp() {
+    	this.mainApp.showRoadMapView();
+    }
 
 
 }
