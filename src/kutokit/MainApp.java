@@ -31,7 +31,7 @@ public class MainApp extends Application {
 	 private BorderPane rootLayout;
 	 private CtmController controller;
 	 
-	 public Components components;
+	 public static Components components;
 	 
 	@Override
 	//auto execute after main execute
