@@ -36,9 +36,10 @@ public class MainApp extends Application {
 	@Override
 	//auto execute after main execute
 	public void start(Stage primaryStage) {
-		 this.primaryStage = primaryStage;
+		 	this.primaryStage = primaryStage;
 	        this.primaryStage.setTitle("Kutokit");
-
+	        this.primaryStage.setResizable(false);
+	        
 	        initRootLayout();
 	        initDataStore();
 	}

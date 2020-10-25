@@ -104,7 +104,7 @@ public class CseController {
 			  loader.setLocation(getClass().getResource("popup/ControllerPopUpView.fxml"));
 			  break;
 		  case "ca":
-			  loader.setLocation(getClass().getResource("popup/CAPopUpView.fxml"));
+			  loader.setLocation(getClass().getResource("popup/AddCAPopUpView.fxml"));
 			  break;
 		  case "feedback":
 			  loader.setLocation(getClass().getResource("popup/FeedbackPopUpView.fxml"));
@@ -138,8 +138,8 @@ public class CseController {
 						    	addController(s, c);
 						    	break;
 					    	case "ca":
-					    		CAPopUpController pop2 = loader.getController();
-					    		ControlAction ca = new ControlAction(pop2.controller, pop2.controlled, dataStore.curId, dataStore);
+					    		AddCAPopUpController pop2 = loader.getController();
+					    		ControlAction ca = new ControlAction(pop2.controller, pop2.controlled, pop2.CA, dataStore.curId, dataStore);
 					    		
 					    		ArrowView a = new ArrowView(ca.getStartX(), ca.getStartY(), ca.getEndX(), ca.getEndY(), ca.getId());
 					    		
@@ -231,14 +231,14 @@ public class CseController {
 	
 	private void modifyPopUp(ArrowView arrow) {
 		  FXMLLoader loader = new FXMLLoader();
-		  loader.setLocation(getClass().getResource("popup/CAPopUpView.fxml"));
+		  loader.setLocation(getClass().getResource("popup/AddCAPopUpView.fxml"));
 		  Parent popUproot;
 		  
 		  try {
 			  	popUproot = (Parent) loader.load();
 				
 				Scene scene = new Scene(popUproot);
-				CAPopUpController pop = loader.getController();
+				AddCAPopUpController pop = loader.getController();
 				
 				  Stage stage = new Stage();
 				  stage.setScene(scene);

@@ -1,5 +1,7 @@
 package kutokit.view.components;
 
+import java.util.ArrayList;
+
 import kutokit.model.Components;
 import kutokit.view.components.Controller;
 
@@ -8,9 +10,10 @@ public class ControlAction {
 	double startX, startY, endX, endY;
 	Controller controller, controlled;
 	int id;
+	ArrayList<String> CA;
 	Components dataStore;
 	
-	public ControlAction(String controller, String controlled, int id, Components dataStore) {
+	public ControlAction(String controller, String controlled,  ArrayList<String> CA, int id, Components dataStore) {
 		this.controller = dataStore.findController(controller);
 		this.controlled = dataStore.findController(controlled);
 		this.startX = this.controller.getX()+75;
@@ -18,6 +21,7 @@ public class ControlAction {
 		this.endX = this.controlled.getX()+75;
 		this.endY = this.controlled.getY();
 		this.id = id;
+		this.CA = CA;
 	}
 	
 	public double getStartX() {
@@ -48,6 +52,10 @@ public class ControlAction {
 		return id;
 	}
 	
+	public ArrayList<String> getCA() {
+		return CA;
+	}
+	
 	public void setController(String controller) {
 		this.controller = dataStore.findController(controller);
 	}
@@ -59,4 +67,9 @@ public class ControlAction {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public void setCA(ArrayList<String> CA) {
+		this.CA = CA;
+	}
+	
 }

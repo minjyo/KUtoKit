@@ -16,7 +16,7 @@ public class Components {
 		//curID 나중에 수정 필
 		//===================temp========================
 		controllers.add(new Controller(100,30, "c1", 1));
-		controllers.add(new Controller(200,150, "c2", 2));
+		controllers.add(new Controller(100,150, "c2", 2));
 		//===================temp========================
 	}
 	
