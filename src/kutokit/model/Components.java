@@ -7,6 +7,7 @@ import kutokit.view.components.*;
 public class Components {
 
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
+	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
 	public int curId;
 	
 	public Components() {
@@ -14,8 +15,8 @@ public class Components {
 		
 		//curID 나중에 수정 필
 		//===================temp========================
-		controllers.add(new Controller(200,50, "c1", 1));
-		controllers.add(new Controller(200,300, "c2", 2));
+		controllers.add(new Controller(100,30, "c1", 1));
+		controllers.add(new Controller(200,150, "c2", 2));
 		//===================temp========================
 	}
 	
@@ -23,8 +24,13 @@ public class Components {
 		return this.controllers;
 	}
 	
-	public void addComponent(Controller controller) {
+	public void addController(Controller controller) {
 		controllers.add(controller);
+		curId++;
+	}
+	
+	public void addControlAction(ControlAction ca) {
+		controlActions.add(ca);
 		curId++;
 	}
 	
@@ -38,7 +44,7 @@ public class Components {
         }
 	}
 	
-	public void deleteComponent(int id) {
+	public void deleteController(int id) {
 		for (Controller c : controllers) {
             if (c.getId()==id) {
                 controllers.remove(c);
@@ -56,8 +62,14 @@ public class Components {
         }
 	}
 	
-//	public void addComponent(ControlAction controlaction) {
-//		controlActions.add(controlaction);
-//	}
+	public Controller findController(String name) {
+		for (Controller c : controllers) {
+            if (c.getName().equals(name)) {
+                return c;
+            }
+        }
+		return null;
+	}
 	
+
 }

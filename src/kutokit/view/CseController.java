@@ -20,16 +20,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-
+import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 
 import kutokit.MainApp;
 import kutokit.view.components.*;
-import kutokit.view.popup.ControllerPopUpController;
+import kutokit.view.popup.*;
 import kutokit.model.Components;
 
 public class CseController {
@@ -64,31 +63,32 @@ public class CseController {
 	    	Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
 	    	StackPane s = makeRectangle(r, c.getName(), c.getId());
 	    	
-	    	addComponent(s, c);
+	    	addController(s, c);
 		}
 		
 		//Add through click
 		component.setOnMouseClicked(new EventHandler <MouseEvent>() {
 	          public void handle(MouseEvent event) {
-	        	  addPopUp();
-
+	        	  addPopUp("controller");
 	              event.consume();
 	          }
-	      });
+	    });
 		
 		//Add through click
 		ca.setOnMouseClicked(new EventHandler <MouseEvent>() {
 	          public void handle(MouseEvent event) {
-	              System.out.println("Add");
-	              
-	              Arc r = new Arc(100,50, 0, 0, 0, 0);
-	              //enableDrag(r);
-	    
-	              root.getChildren().add(r);
-	              
+	        	  addPopUp("ca");
 	              event.consume();
 	          }
-	      });
+		});
+		
+		//Add through click
+		feedback.setOnMouseClicked(new EventHandler <MouseEvent>() {
+		      public void handle(MouseEvent event) {
+		       	  addPopUp("feedback");
+		          event.consume();
+		      }
+		});
 		
 		contextMenu = new ContextMenu();
 		
@@ -109,7 +109,7 @@ public class CseController {
             public void handle(ActionEvent event) {
             	StackPane stack = (StackPane) item1.getParentPopup().getOwnerNode();
             	int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
-            	dataStore.deleteComponent(id);
+            	dataStore.deleteController(id);
             	
             	for(Node c : root.getChildren()) {
             		if(c.equals(stack)){
@@ -129,72 +129,61 @@ public class CseController {
         });
         
         contextMenu.getItems().addAll(item1, item2, item3);
-		
-		//Add through drag&drop
-//		component.setOnDragDetected(new EventHandler <MouseEvent>() {
-//	          public void handle(MouseEvent event) {
-//	              /* drag was detected, start drag-and-drop gesture*/
-//	              System.out.println("onDragDetected");
-//	              
-//	              /* allow any transfer mode */
-//	              Dragboard db = component.startDragAndDrop(TransferMode.ANY);
-//	              
-//	              /* put a string on dragboard */
-//	              ClipboardContent content = new ClipboardContent();
-//	              content.putString("component");
-//	              db.setContent(content);
-//	              db.setDragView(new Image("assets/component.png", 100, 40, false, false));
-//	             
-//	              event.consume();
-//	          }
-//	      });
-//		
-//		component.setOnDragDone(new EventHandler <DragEvent>() {
-//	            public void handle(DragEvent event) {
-//	            	
-//	                /* the drag-and-drop gesture ended */
-//	                System.out.println("onDragDone");
-		
-//					 Circle r = new Circle(5,5,5);
-//			         enableDrag(r);
-//			
-//			         root.getChildren().add(r);
-//			         
-//			         event.consume();
-//	           
-//	                
-//	                event.consume();
-//	            }
-//	        });
-		
 	}
 	
-	private void addPopUp() {
+	private void addPopUp(String component) {
 	  FXMLLoader loader = new FXMLLoader();
-	  loader.setLocation(getClass().getResource("popup/ControllerPopUpView.fxml"));
+	  switch(component) {
+		  case "controller":
+			  loader.setLocation(getClass().getResource("popup/ControllerPopUpView.fxml"));
+			  break;
+		  case "ca":
+			  loader.setLocation(getClass().getResource("popup/CAPopUpView.fxml"));
+			  break;
+		  case "feedback":
+			  loader.setLocation(getClass().getResource("popup/FeedbackPopUpView.fxml"));
+			  break;
+	  }
+	  
 	  Parent popUproot;
 	  
 	  try {
 		  	popUproot = (Parent) loader.load();
 			
 			Scene scene = new Scene(popUproot);
-			ControllerPopUpController pop = loader.getController();
 			
 			  Stage stage = new Stage();
 			  stage.setScene(scene);
 			  stage.show();
 			  
-			  //add controller with name when popup closed
+			  //add component when popup closed
 			  stage.setOnHidden(new EventHandler<WindowEvent>() {
 				    @Override
 				    public void handle(WindowEvent e) {
-				    	Controller c = new Controller(10, 10, pop.name, dataStore.curId);
+				    	switch(component) {
+					    	case "controller":
+					    		ControllerPopUpController pop = loader.getController();
+					    		Controller c = new Controller(10, 10, pop.name, dataStore.curId);
+						    	
+						    	Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
+						    	StackPane s = makeRectangle(r, c.getName(), c.getId());
+						    	
+						    	dataStore.addController(c);
+						    	addController(s, c);
+						    	break;
+					    	case "ca":
+					    		CAPopUpController pop2 = loader.getController();
+					    		ControlAction ca = new ControlAction(pop2.controller, pop2.controlled, dataStore.curId, dataStore);
+					    		
+					    		ArrowView a = new ArrowView(ca.getStartX(), ca.getStartY(), ca.getEndX(), ca.getEndY());
+					    		
+					    		dataStore.addControlAction(ca);
+					    		addControlAction(a);
+					    		break;
+					    	case "feedback":
+				    		break;
+				    	}
 				    	
-				    	Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
-				    	StackPane s = makeRectangle(r, c.getName(), c.getId());
-				    	
-				    	dataStore.addComponent(c);
-				    	addComponent(s, c);
 				    }
 				  });
 	  } catch (IOException e) {
@@ -204,7 +193,7 @@ public class CseController {
 	}
 	
 	//add controller to board
-	private void addComponent(StackPane s, Controller c) {
+	private void addController(StackPane s, Controller c) {
 		enableDrag(s);
 		
 		s.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
@@ -220,6 +209,20 @@ public class CseController {
         s.setLayoutY(c.getY());
         
         root.getChildren().add(s);
+	}
+	
+	private void addControlAction(ArrowView ca) {
+		
+		ca.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+ 
+            @Override
+            public void handle(ContextMenuEvent event) {
+            	
+                contextMenu.show(ca, event.getScreenX(), event.getScreenY());
+            }
+        });
+        
+        root.getChildren().add(ca);
 	}
 	
 	private StackPane makeRectangle(Shape shape, String name, int id) {
