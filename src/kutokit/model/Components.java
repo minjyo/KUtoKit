@@ -53,6 +53,15 @@ public class Components {
         }
 	}
 	
+	public void deleteControlAction(int id) {
+		for (ControlAction c : controlActions) {
+            if (c.getId()==id) {
+            	controlActions.remove(c);
+                return;
+            }
+        }
+	}
+	
 	public void modifyController(int id, String name) {
 		for (Controller c : controllers) {
             if (c.getId()==id) {

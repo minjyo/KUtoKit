@@ -39,8 +39,10 @@ public class CseController {
 	private Components dataStore;
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	
-	private ContextMenu contextMenu;
-	private MenuItem item1, item2, item3;
+	private ContextMenu ControllerContextMenu;
+	private MenuItem itemC1, itemC2, itemC3;
+	private ContextMenu CAContextMenu;
+	private MenuItem itemCA1, itemCA2;
 	
 	@FXML
 	Group root = new Group();
@@ -90,45 +92,9 @@ public class CseController {
 		      }
 		});
 		
-		contextMenu = new ContextMenu();
+		addControllerContextMenu();
+		addCAContextMenu();
 		
-		item1 = new MenuItem("Modfiy");
-        item1.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-            //	modifyRectangle(getParentMenu().get)
-            	StackPane stack = (StackPane) item1.getParentPopup().getOwnerNode();
-            	modifyPopUp(stack);
-            }
-        });
-        item2 = new MenuItem("Delete");
-        item2.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-            	StackPane stack = (StackPane) item1.getParentPopup().getOwnerNode();
-            	int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
-            	dataStore.deleteController(id);
-            	
-            	for(Node c : root.getChildren()) {
-            		if(c.equals(stack)){
-            			root.getChildren().remove(c);
-            			return;
-            		}
-            	}
-            }
-        });
-        item3 = new MenuItem("Process Model");
-        item3.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                
-            }
-        });
-        
-        contextMenu.getItems().addAll(item1, item2, item3);
 	}
 	
 	private void addPopUp(String component) {
@@ -175,7 +141,7 @@ public class CseController {
 					    		CAPopUpController pop2 = loader.getController();
 					    		ControlAction ca = new ControlAction(pop2.controller, pop2.controlled, dataStore.curId, dataStore);
 					    		
-					    		ArrowView a = new ArrowView(ca.getStartX(), ca.getStartY(), ca.getEndX(), ca.getEndY());
+					    		ArrowView a = new ArrowView(ca.getStartX(), ca.getStartY(), ca.getEndX(), ca.getEndY(), ca.getId());
 					    		
 					    		dataStore.addControlAction(ca);
 					    		addControlAction(a);
@@ -201,7 +167,7 @@ public class CseController {
             @Override
             public void handle(ContextMenuEvent event) {
             	
-                contextMenu.show(s, event.getScreenX(), event.getScreenY());
+                ControllerContextMenu.show(s, event.getScreenX(), event.getScreenY());
             }
         });
 		
@@ -218,7 +184,7 @@ public class CseController {
             @Override
             public void handle(ContextMenuEvent event) {
             	
-                contextMenu.show(ca, event.getScreenX(), event.getScreenY());
+                CAContextMenu.show(ca, event.getScreenX(), event.getScreenY());
             }
         });
         
@@ -255,6 +221,34 @@ public class CseController {
 					    @Override
 					    public void handle(WindowEvent e) {
 					    	modifyRectangle(stack, pop.name);
+					    }
+					  });
+		  } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		  }
+	}
+	
+	private void modifyPopUp(ArrowView arrow) {
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(getClass().getResource("popup/CAPopUpView.fxml"));
+		  Parent popUproot;
+		  
+		  try {
+			  	popUproot = (Parent) loader.load();
+				
+				Scene scene = new Scene(popUproot);
+				CAPopUpController pop = loader.getController();
+				
+				  Stage stage = new Stage();
+				  stage.setScene(scene);
+				  stage.show();
+				  
+				  //add ca with name when popup closed
+				  stage.setOnHidden(new EventHandler<WindowEvent>() {
+					    @Override
+					    public void handle(WindowEvent e) {
+					    	
 					    }
 					  });
 		  } catch (IOException e) {
@@ -313,6 +307,78 @@ public class CseController {
 		});
 	}
 	
+	public void addControllerContextMenu() {
+		ControllerContextMenu = new ContextMenu();
+		
+		itemC1 = new MenuItem("Modfiy");
+        itemC1.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+            //	modifyRectangle(getParentMenu().get)
+            	StackPane stack = (StackPane) itemC1.getParentPopup().getOwnerNode();
+            	modifyPopUp(stack);
+            }
+        });
+        itemC2 = new MenuItem("Delete");
+        itemC2.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+            	StackPane stack = (StackPane) itemC1.getParentPopup().getOwnerNode();
+            	int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
+            	dataStore.deleteController(id);
+            	
+            	for(Node c : root.getChildren()) {
+            		if(c.equals(stack)){
+            			root.getChildren().remove(c);
+            			return;
+            		}
+            	}
+            }
+        });
+        itemC3 = new MenuItem("Process Model");
+        itemC3.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                
+            }
+        });
+        ControllerContextMenu.getItems().addAll(itemC1, itemC2, itemC3);
+	}
+	
+	public void addCAContextMenu() {
+		CAContextMenu = new ContextMenu();
+		
+		itemCA1 = new MenuItem("Modfiy");
+        itemCA1.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+            //	modifyRectangle(getParentMenu().get)
+            	ArrowView arrow = (ArrowView) itemCA1.getParentPopup().getOwnerNode();
+            	modifyPopUp(arrow);
+            }
+        });
+        itemCA2 = new MenuItem("Delete");
+        itemCA2.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+            	ArrowView arrow = (ArrowView) itemCA1.getParentPopup().getOwnerNode();
+            	dataStore.deleteControlAction(arrow.getID());
+            	
+            	for(Node a : root.getChildren()) {
+            		if(a.equals(arrow)){
+            			root.getChildren().remove(a);
+            			return;
+            		}
+            	}
+            }
+        });
+        CAContextMenu.getItems().addAll(itemCA1, itemCA2);
+	}
 	
 	//set MainApp
 	public void setMainApp(MainApp mainApp, Stage mainStage) {

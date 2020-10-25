@@ -23,7 +23,7 @@
             </LinearGradient>
          </stroke>
       </Rectangle>
-	  <Text layoutX="10.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Controller">
+	  <Text layoutX="10.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Controller">
          <font>
             <Font size="10.0" />
          </font>

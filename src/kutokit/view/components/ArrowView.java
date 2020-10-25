@@ -7,6 +7,7 @@ import javafx.scene.shape.Path;
 
 public class ArrowView extends Path{
 	
+		int id;
 
 	    private static final double defaultArrowHeadSize = 10.0;
 	    
@@ -35,7 +36,12 @@ public class ArrowView extends Path{
 	        getElements().add(new LineTo(endX, endY));
 	    }
 	    
-	    public ArrowView(double startX, double startY, double endX, double endY){
+	    public ArrowView(double startX, double startY, double endX, double endY, int id){
 	        this(startX, startY, endX, endY, defaultArrowHeadSize);
+	        this.id=id;
+	    }
+	    
+	    public int getID() {
+	    	return id;
 	    }
 }
