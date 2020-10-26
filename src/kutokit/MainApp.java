@@ -19,7 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import kutokit.view.CseController;
 import kutokit.view.PmmController;
-import kutokit.view.RoadMap;
+import kutokit.view.DashboardController;
 import kutokit.view.CtmController;
 import kutokit.view.LhcController;
 import kutokit.view.UtmController;
@@ -189,18 +189,18 @@ public class MainApp extends Application {
     }
     
     //called when help button clicked
-	public void showRoadMapView() {
+	public void showDashboardView() {
         try {
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/RoadMapView.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/DashboardView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
             // add scene in center of root layout 
             rootLayout.setCenter(View);
             
             //add controller
-            RoadMap controller = loader.getController();
+            DashboardController controller = loader.getController();
             controller.setMainApp(this);
             
             System.out.println("a");
@@ -236,7 +236,7 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * 占쏙옙占쏙옙 占쌀뤄옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙罐占� 占쏙옙占쏙옙占싼댐옙. 占쏙옙 占쏙옙灌占� OS 특占쏙옙 占쏙옙占쏙옙占쏙옙트占쏙옙占쏙옙 占쏙옙占쏙옙홱占�.
+	 * �뜝�룞�삕�뜝�룞�삕 �뜝��琉꾩삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕. �뜝�룞�삕 �뜝�룞�삕�걣�뜝占� OS �듅�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�솼�뜝占�.
 	 *
 	 * @param file the file or null to remove the path
 	 */
@@ -245,18 +245,18 @@ public class MainApp extends Application {
 	    if (file != null) {
 	        prefs.put("filePath", file.getPath());
 
-	        // Stage 타占쏙옙틀占쏙옙 占쏙옙占쏙옙占쏙옙트占싼댐옙.
+	        // Stage ���뜝�룞�삕���뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�떬�뙋�삕.
 	        primaryStage.setTitle("AddressApp - " + file.getName());
 	    } else {
 	        prefs.remove("filePath");
 
-	        // Stage 타占쏙옙틀占쏙옙 占쏙옙占쏙옙占쏙옙트占싼댐옙.
+	        // Stage ���뜝�룞�삕���뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�떬�뙋�삕.
 	        primaryStage.setTitle("AddressApp");
 	    }
 	}
 	
 	/**
-	 * 占쏙옙占쏙옙占쏙옙 占쏙옙占싹로븝옙占쏙옙 ContextTable占쏙옙 占쏙옙占쏙옙占승댐옙.
+	 * �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떦濡쒕툦�삕�뜝�룞�삕 ContextTable�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�듅�뙋�삕.
 	 * @param file
 	 */
 	public void loadContextTableDataFromFile(File file) {
@@ -265,16 +265,16 @@ public class MainApp extends Application {
 	                .newInstance(ContextTableWrapper.class);
 	        Unmarshaller um = context.createUnmarshaller();
 
-	        // 占쏙옙占싹로븝옙占쏙옙 XML占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙占쏙옙占싼댐옙.
+	        // �뜝�룞�삕�뜝�떦濡쒕툦�삕�뜝�룞�삕 XML�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	        ContextTableWrapper wrapper = (ContextTableWrapper) um.unmarshal(file);
 
 	        //ContextTableDataModel.clear();
 	        //ContextTableDataModel.addAll(wrapper.getContextTableDataModel());
 
-	        // 占쏙옙占쏙옙 占쏙옙罐占� 占쏙옙占쏙옙占쏙옙트占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙.
+	        // �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	        setContextTableFilePath(file);
 
-	    } catch (Exception e) { // 占쏙옙占쌤몌옙 占쏙옙쨈占�
+	    } catch (Exception e) { // �뜝�룞�삕�뜝�뙟紐뚯삕 �뜝�룞�삕夷덂뜝占�
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not load data");
@@ -285,7 +285,7 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * 占쏙옙占쏙옙 ContextTable占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占싹울옙 占쏙옙占쏙옙占싼댐옙.
+	 * �뜝�룞�삕�뜝�룞�삕 ContextTable�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떦�슱�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	 * @param file
 	 */
 	public void saveContextTableDataToFile(File file) {
@@ -303,12 +303,12 @@ public class MainApp extends Application {
 	        
 	        
 	        
-	        // 占쏙옙占쏙옙占쏙옙 占쏙옙 XML占쏙옙 占쏙옙占싹울옙 占쏙옙占쏙옙占싼댐옙.
+	        // �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕 XML�뜝�룞�삕 �뜝�룞�삕�뜝�떦�슱�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	        m.marshal(wrapper, file);
 
-	        // 占쏙옙占쏙옙 占쏙옙罐占� 占쏙옙占쏙옙占쏙옙트占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙.
+	        // �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	        setContextTableFilePath(file);
-	    } catch (Exception e) { // 占쏙옙占쌤몌옙 占쏙옙쨈占�.
+	    } catch (Exception e) { // �뜝�룞�삕�뜝�뙟紐뚯삕 �뜝�룞�삕夷덂뜝占�.
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");
@@ -318,7 +318,7 @@ public class MainApp extends Application {
 	    }
 	}
 
-	//ContextTable(myTable) 遺덈윭�삤湲�
+	//ContextTable(myTable) �겫�뜄�쑎占쎌궎疫뀐옙
 	private ObservableList<CTM> getContextTable()
 	{
 		ObservableList<CTM> ctmList = null;

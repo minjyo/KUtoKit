@@ -113,7 +113,12 @@ public class RootLayoutController {
     
     @FXML
     private void handleHelp() {
-    	this.mainApp.showRoadMapView();
+    	
+    }
+    
+    @FXML
+    private void handleDashboard() {
+    	this.mainApp.showDashboardView();
     }
 
 

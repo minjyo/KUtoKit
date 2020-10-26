@@ -1,52 +1,51 @@
 package kutokit.model;
 
-import java.util.ArrayList;
-
 import javafx.beans.property.SimpleStringProperty;
 
 public class LHC {
-	
-	private SimpleStringProperty type;
-	private SimpleStringProperty text;
+
 	private SimpleStringProperty index;
+	private SimpleStringProperty text;
 	private SimpleStringProperty link;
 	
-	public LHC(String type, String text, String index, String link) {
-		this.type = new SimpleStringProperty(type);
-		this.text = new SimpleStringProperty(text);
-		this.index = new SimpleStringProperty(index);
-		this.link = new SimpleStringProperty(link);
+	/*
+	 * default constructor
+	 */
+	public LHC() {
+		this(null, null, null);
 	}
 	
-	public SimpleStringProperty getType() {
-		return type;
+	/*
+	 * initializing constructor
+	 */
+	public LHC(SimpleStringProperty index, SimpleStringProperty text, SimpleStringProperty link) {
+		//super();
+		this.index = index;
+		this.text = text;
+		this.link = link;
 	}
 
-	public void setType(String type) {
-		this.type.set(type);
-	}
-
-	public SimpleStringProperty getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text.set(text);
-	}
-
-	public SimpleStringProperty getIndex() {
+	public SimpleStringProperty getIndexProperty() {
 		return index;
 	}
 
-	public void setIndex(String index) {
-		this.index.set(index);
+	public void setIndex(SimpleStringProperty index) {
+		this.index = index;
+	}
+	
+	public SimpleStringProperty getTextProperty() {
+		return text;
 	}
 
-	public SimpleStringProperty getLink() {
+	public void setText(SimpleStringProperty text) {
+		this.text = text;
+	}
+	
+	public SimpleStringProperty getLinkProperty() {
 		return link;
 	}
 
-	public void setLink(String link) {
-		this.link.set(link);
+	public void setLink(SimpleStringProperty link) {
+		this.link = link;
 	}
 }
