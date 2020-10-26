@@ -1,7 +1,6 @@
 package kutokit.view.components;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -32,11 +31,6 @@ public class RectangleView extends StackPane {
 		getChildren().addAll(r, new Label(name));
 		
 		enableDrag();
-	}
-	
-	//set observable x, y
-	public void setProperty() {
-		
 	}
 
 	// make a node movable by dragging it around with the mouse.

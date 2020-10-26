@@ -7,7 +7,6 @@ import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -26,8 +25,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
 import kutokit.MainApp;
 import kutokit.view.components.*;
@@ -42,8 +39,6 @@ public class CseController {
 	private Components dataStore;
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
-	
-	private ArrayList<ArrowView> arrows = new ArrayList<ArrowView>();
 
 	private ContextMenu ControllerContextMenu;
 	private MenuItem itemC1, itemC2, itemC3;
@@ -72,23 +67,30 @@ public class CseController {
 		    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
 		    
 			RectangleView r = new RectangleView(X, Y, c.getName(), c.getId());
-			//Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
-			//StackPane s = makeRectangle(r, c.getName(), c.getId());
-				
+
 			addController(r, c);
 		}
 		
 		controlActions = dataStore.getControlActions();
 		for (ControlAction ca : controlActions) {
-			//ArrowView a = new ArrowView(ca.getStartX(), ca.getStartY(), ca.getEndX(), ca.getEndY(), ca.getId());
-			//ArrowView a = new ArrowView(ca.getController(), ca.getControlled(), ca.getId());
-			
-			//arrows.add(a);
+			DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
+			for(Node node: root.getChildren()) {
+				if(Integer.parseInt(node.getId())==ca.getControllerID()) {
+					startX = node.layoutXProperty();
+					startY = node.layoutYProperty();
+				}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
+					endX = node.layoutXProperty();
+					endY = node.layoutYProperty();
+				}
+			}
+			ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
+			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA());
+			a.setLabel(label);
 			
 			dataStore.findController(ca.getControllerID()).addCA(ca.getId(), 1);
 			dataStore.findController(ca.getControlledID()).addCA(ca.getId(), 0);
 			
-			//addControlAction(a);
+			addControlAction(a, label, ca);
 		}
 
 		// Add through click
@@ -117,7 +119,6 @@ public class CseController {
 
 		addControllerContextMenu();
 		addCAContextMenu();
-
 	}
 
 	private void addPopUp(String component) {
@@ -151,71 +152,44 @@ public class CseController {
 				public void handle(WindowEvent e) {
 					switch (component) {
 					case "controller":
-						//should recttangleView
+						
 						ControllerPopUpController pop = loader.getController();
 						Controller c = new Controller(10, 10, pop.name, dataStore.curId);
 
-						Rectangle r = new Rectangle(150, 100, Color.DARKCYAN);
-						StackPane s = makeRectangle(r, c.getName(), c.getId());
+						DoubleProperty X = new SimpleDoubleProperty(c.getX());
+					    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
+					    
+						RectangleView r = new RectangleView(X, Y, c.getName(), c.getId());
 
+						addController(r, c);
 						dataStore.addController(c);
-						addController(s, c);
 						break;
 					case "ca":
 						AddCAPopUpController pop2 = loader.getController();
 						ControlAction ca = new ControlAction(pop2.controller, pop2.controlled, pop2.CA, dataStore.curId, dataStore);
 						
-//						DoubleProperty startX = new SimpleDoubleProperty(0);
-//					    DoubleProperty startY = new SimpleDoubleProperty(0);
-//					    DoubleProperty endX   = new SimpleDoubleProperty(0);
-//					    DoubleProperty endY   = new SimpleDoubleProperty(0);
 						DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
-						RectangleView rect1 = null, rect2 = null;
-					   // int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
+						
 						for(Node node: root.getChildren()) {
 							if(Integer.parseInt(node.getId())==ca.getControllerID()) {
 								startX = node.layoutXProperty();
 								startY = node.layoutYProperty();
-//								RectangleView rect = (RectangleView) node;
-//								//System.out.println("rect: " + rect.id);
-//								Label l = (Label) rect.getChildren().get(1);
-//								if(l.getText()==ca.getController().getName()) {
-//									System.out.println("controller: " + ca.getControllerID());
-//									System.out.println("controller: " + rect.id);
-//									rect1 = rect;
-//									System.out.println("controller: " + rect1.id);
-////									startX = rect.x;
-////									startY = rect.y;
-//								}else if(l.getText()==ca.getControlled().getName()) {
-//									System.out.println("controlled: " + ca.getControlledID());
-//									System.out.println("controller: " + rect.id);
-//									rect2 = rect;
-//									System.out.println("controller: " + rect2.id);
-////									endX = rect.x;
-////									endY = rect.y;
-//								}	
 							}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
 								endX = node.layoutXProperty();
 								endY = node.layoutYProperty();
 							}
 						}
-						ArrowView a = new ArrowView( startX, startY, endX,  endY, ca.getId());
-						//ArrowView a = new ArrowView(rect1.x, rect1.y, rect2.x, rect2.y, ca.getId());
-						System.out.println("startX: " + startX);
-						System.out.println("startY: " + startY);
-						System.out.println("endX: " + endX);
-						System.out.println("endY: " + endY);
-						//ArrowView a = new ArrowView(ca.getStartX(), ca.getStartY(), ca.getEndX(), ca.getEndY(), ca.getId());
-						//ArrowView a = new ArrowView(ca.getController(), ca.getControlled(), ca.getId());
-						//arrows.add(a);
+						ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
+						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA());
+						a.setLabel(label);
+						
 						controlActions.add(ca);
 						dataStore.addControlAction(ca);
-					//	System.out.println("ca: " + dataStore.getControlActions().size());
 						
 						dataStore.findController(pop2.controller).addCA(ca.getId(), 1);
 						dataStore.findController(pop2.controlled).addCA(ca.getId(), 0);
 						
-						addControlAction(a);
+						addControlAction(a, label, ca);
 						break;
 					case "feedback":
 						break;
@@ -231,8 +205,6 @@ public class CseController {
 
 	// add controller to board
 	private void addController(StackPane s, Controller c) {
-		//enableDrag(s);
-
 		s.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 
 			@Override
@@ -247,35 +219,25 @@ public class CseController {
 		s.setId(Integer.toString(c.getId()));
 
 		root.getChildren().add(s);
-		
 	}
 
-	private void addControlAction(ArrowView ca) {
+	private void addControlAction(Path s, Label l, ControlAction ca) {
 
-		ca.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+		s.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 
 			@Override
 			public void handle(ContextMenuEvent event) {
 
-				CAContextMenu.show(ca, event.getScreenX(), event.getScreenY());
+				CAContextMenu.show(s, event.getScreenX(), event.getScreenY());
 			}
 		});
 
-		root.getChildren().add(ca);
-		root.getChildren().add(ca.arrowHead);
+		s.setId(Integer.toString(ca.getId()));
+		
+		root.getChildren().addAll(s, l);
 	}
 
-	private StackPane makeRectangle(Shape shape, String name, int id) {
-		StackPane stack = new StackPane();
-		Label idLabel = new Label(Integer.toString(id));
-		idLabel.setVisible(false);
-
-		stack.getChildren().addAll(shape, new Label(name), idLabel);
-
-		return stack;
-	}
-
-	private void modifyPopUp(StackPane stack) {
+	private void modifyControllerPopUp(RectangleView rect) {
 		 FXMLLoader loader = new FXMLLoader();
 		  loader.setLocation(getClass().getResource("popup/ControllerPopUpView.fxml"));
 		  Parent popUproot;
@@ -294,7 +256,7 @@ public class CseController {
 				  stage.setOnHidden(new EventHandler<WindowEvent>() {
 					    @Override
 					    public void handle(WindowEvent e) {
-					    	modifyRectangle(stack, pop.name);
+					    	modifyRectangle(rect, pop.name);
 					    }
 					  });
 		  } catch (IOException e) {
@@ -303,7 +265,7 @@ public class CseController {
 		  }
 	}
 
-	private void modifyPopUp(ArrowView arrow) {
+	private void modifyControlActionPopUp(ArrowView a) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("popup/ModifyCAPopUpView.fxml"));
 		Parent popUproot;
@@ -323,6 +285,15 @@ public class CseController {
 				@Override
 				public void handle(WindowEvent e) {
 					dataStore.curCA.setCA(pop.CA);
+					for(Node node : root.getChildren()) {
+						if(node.equals(a.label)) {
+							root.getChildren().remove(node);
+							break;
+						}
+					}
+					LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, pop.CA);
+					a.label = label;
+					root.getChildren().add(label);
 				}
 			});
 		} catch (IOException e) {
@@ -331,80 +302,14 @@ public class CseController {
 		}
 	}
 
-	private void modifyRectangle(StackPane stack, String name) {
-		Label label = (Label) stack.getChildren().get(1);
+	private void modifyRectangle(RectangleView rect, String name) {
+		Label label = (Label) rect.getChildren().get(1);
 		label.setText(name);
 
-		int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
-		dataStore.modifyController(id, name);
+		//RectangleView rect =  (RectangleView) stack;
+		//int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
+		dataStore.modifyController(rect.id, name);
 	}
-
-//	static class Delta {
-//		double x, y;
-//	}
-//
-//	// make a node movable by dragging it around with the mouse.
-//	private void enableDrag(final StackPane shape) {
-//		final Delta dragDelta = new Delta();
-//
-//		shape.setOnMousePressed(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent mouseEvent) {
-//				// record a delta distance for the drag and drop operation.
-//				dragDelta.x = shape.getLayoutX() - mouseEvent.getX();
-//				dragDelta.y = shape.getLayoutY() - mouseEvent.getY();
-//				shape.getScene().setCursor(Cursor.MOVE);
-//			}
-//		});
-//		shape.setOnMouseReleased(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent mouseEvent) {
-//				shape.getScene().setCursor(Cursor.HAND);
-//			}
-//		});
-//		shape.setOnMouseDragged(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent mouseEvent) {
-//				shape.setLayoutX(mouseEvent.getX() + dragDelta.x);
-//				shape.setLayoutY(mouseEvent.getY() + dragDelta.y);
-//				int id = Integer.parseInt(((Label) shape.getChildren().get(2)).getText());
-////				Map<Integer, Integer> cas = dataStore.findController(id).getCA();
-////				for( int CAId : cas.keySet() ){
-////					for(ArrowView arrow : arrows) {
-////						if(CAId==arrow.getID()) {
-////							 if(dataStore.findController(id).getCA().get(CAId)==1) {
-////			                    	System.out.println("ca: " + CAId + "type: controller");
-////								 arrow = new ArrowView(shape.getLayoutX()+75, shape.getLayoutY()+100, arrow.endX, arrow.endY, arrow.getID());
-////								 
-////			                    }else {
-////			                    	System.out.println("ca: " + CAId + "type: controlled");
-////			                     arrow = new ArrowView(arrow.startX, arrow.startY, shape.getLayoutX()+75, shape.getLayoutY(), arrow.getID());
-////			                    }
-////						}
-////					}
-////      
-////                }
-//				//this should be before change mode to drag smoothly
-//				dataStore.moveController(id, shape.getLayoutX(), shape.getLayoutY());
-//			}
-//		});
-//		shape.setOnMouseEntered(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent mouseEvent) {
-//				if (!mouseEvent.isPrimaryButtonDown()) {
-//					shape.getScene().setCursor(Cursor.HAND);
-//				}
-//			}
-//		});
-//		shape.setOnMouseExited(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent mouseEvent) {
-//				if (!mouseEvent.isPrimaryButtonDown()) {
-//					shape.getScene().setCursor(Cursor.DEFAULT);
-//				}
-//			}
-//		});
-//	}
 
 	public void addControllerContextMenu() {
 		ControllerContextMenu = new ContextMenu();
@@ -415,8 +320,8 @@ public class CseController {
 			@Override
 			public void handle(ActionEvent event) {
 				// modifyRectangle(getParentMenu().get)
-				StackPane stack = (StackPane) itemC1.getParentPopup().getOwnerNode();
-				modifyPopUp(stack);
+				RectangleView rect = (RectangleView) itemC1.getParentPopup().getOwnerNode();
+				modifyControllerPopUp(rect);
 			}
 		});
 		itemC2 = new MenuItem("Delete");
@@ -424,12 +329,11 @@ public class CseController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				StackPane stack = (StackPane) itemC1.getParentPopup().getOwnerNode();
-				int id = Integer.parseInt(((Label) stack.getChildren().get(2)).getText());
-				dataStore.deleteController(id);
+				RectangleView rect = (RectangleView) itemC1.getParentPopup().getOwnerNode();
+				dataStore.deleteController(rect.id);
 
 				for (Node c : root.getChildren()) {
-					if (c.equals(stack)) {
+					if (c.equals(rect)) {
 						root.getChildren().remove(c);
 						return;
 					}
@@ -458,7 +362,7 @@ public class CseController {
 				// modifyRectangle(getParentMenu().get)
 				ArrowView arrow = (ArrowView) itemCA1.getParentPopup().getOwnerNode();
 				dataStore.curCA = dataStore.findControlAction(arrow.getID());
-				modifyPopUp(arrow);
+				modifyControlActionPopUp(arrow);
 			}
 		});
 		itemCA2 = new MenuItem("Delete");
@@ -472,7 +376,7 @@ public class CseController {
 				for (Node a : root.getChildren()) {
 					if (a.equals(arrow)) {
 						root.getChildren().remove(a);
-						return;
+						break;
 					}
 				}
 			}

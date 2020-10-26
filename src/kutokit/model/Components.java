@@ -12,7 +12,7 @@ public class Components {
 	public ControlAction curCA;
 	
 	public Components() {
-		curId = 4;
+		curId = 3;
 		
 		//curID 나중에 수정 필
 		//===================temp========================
@@ -47,19 +47,6 @@ public class Components {
             if (c.getId()==id) {
                 c.setX(x);
                 c.setY(y);
-                
-                ControlAction ca;
-                for( int CAId : c.getCA().keySet() ){
-                	ca = findControlAction(CAId);
-                    if(c.getCA().get(CAId)==1) {
-                    	//System.out.println("ca: " + CAId + "type: controller");
-                    	moveControlAction(CAId, x+75, y+100, ca.getEndX(), ca.getEndY());
-                    }else {
-                    	//System.out.println("ca: " + CAId + "type: controlled");
-                    	moveControlAction(CAId, ca.getStartX(), ca.getStartY(), x+75, y);
-                    }
-                }
-                
                 return;
             }
         }
@@ -68,11 +55,11 @@ public class Components {
 	public void moveControlAction(int id, double startX, double startY, double endX, double endY) {
 		for (ControlAction ca : controlActions) {
             if (ca.getId()==id) {
-            	//System.out.println("move");
-                ca.setStartX(startX);
-                ca.setStartY(startY);
-                ca.setEndX(endX);
-                ca.setEndY(endY);
+//            	//System.out.println("move");
+//                ca.setStartX(startX);
+//                ca.setStartY(startY);
+//                ca.setEndX(endX);
+//                ca.setEndY(endY);
                 return;
             }
         }
