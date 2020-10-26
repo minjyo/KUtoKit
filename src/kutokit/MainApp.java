@@ -19,8 +19,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import kutokit.view.CseController;
 import kutokit.view.PmmController;
+import kutokit.view.DashboardController;
 import kutokit.view.CtmController;
-import kutokit.view.FSController;
+import kutokit.view.LhcController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
 import kutokit.model.*;
@@ -79,20 +80,20 @@ public class MainApp extends Application {
 	}
 	
 	/**
-	 * called when first step button clicked
+	 * called when LHC button clicked
 	 */
-	public void showFSView() {
+	public void showLhcView() {
         try {
-            // get maker scene
+            // get table scene
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/FirstStep.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/LhcView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
             // add scene in center of root layout 
             rootLayout.setCenter(View);
             
             //add controller
-            FSController controller = loader.getController();
+            LhcController controller = loader.getController();
             controller.setMainApp(this);
             
             System.out.println("a");
@@ -187,6 +188,27 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
+    
+    //called when help button clicked
+	public void showDashboardView() {
+        try {
+            // get maker scene
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/DashboardView.fxml"));
+            AnchorPane View = (AnchorPane) loader.load();
+
+            // add scene in center of root layout 
+            rootLayout.setCenter(View);
+            
+            //add controller
+            DashboardController controller = loader.getController();
+            controller.setMainApp(this);
+            
+            System.out.println("a");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
 	 * return main stage
@@ -215,7 +237,7 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * ���� �ҷ��� ������ ��θ� �����Ѵ�. �� ��δ� OS Ư�� ������Ʈ���� ����ȴ�.
+	 * �뜝�룞�삕�뜝�룞�삕 �뜝��琉꾩삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕. �뜝�룞�삕 �뜝�룞�삕�걣�뜝占� OS �듅�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�솼�뜝占�.
 	 *
 	 * @param file the file or null to remove the path
 	 */
@@ -224,18 +246,18 @@ public class MainApp extends Application {
 	    if (file != null) {
 	        prefs.put("filePath", file.getPath());
 
-	        // Stage Ÿ��Ʋ�� ������Ʈ�Ѵ�.
+	        // Stage ���뜝�룞�삕���뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�떬�뙋�삕.
 	        primaryStage.setTitle("AddressApp - " + file.getName());
 	    } else {
 	        prefs.remove("filePath");
 
-	        // Stage Ÿ��Ʋ�� ������Ʈ�Ѵ�.
+	        // Stage ���뜝�룞�삕���뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�떬�뙋�삕.
 	        primaryStage.setTitle("AddressApp");
 	    }
 	}
 	
 	/**
-	 * ������ ���Ϸκ��� ContextTable�� �����´�.
+	 * �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떦濡쒕툦�삕�뜝�룞�삕 ContextTable�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�듅�뙋�삕.
 	 * @param file
 	 */
 	public void loadContextTableDataFromFile(File file) {
@@ -244,16 +266,16 @@ public class MainApp extends Application {
 	                .newInstance(ContextTableWrapper.class);
 	        Unmarshaller um = context.createUnmarshaller();
 
-	        // ���Ϸκ��� XML�� ���� ���� �� �������Ѵ�.
+	        // �뜝�룞�삕�뜝�떦濡쒕툦�삕�뜝�룞�삕 XML�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	        ContextTableWrapper wrapper = (ContextTableWrapper) um.unmarshal(file);
 
 	        //ContextTableDataModel.clear();
 	        //ContextTableDataModel.addAll(wrapper.getContextTableDataModel());
 
-	        // ���� ��θ� ������Ʈ���� �����Ѵ�.
+	        // �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	        setContextTableFilePath(file);
 
-	    } catch (Exception e) { // ���ܸ� ��´�
+	    } catch (Exception e) { // �뜝�룞�삕�뜝�뙟紐뚯삕 �뜝�룞�삕夷덂뜝占�
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not load data");
@@ -264,7 +286,7 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * ���� ContextTable�� ������ ���Ͽ� �����Ѵ�.
+	 * �뜝�룞�삕�뜝�룞�삕 ContextTable�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떦�슱�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	 * @param file
 	 */
 	public void saveContextTableDataToFile(File file) {
@@ -282,12 +304,12 @@ public class MainApp extends Application {
 	        
 	        
 	        
-	        // ������ �� XML�� ���Ͽ� �����Ѵ�.
+	        // �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕 XML�뜝�룞�삕 �뜝�룞�삕�뜝�떦�슱�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	        m.marshal(wrapper, file);
 
-	        // ���� ��θ� ������Ʈ���� �����Ѵ�.
+	        // �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
 	        setContextTableFilePath(file);
-	    } catch (Exception e) { // ���ܸ� ��´�.
+	    } catch (Exception e) { // �뜝�룞�삕�뜝�뙟紐뚯삕 �뜝�룞�삕夷덂뜝占�.
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");
@@ -297,7 +319,7 @@ public class MainApp extends Application {
 	    }
 	}
 
-	//ContextTable(myTable) 불러오기
+	//ContextTable(myTable) �겫�뜄�쑎占쎌궎疫뀐옙
 	private ObservableList<CTM> getContextTable()
 	{
 		ObservableList<CTM> ctmList = null;

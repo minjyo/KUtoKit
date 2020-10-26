@@ -4,47 +4,169 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Polyline?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.RootLayoutController">
+<BorderPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.RootLayoutController">
    <top>
-      <VBox alignment="TOP_CENTER" prefHeight="70.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
             <MenuBar>
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="Open" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="Save as.." />
+                    <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                    <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="Save as.." />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleHelp" text="About" />
+                     </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Dashboard" >
+                	 <items>
+                  	 	<MenuItem mnemonicParsing="false" onAction="#handleDashboard" text="Dashboard" />
+                  	 </items>
                 </Menu>
               </menus>
             </MenuBar>
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
-              <items>
-                  <Button mnemonicParsing="false" onAction="#handleLHCButton" text="LHC" />
-                <Button mnemonicParsing="false" onAction="#handleCseButton" text="CSE" />
-                  <Button mnemonicParsing="false" onAction="#handlePmmButton" text="PMM" />
-                  <Button mnemonicParsing="false" onAction="#handleCtmButton" text="CTM" />
-                  <Button mnemonicParsing="false" onAction="#handleUtmButton" text="UTM" />
-              </items>
-            </ToolBar>
          </children>
       </VBox>
    </top>
    <center>
-     
+     <AnchorPane prefHeight="750.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4e4e4" height="50.0" layoutX="40.0" layoutY="65.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Text layoutX="76.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="STPA Process">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" layoutX="40.0" layoutY="617.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Text layoutX="51.0" layoutY="652.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4. Identify Loss Scenarios" wrappingWidth="177.62109375">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Line endY="43.0" layoutX="140.0" layoutY="262.0" startY="-33.0" />
+            <Line endY="43.0" layoutX="140.0" layoutY="418.0" startY="-33.0" />
+            <Line endY="43.0" layoutX="139.0" layoutY="575.0" startY="-33.0" />
+            <Button layoutX="41.0" layoutY="306.0" mnemonicParsing="false" onAction="#handleCseButton" prefHeight="80.0" prefWidth="200.0" text="2. Model the Control Structure" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4e4e4" height="50.0" layoutX="363.0" layoutY="65.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+            <Text layoutX="375.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NuSCR Support Process">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" layoutX="363.0" layoutY="147.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+            <Text layoutX="383.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Identify output variables connected to CA in NuSCR" textAlignment="CENTER" wrappingWidth="209.5205078125">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" layoutX="363.0" layoutY="259.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+            <Text layoutX="383.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Identify the operation scenarios of each CA" textAlignment="CENTER" wrappingWidth="209.5205078125">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" layoutX="363.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+            <Text layoutX="383.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Extract primary variables of output decision" textAlignment="CENTER" wrappingWidth="209.5205078125">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Line endX="-16.0" endY="6.0" layoutX="503.0" layoutY="253.0" startX="-16.0" startY="-26.0" />
+            <Button layoutX="361.0" layoutY="484.0" mnemonicParsing="false" onAction="#handlePmmButton" prefHeight="80.0" prefWidth="250.0" text="Construct the Control Sturcture with Process Model/variable" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="361.0" layoutY="600.0" mnemonicParsing="false" onAction="#handleCtmButton" prefHeight="80.0" prefWidth="250.0" text="Generate Context Table from NuSCR" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Line endX="-16.0" endY="6.0" layoutX="502.0" layoutY="365.0" startX="-16.0" startY="-26.0" />
+            <Line endX="-16.0" endY="6.0" layoutX="502.0" layoutY="477.0" startX="-16.0" startY="-26.0" />
+            <Line endX="-16.0" endY="6.0" layoutX="502.0" layoutY="590.0" startX="-16.0" startY="-26.0" />
+            <Polyline fill="#80ff0000" layoutX="107.0" layoutY="412.0" points="256.0, -225.0, 191.0, -225.0, 191.0, -84.0, 134.0, -84.0" />
+            <Polyline fill="#80ff0000" layoutX="117.0" layoutY="422.0" points="244.0, 220.0, 159.0, 220.0, 159.0, 79.0, 123.0, 79.0" strokeDashOffset="10.0" style="-fx-stroke-dash-array: 5;" />
+            <Polygon layoutX="357.0" layoutY="194.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -17.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="252.0" layoutY="509.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -17.0" rotate="-90.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="143.0" layoutY="305.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -17.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="143.0" layoutY="459.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -17.0" rotate="-180.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="142.0" layoutY="616.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -17.0" rotate="-180.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="490.0" layoutY="243.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="489.0" layoutY="355.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="489.0" layoutY="467.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="489.0" layoutY="584.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polyline fill="#80ff0000" layoutX="115.0" layoutY="300.0" points="246.0, 224.0, 191.0, 224.0, 191.0, 67.0, 125.5, 66.5" strokeDashOffset="10.0" />
+            <Polygon layoutX="253.0" layoutY="374.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -17.0" rotate="-90.0" stroke="BLACK" strokeType="INSIDE" />
+            <Button layoutX="40.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleLHCButton" prefHeight="80.0" prefWidth="200.0" text="1. Define Purpose of the Analysis" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4e4e4" height="50.0" layoutX="710.0" layoutY="65.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+            <Text layoutX="722.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(Context Table Generation) Process" textAlignment="CENTER" wrappingWidth="226.7089732827735">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" layoutX="710.0" layoutY="315.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+            <Text layoutX="730.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Constructs software fault tree from the NuSCR" textAlignment="CENTER" wrappingWidth="209.5205078125">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" layoutX="710.0" layoutY="428.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+            <Text layoutX="730.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generates MCSs from SFT of the NuSCR" textAlignment="CENTER" wrappingWidth="209.5205078125">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" layoutX="710.0" layoutY="544.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+            <Text layoutX="722.0" layoutY="569.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Interpret the formula to disassemble the variable and values in the MCSs" textAlignment="CENTER" wrappingWidth="226.70897841453552">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" layoutX="710.0" layoutY="658.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+            <Text layoutX="722.0" layoutY="683.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Construct the Context Table by combining disassembled variables" textAlignment="CENTER" wrappingWidth="226.70897841453552">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Polyline fill="#80ff0000" layoutX="138.0" layoutY="432.0" points="473.0, 194.0, 552.0, 194.0, 552.0, -79.0, 572.0, -79.0" strokeDashOffset="10.0" style="-fx-stroke-dash-array: 5;" />
+            <Polyline fill="#80ff0000" layoutX="148.0" layoutY="442.0" points="468.0, 210.0, 544.0, 210.0, 544.0, 256.0, 562.0, 256.0" strokeDashOffset="10.0" style="-fx-stroke-dash-array: 5;" />
+            <Line endX="-16.0" endY="6.0" layoutX="851.0" layoutY="419.0" startX="-16.0" startY="-24.0" />
+            <Polygon layoutX="838.0" layoutY="412.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
+            <Line endX="-16.0" endY="6.0" layoutX="851.0" layoutY="533.0" startX="-16.0" startY="-24.0" />
+            <Polygon layoutX="838.0" layoutY="526.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
+            <Line endX="-16.0" endY="6.0" layoutX="851.0" layoutY="648.0" startX="-16.0" startY="-24.0" />
+            <Polygon layoutX="838.0" layoutY="641.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="707.0" layoutY="357.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -10.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon layoutX="619.0" layoutY="656.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -10.0" rotate="-90.0" stroke="BLACK" strokeType="INSIDE" />
+            <Button layoutX="40.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleUtmButton" prefHeight="80.0" prefWidth="200.0" text="3. Identify Unsafe Control Actions" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
    </center>
    <left>
       

@@ -111,7 +111,7 @@ public class CtmController {
 	            //System.out.println(temps[0]);
 	            //System.out.println(temps[1]);
 	            
-	            this.ParseMSC(temps);
+	            this.ParseMCS(temps);
 	            
 	            
 	            this.MakeTable();
@@ -123,7 +123,7 @@ public class CtmController {
 		}
 	}
 
-	private void ParseMSC(String[] temps) {
+	private void ParseMCS(String[] temps) {
 		//MSC ex 
 //		detect_term≤0.1sec Λ 	f_HI_LOG_POWER_Trip_Out=true
 //		detect_length≥1m Λ		f_HI_LOG_POWER_PV_Err=true
