@@ -30,12 +30,12 @@ public class UtmController {
 		ObservableList<UCA> ucaData = FXCollections.observableArrayList();
 		for(int i=0;i<contextTable.size();i++)
 		{
-			//hazardous가 true일 경우,
-			if(contextTable.get(i).getHazardous())
-			{
-				//UCA 만들기 일단 Control Action만 가져온다고 했을 때
-				ucaData.add(new UCA(contextTable.get(i).getControlAction()));
-			}
+//			//hazardous가 true일 경우,
+//			if(contextTable.get(i).getHazardous())
+//			{
+//				//UCA 만들기 일단 Control Action만 가져온다고 했을 때
+//				ucaData.add(new UCA(contextTable.get(i).getControlAction()));
+//			}
 		}
 		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlAction());
 		ucaTable.setItems(ucaData);
