@@ -9,6 +9,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -30,6 +31,8 @@ public class MainApp extends Application {
 	 private BorderPane rootLayout;
 	 private CtmController controller;
 	 
+	 public Components components;
+	 
 	@Override
 	//auto execute after main execute
 	public void start(Stage primaryStage) {
@@ -37,13 +40,17 @@ public class MainApp extends Application {
 	        this.primaryStage.setTitle("Kutokit");
 
 	        initRootLayout();
-
-	        //showCseView();
+	        initDataStore();
 	}
 
 	 /**
      * init root layout
      */
+	
+	private void initDataStore() {
+		components = new Components();
+	}
+	
 	private void initRootLayout() {
 		try {
             // get root layout
@@ -109,8 +116,6 @@ public class MainApp extends Application {
             //add controller
             CseController controller = loader.getController();
             controller.setMainApp(this, primaryStage);
-            
-            System.out.println("a");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -148,11 +153,11 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/UtmView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout 
             rootLayout.setCenter(View);
             
             //add controller
             UtmController controller = loader.getController();
+            controller.setUcaTable(getContextTable());
             controller.setMainApp(this);
             System.out.println("a");
         } catch (IOException e) {
@@ -289,5 +294,22 @@ public class MainApp extends Application {
 
 	        alert.showAndWait();
 	    }
+	}
+
+	//ContextTable(myTable) 불러오기
+	private ObservableList<CTM> getContextTable()
+	{
+		ObservableList<CTM> ctmList = null;
+		try {
+			// get maker scene
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
+			AnchorPane View = (AnchorPane) loader.load();
+			CtmController controller = loader.getController();
+			ctmList = controller.getContextTableData();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ctmList;
 	}
 }

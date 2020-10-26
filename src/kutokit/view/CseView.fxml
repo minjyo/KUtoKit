@@ -1,14 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CseController">
+<AnchorPane prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CseController">
    <children>
-      <Rectangle fx:id="r1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="86.0" layoutX="240.0" layoutY="35.0" onDragDetected="#setOnDragDetected" onDragDone="#setOnDragDone" stroke="BLACK" strokeType="INSIDE" width="171.0" />
-      <Rectangle fx:id="r2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="86.0" layoutX="240.0" layoutY="183.0" stroke="BLACK" strokeType="INSIDE" width="171.0" />
-      <Label layoutX="380.0" layoutY="94.0" text="c1" />
-      <Label layoutX="378.0" layoutY="246.0" text="c2" />
+      <VBox prefHeight="300.0" prefWidth="90.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="90.0" style="-fx-border-color: #8FBC8F#8FBC8F;">
+               <children>
+                  <ImageView fx:id="touch" fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/touch.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="component" fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/component.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="ca" fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/ca.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="feedback" fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/feedback.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="text" fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/text.png" />
+                     </image>
+                  </ImageView>
+               </children></VBox>
+            <VBox prefHeight="100.0" prefWidth="90.0" style="-fx-border-color: #8FBC8F#8FBC8F;">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hiearchy" />
+               </children></VBox>
+         </children>
+      </VBox>
+      <AnchorPane fx:id="board" layoutX="114.0" layoutY="14.0" prefHeight="270.0" prefWidth="460.0" style="-fx-background-color: #FFFFFF; -fx-border-color: green;">
+         <children>
+            <Group fx:id="root" layoutX="10.0" layoutY="10.0">
+               <children>
+               </children>
+            </Group>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
