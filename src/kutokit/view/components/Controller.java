@@ -1,16 +1,21 @@
 package kutokit.view.components;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Controller {
 
 	double x, y;
 	String name;
 	int id;
+	Map<Integer, Integer> CA; //key: CA id, value: 1->controller, 0->controlled
 	
 	public Controller(double x, double y, String name, int id) {
 		this.x = x;
 		this.y = y;
 		this.name = name;
 		this.id = id;
+		this.CA = new HashMap<Integer, Integer>();
 	}
 	
 	public double getX() {
@@ -43,5 +48,13 @@ public class Controller {
 	
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public Map<Integer, Integer> getCA(){
+		return this.CA;
+	}
+
+	public void addCA(int id, int type) {
+		this.CA.put(id, type);
 	}
 }
