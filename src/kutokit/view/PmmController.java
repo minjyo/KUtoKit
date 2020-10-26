@@ -105,12 +105,12 @@ public class PmmController {
 			// Iteration for finding if string has expressions
 			for(int j=0; j<expressions.length; ) {
 				arg = expressions[j];	
-				System.out.println("현재 string: "+str);
+				// System.out.println("current string: "+str);
 				if(expressions[j].equals("\\+")) arg = "+";
 				
 				// Expression O
 				if(str.contains(arg)) { 
-					System.out.println("표현식 존재 : "+arg);
+					// System.out.println("expression : "+arg);
 					next = str.indexOf(arg);
 					innerstr[0] = str.substring(0, next);
 					for(Object checked: checkValue(innerstr)) {
@@ -124,7 +124,7 @@ public class PmmController {
 				// Expression X
 				else {
 					if( temp == 9 ) { 
-						System.out.println("break");
+						// System.out.println("break");
 						values.add(str);
 						temp = 0;
 						break;
