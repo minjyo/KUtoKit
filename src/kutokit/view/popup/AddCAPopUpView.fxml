@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.popup.AddCAPopUpController">
+	<children>
+      <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="263.0">
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+      </Rectangle>
+	  <Text layoutX="28.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Control Action">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Text>
+      <Text layoutX="28.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Controller">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Text>
+      <Text layoutX="28.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Controlled">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Text>
+      <Text layoutX="28.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Process">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Text>
+	  <TextField fx:id="text1" alignment="CENTER_RIGHT" layoutX="86.0" layoutY="48.0" prefHeight="27.0" prefWidth="124.0" text="Controller Name" />
+      <TextField fx:id="text2" alignment="CENTER_RIGHT" layoutX="86.0" layoutY="92.0" prefHeight="27.0" prefWidth="124.0" text="Process Name" />
+      <ListView fx:id="listView" layoutX="18.0" layoutY="150.0" prefHeight="200.0" prefWidth="225.0" />
+      <Text layoutX="28.0" layoutY="140.0" text="CA">
+         <font>
+            <Font size="10.0" />
+         </font></Text>
+      <TextField fx:id="listInput" layoutX="18.0" layoutY="360.0" prefWidth="125.0" />
+      <HBox alignment="CENTER" layoutX="150.0" layoutY="360.0" spacing="5.0">
+         <children>
+           <Button fx:id="add" onAction="#addCA" text="추가">
+               <HBox.margin>
+                  <Insets bottom="20.0" />
+               </HBox.margin></Button>
+           <Button fx:id="remove" onAction="#removeCA" text="삭제">
+               <HBox.margin>
+                  <Insets bottom="20.0" right="20.0" />
+               </HBox.margin></Button>
+         </children>
+      </HBox>
+      <HBox alignment="BOTTOM_CENTER" layoutY="400.0" prefHeight="44.0" prefWidth="261.0">
+         <children>
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#close" text="취소">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setData" text="확인" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+      </HBox>
+ 	</children>
+</AnchorPane>

@@ -32,14 +32,15 @@ public class MainApp extends Application {
 	 private BorderPane rootLayout;
 	 private CtmController controller;
 	 
-	 public Components components;
+	 public static Components components;
 	 
 	@Override
 	//auto execute after main execute
 	public void start(Stage primaryStage) {
-		 this.primaryStage = primaryStage;
+		 	this.primaryStage = primaryStage;
 	        this.primaryStage.setTitle("Kutokit");
-
+	        this.primaryStage.setResizable(false);
+	        
 	        initRootLayout();
 	        initDataStore();
 	}
