@@ -12,11 +12,18 @@
    <children>
       <TableView fx:id="contextTable" layoutY="-3.0" prefHeight="650.0" prefWidth="1000.0">
         <columns>
-          <TableColumn fx:id="CAColumn" prefWidth="144.0" text="Control Action" />
-          <TableColumn fx:id="casesColumn" minWidth="6.0" prefWidth="79.0" text="Cases" />
-            <TableColumn fx:id="noColumn" minWidth="6.0" prefWidth="45.0" text="No." />
-            <TableColumn fx:id="contextsColumn" minWidth="6.0" prefWidth="630.0" text="Contexts" />
-            <TableColumn fx:id="hazardousColumn" minWidth="3.0" prefWidth="102.0" text="Hazardous?" />
+          <TableColumn fx:id="CAColumn" prefWidth="100.0" text="Control Action" />
+          <TableColumn fx:id="casesColumn" minWidth="6.0" prefWidth="90.0" text="Cases" />
+            <TableColumn fx:id="noColumn" minWidth="6.0" prefWidth="30.0" text="No." />
+            <TableColumn fx:id="contexts1Column" minWidth="6.0" prefWidth="80.0" text="f_X_Trip_Out" />
+            <TableColumn fx:id="contexts2Column" minWidth="6.0" prefWidth="80.0" text="th_X_Trip_Logic" />
+            <TableColumn fx:id="contexts3Column" minWidth="6.0" prefWidth="80.0" text="th_X_Trip_Logic_State" />
+            <TableColumn fx:id="contexts4Column" minWidth="6.0" prefWidth="80.0" text="f_X_PV" />
+            <TableColumn fx:id="contexts5Column" minWidth="6.0" prefWidth="80.0" text="f_X_A/P/T/_Query" />
+            <TableColumn fx:id="contexts6Column" minWidth="6.0" prefWidth="80.0" text="f_Mod_Err" />
+            <TableColumn fx:id="contexts7Column" minWidth="6.0" prefWidth="80.0" text="f_X_Chan_Err" />
+            <TableColumn fx:id="contexts8Column" minWidth="6.0" prefWidth="80.0" text="f_X_PV_Err" />
+            <TableColumn fx:id="hazardousColumn" minWidth="3.0" prefWidth="102.0" text="hazardous?" />
         </columns>
       </TableView>
       <Pane fx:id="AddFile" layoutX="181.0" layoutY="96.0" prefHeight="109.0" prefWidth="238.0">
