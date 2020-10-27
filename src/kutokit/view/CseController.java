@@ -39,11 +39,14 @@ public class CseController {
 	private Components dataStore;
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
+	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
 
 	private ContextMenu ControllerContextMenu;
 	private MenuItem itemC1, itemC2, itemC3;
 	private ContextMenu CAContextMenu;
 	private MenuItem itemCA1, itemCA2;
+	private ContextMenu FBContextMenu;
+	private MenuItem itemFB1, itemFB2;
 
 	@FXML
 	Group root = new Group();
@@ -84,13 +87,32 @@ public class CseController {
 				}
 			}
 			ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
-			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA());
+			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
 			a.setLabel(label);
 			
 			dataStore.findController(ca.getControllerID()).addCA(ca.getId(), 1);
 			dataStore.findController(ca.getControlledID()).addCA(ca.getId(), 0);
 			
 			addControlAction(a, label, ca);
+		}
+		
+		feedbacks = dataStore.getFeedbacks();
+		for (Feedback fb : feedbacks) {
+			DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
+			for(Node node: root.getChildren()) {
+				if(Integer.parseInt(node.getId())==fb.getControllerID()) {
+					startX = node.layoutXProperty();
+					startY = node.layoutYProperty();
+				}else if(Integer.parseInt(node.getId())==fb.getControlledID()) {
+					endX = node.layoutXProperty();
+					endY = node.layoutYProperty();
+				}
+			}
+			ArrowView a = new ArrowView(fb, startX, startY, endX,  endY, fb.getId());
+			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, fb.getFB(), "FB");
+			a.setLabel(label);
+	
+			addFeedback(a, label, fb);
 		}
 
 		// Add through click
@@ -119,6 +141,7 @@ public class CseController {
 
 		addControllerContextMenu();
 		addCAContextMenu();
+		addFBContextMenu();
 	}
 
 	private void addPopUp(String component) {
@@ -131,7 +154,7 @@ public class CseController {
 			loader.setLocation(getClass().getResource("popup/AddCAPopUpView.fxml"));
 			break;
 		case "feedback":
-			loader.setLocation(getClass().getResource("popup/FeedbackPopUpView.fxml"));
+			loader.setLocation(getClass().getResource("popup/AddFBPopUpView.fxml"));
 			break;
 		}
 
@@ -180,7 +203,7 @@ public class CseController {
 							}
 						}
 						ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
-						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA());
+						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
 						a.setLabel(label);
 						
 						controlActions.add(ca);
@@ -192,6 +215,28 @@ public class CseController {
 						addControlAction(a, label, ca);
 						break;
 					case "feedback":
+						AddFBPopUpController pop3 = loader.getController();
+						Feedback fb = new Feedback(pop3.controlled, pop3.controller, pop3.FB, dataStore.curId, dataStore);
+						
+						DoubleProperty  startX1 = null, startY1 = null, endX1 = null,  endY1 = null;
+						
+						for(Node node: root.getChildren()) {
+							if(Integer.parseInt(node.getId())==fb.getControlledID()) {
+								startX1 = node.layoutXProperty();
+								startY1 = node.layoutYProperty();
+							}else if(Integer.parseInt(node.getId())==fb.getControllerID()) {
+								endX1 = node.layoutXProperty();
+								endY1 = node.layoutYProperty();
+							}
+						}
+						ArrowView a1 = new ArrowView(fb, startX1, startY1, endX1,  endY1, fb.getId());
+						LabelView label1 = new LabelView(a1.startX, a1.startY, a1.endX, a1.endY, fb.getFB(), "FB");
+						a1.setLabel(label1);
+						
+						feedbacks.add(fb);
+						dataStore.addFeedback(fb);
+					
+						addFeedback(a1, label1, fb);
 						break;
 					}
 
@@ -233,6 +278,24 @@ public class CseController {
 		});
 
 		s.setId(Integer.toString(ca.getId()));
+		l.setId("-1");
+		
+		root.getChildren().addAll(s, l);
+	}
+	
+	private void addFeedback(Path s, Label l, Feedback fb) {
+
+		s.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+
+			@Override
+			public void handle(ContextMenuEvent event) {
+
+				CAContextMenu.show(s, event.getScreenX(), event.getScreenY());
+			}
+		});
+
+		s.setId(Integer.toString(fb.getId()));
+		l.setId("-1");
 		
 		root.getChildren().addAll(s, l);
 	}
@@ -291,7 +354,44 @@ public class CseController {
 							break;
 						}
 					}
-					LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, pop.CA);
+					LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, pop.CA, "CA");
+					a.label = label;
+					root.getChildren().add(label);
+				}
+			});
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void modifyFeedbackPopUp(ArrowView a) {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("popup/ModifyFBPopUpView.fxml"));
+		Parent popUproot;
+
+		try {
+			popUproot = (Parent) loader.load();
+
+			Scene scene = new Scene(popUproot);
+			ModifyFBPopUpController pop = loader.getController();
+
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();
+
+			// add ca with name when popup closed
+			stage.setOnHidden(new EventHandler<WindowEvent>() {
+				@Override
+				public void handle(WindowEvent e) {
+					dataStore.curFB.setFB(pop.FB);
+					for(Node node : root.getChildren()) {
+						if(node.equals(a.label)) {
+							root.getChildren().remove(node);
+							break;
+						}
+					}
+					LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, pop.FB, "FB");
 					a.label = label;
 					root.getChildren().add(label);
 				}
@@ -375,6 +475,7 @@ public class CseController {
 
 				for (Node a : root.getChildren()) {
 					if (a.equals(arrow)) {
+						root.getChildren().remove(arrow.label);
 						root.getChildren().remove(a);
 						break;
 					}
@@ -382,6 +483,39 @@ public class CseController {
 			}
 		});
 		CAContextMenu.getItems().addAll(itemCA1, itemCA2);
+	}
+	
+	public void addFBContextMenu() {
+		CAContextMenu = new ContextMenu();
+
+		itemFB1 = new MenuItem("Modfiy");
+		itemFB1.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				// modifyRectangle(getParentMenu().get)
+				ArrowView arrow = (ArrowView) itemFB1.getParentPopup().getOwnerNode();
+				dataStore.curFB = dataStore.findFeedback(arrow.getID());
+				modifyFeedbackPopUp(arrow);
+			}
+		});
+		itemFB2 = new MenuItem("Delete");
+		itemFB2.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				ArrowView arrow = (ArrowView) itemFB1.getParentPopup().getOwnerNode();
+				dataStore.deleteFeedback(arrow.getID());
+				for (Node a : root.getChildren()) {
+					if (a.equals(arrow)) {
+						root.getChildren().remove(arrow.label);
+						root.getChildren().remove(a);
+						break;
+					}
+				}
+			}
+		});
+		CAContextMenu.getItems().addAll(itemFB1, itemFB2);
 	}
 
 	// set MainApp

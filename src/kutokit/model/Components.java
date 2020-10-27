@@ -8,8 +8,10 @@ public class Components {
 
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
+	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
 	public int curId;
 	public ControlAction curCA;
+	public Feedback curFB;
 	
 	public Components() {
 		curId = 3;
@@ -32,6 +34,10 @@ public class Components {
 		return this.controlActions;
 	}
 	
+	public ArrayList<Feedback> getFeedbacks() {
+		return this.feedbacks;
+	}
+	
 	public void addController(Controller controller) {
 		controllers.add(controller);
 		curId++;
@@ -42,24 +48,16 @@ public class Components {
 		curId++;
 	}
 	
+	public void addFeedback(Feedback fb) {
+		feedbacks.add(fb);
+		curId++;
+	}
+	
 	public void moveController(int id, double x, double y) {
 		for (Controller c : controllers) {
             if (c.getId()==id) {
                 c.setX(x);
                 c.setY(y);
-                return;
-            }
-        }
-	}
-	
-	public void moveControlAction(int id, double startX, double startY, double endX, double endY) {
-		for (ControlAction ca : controlActions) {
-            if (ca.getId()==id) {
-//            	//System.out.println("move");
-//                ca.setStartX(startX);
-//                ca.setStartY(startY);
-//                ca.setEndX(endX);
-//                ca.setEndY(endY);
                 return;
             }
         }
@@ -83,6 +81,15 @@ public class Components {
         }
 	}
 	
+	public void deleteFeedback(int id) {
+		for (Feedback c : feedbacks) {
+            if (c.getId()==id) {
+            	feedbacks.remove(c);
+                return;
+            }
+        }
+	}
+	
 	public void modifyController(int id, String name) {
 		for (Controller c : controllers) {
             if (c.getId()==id) {
@@ -96,6 +103,15 @@ public class Components {
 		for (ControlAction ca : controlActions) {
             if (ca.getId()==id) {
                 ca.setCA(CA);
+                return;
+            }
+        }
+	}
+	
+	public void modifyFeedback(int id, ArrayList<String> FB) {
+		for (Feedback fb : feedbacks) {
+            if (fb.getId()==id) {
+            	fb.setFB(FB);
                 return;
             }
         }
@@ -123,6 +139,15 @@ public class Components {
 		for (ControlAction ca : controlActions) {
             if (ca.getId()==id) {
                 return ca;
+            }
+        }
+		return null;
+	}
+	
+	public Feedback findFeedback(int id) {
+		for (Feedback fb : feedbacks) {
+            if (fb.getId()==id) {
+                return fb;
             }
         }
 		return null;

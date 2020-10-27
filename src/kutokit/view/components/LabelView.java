@@ -21,31 +21,26 @@ public class LabelView extends Label {
 	String label;
 	ArrayList<String> CA;
 	ObservableList<String> listItems;
+	String type;
 	
-	public LabelView(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY, ArrayList<String> CA) {
-		layoutXProperty().bind(endX.add(120).subtract(endX.add(120).subtract(startX.add(120)).divide(2)).add(10));
-		layoutYProperty().bind(endY.subtract(endY.subtract(startY.add(100)).divide(2)).subtract(10));
+	public LabelView(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY, ArrayList<String> CA, String type) {
+		this.type = type;
 		
-//		this.CA = CA;
-//		listItems = FXCollections.observableArrayList();
-//		for(int i=0; i<CA.size(); i++) {
-//			listItems.add(CA.get(i));
-//		}
+		if(type=="CA") {
+			layoutXProperty().bind(endX.add(120).subtract(endX.add(120).subtract(startX.add(120)).divide(2)).add(10));
+			layoutYProperty().bind(endY.subtract(endY.subtract(startY.add(100)).divide(2)).subtract(10));
+		}else {
+			layoutXProperty().bind(endX.add(30).subtract(endX.add(30).subtract(startX.add(30)).divide(2)).add(10));
+			layoutYProperty().bind(endY.add(100).subtract(endY.add(100).subtract(startY).divide(2)).subtract(10));
+		}
 		
-		//listProperty = new SimpleListProperty<>();
+		
 		updateArrayCA(CA);
-		//this.label = new SimpleStringProperty("");
-		//updateArrayCA(CA);
+
 		setText(this.label);
 	}
 	
 	public void updateArrayCA(ArrayList<String> CA) {
-		
-//		this.CA = CA;
-//		listItems.clear();
-//		for(int i=0; i<CA.size(); i++) {
-//			listItems.add(CA.get(i));
-//		}
 		String label="";
 		
 		for(int i=0; i<CA.size(); i++) {

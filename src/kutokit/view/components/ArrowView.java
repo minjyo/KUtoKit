@@ -16,27 +16,42 @@ public class ArrowView extends Path{
 	public int id;
 	public DoubleProperty startX, startY, endX, endY;
 	public LabelView label;
+	public String type="";
 	
-	public ArrowView(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY, double arrowHeadSize) {
+	public ArrowView(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY, double arrowHeadSize, String type) {
 		super();
 		
 		this.startX = startX;
 		this.startY = startY;
 		this.endX = endX;
 		this.endY = endY;
+		this.type = type;
 		
 		strokeProperty().bind(fillProperty());
         setFill(Color.BLACK);
         setStrokeWidth(2);
         
-        //Line
-        MoveTo move = new MoveTo(startX.get()+120, startY.get()+100);
-        move.xProperty().bind(startX.add(120));
-        move.yProperty().bind(startY.add(100));
-    	
-        LineTo line1 = new LineTo(endX.get()+120, endY.get());
-        line1.xProperty().bind(endX.add(120));
-        line1.yProperty().bind(endY);
+        MoveTo move;
+        LineTo line1;
+        if(type.equals("CA")) {
+        	//Line
+            move = new MoveTo(startX.get()+120, startY.get()+100);
+            move.xProperty().bind(startX.add(120));
+            move.yProperty().bind(startY.add(100));
+        	
+            line1 = new LineTo(endX.get()+120, endY.get());
+            line1.xProperty().bind(endX.add(120));
+            line1.yProperty().bind(endY);
+        }else {
+        	//Line
+            move = new MoveTo(startX.get()+30, startY.get());
+            move.xProperty().bind(startX.add(30));
+            move.yProperty().bind(startY);
+        	
+            line1 = new LineTo(endX.get()+30, endY.get()+100);
+            line1.xProperty().bind(endX.add(30));
+            line1.yProperty().bind(endY.add(100));
+        }
         
         getElements().add(move);
         getElements().add(line1);
@@ -79,50 +94,52 @@ public class ArrowView extends Path{
         	    () -> (1.0 / 2.0 * sin.get() - Math.sqrt(3) / 2 * cos.get()) * arrowHeadSize + endY.get(),
         	    sin, cos, endY));
         
-        LineTo line2 = new LineTo(x1.get(), y1.get());
-        line2.xProperty().bind(x1.add(120));
-        line2.yProperty().bind(y1);
+        LineTo line2, line3, line4;
         
-        LineTo line3 = new LineTo(x2.get(), y2.get());
-        line3.xProperty().bind(x2.add(120));
-        line3.yProperty().bind(y2);
-        
-        LineTo line4 = new LineTo(endX.get(), endY.get());
-        line4.xProperty().bind(endX.add(120));
-        line4.yProperty().bind(endY);
-      
+        if(type.equals("CA")) {
+        	line2 = new LineTo(x1.get(), y1.get());
+            line2.xProperty().bind(x1.add(120));
+            line2.yProperty().bind(y1);
+            
+            line3 = new LineTo(x2.get(), y2.get());
+            line3.xProperty().bind(x2.add(120));
+            line3.yProperty().bind(y2);
+            
+            line4 = new LineTo(endX.get(), endY.get());
+            line4.xProperty().bind(endX.add(120));
+            line4.yProperty().bind(endY);
+        }else {
+        	line2 = new LineTo(x1.get(), y1.get());
+            line2.xProperty().bind(x1.add(30));
+            line2.yProperty().bind(y1.add(100));
+            
+            line3 = new LineTo(x2.get(), y2.get());
+            line3.xProperty().bind(x2.add(30));
+            line3.yProperty().bind(y2.add(100));
+            
+            line4 = new LineTo(endX.get(), endY.get());
+            line4.xProperty().bind(endX.add(30));
+            line4.yProperty().bind(endY.add(100));
+        }
         
         getElements().add(line2);
         getElements().add(line3);
         getElements().add(line4);
-		
-//		this.x = startX;
-//		this.y = startY;
-//		setLayoutX(startX.get());
-//		setLayoutY(startY.get());
-		
-//		BorderStroke bs = new BorderStroke(Color.BLUE, 
-//	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT);
-		
-//		x.bind(startX.add(120));
-//		y.bind(startY.add(100));
-//		y.bind(arrow.layoutYProperty());
-		
-		//updateArrayCA(this.CAs);
-		
-		//, 
-		
 	}
+	
 	public ArrowView(ControlAction ca, DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY, int id){
-	    this(startX, startY, endX, endY, 15);
+		this(startX, startY, endX, endY, 15, "CA");
 		this.id = ca.getId();
-//		this.label = new SimpleStringProperty("aaa");
+	}
+	
+	public ArrowView(Feedback fb, DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY, int id){
+	    this(endX, endY, startX, startY, 15, "FB");
+		this.id = fb.getId();
 	}
 	
 	public void setLabel(LabelView label) {
 		this.label = label;
 	}
-	
 	
 	public int getID() {
     	return id;
