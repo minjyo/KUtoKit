@@ -21,6 +21,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import java.io.IOException;
@@ -51,9 +52,9 @@ public class CseController {
 	@FXML
 	Group root = new Group();
 	@FXML
-	AnchorPane board = new AnchorPane();
+	ScrollPane board = new ScrollPane();
 	@FXML
-	ImageView touch, component, ca, feedback, text;
+	ImageView component, ca, feedback, text;
 
 	// constructor
 	public CseController() {
@@ -486,7 +487,7 @@ public class CseController {
 	}
 	
 	public void addFBContextMenu() {
-		CAContextMenu = new ContextMenu();
+		FBContextMenu = new ContextMenu();
 
 		itemFB1 = new MenuItem("Modfiy");
 		itemFB1.setOnAction(new EventHandler<ActionEvent>() {
@@ -515,7 +516,7 @@ public class CseController {
 				}
 			}
 		});
-		CAContextMenu.getItems().addAll(itemFB1, itemFB2);
+		FBContextMenu.getItems().addAll(itemFB1, itemFB2);
 	}
 
 	// set MainApp
