@@ -45,9 +45,10 @@ public class CtmController {
 	@FXML private TableColumn<CTM, String> contexts6Column = new TableColumn<>("contexts6");
 	@FXML private TableColumn<CTM, String> contexts7Column = new TableColumn<>("contexts7");
 	@FXML private TableColumn<CTM, String> contexts8Column = new TableColumn<>("contexts8");
-	@FXML private TableColumn<CTM, String> hazardousColumn = new TableColumn<>("hazardous");
+	//@FXML private TableColumn<CTM, String> hazardousColumn = new TableColumn<>("hazardous");
+	@FXML private TableColumn hazardousColumn;
 	@FXML private TableColumn<CTM, Integer> noColumn = new TableColumn<>("no");
-
+	
 	private String[] no = new String[100];
 	private String[] f_HI_LOG_POWER_Trip_Out = new String[100];
 	private String[] th_HI_LOG_POWER_Trip_Logic = new String[100];
@@ -217,19 +218,6 @@ public class CtmController {
 			if(f_HI_LOG_POWER_PV_Err[i]==null) {
 				f_HI_LOG_POWER_PV_Err[i] = "N/A";
 			}
-				/*if(splits.length > 2) { // a ≤ x ≤ b
-				}else { // x ≤ a 
-					contexts[i] = "x <= " +  splits[1];
-				}*/
-			/*else if(temps[i].contains("≥")) {
-				String[] splits = temps[i].split("≥");
-				contexts[i] = "x >= " +  splits[1];
-			}else if(temps[i].contains("=")) { // x = true or false
-				String[] splits = temps[i].split("=");
-				contexts[i] = splits[1];
-			}else {
-				contexts[i] = "N/A";
-			}*/
 			i++;
 		}
 		//System.out.println(Arrays.toString(f_HI_LOG_POWER_Trip_Out));
@@ -239,20 +227,19 @@ public class CtmController {
 	private void MakeTable() {
 		
 		// 3. Create Data list ex
-		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
-		
 		int i=0;
+		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
+		/*ObservableList<CTM> mcsData = FXCollections.observableArrayList(
+
+				new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i++], FXCollections.observableArrayList("hi")),
+				new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i++], FXCollections.observableArrayList("hi")),
+				new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i++], FXCollections.observableArrayList("hi"))
+		);*/
+		
 		while(i < no.length) {
-			mcsData.add(new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i], FXCollections.observableArrayList("hihihi","hihihi1")));
+			mcsData.add(new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i], FXCollections.observableArrayList("O","X")));
 			i++;
 		};
-		/*mcsData = FXCollections.observableArrayList(
-			new CTM("Action", "case", i, f_HI_LOG_POWER_Trip_Out[i], f_HI_LOG_POWER_Chan_Err[i], FXCollections.observableArrayList("hihihi","hihihi1")),
-			new CTM("Action", "case", i, "ct12", "ct2", FXCollections.observableArrayList("hihihi")),
-			new CTM("Action", "case", i, "ct13", "ct2", FXCollections.observableArrayList("hihihi")),
-			new CTM("Action", "case", i, "ct14", "ct2", FXCollections.observableArrayList("hihihi")),
-			new CTM("Action", "case", i, "ct15", "ct2", FXCollections.observableArrayList("hihihi"))
-		);*/
        
         // 4. Set table row 
         CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
@@ -266,9 +253,8 @@ public class CtmController {
  	    contexts6Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts6"));
  	    contexts7Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts7"));
  	    contexts8Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts8"));
- 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous?"));
-		
-		
+ 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
+
  	    //test1.setCellValueFactory(new PropertyValueFactory<CTM, String>("test1"));
  	    //test2.setCellValueFactory(new PropertyValueFactory<CTM, String>("test2"));
  	    //contextsColumn.getColumns().addAll(test1,test2);
@@ -283,7 +269,6 @@ public class CtmController {
 		
 		//contextTable.getColumns().addAll(CAColumn,casesColumn);
 	    contextTable.setItems(mcsData);
-	 	   
 	}
 	
 	public ObservableList<CTM> getContextTableData() {

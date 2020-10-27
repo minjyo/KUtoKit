@@ -22,10 +22,10 @@ public class CTM {
 	private StringProperty contexts6;
 	private StringProperty contexts7;
 	private StringProperty contexts8;
-	private ComboBox<String> hazardous;
+	private ComboBox hazardous;
 	
 
-	public CTM(String controlAction, String cases, int no, String contexts1, String contexts2, String contexts3, String contexts4, String contexts5, String contexts6, String contexts7, String contexts8, ObservableList<String> hazardous) {
+	public CTM(String controlAction, String cases, int no, String contexts1, String contexts2, String contexts3, String contexts4, String contexts5, String contexts6, String contexts7, String contexts8, ObservableList hazardous) {
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.cases = new SimpleStringProperty(cases);
 		this.no = new SimpleIntegerProperty(no);
@@ -37,7 +37,7 @@ public class CTM {
 		this.contexts6 = new SimpleStringProperty(contexts6);
 		this.contexts7 = new SimpleStringProperty(contexts7);
 		this.contexts8 = new SimpleStringProperty(contexts8);
-		this.hazardous = new ComboBox<String>(hazardous);
+		this.hazardous = new ComboBox(hazardous);
 		//this.hazardous = new SimpleStringProperty(hazardous);
 //		this.hazardous.setItems(FXCollections.observableArrayList("No select", "O", "X"));
 	}
@@ -132,25 +132,26 @@ public class CTM {
 		return contexts8;
 	}
 	
-	public ComboBox<String> getHazardousProperty() {
+	/*
+	public StringProperty HazardousProperty() {
 		return hazardous;
 	}
 	
-	public void setHazardous(ComboBox<String> hazardous) {
-		this.hazardous = hazardous;
-	}
-
-	/*
 	public String getHazardous() {
 		return hazardous.get();
 	}
 	
-	public StringProperty getHazardousProperty() {
+	public void setHazardous(String val) {
+		hazardous.set(val);
+	}*/
+
+	
+	public ComboBox getHazardous() {
 		return hazardous;
 	}
 	
-	public void setHazardous(String hazardous) {
-		this.hazardous.set(hazardous);
-	}*/
+	public void setHazardous(ComboBox val) {
+		this.hazardous = val;
+	}
 	
 }
