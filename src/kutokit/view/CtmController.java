@@ -12,12 +12,14 @@ import java.util.ResourceBundle;
 import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -34,6 +36,16 @@ public class CtmController {
 	private ObservableList<CTM> myTable;
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
+	@FXML private TextField TextFieldCA;
+	@FXML private TextField TextFieldCases;
+	@FXML private TextField TextFieldContext1;
+	@FXML private TextField TextFieldContext2;
+	@FXML private TextField TextFieldContext3;
+	@FXML private TextField TextFieldContext4;
+	@FXML private TextField TextFieldContext5;
+	@FXML private TextField TextFieldContext6;
+	@FXML private TextField TextFieldContext7;
+	@FXML private TextField TextFieldContext8;
 	//!!지금부터시작!!
 	@FXML private TableView<CTM> contextTable;
 	@FXML private TableColumn<CTM, String> CAColumn = new TableColumn<>("CA"); 
@@ -46,7 +58,6 @@ public class CtmController {
 	@FXML private TableColumn<CTM, String> contexts6Column = new TableColumn<>("contexts6");
 	@FXML private TableColumn<CTM, String> contexts7Column = new TableColumn<>("contexts7");
 	@FXML private TableColumn<CTM, String> contexts8Column = new TableColumn<>("contexts8");
-	//@FXML private TableColumn<CTM, String> hazardousColumn = new TableColumn<>("hazardous");
 	@FXML private TableColumn hazardousColumn;
 	@FXML private TableColumn<CTM, Integer> noColumn = new TableColumn<>("no");
 	
@@ -59,6 +70,8 @@ public class CtmController {
 	private String[] f_HI_LOG_POWER_Mod_Err = new String[100];
 	private String[] f_HI_LOG_POWER_Chan_Err = new String[100];
 	private String[] f_HI_LOG_POWER_PV_Err = new String[100];
+	
+	int i = 0;
 	
 	// constructor
 	public CtmController() {
@@ -117,6 +130,7 @@ public class CtmController {
 	            
 	            
 	            this.MakeTable();
+	            this.fillContextTable();
 
 	            //bis.close();    
 	        } catch (FileNotFoundException e) {
@@ -126,13 +140,6 @@ public class CtmController {
 	}
 
 	private void ParseMSC(String[] temps) {
-		//MSC ex 
-//		detect_term≤0.1sec Λ 	f_HI_LOG_POWER_Trip_Out=true
-//		detect_length≥1m Λ		f_HI_LOG_POWER_PV_Err=true
-//		sensor_error=false Λ 	th_HI_LOG_POWER_Trip_Logic=false
-//	malfunc_check_clear=true Λ 	th_HI_LOG_POWER_Trip_Logic_state=Waiting at t
-//		path_check=true Λ 		th_HI_LOG_POWER_Trip_Logic_state=Waiting at t=1
-//		gps_one=true
 		int i=0;
 		while(i < temps.length) {
 			no[i] = temps[i].substring(0, 1);
@@ -226,21 +233,6 @@ public class CtmController {
 	}
 	
 	private void MakeTable() {
-		
-		// 3. Create Data list ex
-		int i=0;
-		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
-		/*ObservableList<CTM> mcsData = FXCollections.observableArrayList(
-
-				new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i++], FXCollections.observableArrayList("hi")),
-				new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i++], FXCollections.observableArrayList("hi")),
-				new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i++], FXCollections.observableArrayList("hi"))
-		);*/
-		
-		while(i < no.length) {
-			mcsData.add(new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i], FXCollections.observableArrayList("O","X")));
-			i++;
-		};
        
         // 4. Set table row 
         CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
@@ -268,8 +260,12 @@ public class CtmController {
 	   	hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());*/
 	   	//hazardousColumn.setCellFactory(ComboBoxTableCell.forTableColumn("Friends", "Family", "Work Contacts"));
 		
-		//contextTable.getColumns().addAll(CAColumn,casesColumn);
-	    contextTable.setItems(mcsData);
+		//contextTable.getColumns().addAll(CAColumn,casesColumn);	
+	    /*ObservableList<CTM> mcsData = FXCollections.observableArrayList(
+			new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i++], FXCollections.observableArrayList("hi")),
+			new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i++], FXCollections.observableArrayList("hi")),
+			new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i++], FXCollections.observableArrayList("hi"))
+		);*/
 	    
 	    contextTable.setEditable(true);
 	    contexts1Column.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -280,6 +276,18 @@ public class CtmController {
 	    contexts6Column.setCellFactory(TextFieldTableCell.forTableColumn());
 	    contexts7Column.setCellFactory(TextFieldTableCell.forTableColumn());
 	    contexts8Column.setCellFactory(TextFieldTableCell.forTableColumn());
+	}
+	
+	public void fillContextTable() {
+	    // 3. Create Data list ex
+		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
+		while(i < no.length) {
+		//while(i < 1) {
+			mcsData.add(new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i], FXCollections.observableArrayList("O","X")));
+			//mcsData.add(new CTM("", "", 1, "", "", "", "", "", "", "", "", FXCollections.observableArrayList("O","X")));
+			i++;
+		};
+	    contextTable.setItems(mcsData);
 	}
 	
 	@FXML
@@ -296,6 +304,18 @@ public class CtmController {
 	public ObservableList<CTM> getContextTableData() {
 	       System.out.println(myTable.get(0));
 	      return myTable;
+	}
+	
+	@FXML
+	public void addContext(ActionEvent actionEvent) {
+		CTM newContext = new CTM(TextFieldCA.getText(), TextFieldCases.getText(), ++i, TextFieldContext1.getText(), TextFieldContext2.getText(), TextFieldContext3.getText(), TextFieldContext4.getText(), TextFieldContext5.getText(), TextFieldContext6.getText(), TextFieldContext7.getText(), TextFieldContext8.getText(), FXCollections.observableArrayList("O","X"));
+		contextTable.getItems().add(newContext);
+	}
+	
+	@FXML
+	public void closeAddFile(ActionEvent actionEvent) {
+		AddFile.getChildren().clear();
+		MakeTable();
 	}
 	
 }

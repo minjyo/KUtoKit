@@ -4,13 +4,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CtmController">
    <children>
-      <TableView fx:id="contextTable" layoutY="-3.0" prefHeight="650.0" prefWidth="1000.0">
+      <TableView fx:id="contextTable" layoutY="39.0" prefHeight="608.0" prefWidth="1000.0">
         <columns>
           <TableColumn fx:id="CAColumn" prefWidth="100.0" text="Control Action" />
           <TableColumn fx:id="casesColumn" minWidth="6.0" prefWidth="90.0" text="Cases" />
@@ -35,11 +36,23 @@
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="87.0" layoutX="-2.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="238.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="217.0" />
                   <Button layoutX="197.0" layoutY="16.0" mnemonicParsing="false" onAction="#AddFile" prefHeight="14.0" prefWidth="28.0" text="..." />
-                  <Button layoutX="92.0" layoutY="50.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
+                  <Button layoutX="49.0" layoutY="47.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
                   <Label fx:id="filename" layoutX="14.0" layoutY="20.0" />
+                  <Button layoutX="128.0" layoutY="47.0" mnemonicParsing="false" onAction="#closeAddFile" text="Close" />
                </children>
             </AnchorPane>
          </children>
       </Pane>
+      <TextField fx:id="TextFieldCA" layoutY="6.0" prefHeight="27.0" prefWidth="101.0" promptText="Control Action" />
+      <TextField fx:id="TextFieldCases" layoutX="101.0" layoutY="6.0" prefHeight="27.0" prefWidth="90.0" promptText="Cases" />
+      <TextField fx:id="TextFieldContext1" layoutX="220.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_Trip_Out" />
+      <TextField fx:id="TextFieldContext2" layoutX="300.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="th_X_Trip_Logic" />
+      <TextField fx:id="TextFieldContext3" layoutX="380.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="th_X_Trip_Logic_State" />
+      <TextField fx:id="TextFieldContext4" layoutX="460.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_PV" />
+      <TextField fx:id="TextFieldContext5" layoutX="540.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_A/P/T/_Query" />
+      <TextField fx:id="TextFieldContext6" layoutX="620.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_Mod_Err" />
+      <TextField fx:id="TextFieldContext7" layoutX="700.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_Chan_Err" />
+      <TextField fx:id="TextFieldContext8" layoutX="780.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_PV_Err" />
+      <Button layoutX="902.0" layoutY="6.0" mnemonicParsing="false" onAction="#addContext" text="insert" />
    </children>
 </AnchorPane>
