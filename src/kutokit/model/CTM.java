@@ -76,6 +76,10 @@ public class CTM {
 		return contexts1;
 	}
 	
+	public void setContext1(String val) {
+		this.contexts1.set(val);
+	}
+	
 	public String getContexts2() {
 		return contexts2.get();
 	}
@@ -131,20 +135,6 @@ public class CTM {
 	public StringProperty getContexts8Property() {
 		return contexts8;
 	}
-	
-	/*
-	public StringProperty HazardousProperty() {
-		return hazardous;
-	}
-	
-	public String getHazardous() {
-		return hazardous.get();
-	}
-	
-	public void setHazardous(String val) {
-		hazardous.set(val);
-	}*/
-
 	
 	public ComboBox getHazardous() {
 		return hazardous;

@@ -20,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -269,11 +270,32 @@ public class CtmController {
 		
 		//contextTable.getColumns().addAll(CAColumn,casesColumn);
 	    contextTable.setItems(mcsData);
+	    
+	    contextTable.setEditable(true);
+	    contexts1Column.setCellFactory(TextFieldTableCell.forTableColumn());
+	    contexts2Column.setCellFactory(TextFieldTableCell.forTableColumn());
+	    contexts3Column.setCellFactory(TextFieldTableCell.forTableColumn());
+	    contexts4Column.setCellFactory(TextFieldTableCell.forTableColumn());
+	    contexts5Column.setCellFactory(TextFieldTableCell.forTableColumn());
+	    contexts6Column.setCellFactory(TextFieldTableCell.forTableColumn());
+	    contexts7Column.setCellFactory(TextFieldTableCell.forTableColumn());
+	    contexts8Column.setCellFactory(TextFieldTableCell.forTableColumn());
+	}
+	
+	@FXML
+	public void onEditChange(TableColumn.CellEditEvent<CTM, String> productStringCellEditEvent) {
+		CTM context = contextTable.getSelectionModel().getSelectedItem();
+		context.setContext1(productStringCellEditEvent.getNewValue());
+		
+		//Todo :: @@@@@@@@Edit Value@@@@@@@@@@
+		f_HI_LOG_POWER_Trip_Out[0]=productStringCellEditEvent.getNewValue();
+		System.out.println(f_HI_LOG_POWER_Trip_Out[0]);
+		
 	}
 	
 	public ObservableList<CTM> getContextTableData() {
-
 	       System.out.println(myTable.get(0));
 	      return myTable;
-	   }
+	}
+	
 }
