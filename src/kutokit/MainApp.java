@@ -74,10 +74,10 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
 		
-		File file = getContextTableFilePath();
-		if(file != null) {
-			loadContextTableDataFromFile(file);
-		}
+//		File file = getContextTableFilePath();
+//		if(file != null) {
+//			loadContextTableDataFromFile(file);
+//		}
 	}
 	
 	/**
