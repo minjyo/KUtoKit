@@ -22,8 +22,7 @@ public class ControlAction {
 	public ControlAction(String controller, String controlled,  ArrayList<String> CA, int id, Components dataStore) {
 		this.controller = dataStore.findController(controller);
 		this.controlled = dataStore.findController(controlled);
-		int c1 = this.controller.getId();
-		this.controllerID = c1;
+		this.controllerID = this.controller.getId();
 		this.controlledID = this.controlled.getId();
 		this.id = id;
 		this.CA = CA;
