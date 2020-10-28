@@ -9,13 +9,22 @@ public class ControlAction {
 
 	double startX, startY, endX, endY;
 	Controller controller, controlled;
+	Components dataStore;
+	//xml
 	int id;
 	ArrayList<String> CA;
-	Components dataStore;
+	public int controllerID, controlledID;
+	
+	public ControlAction() {
+		
+	}
 	
 	public ControlAction(String controller, String controlled,  ArrayList<String> CA, int id, Components dataStore) {
 		this.controller = dataStore.findController(controller);
 		this.controlled = dataStore.findController(controlled);
+		int c1 = this.controller.getId();
+		this.controllerID = c1;
+		this.controlledID = this.controlled.getId();
 		this.id = id;
 		this.CA = CA;
 	}
@@ -29,11 +38,11 @@ public class ControlAction {
 	}
 	
 	public int getControllerID() {
-		return controller.getId();
+		return controllerID;
 	}
 	
 	public int getControlledID() {
-		return controlled.getId();
+		return controlledID;
 	}
 	
 	public int getId() {

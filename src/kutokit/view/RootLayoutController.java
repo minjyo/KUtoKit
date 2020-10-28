@@ -64,50 +64,43 @@ public class RootLayoutController {
     private void handleOpen() {
         FileChooser fileChooser = new FileChooser();
 
-        // �솗�옣�옄 �븘�꽣瑜� �꽕�젙�븳�떎.
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
                 "XML files (*.xml)", "*.xml");
         fileChooser.getExtensionFilters().add(extFilter);
 
-        // Save File Dialog瑜� 蹂댁뿬以��떎.
         File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
 
         if (file != null) {
-        	mainApp.loadContextTableDataFromFile(file);
+        	mainApp.openFile(file);
         }
     }
 
     @FXML
     private void handleSave() {
-        File ContextFile = mainApp.getContextTableFilePath();
-        if (ContextFile != null) {
-        	mainApp.saveContextTableDataToFile(ContextFile);
+        File file = mainApp.getContextTableFilePath();
+        if (file != null) {
+        	mainApp.saveFile(file);
         } else {
             handleSaveAs();
         }
     }
     
-    /**
-     * FileChooser瑜� �뿴�뼱�꽌 �궗�슜�옄媛� ���옣�븷 �뙆�씪�쓣 �꽑�깮�븯寃� �븳�떎.
-     */
     @FXML
     private void handleSaveAs() {
 		FileChooser fileChooser = new FileChooser();
 
-		// �솗�옣�옄 �븘�꽣瑜� �꽕�젙�븳�떎.
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
 				"XML files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
 
-		// Save File Dialog瑜� 蹂댁뿬以��떎.
 		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
 
 		if (file != null) {
-			// �젙�솗�븳 �솗�옣�옄瑜� 媛��졇�빞 �븳�떎.
+			
 			if (!file.getPath().endsWith(".xml")) {
 				file = new File(file.getPath() + ".xml");
 			}
-			mainApp.saveContextTableDataToFile(file);
+			mainApp.saveFile(file);
 		}
 	}
     
