@@ -1,7 +1,16 @@
 package kutokit.model;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kutokit.MainApp;
 import kutokit.view.components.*;
 
 public class Components {
@@ -9,21 +18,21 @@ public class Components {
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
 	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
-	public int curId;
+	public int curId=1;
 	public ControlAction curCA;
 	public Feedback curFB;
 	
 	public Components() {
-		curId = 3;
-		
-		//curID 나중에 수정 필
-		//===================temp========================
-		controllers.add(new Controller(100,30, "c1", 1));
-		controllers.add(new Controller(100,300, "c2", 2));
-//		ArrayList<String> ca = new ArrayList<String>();
-//		ca.add("ca1");
-//		controlActions.add(new ControlAction(1, 2, ca, 3));
-		//===================temp========================
+//		curId = 3;
+//		
+//		//curID 나중에 수정 필
+//		//===================temp========================
+//		controllers.add(new Controller(100,30, "c1", 1));
+//		controllers.add(new Controller(100,300, "c2", 2));
+////		ArrayList<String> ca = new ArrayList<String>();
+////		ca.add("ca1");
+////		controlActions.add(new ControlAction(1, 2, ca, 3));
+//		//===================temp========================
 	}
 	
 	public ArrayList<Controller> getControllers() {
@@ -58,7 +67,6 @@ public class Components {
             if (c.getId()==id) {
                 c.setX(x);
                 c.setY(y);
-                System.out.println("x: " + x + "y: " + y);
                 return;
             }
         }
@@ -153,6 +161,5 @@ public class Components {
         }
 		return null;
 	}
-	
 
 }

@@ -14,23 +14,33 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import kutokit.MainApp;
 import kutokit.view.components.*;
 import kutokit.view.popup.*;
 import kutokit.model.Components;
+import kutokit.model.ComponentsXML;
 
 public class CseController {
 
@@ -63,7 +73,7 @@ public class CseController {
 
 	private void initialize() {
 		dataStore = mainApp.components;
-
+		
 		// draw board from data store
 		controllers = dataStore.getControllers();
 		for (Controller c : controllers) {
@@ -91,6 +101,7 @@ public class CseController {
 			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
 			a.setLabel(label);
 			
+			System.out.println(ca.getControllerID());
 			dataStore.findController(ca.getControllerID()).addCA(ca.getId(), 1);
 			dataStore.findController(ca.getControlledID()).addCA(ca.getId(), 0);
 			
@@ -207,9 +218,8 @@ public class CseController {
 						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
 						a.setLabel(label);
 						
-						controlActions.add(ca);
 						dataStore.addControlAction(ca);
-						
+					
 						dataStore.findController(pop2.controller).addCA(ca.getId(), 1);
 						dataStore.findController(pop2.controlled).addCA(ca.getId(), 0);
 						
@@ -234,7 +244,6 @@ public class CseController {
 						LabelView label1 = new LabelView(a1.startX, a1.startY, a1.endX, a1.endY, fb.getFB(), "FB");
 						a1.setLabel(label1);
 						
-						feedbacks.add(fb);
 						dataStore.addFeedback(fb);
 					
 						addFeedback(a1, label1, fb);

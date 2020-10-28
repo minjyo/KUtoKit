@@ -27,8 +27,6 @@ public class ArrowView extends Path{
 		this.endY = endY;
 		this.type = type;
 		
-		System.out.println("type: " + type);
-		
 		strokeProperty().bind(fillProperty());
         setFill(Color.BLACK);
         setStrokeWidth(2);

@@ -10,6 +10,7 @@ import javax.xml.bind.Unmarshaller;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -96,7 +97,6 @@ public class MainApp extends Application {
             LhcController controller = loader.getController();
             controller.setMainApp(this);
             
-            System.out.println("a");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,7 +139,7 @@ public class MainApp extends Application {
             //add controller
             controller = loader.getController();
             controller.setMainApp(this);
-            System.out.println("a");
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -161,7 +161,7 @@ public class MainApp extends Application {
             UtmController controller = loader.getController();
             controller.setUcaTable(getContextTable());
             controller.setMainApp(this);
-            System.out.println("a");
+           
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,7 +183,7 @@ public class MainApp extends Application {
             //add controller
             PmmController controller = loader.getController();
             controller.setMainApp(this);
-            System.out.println("a");
+          
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -204,7 +204,7 @@ public class MainApp extends Application {
             DashboardController controller = loader.getController();
             controller.setMainApp(this);
             
-            System.out.println("a");
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -223,7 +223,81 @@ public class MainApp extends Application {
 		launch(args);
 	}
 	
+	public File getFilePath() {
+	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+	    String filePath = prefs.get("filePath", null);
+	    if (filePath != null) {
+	    	System.out.println("filePath: " + filePath);
+	        return new File(filePath);
+	    } else {
+	        return null;
+	    }
+	}
 	
+	public void setFilePath(File file) {
+	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+	    if (file != null) {
+	        prefs.put("filePath", file.getPath());
+	    } else {
+	        prefs.remove("filePath");
+	    }
+	}
+	
+	public void openFile(File file) {
+		 try {
+			 //switch
+		        JAXBContext context = JAXBContext
+		                .newInstance(ComponentsXML.class);
+		        Unmarshaller um = context.createUnmarshaller();
+
+		        ComponentsXML wrapper = (ComponentsXML) um.unmarshal(file);
+
+		        components.getControllers().addAll(wrapper.getControllers());
+		        components.getControlActions().addAll(wrapper.getControlActions());
+		        components.getFeedbacks().addAll(wrapper.getFeedbacks());
+		        
+		      //switch
+		        
+		        setFilePath(file);
+
+		    } catch (Exception e) { 
+		        Alert alert = new Alert(AlertType.ERROR);
+		        alert.setTitle("Error");
+		        alert.setHeaderText("Could not load data");
+		        alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+		        alert.showAndWait();
+		    }
+	}
+	
+	public void saveFile(File file) {
+	    try {
+	    	 //switch
+	        JAXBContext context = JAXBContext
+	                .newInstance(ComponentsXML.class);
+	      
+	        Marshaller m = context.createMarshaller();
+	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	      
+	        ComponentsXML wrapper = new ComponentsXML();
+	        wrapper.setControllers(components.getControllers());
+	        wrapper.setControlActions(components.getControlActions());
+	        wrapper.setFeedbacks(components.getFeedbacks());
+	        //switch
+	        
+	        m.marshal(wrapper, file);
+
+	        setFilePath(file);
+	    } catch (Exception e) { 
+	    	e.printStackTrace();
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not save data");
+	        alert.setContentText("Could not save data to file:\n" + file.getPath());
+
+	        alert.showAndWait();
+	    }
+	}
 	
 	
 	public File getContextTableFilePath() {

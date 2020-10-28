@@ -8,14 +8,17 @@ public class Controller {
 	double x, y;
 	String name;
 	int id;
-	Map<Integer, Integer> CA; //key: CA id, value: 1->controller, 0->controlled
+	Map<Integer, Integer> CA = new HashMap<Integer, Integer>(); //key: CA id, value: 1->controller, 0->controlled
+	
+	public Controller() {
+		
+	}
 	
 	public Controller(double x, double y, String name, int id) {
 		this.x = x;
 		this.y = y;
 		this.name = name;
 		this.id = id;
-		this.CA = new HashMap<Integer, Integer>();
 	}
 	
 	public double getX() {

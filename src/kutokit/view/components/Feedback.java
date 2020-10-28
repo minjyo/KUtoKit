@@ -9,9 +9,16 @@ public class Feedback {
 
 	double startX, startY, endX, endY;
 	Controller controller, controlled;
-	int id;
-	ArrayList<String> FB;
 	Components dataStore;
+	//xml
+	int id;
+	public int controllerID, controlledID;
+	ArrayList<String> FB;
+	
+	
+	public Feedback() {
+		
+	}
 	
 	public Feedback(String controller, String controlled,  ArrayList<String> FB, int id, Components dataStore) {
 		this.controller = dataStore.findController(controller);
