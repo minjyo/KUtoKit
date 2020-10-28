@@ -70,7 +70,7 @@ public class CseController {
 			DoubleProperty X = new SimpleDoubleProperty(c.getX());
 		    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
 		    
-			RectangleView r = new RectangleView(X, Y, c.getName(), c.getId());
+			RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
 
 			addController(r, c);
 		}
@@ -101,10 +101,10 @@ public class CseController {
 		for (Feedback fb : feedbacks) {
 			DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
 			for(Node node: root.getChildren()) {
-				if(Integer.parseInt(node.getId())==fb.getControllerID()) {
+				if(Integer.parseInt(node.getId())==fb.getControlledID()) {
 					startX = node.layoutXProperty();
 					startY = node.layoutYProperty();
-				}else if(Integer.parseInt(node.getId())==fb.getControlledID()) {
+				}else if(Integer.parseInt(node.getId())==fb.getControllerID()) {
 					endX = node.layoutXProperty();
 					endY = node.layoutYProperty();
 				}
@@ -183,7 +183,7 @@ public class CseController {
 						DoubleProperty X = new SimpleDoubleProperty(c.getX());
 					    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
 					    
-						RectangleView r = new RectangleView(X, Y, c.getName(), c.getId());
+						RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
 
 						addController(r, c);
 						dataStore.addController(c);

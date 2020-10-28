@@ -58,6 +58,7 @@ public class Components {
             if (c.getId()==id) {
                 c.setX(x);
                 c.setY(y);
+                System.out.println("x: " + x + "y: " + y);
                 return;
             }
         }

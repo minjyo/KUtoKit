@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import kutokit.model.Components;
 
 public class RectangleView extends StackPane {
 
@@ -15,9 +16,13 @@ public class RectangleView extends StackPane {
 	public int id;
 	public int name;
 	public DoubleProperty x, y;
+	Components dataStore;
 	
-	public RectangleView(DoubleProperty x, DoubleProperty y, String name, int id) {
+	public RectangleView(DoubleProperty x, DoubleProperty y, String name, int id, Components dataStore) {
 	
+		this.dataStore = dataStore;
+		this.id = id;
+		
 		this.r = new Rectangle(150, 100, Color.GREEN);
 		
 		this.x = x;
@@ -57,9 +62,8 @@ public class RectangleView extends StackPane {
 					public void handle(MouseEvent mouseEvent) {
 						setLayoutX(mouseEvent.getX() + dragDelta.x);
 						setLayoutY(mouseEvent.getY() + dragDelta.y);
-						//int id = Integer.parseInt(((Label) getChildren().get(2)).getText());
-
-						//dataStore.moveController(id, shape.getLayoutX(), shape.getLayoutY());
+					
+						dataStore.moveController(id, getLayoutX(), getLayoutY());
 					}
 				});
 				setOnMouseEntered(new EventHandler<MouseEvent>() {
