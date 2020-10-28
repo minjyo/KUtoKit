@@ -4,15 +4,15 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.UtmController">
+<AnchorPane minHeight="800.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.UtmController">
    <children>
-      <TableView fx:id="ucaTable" prefHeight="300.0" prefWidth="600.0">
+      <TableView fx:id="ucaTable" prefHeight="800.0" prefWidth="1000.0">
         <columns>
-          <TableColumn fx:id="CAColumn" prefWidth="120.0" text="CA" />
-          <TableColumn fx:id="providingColumn" minWidth="4.0" prefWidth="120.0" text="Providing Causes Hazard" />
-            <TableColumn fx:id="notProvidingColumn" prefWidth="120.0" text="Not Providing Causes Hazard" />
-            <TableColumn fx:id="incorrectColumn" prefWidth="120.0" text="Incorrect Timing/Order" />
-            <TableColumn fx:id="stoppedColumn" prefWidth="120.0" text="Stopped Too Soon/Applied Too Long" />
+          <TableColumn fx:id="CAColumn" prefWidth="200.0" text="CA" />
+          <TableColumn fx:id="providingColumn" minWidth="4.0" prefWidth="200.0" text="Providing Causes Hazard" />
+            <TableColumn fx:id="notProvidingColumn" prefWidth="200.0" text="Not Providing Causes Hazard" />
+            <TableColumn fx:id="incorrectColumn" prefWidth="200.0" text="Incorrect Timing/Order" />
+            <TableColumn fx:id="stoppedColumn" prefWidth="200.0" text="Stopped Too Soon/Applied Too Long" />
         </columns>
       </TableView>
    </children>

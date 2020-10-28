@@ -33,7 +33,8 @@ public class MainApp extends Application {
 	 private CtmController controller;
 	 
 	 public static Components components;
-	 
+	 public Contexts contexts;
+
 	@Override
 	//auto execute after main execute
 	public void start(Stage primaryStage) {
@@ -48,11 +49,12 @@ public class MainApp extends Application {
 	 /**
      * init root layout
      */
-	
+
 	private void initDataStore() {
 		components = new Components();
+		contexts = new Contexts();
 	}
-	
+
 	private void initRootLayout() {
 		try {
             // get root layout
@@ -329,7 +331,8 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
 			AnchorPane View = (AnchorPane) loader.load();
 			CtmController controller = loader.getController();
-			ctmList = controller.getContextTableData();
+			//get hazardous error
+//			ctmList = controller.getContextTableData();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
