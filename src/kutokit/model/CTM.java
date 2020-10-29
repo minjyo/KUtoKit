@@ -22,6 +22,13 @@ public class CTM {
 	private StringProperty contexts6;
 	private StringProperty contexts7;
 	private StringProperty contexts8;
+	private StringProperty contexts9;
+	private StringProperty contexts10;
+	private StringProperty contexts11;
+	private StringProperty contexts12;
+	private StringProperty contexts13;
+	private StringProperty contexts14;
+	private StringProperty contexts15;
 	private ComboBox hazardous;
 	
 
