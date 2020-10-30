@@ -1,5 +1,6 @@
 package kutokit.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -8,15 +9,17 @@ import com.sun.javafx.scene.control.SelectedCellsMap;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -32,9 +35,16 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import kutokit.MainApp;
 import kutokit.model.LHC;
 import kutokit.model.LHCDataStore;
+import javafx.fxml.*;
 
 public class LhcController implements Initializable {
 
@@ -85,19 +95,31 @@ public class LhcController implements Initializable {
 		 * 
 		*/
 		
-		//add items to loss table
+		
 		lossIndexColumn.setCellValueFactory(cellData -> cellData.getValue().indexProperty());
 		lossTextColumn.setCellValueFactory(cellData -> cellData.getValue().textProperty());
 		lossLinkColumn.setCellValueFactory(cellData -> cellData.getValue().linkProperty());
 		
 		lossTableView.setItems(lossTableList); 
 		
+		//add items to loss table
 		addLossButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
 				LHC lhc = new LHC("L" + (lhcDB.getLossTableList().size()+1), lossTextField.getText(), "");
-				lossTableView.getItems().add(lhc);
-				lossTextField.clear();
+				//if text field is empty, warning pop up opens
+				if(lossTextField.getText().isEmpty()) {
+					try {
+						OpenTextFieldPopUp();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.out.println("no text field input");
+						e1.printStackTrace();
+					}
+				}else {
+					lossTableView.getItems().add(lhc);
+					lossTextField.clear();
+				}
 			}
 		});
 		
@@ -105,7 +127,6 @@ public class LhcController implements Initializable {
 		ContextMenu lossRightClickMenu = new ContextMenu();
 		MenuItem removeLossMenu = new MenuItem("Delete");
 		lossRightClickMenu.getItems().add(removeLossMenu);
-		
 		
 		ObservableList<LHC> allLossItems, selectedLossItem;
 		allLossItems = lossTableView.getItems();
@@ -119,10 +140,11 @@ public class LhcController implements Initializable {
 				removeLossMenu.setOnAction(event -> {
 					selectedLossItem.forEach(allLossItems::remove);
 					//need to update loss index
+					updateLossIndex();
 				});
 			}
-			
 		});
+		lossRightClickMenu.hide();
 		
 		//modify text in loss table
 		lossTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -150,10 +172,31 @@ public class LhcController implements Initializable {
 			@Override
 			public void handle(MouseEvent e) {
 				LHC lhc = new LHC("H" + (lhcDB.getHazardTableList().size()+1), hazardTextField.getText(), hazardLinkField.getText());
-				hazardTableView.getItems().add(lhc);
-				hazardTextField.clear();
-				hazardLinkField.clear();
+				//if entered value doesn't fit format, show warning popup
+				if(!(hazardLinkField.getText().contains("[L") && hazardLinkField.getText().contains("]"))) {
+					try {
+						openLinkPopUp();
+					} catch (IOException e1) {
+						System.out.println("popup");
+						e1.printStackTrace();
+					}
+				}else if(hazardTextField.getText().isEmpty()) {
+					//if text field is empty, warning pop up opens
+					try {
+						OpenTextFieldPopUp();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.out.println("no text field input");
+						e1.printStackTrace();
+					}
+				}else {
+					//if entered value fits format and text field is not empty, continue on
+					hazardTableView.getItems().add(lhc);
+					hazardTextField.clear();
+					hazardLinkField.clear();
+				}
 			}
+
 		});
 		
 		//delete items from hazard table
@@ -174,10 +217,11 @@ public class LhcController implements Initializable {
 				removeHazardMenu.setOnAction(event -> {
 					selectedHazardItem.forEach(allHazardItems::remove);
 					//need to update hazard index
+					updateHazardIndex();
 				});
 			}
-			
 		});
+		hazardRightClickMenu.hide();
 		
 		//modify text in hazard table
 		hazardTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -214,9 +258,29 @@ public class LhcController implements Initializable {
 			@Override
 			public void handle(MouseEvent e) {
 				LHC lhc = new LHC("C" + (lhcDB.getConstraintTableList().size()+1), constraintTextField.getText(), constraintLinkField.getText());
-				constraintTableView.getItems().add(lhc);
-				constraintTextField.clear();
-				constraintLinkField.clear();
+				//if entered value doesn't fit format, show warning popup
+				if(!(constraintLinkField.getText().contains("[H") && constraintLinkField.getText().contains("]"))) {
+					try {
+						openLinkPopUp();
+					} catch (IOException e1) {
+						System.out.println("popup");
+						e1.printStackTrace();
+					}
+				}if(constraintTextField.getText().isEmpty()) {
+					//if text field is empty, warning pop up opens
+					try {
+						OpenTextFieldPopUp();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.out.println("no text field input");
+						e1.printStackTrace();
+					}
+				}else {
+					//if entered value fits format, continue on
+					constraintTableView.getItems().add(lhc);
+					constraintTextField.clear();
+					constraintLinkField.clear();
+				}
 			}
 		});
 		
@@ -237,10 +301,11 @@ public class LhcController implements Initializable {
 				removeConstraintMenu.setOnAction(event -> {
 					selectedConstraintItem.forEach(allConstraintItems::remove);
 					//need to update constraint index
-						});
-				}
-					
+					updateConstraintIndex();
+				});
+			}
 		});
+		constraintRightClickMenu.hide();
 		
 		//modify text in constraint table
 		constraintTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -259,5 +324,121 @@ public class LhcController implements Initializable {
 				t.getTablePosition().getRow())
 		        ).setText(t.getNewValue())
 		);
+	}
+	
+	//if text field is empty, this pop up opens
+	private void OpenTextFieldPopUp() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		Parent parent = loader.load(getClass().getResource("popup/LhcNoTextInputPopUpView.fxml"));
+		Stage dialogStage = new Stage();
+		Scene scene = new Scene(parent);
+		
+		//set dialog setting
+		dialogStage.setTitle("Empty text field");            
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.initOwner(mainApp.getPrimaryStage());
+		dialogStage.setScene(scene);
+		dialogStage.setResizable(false);
+		dialogStage.show();
+	}
+
+	//if link does not fit format of [index], this pop up opens
+	private void openLinkPopUp() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		Parent parent = loader.load(getClass().getResource("popup/LhcLinkPopUpView.fxml"));
+		Scene scene = new Scene(parent);
+		Stage dialogStage = new Stage();
+		            
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.initOwner(mainApp.getPrimaryStage());
+		dialogStage.setTitle("Wrong link format");
+		
+		dialogStage.setScene(scene);
+		dialogStage.setResizable(false);
+		dialogStage.show();		
+	}
+	
+	//function to update loss index when one is deleted.
+	private void updateLossIndex() {
+		ArrayList<String> index = new ArrayList<>();
+		int total = lossTableList.size();
+		for(int i = 0; i < total + 1; i++) {
+			index.add(lossIndexColumn.getCellData(i));
+			if(i == 0) {
+				//always put first item's index as L1 
+				if(index.get(i).equals("L1")) {
+					continue;
+				}else {
+					index.get(i).replace(Integer.toString(i), "1");
+					lossTableList.get(i).setIndex("L1");
+				}
+			}else {
+				//from second item
+				if(index.get(i).equals("L" + Integer.toString(i + 1))) {
+					//for example, if second item(i=1)'s index is not L2
+					continue;
+				}else {
+					lossTableList.get(i).setIndex("");
+					lossTableList.get(i).setIndex("L" + Integer.toString(i + 1));
+				}
+			}
+			total-- ;
+		}
+	}
+	
+	//function to update hazard index when one is deleted.
+	private void updateHazardIndex() {
+		ArrayList<String> index = new ArrayList<>();
+		int total = hazardTableList.size();
+		for(int i = 0; i < total + 1; i++) {
+			index.add(hazardIndexColumn.getCellData(i));
+			if(i == 0) {
+				//always put first item's index as H1 
+				if(index.get(i).equals("H1")) {
+					continue;
+				}else {
+					index.get(i).replace(Integer.toString(i), "1");
+					hazardTableList.get(i).setIndex("H1");
+				}
+			}else {
+				//from second item
+				if(index.get(i).equals("H" + Integer.toString(i + 1))) {
+					//for example, if second item(i=1)'s index is not H2
+					continue;
+				}else {
+					hazardTableList.get(i).setIndex("");
+					hazardTableList.get(i).setIndex("H" + Integer.toString(i + 1));
+				}
+			}
+			total-- ;
+		}
+	}
+	
+	//function to update constraint index when one is deleted.
+	private void updateConstraintIndex() {
+		ArrayList<String> index = new ArrayList<>();
+		int total = constraintTableList.size();
+		for(int i = 0; i < total + 1; i++) {
+			index.add(constraintIndexColumn.getCellData(i));
+			if(i == 0) {
+				//always put first item's index as C1 
+				if(index.get(i).equals("C1")) {
+					continue;
+				}else {
+					index.get(i).replace(Integer.toString(i), "1");
+					constraintTableList.get(i).setIndex("C1");
+				}
+			}else {
+				//from second item
+				if(index.get(i).equals("C" + Integer.toString(i + 1))) {
+					//for example, if second item(i=1)'s index is not C2
+					continue;
+				}else {
+					constraintTableList.get(i).setIndex("");
+					constraintTableList.get(i).setIndex("C" + Integer.toString(i + 1));
+				}
+			}
+			total-- ;
+		}
 	}
 }
