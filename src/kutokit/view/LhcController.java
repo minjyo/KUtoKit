@@ -171,9 +171,9 @@ public class LhcController implements Initializable {
 		addHazardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				LHC lhc = new LHC("H" + (lhcDB.getHazardTableList().size()+1), hazardTextField.getText(), hazardLinkField.getText());
+				LHC lhc = new LHC("H" + (lhcDB.getHazardTableList().size()+1), hazardTextField.getText(), "[" +  hazardLinkField.getText() + "]");
 				//if entered value doesn't fit format, show warning popup
-				if(!(hazardLinkField.getText().contains("[L") && hazardLinkField.getText().contains("]"))) {
+				if(!(hazardLinkField.getText().contains("L"))) {
 					try {
 						openLinkPopUp();
 					} catch (IOException e1) {
@@ -223,22 +223,26 @@ public class LhcController implements Initializable {
 		});
 		hazardRightClickMenu.hide();
 		
+		
+//		LHC selectedHazardCell = hazardTableView.getSelectionModel().getSelectedItem();
+		
 		//modify text in hazard table
 		hazardTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		hazardTextColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) ->
 				(t.getTableView().getItems().get(
 				t.getTablePosition().getRow())
-		        ).setText(t.getNewValue())
+		        ).setText(t.getNewValue().toString())
 		);
 		
+		//now if I try to modify link, text cell also gets modified
 		//modify link in hazard table
 		hazardLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		hazardLinkColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) ->
 				(t.getTableView().getItems().get(
 				t.getTablePosition().getRow())
-	            ).setText(t.getNewValue())
+			    ).setText(t.getNewValue().toString())
 		);
 		
 		/*
@@ -257,16 +261,16 @@ public class LhcController implements Initializable {
 		addConstraintButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				LHC lhc = new LHC("C" + (lhcDB.getConstraintTableList().size()+1), constraintTextField.getText(), constraintLinkField.getText());
+				LHC lhc = new LHC("C" + (lhcDB.getConstraintTableList().size()+1), constraintTextField.getText(), "[" + constraintLinkField.getText() + "]");
 				//if entered value doesn't fit format, show warning popup
-				if(!(constraintLinkField.getText().contains("[H") && constraintLinkField.getText().contains("]"))) {
+				if(!(constraintLinkField.getText().contains("H"))) {
 					try {
 						openLinkPopUp();
 					} catch (IOException e1) {
 						System.out.println("popup");
 						e1.printStackTrace();
 					}
-				}if(constraintTextField.getText().isEmpty()) {
+				}else if(constraintTextField.getText().isEmpty()) {
 					//if text field is empty, warning pop up opens
 					try {
 						OpenTextFieldPopUp();
@@ -325,6 +329,7 @@ public class LhcController implements Initializable {
 		        ).setText(t.getNewValue())
 		);
 	}
+	
 	
 	//if text field is empty, this pop up opens
 	private void OpenTextFieldPopUp() throws IOException {
@@ -418,7 +423,7 @@ public class LhcController implements Initializable {
 	private void updateConstraintIndex() {
 		ArrayList<String> index = new ArrayList<>();
 		int total = constraintTableList.size();
-		for(int i = 0; i < total + 1; i++) {
+		for(int i = 0; i < total + 2; i++) {
 			index.add(constraintIndexColumn.getCellData(i));
 			if(i == 0) {
 				//always put first item's index as C1 
