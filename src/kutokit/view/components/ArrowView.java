@@ -35,22 +35,22 @@ public class ArrowView extends Path{
         LineTo line1;
         if(type.equals("CA")) {
         	//Line
-            move = new MoveTo(startX.get()+120, startY.get()+100);
-            move.xProperty().bind(startX.add(120));
-            move.yProperty().bind(startY.add(100));
+            move = new MoveTo(startX.get()+75, startY.get()+50);
+            move.xProperty().bind(startX.add(75));
+            move.yProperty().bind(startY.add(50));
         	
-            line1 = new LineTo(endX.get()+120, endY.get());
-            line1.xProperty().bind(endX.add(120));
-            line1.yProperty().bind(endY);
+            line1 = new LineTo(endX.get()+75, endY.get()+50);
+            line1.xProperty().bind(endX.add(75));
+            line1.yProperty().bind(endY.add(50));
         }else {
         	//Line
-            move = new MoveTo(startX.get()+30, startY.get());
-            move.xProperty().bind(startX.add(30));
-            move.yProperty().bind(startY);
+            move = new MoveTo(startX.get()+75, startY.get()+50);
+            move.xProperty().bind(startX.add(75));
+            move.yProperty().bind(startY.add(50));
         	
-            line1 = new LineTo(endX.get()+30, endY.get()+100);
-            line1.xProperty().bind(endX.add(30));
-            line1.yProperty().bind(endY.add(100));
+            line1 = new LineTo(endX.get()+75, endY.get()+50);
+            line1.xProperty().bind(endX.add(75));
+            line1.yProperty().bind(endY.add(50));
         }
         
         getElements().add(move);
@@ -98,28 +98,28 @@ public class ArrowView extends Path{
         
         if(type.equals("CA")) {
         	line2 = new LineTo(x1.get(), y1.get());
-            line2.xProperty().bind(x1.add(120));
-            line2.yProperty().bind(y1);
+            line2.xProperty().bind(x1.add(75));
+            line2.yProperty().bind(y1.add(50));
             
             line3 = new LineTo(x2.get(), y2.get());
-            line3.xProperty().bind(x2.add(120));
-            line3.yProperty().bind(y2);
+            line3.xProperty().bind(x2.add(75));
+            line3.yProperty().bind(y2.add(50));
             
             line4 = new LineTo(endX.get(), endY.get());
-            line4.xProperty().bind(endX.add(120));
-            line4.yProperty().bind(endY);
+            line4.xProperty().bind(endX.add(75));
+            line4.yProperty().bind(endY.add(50));
         }else {
         	line2 = new LineTo(x1.get(), y1.get());
-            line2.xProperty().bind(x1.add(30));
-            line2.yProperty().bind(y1.add(100));
+            line2.xProperty().bind(x1.add(75));
+            line2.yProperty().bind(y1.add(50));
             
             line3 = new LineTo(x2.get(), y2.get());
-            line3.xProperty().bind(x2.add(30));
-            line3.yProperty().bind(y2.add(100));
+            line3.xProperty().bind(x2.add(75));
+            line3.yProperty().bind(y2.add(50));
             
             line4 = new LineTo(endX.get(), endY.get());
-            line4.xProperty().bind(endX.add(30));
-            line4.yProperty().bind(endY.add(100));
+            line4.xProperty().bind(endX.add(75));
+            line4.yProperty().bind(endY.add(50));
         }
         
         getElements().add(line2);

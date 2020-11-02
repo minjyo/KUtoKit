@@ -94,7 +94,7 @@ public class CseController {
 					startY = node.layoutYProperty();
 				}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
 					endX = node.layoutXProperty();
-					endY = node.layoutYProperty();
+					endY = node.layoutYProperty();    
 				}
 			}
 			ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
