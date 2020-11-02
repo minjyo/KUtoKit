@@ -61,6 +61,7 @@ public class MainApp extends Application {
 		components = new Components();
 		lhcDataStore = new LHCDataStore();
 		models = new ProcessModel();
+		ucadatastore = new UCADataStore();
 	}
 	
 	private void initRootLayout() {
@@ -268,7 +269,18 @@ public class MainApp extends Application {
 		        
 		        setFilePath(file);
 
-		    } catch (Exception e) { 
+				 //UCA
+//			 	JAXBContext context = JAXBContext
+//		                .newInstance(UCAXML.class);
+//		        Unmarshaller um = context.createUnmarshaller();
+//
+//		        UCAXML UCAWrapper = (UCAXML) um.unmarshal(file);
+//
+//		        ucadatastore.getUCATableList().addAll(UCAWrapper.getUCAList());
+//
+//		        setFilePath(file);
+
+		    } catch (Exception e) {
 		        Alert alert = new Alert(AlertType.ERROR);
 		        alert.setTitle("Error");
 		        alert.setHeaderText("Could not load data");
@@ -293,6 +305,16 @@ public class MainApp extends Application {
 	        CSEwrapper.setFeedbacks(components.getFeedbacks());
 	        
 	        m.marshal(CSEwrapper, file);
+
+		    //UCA
+//	        JAXBContext context = JAXBContext
+//	                .newInstance(UCAXML.class);
+//
+//	        Marshaller m = context.createMarshaller();
+//	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//
+//	        UCAXML UCAwrapper = new UCAXML();
+//	        UCAwrapper.setUCAList(ucadatastore.getUCATableList());
 
 	        setFilePath(file);
 	    } catch (Exception e) { 
