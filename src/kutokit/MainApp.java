@@ -39,6 +39,10 @@ public class MainApp extends Application {
 	 public static LHCDataStore lhcDataStore;
 	 private ObservableList<LHC> lhcList;
 	 
+	 public static void main(String[] args) {
+		 launch(args);
+	 }
+	 
 	@Override
 	//auto execute after main execute
 	public void start(Stage primaryStage) {
@@ -221,11 +225,6 @@ public class MainApp extends Application {
 	 */
 	public Stage getPrimaryStage() {
 		return primaryStage;
-	}
-
-
-	public static void main(String[] args) {
-		launch(args);
 	}
 	
 	public File getFilePath() {
