@@ -27,7 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kutokit.MainApp;
-import kutokit.model.CTM;
+import kutokit.model.ctm.CTM;
 
 public class CtmController {
 

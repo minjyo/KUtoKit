@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.utm;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

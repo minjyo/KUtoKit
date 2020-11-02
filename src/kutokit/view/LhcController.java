@@ -42,8 +42,8 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import kutokit.MainApp;
-import kutokit.model.LHC;
-import kutokit.model.LHCDataStore;
+import kutokit.model.lhc.LHC;
+import kutokit.model.lhc.LHCDataStore;
 import javafx.fxml.*;
 
 public class LhcController implements Initializable {
@@ -242,7 +242,7 @@ public class LhcController implements Initializable {
 			(TableColumn.CellEditEvent<LHC, String> t) ->
 				(t.getTableView().getItems().get(
 				t.getTablePosition().getRow())
-			    ).setText(t.getNewValue().toString())
+			    ).setLink(t.getNewValue().toString())
 		);
 		
 		/*
@@ -324,10 +324,7 @@ public class LhcController implements Initializable {
 		constraintLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		constraintLinkColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) ->
-				(t.getTableView().getItems().get(
-				t.getTablePosition().getRow())
-		        ).setText(t.getNewValue())
-		);
+				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setLink(t.getNewValue()));
 	}
 	
 	

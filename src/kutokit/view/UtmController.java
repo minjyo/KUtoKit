@@ -19,11 +19,11 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.Stage;
 import kutokit.MainApp;
-import kutokit.model.CTM;
-import kutokit.model.LHC;
-import kutokit.model.LHCDataStore;
-import kutokit.model.UCA;
-import kutokit.model.UCADataStore;
+import kutokit.model.ctm.CTM;
+import kutokit.model.lhc.LHC;
+import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.utm.UCA;
+import kutokit.model.utm.UCADataStore;
 import kutokit.view.popup.UCAHazardPopUPController;
 
 public class UtmController {

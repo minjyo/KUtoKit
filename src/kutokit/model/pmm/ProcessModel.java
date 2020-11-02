@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.pmm;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
