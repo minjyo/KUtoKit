@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.view.components.*;
 
@@ -27,8 +28,13 @@ public class ProjectXML {
 	ObservableList<UCA> UCAList = FXCollections.observableArrayList();
 	// --------------------------- UTM --------------------------
 	
-	
-	
+	// --------------------------- PMM --------------------------
+	private String controller;
+	private String controlAction;
+	private String outputVariable;
+	private ObservableList<String> valueList = FXCollections.observableArrayList();
+	// --------------------------- PMM --------------------------
+
 	// --------------------------- CSE --------------------------
 	@XmlElement(name = "CSEontroller")
 	public ArrayList<Controller> getControllers() {
@@ -70,4 +76,38 @@ public class ProjectXML {
 	}
 	// --------------------------- UTM --------------------------
 	
+	// --------------------------- PMM --------------------------
+	@XmlElement(name = "Controller")
+	public String getControllerName() {
+		return controller;
+	}
+	public void setControllerName(String controllerName) {
+		this.controller = controllerName;
+	}
+	
+	@XmlElement(name = "ControlAction")
+	public String getControlActionName() {
+		return controlAction;
+	}
+	public void setControlActionName(String controlActionName) {
+		this.controlAction = controlActionName;
+	}
+	
+	@XmlElement(name = "OutputVariable")
+	public String getOutputVariableName() {
+		return outputVariable;
+	}
+	public void setOutputVariableName(String OutputVariableName) {
+		outputVariable = OutputVariableName;
+	}
+	
+	@XmlElement(name = "Valuelist")
+	public ObservableList<String> getValueList() {
+		return valueList;
+	}
+	public void setValueList(ObservableList<String> valueListName) {
+		valueList = valueListName;
+	}
+	
+	// --------------------------- PMM --------------------------
 }

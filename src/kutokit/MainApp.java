@@ -253,19 +253,25 @@ public class MainApp extends Application {
 
 		        ProjectXML projectXML = (ProjectXML) um.unmarshal(file);
 
-		     // --------------------------- CSE --------------------------
-		        components.getControllers().addAll(projectXML.getControllers());
-		        components.getControlActions().addAll(projectXML.getControlActions());
-		        components.getFeedbacks().addAll(projectXML.getFeedbacks());    
-		     // --------------------------- CSE --------------------------
+//		     // --------------------------- CSE --------------------------
+//		        components.getControllers().addAll(projectXML.getControllers());
+//		        components.getControlActions().addAll(projectXML.getControlActions());
+//		        components.getFeedbacks().addAll(projectXML.getFeedbacks());    
+//		     // --------------------------- CSE --------------------------
+//		        
+//		        
+//		     // --------------------------- UTM --------------------------
+//		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
+//		     // --------------------------- UTM --------------------------   
 		        
-		        
-		     // --------------------------- UTM --------------------------
-		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
-		     // --------------------------- UTM --------------------------   
+			 // --------------------------- PMM --------------------------  
+		        models.setControllerName(projectXML.getControllerName());;
+		        models.setControlActionName(projectXML.getControlActionName());
+		        models.setOutputName(projectXML.getOutputVariableName());
+		        models.getValuelist().addAll(projectXML.getValueList());
+			 // --------------------------- PMM --------------------------   
 		        
 		        setFilePath(file);
-
 
 		    } catch (Exception e) {
 		        Alert alert = new Alert(AlertType.ERROR);
@@ -292,12 +298,20 @@ public class MainApp extends Application {
 	        projectXML.setControlActions(components.getControlActions());
 	        projectXML.setFeedbacks(components.getFeedbacks());
 	     // --------------------------- CSE --------------------------
-	        
-	        
+	          
 	        
 	     // --------------------------- UTM --------------------------
 	        projectXML.setUCAList(ucadatastore.getUCATableList());
 	     // --------------------------- UTM --------------------------   
+	        
+		 // --------------------------- PMM --------------------------   
+	        projectXML.setControllerName(models.getControllerName());
+	        projectXML.setControlActionName(models.getControlActionName());
+	        projectXML.setOutputVariableName(models.getOutputName());
+	        projectXML.setValueList(models.getValuelist());
+		 // --------------------------- PMM --------------------------   
+
+	        
 	        
 	        m.marshal(projectXML, file);
 	        setFilePath(file);
