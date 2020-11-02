@@ -35,21 +35,21 @@ public class ArrowView extends Path{
         LineTo line1;
         if(type.equals("CA")) {
         	//Line
-            move = new MoveTo(startX.get()+75, startY.get()+50);
-            move.xProperty().bind(startX.add(75));
+            move = new MoveTo(startX.get()+120, startY.get()+50);
+            move.xProperty().bind(startX.add(120));
             move.yProperty().bind(startY.add(50));
         	
-            line1 = new LineTo(endX.get()+75, endY.get()+50);
-            line1.xProperty().bind(endX.add(75));
+            line1 = new LineTo(endX.get()+120, endY.get()+50);
+            line1.xProperty().bind(endX.add(120));
             line1.yProperty().bind(endY.add(50));
         }else {
         	//Line
-            move = new MoveTo(startX.get()+75, startY.get()+50);
-            move.xProperty().bind(startX.add(75));
+            move = new MoveTo(startX.get()+30, startY.get()+50);
+            move.xProperty().bind(startX.add(30));
             move.yProperty().bind(startY.add(50));
         	
-            line1 = new LineTo(endX.get()+75, endY.get()+50);
-            line1.xProperty().bind(endX.add(75));
+            line1 = new LineTo(endX.get()+30, endY.get()+50);
+            line1.xProperty().bind(endX.add(30));
             line1.yProperty().bind(endY.add(50));
         }
         
@@ -72,12 +72,12 @@ public class ArrowView extends Path{
         	    () ->  Math.cos(angle.get()),
         	    angle));
         
-        //point1
+        //point1   
         DoubleProperty x1 = new SimpleDoubleProperty(0);
         x1.bind(Bindings.createDoubleBinding(
         	    () ->  (- 1.0 / 2.0 * cos.get() + Math.sqrt(3) / 2 * sin.get()) * arrowHeadSize + endX.get(),
         	    sin, cos, endX));
-        
+             
         DoubleProperty y1 = new SimpleDoubleProperty();
         y1.bind(Bindings.createDoubleBinding(
         	    () ->  (- 1.0 / 2.0 * sin.get() - Math.sqrt(3) / 2 * cos.get()) * arrowHeadSize + endY.get(),
@@ -94,34 +94,45 @@ public class ArrowView extends Path{
         	    () -> (1.0 / 2.0 * sin.get() - Math.sqrt(3) / 2 * cos.get()) * arrowHeadSize + endY.get(),
         	    sin, cos, endY));
         
+        MoveTo middle;
         LineTo line2, line3, line4;
-        
+
         if(type.equals("CA")) {
+        	middle = new MoveTo(endX.get()+120-((endX.get()+120-startX.get()+120)/2), endY.get()+50-((endY.get()+50-startY.get()+50)/2));
+            middle.xProperty().bind(endX.add(120).subtract(endX.add(120).subtract(startX.add(120)).divide(2)));
+            middle.yProperty().bind(endY.add(50).subtract(endY.add(50).subtract(startY.add(50)).divide(2)));
+            
         	line2 = new LineTo(x1.get(), y1.get());
-            line2.xProperty().bind(x1.add(75));
-            line2.yProperty().bind(y1.add(50));
+            line2.xProperty().bind(x1.add(120).subtract(endX.add(120).subtract(startX.add(120)).divide(2)));
+            line2.yProperty().bind(y1.add(50).subtract(endY.add(50).subtract(startY.add(50)).divide(2)));
             
             line3 = new LineTo(x2.get(), y2.get());
-            line3.xProperty().bind(x2.add(75));
-            line3.yProperty().bind(y2.add(50));
+            line3.xProperty().bind(x2.add(120).subtract(endX.add(120).subtract(startX.add(120)).divide(2)));
+            line3.yProperty().bind(y2.add(50).subtract(endY.add(50).subtract(startY.add(50)).divide(2)));
             
-            line4 = new LineTo(endX.get(), endY.get());
-            line4.xProperty().bind(endX.add(75));
-            line4.yProperty().bind(endY.add(50));
+            line4 = new LineTo(endX.get()+120-((endX.get()+120-startX.get()+120)/2), endY.get()+50-((endY.get()+50-startY.get()+50)/2));
+            line4.xProperty().bind(endX.add(120).subtract(endX.add(120).subtract(startX.add(120)).divide(2)));
+            line4.yProperty().bind(endY.add(50).subtract(endY.add(50).subtract(startY.add(50)).divide(2)));
         }else {
+        	
+        	middle = new MoveTo(endX.get()+30-((endX.get()+30-startX.get()+30)/2), endY.get()+50-((endY.get()+50-startY.get()+50)/2));
+            middle.xProperty().bind(endX.add(30).subtract(endX.add(30).subtract(startX.add(30)).divide(2)));
+            middle.yProperty().bind(endY.add(50).subtract(endY.add(50).subtract(startY.add(50)).divide(2)));
+            
         	line2 = new LineTo(x1.get(), y1.get());
-            line2.xProperty().bind(x1.add(75));
-            line2.yProperty().bind(y1.add(50));
-            
-            line3 = new LineTo(x2.get(), y2.get());
-            line3.xProperty().bind(x2.add(75));
-            line3.yProperty().bind(y2.add(50));
-            
-            line4 = new LineTo(endX.get(), endY.get());
-            line4.xProperty().bind(endX.add(75));
-            line4.yProperty().bind(endY.add(50));
+        	 line2.xProperty().bind(x1.add(30).subtract(endX.add(30).subtract(startX.add(30)).divide(2)));
+             line2.yProperty().bind(y1.add(50).subtract(endY.add(50).subtract(startY.add(50)).divide(2)));
+             
+             line3 = new LineTo(x2.get(), y2.get());
+             line3.xProperty().bind(x2.add(30).subtract(endX.add(30).subtract(startX.add(30)).divide(2)));
+             line3.yProperty().bind(y2.add(50).subtract(endY.add(50).subtract(startY.add(50)).divide(2)));
+             
+             line4 = new LineTo(endX.get()+30-((endX.get()+30-startX.get()+30)/2), endY.get()+50-((endY.get()+50-startY.get()+50)/2));
+             line4.xProperty().bind(endX.add(30).subtract(endX.add(30).subtract(startX.add(30)).divide(2)));
+             line4.yProperty().bind(endY.add(50).subtract(endY.add(50).subtract(startY.add(50)).divide(2)));
         }
-        
+       
+        getElements().add(middle);
         getElements().add(line2);
         getElements().add(line3);
         getElements().add(line4);
