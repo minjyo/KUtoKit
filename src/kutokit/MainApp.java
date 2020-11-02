@@ -27,13 +27,16 @@ import kutokit.view.RootLayoutController;
 import kutokit.model.*;
 
 public class MainApp extends Application {
-	
+
 	 private Stage primaryStage;
 	 private BorderPane rootLayout;
 	 private CtmController controller;
-	 
+
 	 public static Components components;
-	 public Contexts contexts;
+	 public static UCADataStore ucadatastore;
+	 public static LHCDataStore lhcDataStore;
+	 private static CTMDataStore ctmdatastore;
+
 
 	@Override
 	//auto execute after main execute
@@ -41,7 +44,7 @@ public class MainApp extends Application {
 		 	this.primaryStage = primaryStage;
 	        this.primaryStage.setTitle("Kutokit");
 	        this.primaryStage.setResizable(false);
-	        
+
 	        initRootLayout();
 	        initDataStore();
 	}
@@ -52,7 +55,8 @@ public class MainApp extends Application {
 
 	private void initDataStore() {
 		components = new Components();
-		contexts = new Contexts();
+		ucadatastore = new UCADataStore();
+		lhcDataStore = new LHCDataStore();
 	}
 
 	private void initRootLayout() {
@@ -66,21 +70,17 @@ public class MainApp extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
-            
+
             //add controller
             RootLayoutController controller = loader.getController();
             controller.setMainApp(this);
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-		
-		File file = getContextTableFilePath();
-		if(file != null) {
-			loadContextTableDataFromFile(file);
-		}
+
 	}
-	
+
 	/**
 	 * called when LHC button clicked
 	 */
@@ -91,19 +91,19 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/LhcView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout 
+            // add scene in center of root layout
             rootLayout.setCenter(View);
-            
+
             //add controller
             LhcController controller = loader.getController();
             controller.setMainApp(this);
-            
+
             System.out.println("a");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-	
+
 	/**
      * called when cseButton clicked
      */
@@ -114,9 +114,9 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/CseView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout 
+            // add scene in center of root layout
             rootLayout.setCenter(View);
-            
+
             //add controller
             CseController controller = loader.getController();
             controller.setMainApp(this, primaryStage);
@@ -124,7 +124,7 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * called when ctmButton clicked
      */
@@ -135,9 +135,9 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout 
+            // add scene in center of root layout
             rootLayout.setCenter(View);
-            
+
             //add controller
             controller = loader.getController();
             controller.setMainApp(this);
@@ -146,7 +146,7 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * called when utmButton clicked
      */
@@ -158,17 +158,17 @@ public class MainApp extends Application {
             AnchorPane View = (AnchorPane) loader.load();
 
             rootLayout.setCenter(View);
-            
+
             //add controller
             UtmController controller = loader.getController();
-            controller.setUcaTable(getContextTable());
+            controller.setUcaTable(ucadatastore,lhcDataStore);
             controller.setMainApp(this);
             System.out.println("a");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * called when pmmButton clicked
      */
@@ -179,9 +179,9 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/PmmView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout 
+            // add scene in center of root layout
             rootLayout.setCenter(View);
-            
+
             //add controller
             PmmController controller = loader.getController();
             controller.setMainApp(this);
@@ -190,7 +190,7 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-    
+
     //called when help button clicked
 	public void showDashboardView() {
         try {
@@ -199,13 +199,13 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/DashboardView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout 
+            // add scene in center of root layout
             rootLayout.setCenter(View);
-            
+
             //add controller
             DashboardController controller = loader.getController();
             controller.setMainApp(this);
-            
+
             System.out.println("a");
         } catch (IOException e) {
             e.printStackTrace();
@@ -216,102 +216,102 @@ public class MainApp extends Application {
 	 * return main stage
 	 * @return
 	 */
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
-
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-	
-	
-	
-	
-	public File getContextTableFilePath() {
+	public File getFilePath() {
 	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 	    String filePath = prefs.get("filePath", null);
 	    if (filePath != null) {
+	    	//System.out.println("filePath: " + filePath);
 	        return new File(filePath);
 	    } else {
 	        return null;
 	    }
 	}
 
-	/**
-	 * �뜝�룞�삕�뜝�룞�삕 �뜝��琉꾩삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕. �뜝�룞�삕 �뜝�룞�삕�걣�뜝占� OS �듅�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�솼�뜝占�.
-	 *
-	 * @param file the file or null to remove the path
-	 */
-	public void setContextTableFilePath(File file) {
+	public void setFilePath(File file) {
 	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 	    if (file != null) {
 	        prefs.put("filePath", file.getPath());
-
-	        // Stage ���뜝�룞�삕���뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�떬�뙋�삕.
-	        primaryStage.setTitle("AddressApp - " + file.getName());
 	    } else {
 	        prefs.remove("filePath");
-
-	        // Stage ���뜝�룞�삕���뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�떬�뙋�삕.
-	        primaryStage.setTitle("AddressApp");
-	    }
-	}
-	
-	/**
-	 * �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떦濡쒕툦�삕�뜝�룞�삕 ContextTable�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�듅�뙋�삕.
-	 * @param file
-	 */
-	public void loadContextTableDataFromFile(File file) {
-	    try {
-	        JAXBContext context = JAXBContext
-	                .newInstance(ContextTableWrapper.class);
-	        Unmarshaller um = context.createUnmarshaller();
-
-	        // �뜝�룞�삕�뜝�떦濡쒕툦�삕�뜝�룞�삕 XML�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	        ContextTableWrapper wrapper = (ContextTableWrapper) um.unmarshal(file);
-
-	        //ContextTableDataModel.clear();
-	        //ContextTableDataModel.addAll(wrapper.getContextTableDataModel());
-
-	        // �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	        setContextTableFilePath(file);
-
-	    } catch (Exception e) { // �뜝�룞�삕�뜝�뙟紐뚯삕 �뜝�룞�삕夷덂뜝占�
-	        Alert alert = new Alert(AlertType.ERROR);
-	        alert.setTitle("Error");
-	        alert.setHeaderText("Could not load data");
-	        alert.setContentText("Could not load data from file:\n" + file.getPath());
-
-	        alert.showAndWait();
 	    }
 	}
 
-	/**
-	 * �뜝�룞�삕�뜝�룞�삕 ContextTable�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떦�슱�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	 * @param file
-	 */
-	public void saveContextTableDataToFile(File file) {
+	public void openFile(File file) {
+		 try {
+			 //UCA
+			 	JAXBContext context = JAXBContext
+		                .newInstance(UCAXML.class);
+		        Unmarshaller um = context.createUnmarshaller();
+
+		        UCAXML UCAWrapper = (UCAXML) um.unmarshal(file);
+
+		        ucadatastore.getUCATableList().addAll(UCAWrapper.getUCAList());
+
+		        setFilePath(file);
+
+		      //CSE
+//		        context = JAXBContext
+//		                .newInstance(ComponentsXML.class);
+//		        um = context.createUnmarshaller();
+//
+//		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
+//
+//		        components.getControllers().addAll(CSELHCwrapper.getControllers());
+//		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
+//		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());
+//
+//		        setFilePath(file);
+
+		    } catch (Exception e) {
+		        Alert alert = new Alert(AlertType.ERROR);
+		        alert.setTitle("Error");
+		        alert.setHeaderText("Could not load data");
+		        alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+		        alert.showAndWait();
+		    }
+	}
+
+	public void saveFile(File file) {
 	    try {
+	    	for(UCA a : ucadatastore.getUCATableList()) {
+//	    		System.out.println(a.getTextProperty());
+	    	}
 	        JAXBContext context = JAXBContext
-	                .newInstance(ContextTableWrapper.class);
+	                .newInstance(UCAXML.class);
+
 	        Marshaller m = context.createMarshaller();
 	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-	        ContextTableWrapper wrapper = new ContextTableWrapper();
-	        wrapper.setContextTables(controller.getContextTableData());
-	        
-	        //test
-	        System.out.println(controller.getContextTableData());
-	        
-	        
-	        
-	        // �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕 XML�뜝�룞�삕 �뜝�룞�삕�뜝�떦�슱�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	        m.marshal(wrapper, file);
+	        UCAXML UCAwrapper = new UCAXML();
+	        UCAwrapper.setUCAList(ucadatastore.getUCATableList());
+//	        for(UCA a : UCAwrapper.getLossTableList()) {
+//	    		System.out.println(a.getTextProperty());
+//	    	}
+//	        UCAwrapper.setHazard(ucadatastore.getUCATableList());
+//	        for(LHC a : UCAwrapper.getLossTableList1()) {
+//	    		System.out.println(a.index1);
+//	    	}
 
-	        // �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	        setContextTableFilePath(file);
-	    } catch (Exception e) { // �뜝�룞�삕�뜝�뙟紐뚯삕 �뜝�룞�삕夷덂뜝占�.
+	        m.marshal(UCAwrapper, file);
+
+	    	//CSE
+//	        context = JAXBContext
+//	                .newInstance(ComponentsXML.class);
+//
+//	        m = context.createMarshaller();
+//	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//
+//	        ComponentsXML CSEwrapper = new ComponentsXML();
+//	        CSEwrapper.setControllers(components.getControllers());
+//	        CSEwrapper.setControlActions(components.getControlActions());
+//	        CSEwrapper.setFeedbacks(components.getFeedbacks());
+//
+//	        m.marshal(CSEwrapper, file);
+
+	        setFilePath(file);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");
@@ -319,6 +319,14 @@ public class MainApp extends Application {
 
 	        alert.showAndWait();
 	    }
+	}
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+
+	public static void main(String[] args) {
+		launch(args);
 	}
 
 	//ContextTable(myTable) �겫�뜄�쑎占쎌궎疫뀐옙

@@ -6,13 +6,14 @@
 
 <AnchorPane minHeight="800.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.UtmController">
    <children>
-      <TableView fx:id="ucaTable" prefHeight="800.0" prefWidth="1000.0">
+      <TableView fx:id="ucaTable" editable ="true" prefHeight="800.0" prefWidth="1000.0">
         <columns>
-          <TableColumn fx:id="CAColumn" prefWidth="200.0" text="CA" />
-          <TableColumn fx:id="providingColumn" minWidth="4.0" prefWidth="200.0" text="Providing Causes Hazard" />
-            <TableColumn fx:id="notProvidingColumn" prefWidth="200.0" text="Not Providing Causes Hazard" />
-            <TableColumn fx:id="incorrectColumn" prefWidth="200.0" text="Incorrect Timing/Order" />
-            <TableColumn fx:id="stoppedColumn" prefWidth="200.0" text="Stopped Too Soon/Applied Too Long" />
+          <TableColumn fx:id="CAColumn" editable="true" onEditCommit="#onEditChange" prefWidth="185.0" text="CA" />
+          <TableColumn fx:id="providingColumn" editable="true" minWidth="4.0" onEditCommit="#onEditChange" prefWidth="185.0" text="Providing Causes Hazard" />
+            <TableColumn fx:id="notProvidingColumn" onEditCommit="#onEditChange" prefWidth="185.0" text="Not Providing Causes Hazard" />
+            <TableColumn fx:id="incorrectColumn" onEditCommit="#onEditChange" prefWidth="185.0" text="Incorrect Timing/Order" />
+            <TableColumn fx:id="stoppedColumn" onEditCommit="#onEditChange" prefWidth="185.0" text="Stopped Too Soon/Applied Too Long" />
+            <TableColumn fx:id="linkColumn" onEditCommit ="#onEditChange"  text="Link" />
         </columns>
       </TableView>
    </children>
