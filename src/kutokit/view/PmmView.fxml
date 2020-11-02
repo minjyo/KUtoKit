@@ -1,31 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.PmmController">
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.PmmController">
    <children>
       <Text layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PmmView" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d7d7" height="87.0" layoutX="219.0" layoutY="52.0" stroke="BLACK" strokeType="INSIDE" width="143.0" />
-      <Label layoutX="340.0" layoutY="119.0" text="c1" />
-      <Pane fx:id="AddFile" layoutX="388.0" layoutY="41.0" prefHeight="109.0" prefWidth="177.0">
+      <Group layoutX="62.0" layoutY="-148.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#86da81" height="24.0" stroke="BLACK" strokeType="INSIDE" width="177.0" />
-            <Label layoutX="8.0" layoutY="5.0" text="Add File" />
-            <AnchorPane layoutX="2.0" layoutY="26.0" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <Rectangle fx:id="CA" arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="483.0" layoutX="6.0" layoutY="290.0" stroke="WHITE" strokeType="INSIDE" width="865.0" />
+            <Label layoutX="606.0" layoutY="724.0" text="f_LO_SG1_LEVEL_Val_Out">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <ListView fx:id="PM" layoutX="48.0" layoutY="330.0" onMouseClicked="#selectValue" prefHeight="384.0" prefWidth="477.0" />
+            <Pane fx:id="addFile" layoutX="378.0" layoutY="473.0" prefHeight="118.0" prefWidth="200.0" visible="false">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="87.0" layoutX="-2.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="177.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="160.0" />
-                  <Button layoutX="140.0" layoutY="16.0" mnemonicParsing="false" onAction="#AddFile" prefHeight="14.0" prefWidth="28.0" text="..." />
-                  <Button layoutX="63.0" layoutY="49.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
-                  <Label fx:id="filename" layoutX="14.0" layoutY="20.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="38.0" layoutY="-14.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
+                  <Label layoutX="14.0" layoutY="-4.0" text="Add File" textFill="WHITE" />
+                  <AnchorPane layoutX="2.0" layoutY="24.0" minHeight="0.0" minWidth="0.0" prefHeight="101.0" prefWidth="210.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="100.0" layoutX="-2.0" layoutY="-4.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
+                        <Button layoutX="160.0" layoutY="15.0" mnemonicParsing="false" onAction="#addFile" prefHeight="14.0" prefWidth="28.0" text="..." />
+                        <Button layoutX="46.0" layoutY="51.0" mnemonicParsing="false" onAction="#applyFile" text="열기" />
+                        <Button layoutX="115.0" layoutY="51.0" mnemonicParsing="false" onMouseClicked="#close" text="취소" />
+                        <Label fx:id="fileName" layoutX="14.0" layoutY="20.0" />
+                     </children>
+                  </AnchorPane>
                </children>
-            </AnchorPane>
+            </Pane>
+            <VBox layoutX="542.0" layoutY="330.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="58.0" fitWidth="49.0" onMouseClicked="#openFile" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/xmlfile.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="49.0" onMouseClicked="#selectPM" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/newValue.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
          </children>
-      </Pane>
+      </Group>
    </children>
 </AnchorPane>
