@@ -38,7 +38,6 @@ import javax.xml.bind.Unmarshaller;
 
 import kutokit.MainApp;
 import kutokit.model.cse.Components;
-import kutokit.model.cse.ComponentsXML;
 import kutokit.view.components.*;
 import kutokit.view.popup.*;
 import kutokit.view.popup.cse.AddCAPopUpController;

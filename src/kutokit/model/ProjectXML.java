@@ -30,7 +30,7 @@ public class ProjectXML {
 	
 	
 	// --------------------------- CSE --------------------------
-	@XmlElement(name = "CSEcontroller")
+	@XmlElement(name = "CSEontroller")
 	public ArrayList<Controller> getControllers() {
 		return controllers;
 	}
