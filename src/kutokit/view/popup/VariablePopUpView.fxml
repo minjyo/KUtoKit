@@ -11,12 +11,12 @@
 <AnchorPane prefHeight="156.0" prefWidth="252.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.popup.VariablePopUpController">
 	<children>
       <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="263.0" />
-      <Text fill="WHITE" layoutX="15.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add new variable" />
+      <Text fill="WHITE" layoutX="15.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit variable" />
       <Text layoutX="22.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="변수" />
 	  <TextField fx:id="text" alignment="CENTER_RIGHT" layoutX="67.0" layoutY="64.0" prefHeight="29.0" prefWidth="184.0" text="variable name" />
       <HBox alignment="BOTTOM_CENTER" layoutX="16.0" layoutY="101.0" prefHeight="41.0" prefWidth="237.0" spacing="10.0">
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#setData" text="추가" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#setData" text="확인" />
             <Button alignment="TOP_RIGHT" mnemonicParsing="false" onMouseClicked="#close" text="취소" />
          </children>
          <padding>

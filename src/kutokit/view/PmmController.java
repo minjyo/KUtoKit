@@ -27,6 +27,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -41,6 +42,7 @@ import javafx.stage.WindowEvent;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kutokit.view.components.Controller;
 import kutokit.view.popup.OutputlistPopUpController;
+import kutokit.view.popup.VariablePopUpController;
 
 public class PmmController{
 
@@ -54,7 +56,7 @@ public class PmmController{
 	private String controllerName, controlAction, outputVariable; // selected controller name, control action from CSE
 	
 	private Stage outputListStage = new Stage();
-	private Stage pmStage = new Stage();
+	private Stage valueStage = new Stage();
 	private ContextMenu contextMenu = new ContextMenu();
 	private MenuItem item1, item2, item3;
 	
@@ -83,6 +85,7 @@ public class PmmController{
 	@FXML
 	public void selectPM(MouseEvent e) {
 		
+		// Add new value
         System.out.println("PM CLICK");		
         if( outputVariable != null) {
 	  		FXMLLoader loader = new FXMLLoader();
@@ -94,8 +97,16 @@ public class PmmController{
 					root = loader.load();
 					Scene s = new Scene(root);
 				
-					pmStage.setScene(s);
-					pmStage.show();
+					valueStage.setScene(s);
+					valueStage.show();
+					
+					valueStage.setOnHidden((new EventHandler<WindowEvent>() {
+					    @Override
+					    public void handle(WindowEvent e) {
+					    	VariablePopUpController popup = loader.getController();
+					    	dataStore.addValuelist(popup.value);
+					    }
+					  }));
 					
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -106,14 +117,12 @@ public class PmmController{
 
           
 	}
-
-	public void addValue() {
-		// Add new value 
-		System.out.println("add");
-	}
 	
 	@FXML
 	public void selectValue(MouseEvent e) {
+		
+		String target = PM.getSelectionModel().getSelectedItem();
+		
 		// Modify & delete existed values
 		 if (e.getButton() == MouseButton.SECONDARY) {
 			 	contextMenu.getItems().clear();
@@ -123,7 +132,7 @@ public class PmmController{
 		        item1.setOnAction(new EventHandler<ActionEvent>() {
 		            @Override
 		            public void handle(ActionEvent event) {
-		            	// modifyValue()
+		            	modifyPopUp(target);
 		            }
 		        });
 		        item2 = new MenuItem("Delete");
@@ -131,14 +140,11 @@ public class PmmController{
 		 
 		            @Override
 		            public void handle(ActionEvent event) {
-		            	// delValue()
+		            	dataStore.deleteValue(target);
 		            }
 		        });
 		        
 		        contextMenu.getItems().addAll(item1, item2);
-
-				String target = PM.getSelectionModel().getSelectedItem();
-				System.out.println(target);
 
 		        PM.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 		            @Override
@@ -154,18 +160,10 @@ public class PmmController{
 
          }
 	}
-	public void modifyValue() {
-		// Modify existed value
-		System.out.println("modify");
-	}
-	public void delValue() {
-		// Delete existed value
-		System.out.println("delete");
-	}
 	
 	@FXML
 	public void openFile(MouseEvent e) {
-		if(!outputListStage.isShowing() && !pmStage.isShowing() && outputVariable != null) {
+		if(!outputListStage.isShowing() && !valueStage.isShowing() && outputVariable != null) {
 			addFile.setVisible(true);
 			System.out.println("CA CLICK");
 	        e.consume();
@@ -205,13 +203,13 @@ public class PmmController{
 			// Create XmlReader constructor
 	        reader = new XmlReader(selectedFile.getName());
 	        // Make process model
-	        // outputVariable = "f_LO_SG1_LEVEL_Trip_Out";
 			this.makeModel(reader.getNodeList(reader.getNode(outputVariable),""),
 							reader.getTransitionNodes(reader.getNode(outputVariable)));
 		}
+		close();
 	}
 	
-
+	@FXML
 	public void close() {
 		addFile.setVisible(false);
 	}
@@ -326,17 +324,19 @@ public class PmmController{
         dataStore.setValuelist(valuelist);
 		PM.setItems(valuelist);
 	}
-	
-	public void savePM(String name, List list) {
-		
-	}
 
 	private void initialize() {
 		dataStore = mainApp.models;
+		
 		controllerName = dataStore.getControllerName();
 		controlAction = dataStore.getControlActionName();
 		outputVariable = dataStore.getOutputName();
 		valuelist = dataStore.getValuelist();
+		PM.setItems(valuelist);
+		
+		if(outputVariable == null) {
+			addListPopUp();
+		}
 	}
 	
 	// Show output variables list popup
@@ -346,7 +346,6 @@ public class PmmController{
   		Parent root;
 
   		try {
-  			
 			root = (Parent)loader.load();
 			Scene s = new Scene(root);
 			  			
@@ -356,11 +355,9 @@ public class PmmController{
 			outputListStage.setOnHidden((new EventHandler<WindowEvent>() {
 			    @Override
 			    public void handle(WindowEvent e) {
-			    	OutputlistPopUpController popup = loader.getController();
-			    	
+		  			OutputlistPopUpController popup = loader.getController();
 			    	dataStore.setOutputName(popup.output);
-					outputVariable = dataStore.getOutputName();
-			    	System.out.println("outputVariable: "+outputVariable);
+					  outputVariable = dataStore.getOutputName();
 			    }
 			  }));
 			
@@ -370,10 +367,46 @@ public class PmmController{
 
 	}
 
+	// Show value edit popup
+	public void modifyPopUp(String oldvalue) {
+		
+		if( outputVariable != null) {
+	  		FXMLLoader loader = new FXMLLoader();
+	  		loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
+	  		Parent root;
+	  		
+	  		if(!outputListStage.isShowing() && !addFile.isVisible()) {
+		  		try {
+					root = loader.load();
+					Scene s = new Scene(root);
+				
+					valueStage.setScene(s);
+					valueStage.show();
+					
+					valueStage.setOnHidden((new EventHandler<WindowEvent>() {
+					    @Override
+					    public void handle(WindowEvent e) {
+					    	VariablePopUpController popup = loader.getController();
+					    	dataStore.modifyValue(oldvalue, popup.value);
+					    }
+					  }));
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+	  		} 
+        } else 	System.out.println("Error: select output variable.");
+    	PM.setItems(valuelist);
+
+	}
+
+	public void savePM(String name, List list) {
+		
+	}
+
 	//set MainApp
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 		this.initialize();
-		addListPopUp();
 	}
 }
