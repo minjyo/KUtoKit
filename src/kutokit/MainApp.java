@@ -38,6 +38,7 @@ public class MainApp extends Application {
 	 public static Components components;
 	 public static LHCDataStore lhcDataStore;
 	 private ObservableList<LHC> lhcList;
+	 public ProcessModel models;
 	 
 	@Override
 	//auto execute after main execute
@@ -57,6 +58,7 @@ public class MainApp extends Application {
 	private void initDataStore() {
 		components = new Components();
 		lhcDataStore = new LHCDataStore();
+		models = new ProcessModel();
 	}
 	
 	private void initRootLayout() {
