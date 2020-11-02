@@ -242,7 +242,7 @@ public class LhcController implements Initializable {
 			(TableColumn.CellEditEvent<LHC, String> t) ->
 				(t.getTableView().getItems().get(
 				t.getTablePosition().getRow())
-			    ).setText(t.getNewValue().toString())
+			    ).setLink(t.getNewValue().toString())
 		);
 		
 		/*
@@ -324,10 +324,7 @@ public class LhcController implements Initializable {
 		constraintLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		constraintLinkColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) ->
-				(t.getTableView().getItems().get(
-				t.getTablePosition().getRow())
-		        ).setText(t.getNewValue())
-		);
+				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setLink(t.getNewValue()));
 	}
 	
 	
