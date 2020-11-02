@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.lhc;
 
 import javax.xml.bind.annotation.XmlAccessorType;
 

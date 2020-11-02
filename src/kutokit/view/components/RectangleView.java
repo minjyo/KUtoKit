@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import kutokit.model.Components;
+import kutokit.model.cse.Components;
 
 public class RectangleView extends StackPane {
 
@@ -23,7 +23,7 @@ public class RectangleView extends StackPane {
 		this.dataStore = dataStore;
 		this.id = id;
 		
-		this.r = new Rectangle(150, 100, Color.GREEN);
+		this.r = new Rectangle(150, 100, Color.web("#8fbc8f"));
 		
 		this.x = x;
 		this.y = y;

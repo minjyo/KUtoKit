@@ -28,6 +28,12 @@ import kutokit.view.LhcController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
 import kutokit.model.*;
+import kutokit.model.cse.Components;
+import kutokit.model.cse.ComponentsXML;
+import kutokit.model.lhc.LHC;
+import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.pmm.ProcessModel;
+import kutokit.model.utm.UCADataStore;
 
 public class MainApp extends Application {
 	
@@ -38,11 +44,10 @@ public class MainApp extends Application {
 	 public static Components components;
 	 public static LHCDataStore lhcDataStore;
 	 private ObservableList<LHC> lhcList;
-	 
-	 public static void main(String[] args) {
-		 launch(args);
-	 }
-	 
+	 public ProcessModel models;
+	 public static UCADataStore ucadatastore;
+//	 private static CTMDataStore ctmdatastore;
+	
 	@Override
 	//auto execute after main execute
 	public void start(Stage primaryStage) {
@@ -61,6 +66,8 @@ public class MainApp extends Application {
 	private void initDataStore() {
 		components = new Components();
 		lhcDataStore = new LHCDataStore();
+		models = new ProcessModel();
+		ucadatastore = new UCADataStore();
 	}
 	
 	private void initRootLayout() {
@@ -82,11 +89,6 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-		
-//		File file = getContextTableFilePath();
-//		if(file != null) {
-//			loadContextTableDataFromFile(file);
-//		}
 	}
 	
 	/**
@@ -249,41 +251,32 @@ public class MainApp extends Application {
 	
 	public void openFile(File file) {
 		 try {
-			 //LHC
-			 //unmarshalling not working yet
-			 	JAXBContext context = JAXBContext
-		                .newInstance(LHCXML.class);
-		        Unmarshaller um = context.createUnmarshaller();
-		        System.out.println("g");
-
-		        LHCXML LHCwrapper = (LHCXML) um.unmarshal(file);
 		        
-		        System.out.println("e");
-		        lhcList.addAll(LHCwrapper.getLossTableList());
-		        System.out.println("a");
-		        lhcList.addAll(LHCwrapper.getHazardTableList());
-		        System.out.println("b");
-		        lhcList.addAll(LHCwrapper.getConstraintTableList());
-		        System.out.println("c");
+		     	//CSE   
+		        JAXBContext context = JAXBContext
+		                .newInstance(ComponentsXML.class);
+		        Unmarshaller um = context.createUnmarshaller();
 
+		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
+
+		        components.getControllers().addAll(CSELHCwrapper.getControllers());
+		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
+		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());    
 		        
 		        setFilePath(file);
-		        System.out.println("d");
-		        
-		     //CSE   
-//		        context = JAXBContext
-//		                .newInstance(ComponentsXML.class);
-//		        um = context.createUnmarshaller();
+
+				//UCA
+//			 	JAXBContext context = JAXBContext
+//		                .newInstance(UCAXML.class);
+//		        Unmarshaller um = context.createUnmarshaller();
 //
-//		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
+//		        UCAXML UCAWrapper = (UCAXML) um.unmarshal(file);
 //
-//		        components.getControllers().addAll(CSELHCwrapper.getControllers());
-//		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
-//		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());    
-//		        
+//		        ucadatastore.getUCATableList().addAll(UCAWrapper.getUCAList());
+//
 //		        setFilePath(file);
 
-		    } catch (Exception e) { 
+		    } catch (Exception e) {
 		        Alert alert = new Alert(AlertType.ERROR);
 		        alert.setTitle("Error");
 		        alert.setHeaderText("Could not load data");
@@ -295,35 +288,33 @@ public class MainApp extends Application {
 	
 	public void saveFile(File file) {
 	    try {
-	    	//LHC
-	        JAXBContext lhc = JAXBContext
-	                .newInstance(LHCXML.class);
+	    	//CSE
+	        JAXBContext context = JAXBContext
+	                .newInstance(ComponentsXML.class);
 	      
-	        Marshaller m = lhc.createMarshaller();
+	        Marshaller m = context.createMarshaller();
 	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	      
-	        LHCXML LHCwrapper = new LHCXML();
-	        LHCwrapper.setLoss(lhcDataStore.getLossTableList());
-	        LHCwrapper.setHazard(lhcDataStore.getHazardTableList());
-	        LHCwrapper.setConstraint(lhcDataStore.getConstraintTableList());
+	        ComponentsXML CSEwrapper = new ComponentsXML();
+	        CSEwrapper.setControllers(components.getControllers());
+	        CSEwrapper.setControlActions(components.getControlActions());
+	        CSEwrapper.setFeedbacks(components.getFeedbacks());
 	        
-	        m.marshal(LHCwrapper, file);
-	        
-	    	//CSE
+	        m.marshal(CSEwrapper, file);
+
+		    //UCA
 //	        JAXBContext context = JAXBContext
-//	                .newInstance(ComponentsXML.class);
-//	      
-//	        m = context.createMarshaller();
-//	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//	      
-//	        ComponentsXML CSEwrapper = new ComponentsXML();
-//	        CSEwrapper.setControllers(components.getControllers());
-//	        CSEwrapper.setControlActions(components.getControlActions());
-//	        CSEwrapper.setFeedbacks(components.getFeedbacks());
-//	        
-//	        m.marshal(CSEwrapper, file);
+//	                .newInstance(UCAXML.class);
 //
-//	        setFilePath(file);
+//	        Marshaller m = context.createMarshaller();
+//	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//
+//	        UCAXML UCAwrapper = new UCAXML();
+//	        UCAwrapper.setUCAList(ucadatastore.getUCATableList());
+	        
+	        
+
+	        setFilePath(file);
 	    } catch (Exception e) { 
 	    	e.printStackTrace();
 	        Alert alert = new Alert(AlertType.ERROR);

@@ -3,19 +3,14 @@ package kutokit.view.popup;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
- 
-public class ControllerPopUpController {
 
-	  @FXML 
-	  private TextField text;
-	  public String name;
-	  
-	  public ControllerPopUpController() {
-		  name = "Controller Name";
-	  }
+public class VariablePopUpController {
+	 @FXML 
+	  private TextField text; 
+	  public String value; 
 	  
 	  public void setData() {
-		  name = text.getText();
+		  value = text.getText();
 		  close();
 	  }
 	  
@@ -23,6 +18,5 @@ public class ControllerPopUpController {
 	       Stage pop = (Stage)text.getScene().getWindow(); 
 	       pop.close();
 	  }
-
 
 }

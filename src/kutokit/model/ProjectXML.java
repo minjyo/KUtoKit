@@ -11,7 +11,7 @@ import kutokit.view.components.*;
 
 @XmlRootElement(name = "components")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
-public class ComponentsXML {
+public class ProjectXML {
 
 	private ArrayList<Controller> controllers;
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();

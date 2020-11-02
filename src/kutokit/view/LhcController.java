@@ -42,8 +42,8 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import kutokit.MainApp;
-import kutokit.model.LHC;
-import kutokit.model.LHCDataStore;
+import kutokit.model.lhc.LHC;
+import kutokit.model.lhc.LHCDataStore;
 import javafx.fxml.*;
 
 public class LhcController implements Initializable {
@@ -175,7 +175,7 @@ public class LhcController implements Initializable {
 				//if entered value doesn't fit format, show warning popup
 				if(!(hazardLinkField.getText().contains("L"))) {
 					try {
-						openLinkPopUp();
+						openHazardLinkPopUp();
 					} catch (IOException e1) {
 						System.out.println("popup");
 						e1.printStackTrace();
@@ -239,11 +239,20 @@ public class LhcController implements Initializable {
 		//modify link in hazard table
 		hazardLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		hazardLinkColumn.setOnEditCommit(
-			(TableColumn.CellEditEvent<LHC, String> t) ->
-				(t.getTableView().getItems().get(
-				t.getTablePosition().getRow())
-			    ).setText(t.getNewValue().toString())
-		);
+			(TableColumn.CellEditEvent<LHC, String> t) -> {
+				if(t.getNewValue().contains("[") && t.getNewValue().contains("]")) {
+					(t.getTableView().getItems().get(
+							t.getTablePosition().getRow())
+							).setLink(t.getNewValue().toString());
+				} else {
+					try {
+						openLinkFormatPopUp();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
 		
 		/*
 		 * 
@@ -265,7 +274,7 @@ public class LhcController implements Initializable {
 				//if entered value doesn't fit format, show warning popup
 				if(!(constraintLinkField.getText().contains("H"))) {
 					try {
-						openLinkPopUp();
+						openConstraintLinkPopUp();
 					} catch (IOException e1) {
 						System.out.println("popup");
 						e1.printStackTrace();
@@ -320,14 +329,23 @@ public class LhcController implements Initializable {
 	            ).setText(t.getNewValue())
 		);
 		
-		//modify link in constraint table
-		constraintLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		constraintLinkColumn.setOnEditCommit(
-			(TableColumn.CellEditEvent<LHC, String> t) ->
+	//modify link in constraint table
+	constraintLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+	constraintLinkColumn.setOnEditCommit(
+		(TableColumn.CellEditEvent<LHC, String> t) -> {
+			if(t.getNewValue().contains("[") && t.getNewValue().contains("]")) {
 				(t.getTableView().getItems().get(
-				t.getTablePosition().getRow())
-		        ).setText(t.getNewValue())
-		);
+						t.getTablePosition().getRow())
+						).setLink(t.getNewValue().toString());
+			} else {
+				try {
+					openLinkFormatPopUp();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	
@@ -348,9 +366,9 @@ public class LhcController implements Initializable {
 	}
 
 	//if link does not fit format of [index], this pop up opens
-	private void openLinkPopUp() throws IOException {
+	private void openLinkFormatPopUp() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		Parent parent = loader.load(getClass().getResource("popup/LhcLinkPopUpView.fxml"));
+		Parent parent = loader.load(getClass().getResource("popup/LhcLinkFormatPopUpView.fxml"));
 		Scene scene = new Scene(parent);
 		Stage dialogStage = new Stage();
 		            
@@ -362,6 +380,38 @@ public class LhcController implements Initializable {
 		dialogStage.setResizable(false);
 		dialogStage.show();		
 	}
+	
+	//if link for hazard to loss does not fit format, this pop up opens
+	private void openHazardLinkPopUp() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		Parent parent = loader.load(getClass().getResource("popup/LhcHazardLinkPopUpView.fxml"));
+		Scene scene = new Scene(parent);
+		Stage dialogStage = new Stage();
+		            
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.initOwner(mainApp.getPrimaryStage());
+		dialogStage.setTitle("Wrong link format");
+		
+		dialogStage.setScene(scene);
+		dialogStage.setResizable(false);
+		dialogStage.show();		
+	}
+		
+	//if link for constraint to hazard does not fit format, this pop up opens
+	private void openConstraintLinkPopUp() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		Parent parent = loader.load(getClass().getResource("popup/LhcConstraintLinkPopUpView.fxml"));
+		Scene scene = new Scene(parent);
+		Stage dialogStage = new Stage();
+			            
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.initOwner(mainApp.getPrimaryStage());
+		dialogStage.setTitle("Wrong link format");
+		
+		dialogStage.setScene(scene);
+		dialogStage.setResizable(false);
+		dialogStage.show();		
+	}	
 	
 	//function to update loss index when one is deleted.
 	private void updateLossIndex() {
