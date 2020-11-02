@@ -2,6 +2,8 @@ package kutokit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 import java.util.prefs.Preferences;
 
 import javax.xml.bind.JAXBContext;
@@ -34,6 +36,9 @@ public class MainApp extends Application {
 	 private CtmController controller;
 	 
 	 public static Components components;
+	 public static LHCDataStore lhcDataStore;
+	 private ObservableList<LHC> lhcList;
+	 public ProcessModel models;
 	 
 	@Override
 	//auto execute after main execute
@@ -52,6 +57,8 @@ public class MainApp extends Application {
 	
 	private void initDataStore() {
 		components = new Components();
+		lhcDataStore = new LHCDataStore();
+		models = new ProcessModel();
 	}
 	
 	private void initRootLayout() {
@@ -159,7 +166,7 @@ public class MainApp extends Application {
             
             //add controller
             UtmController controller = loader.getController();
-            controller.setUcaTable(getContextTable());
+           // controller.setUcaTable(getContextTable());
             controller.setMainApp(this);
            
         } catch (IOException e) {
@@ -227,7 +234,7 @@ public class MainApp extends Application {
 	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 	    String filePath = prefs.get("filePath", null);
 	    if (filePath != null) {
-	    	System.out.println("filePath: " + filePath);
+	    	//System.out.println("filePath: " + filePath);
 	        return new File(filePath);
 	    } else {
 	        return null;
@@ -245,18 +252,17 @@ public class MainApp extends Application {
 	
 	public void openFile(File file) {
 		 try {
-			 //switch
+		        
+		     //CSE   
 		        JAXBContext context = JAXBContext
 		                .newInstance(ComponentsXML.class);
 		        Unmarshaller um = context.createUnmarshaller();
 
-		        ComponentsXML wrapper = (ComponentsXML) um.unmarshal(file);
+		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
 
-		        components.getControllers().addAll(wrapper.getControllers());
-		        components.getControlActions().addAll(wrapper.getControlActions());
-		        components.getFeedbacks().addAll(wrapper.getFeedbacks());
-		        
-		      //switch
+		        components.getControllers().addAll(CSELHCwrapper.getControllers());
+		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
+		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());    
 		        
 		        setFilePath(file);
 
@@ -272,20 +278,19 @@ public class MainApp extends Application {
 	
 	public void saveFile(File file) {
 	    try {
-	    	 //switch
+	    	//CSE
 	        JAXBContext context = JAXBContext
 	                .newInstance(ComponentsXML.class);
 	      
 	        Marshaller m = context.createMarshaller();
 	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	      
-	        ComponentsXML wrapper = new ComponentsXML();
-	        wrapper.setControllers(components.getControllers());
-	        wrapper.setControlActions(components.getControlActions());
-	        wrapper.setFeedbacks(components.getFeedbacks());
-	        //switch
+	        ComponentsXML CSEwrapper = new ComponentsXML();
+	        CSEwrapper.setControllers(components.getControllers());
+	        CSEwrapper.setControlActions(components.getControlActions());
+	        CSEwrapper.setFeedbacks(components.getFeedbacks());
 	        
-	        m.marshal(wrapper, file);
+	        m.marshal(CSEwrapper, file);
 
 	        setFilePath(file);
 	    } catch (Exception e) { 
@@ -298,115 +303,5 @@ public class MainApp extends Application {
 	        alert.showAndWait();
 	    }
 	}
-	
-	
-	public File getContextTableFilePath() {
-	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-	    String filePath = prefs.get("filePath", null);
-	    if (filePath != null) {
-	        return new File(filePath);
-	    } else {
-	        return null;
-	    }
-	}
 
-	/**
-	 * �뜝�룞�삕�뜝�룞�삕 �뜝��琉꾩삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕. �뜝�룞�삕 �뜝�룞�삕�걣�뜝占� OS �듅�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�솼�뜝占�.
-	 *
-	 * @param file the file or null to remove the path
-	 */
-	public void setContextTableFilePath(File file) {
-	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-	    if (file != null) {
-	        prefs.put("filePath", file.getPath());
-
-	        // Stage ���뜝�룞�삕���뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�떬�뙋�삕.
-	        primaryStage.setTitle("AddressApp - " + file.getName());
-	    } else {
-	        prefs.remove("filePath");
-
-	        // Stage ���뜝�룞�삕���뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�떬�뙋�삕.
-	        primaryStage.setTitle("AddressApp");
-	    }
-	}
-	
-	/**
-	 * �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떦濡쒕툦�삕�뜝�룞�삕 ContextTable�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�듅�뙋�삕.
-	 * @param file
-	 */
-	public void loadContextTableDataFromFile(File file) {
-	    try {
-	        JAXBContext context = JAXBContext
-	                .newInstance(ContextTableWrapper.class);
-	        Unmarshaller um = context.createUnmarshaller();
-
-	        // �뜝�룞�삕�뜝�떦濡쒕툦�삕�뜝�룞�삕 XML�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	        ContextTableWrapper wrapper = (ContextTableWrapper) um.unmarshal(file);
-
-	        //ContextTableDataModel.clear();
-	        //ContextTableDataModel.addAll(wrapper.getContextTableDataModel());
-
-	        // �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	        setContextTableFilePath(file);
-
-	    } catch (Exception e) { // �뜝�룞�삕�뜝�뙟紐뚯삕 �뜝�룞�삕夷덂뜝占�
-	        Alert alert = new Alert(AlertType.ERROR);
-	        alert.setTitle("Error");
-	        alert.setHeaderText("Could not load data");
-	        alert.setContentText("Could not load data from file:\n" + file.getPath());
-
-	        alert.showAndWait();
-	    }
-	}
-
-	/**
-	 * �뜝�룞�삕�뜝�룞�삕 ContextTable�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떦�슱�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	 * @param file
-	 */
-	public void saveContextTableDataToFile(File file) {
-	    try {
-	        JAXBContext context = JAXBContext
-	                .newInstance(ContextTableWrapper.class);
-	        Marshaller m = context.createMarshaller();
-	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-	        ContextTableWrapper wrapper = new ContextTableWrapper();
-	        wrapper.setContextTables(controller.getContextTableData());
-	        
-	        //test
-	        System.out.println(controller.getContextTableData());
-	        
-	        
-	        
-	        // �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕 XML�뜝�룞�삕 �뜝�룞�삕�뜝�떦�슱�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	        m.marshal(wrapper, file);
-
-	        // �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕營먨뜝占� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�듃�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떬�뙋�삕.
-	        setContextTableFilePath(file);
-	    } catch (Exception e) { // �뜝�룞�삕�뜝�뙟紐뚯삕 �뜝�룞�삕夷덂뜝占�.
-	        Alert alert = new Alert(AlertType.ERROR);
-	        alert.setTitle("Error");
-	        alert.setHeaderText("Could not save data");
-	        alert.setContentText("Could not save data to file:\n" + file.getPath());
-
-	        alert.showAndWait();
-	    }
-	}
-
-	//ContextTable(myTable) �겫�뜄�쑎占쎌궎疫뀐옙
-	private ObservableList<CTM> getContextTable()
-	{
-		ObservableList<CTM> ctmList = null;
-		try {
-			// get maker scene
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
-			AnchorPane View = (AnchorPane) loader.load();
-			CtmController controller = loader.getController();
-			ctmList = controller.getContextTableData();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return ctmList;
-	}
 }

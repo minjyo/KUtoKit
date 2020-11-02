@@ -94,14 +94,14 @@ public class CseController {
 					startY = node.layoutYProperty();
 				}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
 					endX = node.layoutXProperty();
-					endY = node.layoutYProperty();
+					endY = node.layoutYProperty();    
 				}
 			}
 			ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
+			a.toBack();
 			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
 			a.setLabel(label);
 			
-			System.out.println(ca.getControllerID());
 			dataStore.findController(ca.getControllerID()).addCA(ca.getId(), 1);
 			dataStore.findController(ca.getControlledID()).addCA(ca.getId(), 0);
 			
@@ -274,6 +274,7 @@ public class CseController {
 		s.setId(Integer.toString(c.getId()));
 
 		root.getChildren().add(s);
+		//s.toFront();
 	}
 
 	private void addControlAction(Path s, Label l, ControlAction ca) {
@@ -291,6 +292,7 @@ public class CseController {
 		l.setId("-1");
 		
 		root.getChildren().addAll(s, l);
+		s.toBack();
 	}
 	
 	private void addFeedback(Path s, Label l, Feedback fb) {
@@ -300,7 +302,7 @@ public class CseController {
 			@Override
 			public void handle(ContextMenuEvent event) {
 
-				CAContextMenu.show(s, event.getScreenX(), event.getScreenY());
+				FBContextMenu.show(s, event.getScreenX(), event.getScreenY());
 			}
 		});
 
@@ -308,6 +310,7 @@ public class CseController {
 		l.setId("-1");
 		
 		root.getChildren().addAll(s, l);
+		s.toBack();
 	}
 
 	private void modifyControllerPopUp(RectangleView rect) {

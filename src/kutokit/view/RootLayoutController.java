@@ -77,7 +77,7 @@ public class RootLayoutController {
 
     @FXML
     private void handleSave() {
-        File file = mainApp.getContextTableFilePath();
+        File file = mainApp.getFilePath();
         if (file != null) {
         	mainApp.saveFile(file);
         } else {

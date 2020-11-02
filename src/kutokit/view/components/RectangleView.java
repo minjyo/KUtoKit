@@ -23,7 +23,7 @@ public class RectangleView extends StackPane {
 		this.dataStore = dataStore;
 		this.id = id;
 		
-		this.r = new Rectangle(150, 100, Color.GREEN);
+		this.r = new Rectangle(150, 100, Color.web("#8fbc8f"));
 		
 		this.x = x;
 		this.y = y;

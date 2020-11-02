@@ -17,8 +17,8 @@
                      <children>
                         <TableView fx:id="lossTableView" editable="true" prefHeight="724.0" prefWidth="1000.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="lossIndexColumn" prefWidth="75.0" resizable="false" text="Index" />
-                            <TableColumn fx:id="lossTextColumn" minWidth="825.0" prefWidth="824.0" resizable="false" text="Text" />
+                            <TableColumn fx:id="lossIndexColumn" editable="false" prefWidth="75.0" resizable="false" text="Index" />
+                            <TableColumn fx:id="lossTextColumn" editable="true" minWidth="825.0" prefWidth="824.0" resizable="false" text="Text" />
                            <TableColumn fx:id="lossLinkColumn" editable="false" maxWidth="100.0" minWidth="75.0" prefWidth="100.0" resizable="false" text="No Link" />
                           </columns>
                         <columnResizePolicy>
