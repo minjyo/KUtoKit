@@ -24,7 +24,6 @@ public class XmlReader {
 	private static String SDT_BASE_EXPRESSION = ".//SDT[@name='";
 	private static String TTS_BASE_EXPRESSION = ".//TTS[@name='";
 	private static String FSM_BASE_EXPRESSION = ".//FSM[@name='";
-
 	public static final String FOD_EXPRESSION = "//FOD";
 	public static final String CONDITION_EXPRESSION = "/condition";
 	public static final String ACTION_EXPRESSION = "/action";
@@ -34,7 +33,6 @@ public class XmlReader {
 	public static final String TARGET_EXPRESSION = "/target[@refName='";
 	public static final String SOURCE_EXPRESSION = "/source";
 	public static final String ASSIGN_EXPRESSION = "/assignments";
-
 	public static String firstLetter = "";
 	
 	public XmlReader(String filePath) {

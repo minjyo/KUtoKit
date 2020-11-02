@@ -32,6 +32,7 @@ public class MainApp extends Application {
 	 private CtmController controller;
 	 
 	 public Components components;
+	 public ProcessModel models;
 	 
 	@Override
 	//auto execute after main execute
@@ -49,6 +50,7 @@ public class MainApp extends Application {
 	
 	private void initDataStore() {
 		components = new Components();
+		models = new ProcessModel();
 	}
 	
 	private void initRootLayout() {
