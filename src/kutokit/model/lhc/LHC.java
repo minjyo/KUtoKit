@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.lhc;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

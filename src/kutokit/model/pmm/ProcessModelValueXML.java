@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.pmm;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

@@ -19,8 +19,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import kutokit.MainApp;
-import kutokit.model.LHC;
-import kutokit.model.UCA;
+import kutokit.model.lhc.LHC;
+import kutokit.model.utm.UCA;
 
 public class UCAHazardPopUPController {
 	@FXML private TableView<LHC> hazardousTable;

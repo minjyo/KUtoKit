@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.utm;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

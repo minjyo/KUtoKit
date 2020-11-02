@@ -42,8 +42,8 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import kutokit.MainApp;
-import kutokit.model.LHC;
-import kutokit.model.LHCDataStore;
+import kutokit.model.lhc.LHC;
+import kutokit.model.lhc.LHCDataStore;
 import javafx.fxml.*;
 
 public class LhcController implements Initializable {

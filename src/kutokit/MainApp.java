@@ -30,6 +30,10 @@ import kutokit.view.RootLayoutController;
 import kutokit.model.*;
 import kutokit.model.cse.Components;
 import kutokit.model.cse.ComponentsXML;
+import kutokit.model.lhc.LHC;
+import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.pmm.ProcessModel;
+import kutokit.model.utm.UCADataStore;
 
 public class MainApp extends Application {
 	
@@ -41,6 +45,7 @@ public class MainApp extends Application {
 	 public static LHCDataStore lhcDataStore;
 	 private ObservableList<LHC> lhcList;
 	 public ProcessModel models;
+	 public static UCADataStore ucadatastore;
 	 
 	@Override
 	//auto execute after main execute
@@ -83,11 +88,6 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-		
-//		File file = getContextTableFilePath();
-//		if(file != null) {
-//			loadContextTableDataFromFile(file);
-//		}
 	}
 	
 	/**
@@ -269,7 +269,7 @@ public class MainApp extends Application {
 		        
 		        setFilePath(file);
 
-				 //UCA
+				//UCA
 //			 	JAXBContext context = JAXBContext
 //		                .newInstance(UCAXML.class);
 //		        Unmarshaller um = context.createUnmarshaller();
@@ -315,6 +315,8 @@ public class MainApp extends Application {
 //
 //	        UCAXML UCAwrapper = new UCAXML();
 //	        UCAwrapper.setUCAList(ucadatastore.getUCATableList());
+	        
+	        
 
 	        setFilePath(file);
 	    } catch (Exception e) { 

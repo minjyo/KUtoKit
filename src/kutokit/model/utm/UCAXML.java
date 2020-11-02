@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.utm;
 
 import java.util.ArrayList;
 import java.util.List;
