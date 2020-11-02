@@ -2,17 +2,12 @@ package kutokit;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 import java.util.prefs.Preferences;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -27,9 +22,8 @@ import kutokit.view.CtmController;
 import kutokit.view.LhcController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
-import kutokit.model.*;
+import kutokit.model.ProjectXML;
 import kutokit.model.cse.Components;
-import kutokit.model.cse.ComponentsXML;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LHCDataStore;
 import kutokit.model.pmm.ProcessModel;
@@ -254,27 +248,24 @@ public class MainApp extends Application {
 		        
 		     	//CSE   
 		        JAXBContext context = JAXBContext
-		                .newInstance(ComponentsXML.class);
+		                .newInstance(ProjectXML.class);
 		        Unmarshaller um = context.createUnmarshaller();
 
-		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
+		        ProjectXML projectXML = (ProjectXML) um.unmarshal(file);
 
-		        components.getControllers().addAll(CSELHCwrapper.getControllers());
-		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
-		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());    
+		     // --------------------------- CSE --------------------------
+		        components.getControllers().addAll(projectXML.getControllers());
+		        components.getControlActions().addAll(projectXML.getControlActions());
+		        components.getFeedbacks().addAll(projectXML.getFeedbacks());    
+		     // --------------------------- CSE --------------------------
+		        
+		        
+		     // --------------------------- UTM --------------------------
+		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
+		     // --------------------------- UTM --------------------------   
 		        
 		        setFilePath(file);
 
-				//UCA
-//			 	JAXBContext context = JAXBContext
-//		                .newInstance(UCAXML.class);
-//		        Unmarshaller um = context.createUnmarshaller();
-//
-//		        UCAXML UCAWrapper = (UCAXML) um.unmarshal(file);
-//
-//		        ucadatastore.getUCATableList().addAll(UCAWrapper.getUCAList());
-//
-//		        setFilePath(file);
 
 		    } catch (Exception e) {
 		        Alert alert = new Alert(AlertType.ERROR);
@@ -287,33 +278,28 @@ public class MainApp extends Application {
 	}
 	
 	public void saveFile(File file) {
-	    try {
-	    	//CSE
+	    try {        
 	        JAXBContext context = JAXBContext
-	                .newInstance(ComponentsXML.class);
+	                .newInstance(ProjectXML.class);
 	      
 	        Marshaller m = context.createMarshaller();
 	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	      
-	        ComponentsXML CSEwrapper = new ComponentsXML();
-	        CSEwrapper.setControllers(components.getControllers());
-	        CSEwrapper.setControlActions(components.getControlActions());
-	        CSEwrapper.setFeedbacks(components.getFeedbacks());
+	        ProjectXML projectXML = new ProjectXML();
 	        
-	        m.marshal(CSEwrapper, file);
-
-		    //UCA
-//	        JAXBContext context = JAXBContext
-//	                .newInstance(UCAXML.class);
-//
-//	        Marshaller m = context.createMarshaller();
-//	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//
-//	        UCAXML UCAwrapper = new UCAXML();
-//	        UCAwrapper.setUCAList(ucadatastore.getUCATableList());
+	     // --------------------------- CSE --------------------------
+	        projectXML.setControllers(components.getControllers());
+	        projectXML.setControlActions(components.getControlActions());
+	        projectXML.setFeedbacks(components.getFeedbacks());
+	     // --------------------------- CSE --------------------------
 	        
 	        
-
+	        
+	     // --------------------------- UTM --------------------------
+	        projectXML.setUCAList(ucadatastore.getUCATableList());
+	     // --------------------------- UTM --------------------------   
+	        
+	        m.marshal(projectXML, file);
 	        setFilePath(file);
 	    } catch (Exception e) { 
 	    	e.printStackTrace();
