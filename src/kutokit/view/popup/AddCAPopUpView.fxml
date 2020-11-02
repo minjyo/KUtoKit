@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.popup.cse.AddCAPopUpController">
+	<children>
+      <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="418.0">
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+      </Rectangle>
+      <Text fill="WHITE" layoutX="19.0" layoutY="20.0" text="Help">
+         <font>
+            <Font size="10.0" />
+         </font></Text>
+      <HBox alignment="CENTER" layoutX="150.0" layoutY="360.0" spacing="5.0" />
+      <HBox alignment="BOTTOM_CENTER" layoutY="400.0" prefHeight="44.0" prefWidth="261.0">
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+      </HBox>
+      <TabPane layoutY="31.0" prefHeight="415.0" prefWidth="418.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="LHC">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="323.0" prefWidth="261.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loss/Hazard/Constraint">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="CSE">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="323.0" prefWidth="261.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Control Structure Editor">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="PMM">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="323.0" prefWidth="261.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Process Model Maker">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="CTM">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="323.0" prefWidth="261.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Context Table Maker">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="UTM">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="323.0" prefWidth="261.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UCA Table Maker">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+ 	</children>
+</AnchorPane>

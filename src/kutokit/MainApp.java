@@ -255,7 +255,7 @@ public class MainApp extends Application {
 	public void openFile(File file) {
 		 try {
 		        
-		     //CSE   
+		     	//CSE   
 		        JAXBContext context = JAXBContext
 		                .newInstance(ComponentsXML.class);
 		        Unmarshaller um = context.createUnmarshaller();
