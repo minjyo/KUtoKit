@@ -23,6 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kutokit.Info;
 import kutokit.MainApp;
 import kutokit.model.CTM;
 
@@ -72,9 +73,8 @@ public class CtmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
-        // minjyo - mac
-        fc.setInitialDirectory(new File("/Users/jerry/dearyeon/KUtoKit/"));
+        
+        fc.setInitialDirectory(new File(Info.directory));
         // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
         fc.getExtensionFilters().addAll(txtType);
@@ -111,7 +111,7 @@ public class CtmController {
 	            //System.out.println(temps[0]);
 	            //System.out.println(temps[1]);
 	            
-	            this.ParseMSC(temps);
+	            this.ParseMCS(temps);
 	            
 	            
 	            this.MakeTable();
@@ -123,7 +123,7 @@ public class CtmController {
 		}
 	}
 
-	private void ParseMSC(String[] temps) {
+	private void ParseMCS(String[] temps) {
 		//MSC ex 
 //		detect_term≤0.1sec Λ 	f_HI_LOG_POWER_Trip_Out=true
 //		detect_length≥1m Λ		f_HI_LOG_POWER_PV_Err=true

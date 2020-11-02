@@ -357,7 +357,7 @@ public class PmmController{
 			    public void handle(WindowEvent e) {
 		  			OutputlistPopUpController popup = loader.getController();
 			    	dataStore.setOutputName(popup.output);
-					outputVariable = dataStore.getOutputName();
+					  outputVariable = dataStore.getOutputName();
 			    }
 			  }));
 			
