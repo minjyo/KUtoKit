@@ -252,39 +252,19 @@ public class MainApp extends Application {
 	
 	public void openFile(File file) {
 		 try {
-			 //LHC
-			 //unmarshalling not working yet
-			 	JAXBContext context = JAXBContext
-		                .newInstance(LHCXML.class);
-		        Unmarshaller um = context.createUnmarshaller();
-		        System.out.println("g");
-
-		        LHCXML LHCwrapper = (LHCXML) um.unmarshal(file);
-		        
-		        System.out.println("e");
-		        lhcList.addAll(LHCwrapper.getLossTableList());
-		        System.out.println("a");
-		        lhcList.addAll(LHCwrapper.getHazardTableList());
-		        System.out.println("b");
-		        lhcList.addAll(LHCwrapper.getConstraintTableList());
-		        System.out.println("c");
-
-		        
-		        setFilePath(file);
-		        System.out.println("d");
 		        
 		     //CSE   
-//		        context = JAXBContext
-//		                .newInstance(ComponentsXML.class);
-//		        um = context.createUnmarshaller();
-//
-//		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
-//
-//		        components.getControllers().addAll(CSELHCwrapper.getControllers());
-//		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
-//		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());    
-//		        
-//		        setFilePath(file);
+		        JAXBContext context = JAXBContext
+		                .newInstance(ComponentsXML.class);
+		        Unmarshaller um = context.createUnmarshaller();
+
+		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
+
+		        components.getControllers().addAll(CSELHCwrapper.getControllers());
+		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
+		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());    
+		        
+		        setFilePath(file);
 
 		    } catch (Exception e) { 
 		        Alert alert = new Alert(AlertType.ERROR);
@@ -298,35 +278,21 @@ public class MainApp extends Application {
 	
 	public void saveFile(File file) {
 	    try {
-	    	//LHC
-	        JAXBContext lhc = JAXBContext
-	                .newInstance(LHCXML.class);
+	    	//CSE
+	        JAXBContext context = JAXBContext
+	                .newInstance(ComponentsXML.class);
 	      
-	        Marshaller m = lhc.createMarshaller();
+	        Marshaller m = context.createMarshaller();
 	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	      
-	        LHCXML LHCwrapper = new LHCXML();
-	        LHCwrapper.setLoss(lhcDataStore.getLossTableList());
-	        LHCwrapper.setHazard(lhcDataStore.getHazardTableList());
-	        LHCwrapper.setConstraint(lhcDataStore.getConstraintTableList());
+	        ComponentsXML CSEwrapper = new ComponentsXML();
+	        CSEwrapper.setControllers(components.getControllers());
+	        CSEwrapper.setControlActions(components.getControlActions());
+	        CSEwrapper.setFeedbacks(components.getFeedbacks());
 	        
-	        m.marshal(LHCwrapper, file);
-	        
-	    	//CSE
-//	        JAXBContext context = JAXBContext
-//	                .newInstance(ComponentsXML.class);
-//	      
-//	        m = context.createMarshaller();
-//	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//	      
-//	        ComponentsXML CSEwrapper = new ComponentsXML();
-//	        CSEwrapper.setControllers(components.getControllers());
-//	        CSEwrapper.setControlActions(components.getControlActions());
-//	        CSEwrapper.setFeedbacks(components.getFeedbacks());
-//	        
-//	        m.marshal(CSEwrapper, file);
-//
-//	        setFilePath(file);
+	        m.marshal(CSEwrapper, file);
+
+	        setFilePath(file);
 	    } catch (Exception e) { 
 	    	e.printStackTrace();
 	        Alert alert = new Alert(AlertType.ERROR);

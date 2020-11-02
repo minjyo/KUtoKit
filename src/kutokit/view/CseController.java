@@ -302,7 +302,7 @@ public class CseController {
 			@Override
 			public void handle(ContextMenuEvent event) {
 
-				CAContextMenu.show(s, event.getScreenX(), event.getScreenY());
+				FBContextMenu.show(s, event.getScreenX(), event.getScreenY());
 			}
 		});
 
