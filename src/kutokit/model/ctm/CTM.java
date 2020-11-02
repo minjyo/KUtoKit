@@ -18,38 +18,50 @@ public class CTM {
 	private StringProperty controlAction;
 	private StringProperty cases;
 	private IntegerProperty no;
-	private ComboBox hazardous;
-
+	private ComboBox<String> hazardous;
 	private StringProperty[] contexts;
 
-	public CTM(String controlAction, String cases, int no, String[] contexts, ObservableList hazardous) {
+	public String ControlAction;
+	public String Cases;
+	public int No;
+	public String Hazardous;
+	public String[] Contexts;
+
+	public CTM(String controlAction, String cases, int no, String[] contexts, ComboBox<String> hazardous) {
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.cases = new SimpleStringProperty(cases);
 		this.no = new SimpleIntegerProperty(no);
-		this.hazardous = new ComboBox(hazardous);
-		
+		this.hazardous = hazardous;
+		hazardous.setValue("X");
+
 		this.contexts = new StringProperty[contexts.length];
 
 		for(int i=0;i<contexts.length;i++) {
 			this.contexts[i] = new SimpleStringProperty(contexts[i]);
 		}
-		
-//		this.hazardous.setItems(FXCollections.observableArrayList("No select", "O", "X"));
+
+		this.ControlAction = controlAction;
+		this.Cases = cases;
+		this.No = no;
+		this.Contexts = contexts;
+		this.Hazardous = hazardous.getValue();
+
+
 	}
-	
+
 	public String getContext(int i) {
 		return contexts[i].get();
 	}
-	
+
 	public StringProperty getContextProperty(int i) {
 		//System.out.println("property["+i+"]:"+test[i]);
 		return contexts[i];
 	}
-	
+
 	public String getControlAction() {
 		return controlAction.get();
 	}
-	
+
 	public StringProperty getControlActionProperty() {
 		return controlAction;
 	}
@@ -57,7 +69,7 @@ public class CTM {
 	public String getCases() {
 		return cases.get();
 	}
-	
+
 	public StringProperty getCasesProperty() {
 		return cases;
 	}
@@ -66,17 +78,20 @@ public class CTM {
 	public int getNo() {
 		return no.get();
 	}
-	
+
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
-	
+
 	public ComboBox getHazardous() {
 		return hazardous;
 	}
-	
+
 	public void setHazardous(ComboBox val) {
 		this.hazardous = val;
+		Hazardous = hazardous.getValue();
 	}
-	
+
+
+
 }
