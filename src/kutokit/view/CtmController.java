@@ -26,6 +26,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kutokit.Info;
 import kutokit.MainApp;
 import kutokit.model.CTM;
 
@@ -68,9 +69,8 @@ public class CtmController {
 	public void AddFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
-        // minjyo - mac
-        fc.setInitialDirectory(new File("/Users/jerry/dearyeon/KUtoKit/"));
+        
+        fc.setInitialDirectory(new File(Info.directory));
         // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
         fc.getExtensionFilters().addAll(txtType);
@@ -105,7 +105,7 @@ public class CtmController {
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
 	            
-	            this.ParseMSC(temps);
+	            this.ParseMCS(temps);
 	            
 	            
 	            this.MakeTable();
@@ -118,8 +118,19 @@ public class CtmController {
 		}
 	}
 
+<<<<<<< HEAD
 	private void ParseMSC(String[] temps) {
 
+=======
+	private void ParseMCS(String[] temps) {
+		//MSC ex 
+//		detect_term≤0.1sec Λ 	f_HI_LOG_POWER_Trip_Out=true
+//		detect_length≥1m Λ		f_HI_LOG_POWER_PV_Err=true
+//		sensor_error=false Λ 	th_HI_LOG_POWER_Trip_Logic=false
+//	malfunc_check_clear=true Λ 	th_HI_LOG_POWER_Trip_Logic_state=Waiting at t
+//		path_check=true Λ 		th_HI_LOG_POWER_Trip_Logic_state=Waiting at t=1
+//		gps_one=true
+>>>>>>> 35471f1dfaba09dbf4ead7567c59c23d6fca61bc
 		int i=0;
 		while(i < temps.length) {
 			no[i] = temps[i].substring(0, 1);
