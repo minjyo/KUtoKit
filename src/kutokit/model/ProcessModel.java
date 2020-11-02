@@ -4,14 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ProcessModel {
-	String controllerName, controlActionName, outputName; 
-	ObservableList<String> valuelist = FXCollections.observableArrayList();
+	private String controllerName, controlActionName, outputName; 
+	private ObservableList<String> valuelist = FXCollections.observableArrayList();
 	
 	public ProcessModel() {
 		controllerName = "RPS";
 		controlActionName = "Trip signal";
-		outputName = "f_LO_SG1_LEVEL_Trip_Out";
-		valuelist.addAll("first","second","third");
 	}
 
 	public String getControllerName() {
@@ -46,6 +44,22 @@ public class ProcessModel {
 		this.valuelist = valuelist;
 	}
 	
+	public void addValuelist(String value) {
+		this.valuelist.add(value);
+	}
 	
+	public void modifyValue(String oldValue, String newValue) {
+		for(String value: valuelist) {
+			if( oldValue.equals(value)) {
+				valuelist.set(valuelist.indexOf(value), newValue);
+			}
+		}
+		/*
+		 * if value is already existed, 
+		 */
+	}
 	
+	public void deleteValue(String value) {
+		valuelist.remove(value);
+	}
 }
