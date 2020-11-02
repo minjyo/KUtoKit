@@ -346,7 +346,7 @@ public class PmmController{
   		Parent root;
 
   		try {
-  			OutputlistPopUpController popup = loader.getController();
+  			
 			root = (Parent)loader.load();
 			Scene s = new Scene(root);
 			  			
@@ -356,6 +356,8 @@ public class PmmController{
 			outputListStage.setOnHidden((new EventHandler<WindowEvent>() {
 			    @Override
 			    public void handle(WindowEvent e) {
+			    	OutputlistPopUpController popup = loader.getController();
+			    	
 			    	dataStore.setOutputName(popup.output);
 					outputVariable = dataStore.getOutputName();
 			    	System.out.println("outputVariable: "+outputVariable);
