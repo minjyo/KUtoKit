@@ -2,9 +2,9 @@ package kutokit.view;
 
 import kutokit.Info;
 import kutokit.MainApp;
-import kutokit.model.Components;
 import kutokit.model.ProcessModel;
 import kutokit.model.XmlReader;
+import kutokit.model.cse.Components;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.ContextMenuEvent;

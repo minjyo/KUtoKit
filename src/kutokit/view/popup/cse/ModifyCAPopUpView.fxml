@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.popup.ModifyFBPopUpController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.popup.cse.ModifyCAPopUpController">
 	<children>
       <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="263.0">
          <stroke>
@@ -24,24 +24,24 @@
             </LinearGradient>
          </stroke>
       </Rectangle>
-	  <Text layoutX="28.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Feedback">
+	  <Text layoutX="28.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Control Action">
          <font>
             <Font size="10.0" />
          </font>
       </Text>
       <ListView fx:id="listView" layoutX="18.0" layoutY="60.0" prefHeight="200.0" prefWidth="225.0" />
-      <Text layoutX="28.0" layoutY="50.0" text="Feedback">
+      <Text layoutX="28.0" layoutY="50.0" text="ControlAction">
          <font>
             <Font size="10.0" />
          </font></Text>
       <TextField fx:id="listInput" layoutX="18.0" layoutY="270.0" prefWidth="125.0" />
       <HBox alignment="CENTER" layoutX="150.0" layoutY="270.0" spacing="5.0">
          <children>
-           <Button fx:id="add" onAction="#addFB" text="추가">
+           <Button fx:id="add" onAction="#addCA" text="추가">
                <HBox.margin>
                   <Insets bottom="20.0" />
                </HBox.margin></Button>
-           <Button fx:id="remove" onAction="#removeFB" text="삭제">
+           <Button fx:id="remove" onAction="#removeCA" text="삭제">
                <HBox.margin>
                   <Insets bottom="20.0" right="20.0" />
                </HBox.margin></Button>
@@ -49,12 +49,7 @@
       </HBox>
       <HBox alignment="BOTTOM_CENTER" layoutY="310.0" prefHeight="44.0" prefWidth="261.0">
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#close" text="취소">
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </Button>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#close" text="확인" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setData" text="확인" />
          </children>
          <padding>
             <Insets bottom="10.0" />

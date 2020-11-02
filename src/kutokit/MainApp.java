@@ -28,6 +28,8 @@ import kutokit.view.LhcController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
 import kutokit.model.*;
+import kutokit.model.cse.Components;
+import kutokit.model.cse.ComponentsXML;
 
 public class MainApp extends Application {
 	
