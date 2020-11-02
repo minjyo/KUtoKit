@@ -19,7 +19,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.Stage;
 import kutokit.MainApp;
-import kutokit.model.CTM;
+import kutokit.model.ctm.CTM;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LHCDataStore;
 import kutokit.model.utm.UCA;

@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.pmm;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
