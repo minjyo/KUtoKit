@@ -40,6 +40,7 @@ public class MainApp extends Application {
 	 private ObservableList<LHC> lhcList;
 	 public ProcessModel models;
 	 public static UCADataStore ucadatastore;
+	 public static CTMDataStore ctmDataStore;
 //	 private static CTMDataStore ctmdatastore;
 
 	@Override
@@ -62,6 +63,7 @@ public class MainApp extends Application {
 		lhcDataStore = new LHCDataStore();
 		models = new ProcessModel();
 		ucadatastore = new UCADataStore();
+		ctmDataStore = new CTMDataStore();
 	}
 
 	private void initRootLayout() {
@@ -164,7 +166,7 @@ public class MainApp extends Application {
 
             //add controller
             UtmController controller = loader.getController();
-           // controller.setUcaTable(getContextTable());
+            controller.setUcaTable(ucadatastore,lhcDataStore);
             controller.setMainApp(this);
 
         } catch (IOException e) {
