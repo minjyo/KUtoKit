@@ -1,4 +1,4 @@
-package kutokit.view.popup;
+package kutokit.view.popup.cse;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
  
-public class AddFBPopUpController implements Initializable {
+public class AddCAPopUpController implements Initializable {
 
 	  @FXML 
 	  private TextField text1;
@@ -24,7 +24,7 @@ public class AddFBPopUpController implements Initializable {
 	  private TextField text2;
 	  public String controller;
 	  public String controlled;
-	  public ArrayList<String> FB;
+	  public ArrayList<String> CA;
 	  
 	  @FXML 
 	  private Button add;
@@ -36,10 +36,10 @@ public class AddFBPopUpController implements Initializable {
 	  private TextField listInput;  
 	  private ObservableList<String> listItems;       
 	  
-	  public AddFBPopUpController() {
+	  public AddCAPopUpController() {
 		  controller = "Controller";
 		  controlled = "Controlled";
-		  FB = new ArrayList<String>();
+		  CA = new ArrayList<String>();
 	  }
 	  
 	  public void setData() {
@@ -54,17 +54,17 @@ public class AddFBPopUpController implements Initializable {
 	  }
 	  
 	  @FXML
-	  private void addFB(ActionEvent action){
+	  private void addCA(ActionEvent action){
 	    listItems.add(listInput.getText());
-	    FB.add(listInput.getText());
+	    CA.add(listInput.getText());
 	    listInput.clear();
 	  }
 	  
 	  @FXML
-	  private void removeFB(ActionEvent action){
+	  private void removeCA(ActionEvent action){
 	    int selectedItem = listView.getSelectionModel().getSelectedIndex();
 	    listItems.remove(selectedItem);
-	    FB.remove(selectedItem);
+	    CA.remove(selectedItem);
 	  }
 
 	@Override

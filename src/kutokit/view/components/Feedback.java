@@ -2,7 +2,7 @@ package kutokit.view.components;
 
 import java.util.ArrayList;
 
-import kutokit.model.Components;
+import kutokit.model.cse.Components;
 import kutokit.view.components.Controller;
 
 public class Feedback {

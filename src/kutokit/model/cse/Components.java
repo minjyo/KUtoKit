@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.cse;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,9 +29,7 @@ public class Components {
 //		//===================temp========================
 //		controllers.add(new Controller(100,30, "c1", 1));
 //		controllers.add(new Controller(100,300, "c2", 2));
-////		ArrayList<String> ca = new ArrayList<String>();
-////		ca.add("ca1");
-////		controlActions.add(new ControlAction(1, 2, ca, 3));
+//		
 //		//===================temp========================
 	}
 	

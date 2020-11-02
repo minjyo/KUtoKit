@@ -1,4 +1,4 @@
-package kutokit.model;
+package kutokit.model.cse;
 
 import java.util.ArrayList;
 import java.util.List;

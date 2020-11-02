@@ -1,4 +1,4 @@
-package kutokit.view.popup;
+package kutokit.view.popup.cse;
 
 import java.net.URL;
 import java.util.ArrayList;
