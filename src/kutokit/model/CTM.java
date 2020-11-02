@@ -1,9 +1,13 @@
 package kutokit.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -14,42 +18,34 @@ public class CTM {
 	private StringProperty controlAction;
 	private StringProperty cases;
 	private IntegerProperty no;
-	private StringProperty contexts1;
-	private StringProperty contexts2;
-	private StringProperty contexts3;
-	private StringProperty contexts4;
-	private StringProperty contexts5;
-	private StringProperty contexts6;
-	private StringProperty contexts7;
-	private StringProperty contexts8;
-	private StringProperty contexts9;
-	private StringProperty contexts10;
-	private StringProperty contexts11;
-	private StringProperty contexts12;
-	private StringProperty contexts13;
-	private StringProperty contexts14;
-	private StringProperty contexts15;
 	private ComboBox hazardous;
-	
 
-	public CTM(String controlAction, String cases, int no, String contexts1, String contexts2, String contexts3, String contexts4, String contexts5, String contexts6, String contexts7, String contexts8, ObservableList hazardous) {
+	private StringProperty[] contexts;
+
+	public CTM(String controlAction, String cases, int no, String[] contexts, ObservableList hazardous) {
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.cases = new SimpleStringProperty(cases);
 		this.no = new SimpleIntegerProperty(no);
-		this.contexts1 = new SimpleStringProperty(contexts1);
-		this.contexts2 = new SimpleStringProperty(contexts2);
-		this.contexts3 = new SimpleStringProperty(contexts3);
-		this.contexts4 = new SimpleStringProperty(contexts4);
-		this.contexts5 = new SimpleStringProperty(contexts5);
-		this.contexts6 = new SimpleStringProperty(contexts6);
-		this.contexts7 = new SimpleStringProperty(contexts7);
-		this.contexts8 = new SimpleStringProperty(contexts8);
 		this.hazardous = new ComboBox(hazardous);
-		//this.hazardous = new SimpleStringProperty(hazardous);
+		
+		this.contexts = new StringProperty[contexts.length];
+
+		for(int i=0;i<contexts.length;i++) {
+			this.contexts[i] = new SimpleStringProperty(contexts[i]);
+		}
+		
 //		this.hazardous.setItems(FXCollections.observableArrayList("No select", "O", "X"));
 	}
-
-
+	
+	public String getContext(int i) {
+		return contexts[i].get();
+	}
+	
+	public StringProperty getContextProperty(int i) {
+		//System.out.println("property["+i+"]:"+test[i]);
+		return contexts[i];
+	}
+	
 	public String getControlAction() {
 		return controlAction.get();
 	}
@@ -73,74 +69,6 @@ public class CTM {
 	
 	public IntegerProperty getNoProperty() {
 		return no;
-	}
-
-	public String getContexts1() {
-		return contexts1.get();
-	}
-	
-	public StringProperty getContexts1Property() {
-		return contexts1;
-	}
-	
-	public void setContext1(String val) {
-		this.contexts1.set(val);
-	}
-	
-	public String getContexts2() {
-		return contexts2.get();
-	}
-	
-	public StringProperty getContexts2Property() {
-		return contexts2;
-	}
-	
-	public String getContexts3() {
-		return contexts3.get();
-	}
-	
-	public StringProperty getContexts3Property() {
-		return contexts3;
-	}
-	
-	public String getContexts4() {
-		return contexts4.get();
-	}
-	
-	public StringProperty getContexts4Property() {
-		return contexts4;
-	}
-	
-	public String getContexts5() {
-		return contexts5.get();
-	}
-	
-	public StringProperty getContexts5Property() {
-		return contexts7;
-	}
-	
-	public String getContexts6() {
-		return contexts6.get();
-	}
-	
-	public StringProperty getContexts6Property() {
-		return contexts6;
-	}
-	
-	public String getContexts7() {
-		return contexts7.get();
-	}
-	
-	public StringProperty getContexts7Property() {
-		return contexts7;
-	}
-	
-	public String getContexts8() {
-		return contexts8.get();
-	}
-	
-	public StringProperty getContexts8Property() {
-		return contexts8;
 	}
 	
 	public ComboBox getHazardous() {

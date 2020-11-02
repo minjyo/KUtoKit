@@ -16,7 +16,7 @@
           <TableColumn fx:id="CAColumn" prefWidth="100.0" text="Control Action" />
           <TableColumn fx:id="casesColumn" minWidth="6.0" prefWidth="90.0" text="Cases" /> <!-- visible="false" -->
             <TableColumn fx:id="noColumn" minWidth="6.0" prefWidth="30.0" text="No." />
-            <TableColumn fx:id="contexts1Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text="f_X_Trip_Out" />
+            <!--<TableColumn fx:id="contexts1Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text="f_X_Trip_Out" />
             <TableColumn fx:id="contexts2Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text="th_X_Trip_Logic" />
             <TableColumn fx:id="contexts3Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text="th_X_Trip_Logic_State" />
             <TableColumn fx:id="contexts4Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text="f_X_PV" />
@@ -30,8 +30,8 @@
             <TableColumn fx:id="contexts12Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text=" " />
             <TableColumn fx:id="contexts13Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text=" " />
             <TableColumn fx:id="contexts14Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text=" " />
-            <TableColumn fx:id="contexts15Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text=" " />
-            <TableColumn fx:id="hazardousColumn" minWidth="3.0" prefWidth="102.0" text="hazardous?" />
+            <TableColumn fx:id="contexts15Column" minWidth="6.0" onEditCommit="#onEditChange" prefWidth="80.0" text=" " />-->
+            <TableColumn fx:id="hazardousColumn" minWidth="3.0" prefWidth="100.0" text="hazardous?" />
         </columns>
       </TableView>
       <Pane fx:id="AddFile" layoutX="181.0" layoutY="96.0" prefHeight="109.0" prefWidth="238.0">
