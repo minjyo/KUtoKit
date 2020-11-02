@@ -42,7 +42,7 @@ public class MainApp extends Application {
 	 private ObservableList<LHC> lhcList;
 	 public ProcessModel models;
 //	 private static CTMDataStore ctmdatastore;
-	 private static UCADataStore ucadatastore;
+	 public static UCADataStore ucadatastore;
 
 	@Override
 	//auto execute after main execute
