@@ -204,66 +204,72 @@ public class CseController {
 					case "controller":
 						AddCpop = loader.getController();
 						
-						Controller c = new Controller(10, 10, AddCpop.name, dataStore.curId);
+						if(AddCpop.OKclose) {
+							Controller c = new Controller(10, 10, AddCpop.name, dataStore.curId);
 
-						DoubleProperty X = new SimpleDoubleProperty(c.getX());
-					    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
-					    
-						RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
+							DoubleProperty X = new SimpleDoubleProperty(c.getX());
+						    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
+						    
+							RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
 
-						addController(r, c);
-						dataStore.addController(c);
+							addController(r, c);
+							dataStore.addController(c);
+						}
 						break;
 					case "ca":
 						AddCApop = loader.getController();
 						
-						ControlAction ca = new ControlAction(AddCApop.controller, AddCApop.controlled, AddCApop.CA, dataStore.curId, dataStore);
-						
-						DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
-						
-						for(Node node: root.getChildren()) {
-							if(Integer.parseInt(node.getId())==ca.getControllerID()) {
-								startX = node.layoutXProperty();
-								startY = node.layoutYProperty();
-							}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
-								endX = node.layoutXProperty();
-								endY = node.layoutYProperty();
+						if(AddCApop.OKclose) {
+							ControlAction ca = new ControlAction(AddCApop.controller, AddCApop.controlled, AddCApop.CA, dataStore.curId, dataStore);
+							
+							DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
+							
+							for(Node node: root.getChildren()) {
+								if(Integer.parseInt(node.getId())==ca.getControllerID()) {
+									startX = node.layoutXProperty();
+									startY = node.layoutYProperty();
+								}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
+									endX = node.layoutXProperty();
+									endY = node.layoutYProperty();
+								}
 							}
+							ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
+							LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
+							a.setLabel(label);
+							
+							dataStore.addControlAction(ca);
+						
+							dataStore.findController(AddCApop.controller).addCA(ca.getId(), 1);
+							dataStore.findController(AddCApop.controlled).addCA(ca.getId(), 0);
+							
+							addControlAction(a, label, ca);
 						}
-						ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
-						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
-						a.setLabel(label);
-						
-						dataStore.addControlAction(ca);
-					
-						dataStore.findController(AddCApop.controller).addCA(ca.getId(), 1);
-						dataStore.findController(AddCApop.controlled).addCA(ca.getId(), 0);
-						
-						addControlAction(a, label, ca);
 						break;
 					case "feedback":
 						AddFBpop = loader.getController();
 						
-						Feedback fb = new Feedback(AddFBpop.controlled, AddFBpop.controller, AddFBpop.FB, dataStore.curId, dataStore);
-						
-						DoubleProperty  startX1 = null, startY1 = null, endX1 = null,  endY1 = null;
-						
-						for(Node node: root.getChildren()) {
-							if(Integer.parseInt(node.getId())==fb.getControlledID()) {
-								startX1 = node.layoutXProperty();
-								startY1 = node.layoutYProperty();
-							}else if(Integer.parseInt(node.getId())==fb.getControllerID()) {
-								endX1 = node.layoutXProperty();
-								endY1 = node.layoutYProperty();
+						if(AddCApop.OKclose) {
+							Feedback fb = new Feedback(AddFBpop.controlled, AddFBpop.controller, AddFBpop.FB, dataStore.curId, dataStore);
+							
+							DoubleProperty  startX1 = null, startY1 = null, endX1 = null,  endY1 = null;
+							
+							for(Node node: root.getChildren()) {
+								if(Integer.parseInt(node.getId())==fb.getControlledID()) {
+									startX1 = node.layoutXProperty();
+									startY1 = node.layoutYProperty();
+								}else if(Integer.parseInt(node.getId())==fb.getControllerID()) {
+									endX1 = node.layoutXProperty();
+									endY1 = node.layoutYProperty();
+								}
 							}
-						}
-						ArrowView a1 = new ArrowView(fb, startX1, startY1, endX1,  endY1, fb.getId());
-						LabelView label1 = new LabelView(a1.startX, a1.startY, a1.endX, a1.endY, fb.getFB(), "FB");
-						a1.setLabel(label1);
+							ArrowView a1 = new ArrowView(fb, startX1, startY1, endX1,  endY1, fb.getId());
+							LabelView label1 = new LabelView(a1.startX, a1.startY, a1.endX, a1.endY, fb.getFB(), "FB");
+							a1.setLabel(label1);
+							
+							dataStore.addFeedback(fb);
 						
-						dataStore.addFeedback(fb);
-					
-						addFeedback(a1, label1, fb);
+							addFeedback(a1, label1, fb);
+						}
 						break;
 					}
 
@@ -349,7 +355,11 @@ public class CseController {
 				  stage.setOnHidden(new EventHandler<WindowEvent>() {
 					    @Override
 					    public void handle(WindowEvent e) {
-					    	modifyRectangle(rect, AddCpop.name);
+					    	AddCpop = loader.getController();
+					    	
+					    	if(AddCpop.OKclose) {
+					    		modifyRectangle(rect, AddCpop.name);
+					    	}
 					    }
 					  });
 		  } catch (IOException e) {
@@ -377,16 +387,20 @@ public class CseController {
 			stage.setOnHidden(new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent e) {
-					dataStore.curCA.setCA(ModifyCApop.CA);
-					for(Node node : root.getChildren()) {
-						if(node.equals(a.label)) {
-							root.getChildren().remove(node);
-							break;
+					ModifyCApop = loader.getController();
+			    	
+			    	if(ModifyCApop.OKclose) {
+			    		dataStore.curCA.setCA(ModifyCApop.CA);
+						for(Node node : root.getChildren()) {
+							if(node.equals(a.label)) {
+								root.getChildren().remove(node);
+								break;
+							}
 						}
-					}
-					LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyCApop.CA, "CA");
-					a.label = label;
-					root.getChildren().add(label);
+						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyCApop.CA, "CA");
+						a.label = label;
+						root.getChildren().add(label);
+			    	}
 				}
 			});
 		} catch (IOException e) {
@@ -414,16 +428,21 @@ public class CseController {
 			stage.setOnHidden(new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent e) {
-					dataStore.curFB.setFB(ModifyFBpop.FB);
-					for(Node node : root.getChildren()) {
-						if(node.equals(a.label)) {
-							root.getChildren().remove(node);
-							break;
+					ModifyFBpop = loader.getController();
+			    	
+			    	if(ModifyFBpop.OKclose) {
+			    		dataStore.curFB.setFB(ModifyFBpop.FB);
+						for(Node node : root.getChildren()) {
+							if(node.equals(a.label)) {
+								root.getChildren().remove(node);
+								break;
+							}
 						}
-					}
-					LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyFBpop.FB, "FB");
-					a.label = label;
-					root.getChildren().add(label);
+						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyFBpop.FB, "FB");
+						a.label = label;
+						root.getChildren().add(label);
+			    	}
+					
 				}
 			});
 		} catch (IOException e) {

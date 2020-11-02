@@ -16,14 +16,17 @@ public class ControllerPopUpController {
 	  private TextField text;
 	  public String name;
 	  public MainApp mainApp;
+	  public boolean OKclose;
 	  
 	  public ControllerPopUpController() {
+		  OKclose = false;
 		  name = "Controller Name";
 	  }
 	  
 	  public void setData() {
 		  if(mainApp.components.findController(text.getText())==null) {
 			  name = text.getText();
+			  OKclose = true;
 			  close();
 		  }
 		  else {

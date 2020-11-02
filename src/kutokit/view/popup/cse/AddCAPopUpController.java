@@ -1,5 +1,6 @@
 package kutokit.view.popup.cse;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -10,12 +11,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
- 
+import kutokit.MainApp;
+
 public class AddCAPopUpController implements Initializable {
 
 	  @FXML 
@@ -34,18 +39,56 @@ public class AddCAPopUpController implements Initializable {
 	  private ListView<String> listView;
 	  @FXML 
 	  private TextField listInput;  
-	  private ObservableList<String> listItems;       
+	  private ObservableList<String> listItems;  
+	  
+	  public MainApp mainApp;
+	  public boolean OKclose;
 	  
 	  public AddCAPopUpController() {
-		  controller = "Controller";
-		  controlled = "Controlled";
+		  OKclose = false;
+		  controller = "Controller Name";
+		  controlled = "Controller Name";
 		  CA = new ArrayList<String>();
 	  }
 	  
 	  public void setData() {
-		  controller = text1.getText();
-		  controlled = text2.getText();
-		  close();
+		  if(mainApp.components.findController(text1.getText())!=null && mainApp.components.findController(text2.getText())!=null) {
+			  controller = text1.getText();
+			  controlled = text2.getText();
+			  
+			  if(!listItems.isEmpty()) {
+				  OKclose = true;
+				  close();
+			  }else {
+				  FXMLLoader loader = new FXMLLoader();
+				  loader.setLocation(getClass().getResource("ErrorNoCA.fxml"));
+				  Parent popUproot;
+				  try {
+					  	popUproot = (Parent) loader.load();
+						Scene scene = new Scene(popUproot);
+						Stage stage = new Stage();
+						stage.setScene(scene);
+						stage.show();
+				  }catch(IOException e) {
+					  e.printStackTrace();
+				  }  
+			  }
+			  
+		  }
+		  else {
+			  FXMLLoader loader = new FXMLLoader();
+			  loader.setLocation(getClass().getResource("ErrorNotFoundController.fxml"));
+			  Parent popUproot;
+			  try {
+				  	popUproot = (Parent) loader.load();
+					Scene scene = new Scene(popUproot);
+					Stage stage = new Stage();
+					stage.setScene(scene);
+					stage.show();
+			  }catch(IOException e) {
+				  e.printStackTrace();
+			  }  
+		  }
 	  }
 	  
 	  public void close() { 

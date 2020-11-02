@@ -1,5 +1,6 @@
 package kutokit.view.popup.cse;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -10,7 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -30,10 +34,33 @@ public class ModifyCAPopUpController implements Initializable {
 	  private ListView<String> listView;
 	  @FXML 
 	  private TextField listInput;  
-	  private ObservableList<String> listItems;       
+	  private ObservableList<String> listItems;   
+	  
+	  public MainApp mainApp;
+	  public boolean OKclose;
 	  
 	  public ModifyCAPopUpController() {
-		 
+		 OKclose = false;
+	  }
+	  
+	  public void setData() {
+			  if(!listItems.isEmpty()) {
+				  OKclose = true;
+				  close();
+			  }else {
+				  FXMLLoader loader = new FXMLLoader();
+				  loader.setLocation(getClass().getResource("ErrorNoCA.fxml"));
+				  Parent popUproot;
+				  try {
+					  	popUproot = (Parent) loader.load();
+						Scene scene = new Scene(popUproot);
+						Stage stage = new Stage();
+						stage.setScene(scene);
+						stage.show();
+				  }catch(IOException e) {
+					  e.printStackTrace();
+				  }  
+			  }
 	  }
 	  
 	  public void close() { 
