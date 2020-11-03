@@ -1,4 +1,4 @@
-package kutokit.view.components;
+package kutokit.model.cse;
 
 import java.util.HashMap;
 import java.util.Map;

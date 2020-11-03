@@ -10,8 +10,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import kutokit.model.cse.ControlAction;
+import kutokit.model.cse.Controller;
+import kutokit.model.cse.Feedback;
 import kutokit.model.lhc.LHC;
-import kutokit.model.lhc.LhcDataStore;
+import kutokit.model.lhc.LHCDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.view.components.*;
@@ -21,11 +25,12 @@ import kutokit.view.components.*;
 public class ProjectXML {
 	
 	// --------------------------- LHC --------------------------
-	LhcDataStore lhcDB = new LhcDataStore();
+	LHCDataStore lhcDB = new LHCDataStore();
 	List<LHC> lossList = new ArrayList<LHC>();
 	List<LHC> hazardList = new ArrayList<LHC>();
 	List<LHC> constraintList = new ArrayList<LHC>();
 	// --------------------------- LHC --------------------------
+	
 	
 	// --------------------------- CSE --------------------------
 	private ArrayList<Controller> controllers;
@@ -33,9 +38,11 @@ public class ProjectXML {
 	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
 	// --------------------------- CSE --------------------------
 	
+	
 	// --------------------------- UTM --------------------------
 	ObservableList<UCA> UCAList = FXCollections.observableArrayList();
 	// --------------------------- UTM --------------------------
+	
 	
 	// --------------------------- PMM --------------------------
 	private String controller;
@@ -44,6 +51,8 @@ public class ProjectXML {
 	private ObservableList<String> valueList = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
+	
+	
 	// --------------------------- LHC --------------------------
 	@XmlElement(name = "Loss")
 	public List<LHC> getLossList(){
@@ -72,6 +81,8 @@ public class ProjectXML {
 		this.lhcDB.getConstraintTableList().setAll(constraintList);
 	}
 	// --------------------------- LHC --------------------------
+	
+	
 	
 	// --------------------------- CSE --------------------------
 	@XmlElement(name = "CSEontroller")
@@ -103,6 +114,8 @@ public class ProjectXML {
 	// --------------------------- CSE --------------------------
 	
 	
+	
+	
 	// --------------------------- UTM --------------------------
 	@XmlElement(name = "UCA")
 	public ObservableList<UCA> getUCAList() {
@@ -113,6 +126,8 @@ public class ProjectXML {
 		this.UCAList = UCAList;
 	}
 	// --------------------------- UTM --------------------------
+	
+	
 	
 	// --------------------------- PMM --------------------------
 	@XmlElement(name = "Controller")
