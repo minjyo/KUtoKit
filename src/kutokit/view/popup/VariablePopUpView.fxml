@@ -16,8 +16,8 @@
 	  <TextField fx:id="text" alignment="CENTER_RIGHT" layoutX="67.0" layoutY="64.0" prefHeight="29.0" prefWidth="184.0" text="variable name" />
       <HBox alignment="BOTTOM_CENTER" layoutX="16.0" layoutY="101.0" prefHeight="41.0" prefWidth="237.0" spacing="10.0">
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#setData" text="확인" />
-            <Button alignment="TOP_RIGHT" mnemonicParsing="false" onMouseClicked="#close" text="취소" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#setData" prefWidth="79.0" text="Confirm" />
+            <Button alignment="TOP_RIGHT" mnemonicParsing="false" onMouseClicked="#close" text="Cancel" />
          </children>
          <padding>
             <Insets bottom="5.0" />

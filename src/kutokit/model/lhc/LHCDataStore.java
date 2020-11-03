@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class LHCDataStore {
+public class LhcDataStore {
 
 	private ObservableList<LHC> lossTableList = FXCollections.observableArrayList();
 	private ObservableList<LHC> hazardTableList = FXCollections.observableArrayList();

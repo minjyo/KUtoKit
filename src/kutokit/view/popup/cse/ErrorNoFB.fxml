@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="130.0" prefWidth="263.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
       <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="263.0">
          <stroke>
@@ -19,11 +19,10 @@
             </LinearGradient>
          </stroke>
       </Rectangle>
-	  <Text fill="WHITE" layoutX="28.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error">
+	  <Text fill="WHITE" layoutX="12.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" />
+      <Text layoutX="46.0" layoutY="69.0" text="There must be at least 1 Feedback!" wrappingWidth="172.0" AnchorPane.bottomAnchor="36.21484375" AnchorPane.topAnchor="51.896484375">
          <font>
-            <Font size="10.0" />
-         </font>
-      </Text>
-      <Text layoutX="39.0" layoutY="63.0" text="There must be at least 1 Feedback!" AnchorPane.bottomAnchor="20.689453125" AnchorPane.topAnchor="50.0" />
+            <Font size="18.0" />
+         </font></Text>
  	</children>
 </AnchorPane>

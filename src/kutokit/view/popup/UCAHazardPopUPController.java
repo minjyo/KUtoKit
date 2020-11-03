@@ -10,16 +10,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import kutokit.MainApp;
 import kutokit.model.lhc.LHC;
-import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.lhc.LhcDataStore;
 
-public class UCAHazardPopUPController {
+public class UCAHazardPopUpController {
 	@FXML private TableView<LHC> hazardousTable;
 	@FXML private TableColumn<LHC, String> indexColumn, textColumn, linkColumn;
 
 	private ObservableList<LHC> hazardData=FXCollections.observableArrayList();
 
 
-	public UCAHazardPopUPController(){
+	public UCAHazardPopUpController(){
 		hazardData = MainApp.lhcDataStore.getHazardTableList();
 		ObservableList<LHC> temp =FXCollections.observableArrayList();
 		for(LHC l : MainApp.lhcDataStore.getHazardTableList()){
