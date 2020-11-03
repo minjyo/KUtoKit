@@ -4,11 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CtmController">
+<AnchorPane prefHeight="650.0" prefWidth="2000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CtmController">
    <children>
       <TableView fx:id="contextTable" layoutY="39.0" prefHeight="608.0" prefWidth="2000.0">
         <columns>
@@ -42,8 +43,9 @@
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="87.0" layoutX="-2.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="238.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="217.0" />
                   <Button layoutX="197.0" layoutY="16.0" mnemonicParsing="false" onAction="#AddFile" prefHeight="14.0" prefWidth="28.0" text="..." />
-                  <Button layoutX="92.0" layoutY="50.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
+                  <Button layoutX="49.0" layoutY="47.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
                   <Label fx:id="filename" layoutX="14.0" layoutY="20.0" />
+                  <Button layoutX="128.0" layoutY="47.0" mnemonicParsing="false" onAction="#closeAddFile" text="Close" />
                </children>
             </AnchorPane>
          </children>
