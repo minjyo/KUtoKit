@@ -52,37 +52,45 @@ public class CTM {
 	public String getContext(int i) {
 		return contexts[i].get();
 	}
-
+	
 	public StringProperty getContextProperty(int i) {
 		//System.out.println("property["+i+"]:"+test[i]);
 		return contexts[i];
 	}
-
+	public void setContext(int i, String val) {
+		this.contexts[i].set(val);
+	}
+	
 	public String getControlAction() {
 		return controlAction.get();
 	}
-
+	
 	public StringProperty getControlActionProperty() {
 		return controlAction;
+	}
+	public void setControlAction(String val) {
+		this.controlAction.set(val);
 	}
 
 	public String getCases() {
 		return cases.get();
 	}
-
+	
 	public StringProperty getCasesProperty() {
 		return cases;
 	}
-
-
+	public void setCases(String val) {
+		this.cases.set(val);
+	}
+	
 	public int getNo() {
 		return no.get();
 	}
-
+	
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
-
+	
 	public ComboBox getHazardous() {
 		return hazardous;
 	}
