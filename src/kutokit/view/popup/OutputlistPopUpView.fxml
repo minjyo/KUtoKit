@@ -12,6 +12,6 @@
       
       <ChoiceBox fx:id="outputList" layoutX="11.0" layoutY="55.0" prefHeight="32.0" prefWidth="242.0" value="default" />
       <Text fill="WHITE" layoutX="14.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output variable" />
-      <Button layoutX="107.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#selectValue" text="선택" />
+      <Button layoutX="101.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#selectValue" text="Select" />
    </children>
 </AnchorPane>

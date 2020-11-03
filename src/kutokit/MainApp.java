@@ -27,7 +27,7 @@ import kutokit.model.ProjectXML;
 import kutokit.model.cse.Components;
 import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
-import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCADataStore;
 
@@ -38,7 +38,7 @@ public class MainApp extends Application {
 	 private CtmController controller;
 
 	 public static Components components;
-	 public static LHCDataStore lhcDataStore;
+	 public static LhcDataStore lhcDataStore;
 	 private ObservableList<LHC> lhcList;
 	 public ProcessModel models;
 	 public static UCADataStore ucadatastore;
@@ -61,7 +61,7 @@ public class MainApp extends Application {
 
 	private void initDataStore() {
 		components = new Components();
-		lhcDataStore = new LHCDataStore();
+		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
 		ucadatastore = new UCADataStore();
 		ctmDataStore = new CTMDataStore();
