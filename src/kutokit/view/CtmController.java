@@ -120,7 +120,7 @@ public class CtmController {
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
 
-	            this.ParseMSC(temps);
+	            this.ParseMCS(temps);
 
 
 	            this.MakeTable();
@@ -143,7 +143,7 @@ public class CtmController {
 		}
 	}
 
-	private void ParseMSC(String[] temps) {
+	private void ParseMCS(String[] temps) {
 
 		int i=0;
 		while(i < temps.length) {

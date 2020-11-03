@@ -44,4 +44,10 @@ public class DashboardController{
 	private void toUtmController() {
 		this.mainApp.showUtmView();
 	}
+	
+	//click button 4. Identify loss scenario
+	@FXML
+	private void toLsController() {
+		this.mainApp.showLsView();
+	}
 }

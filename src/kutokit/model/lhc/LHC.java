@@ -16,9 +16,7 @@ public class LHC {
 	/*
 	 * initializing constructor
 	 */
-	
 	public LHC(String index, String text, String link) {
-		//super();
 		this.index = new SimpleStringProperty(index);
 		this.text = new SimpleStringProperty(text);
 		this.link = new SimpleStringProperty(link);
