@@ -33,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeTableColumn.CellEditEvent;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -73,7 +74,9 @@ public class LhcController implements Initializable {
 //		constraintTableList.add(new LHC("C1", "ex)Nuclear power plant must not release dangerous materials.", "[H1]"));
 	}
 	
-	//set MainApp
+	/*
+	 * set MainApp
+	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
@@ -89,6 +92,7 @@ public class LhcController implements Initializable {
 		hazardTableList = lhcDB.getHazardTableList();
 		constraintTableList = lhcDB.getConstraintTableList();
 		
+		
 		/*
 		 * 
 		 * below is code part for loss
@@ -102,7 +106,9 @@ public class LhcController implements Initializable {
 		
 		lossTableView.setItems(lossTableList); 
 		
-		//add items to loss table
+		/*
+		 * add items to loss table
+		 */
 		addLossButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -123,7 +129,9 @@ public class LhcController implements Initializable {
 			}
 		});
 		
-		//delete items from loss table
+		/*
+		 * delete items from loss table
+		 */
 		ContextMenu lossRightClickMenu = new ContextMenu();
 		MenuItem removeLossMenu = new MenuItem("Delete");
 		lossRightClickMenu.getItems().add(removeLossMenu);
@@ -132,7 +140,9 @@ public class LhcController implements Initializable {
 		allLossItems = lossTableView.getItems();
 		selectedLossItem = lossTableView.getSelectionModel().getSelectedItems();
 		
-		//when right-clicked, show pop up
+		/*
+		 * when right-clicked, show pop up
+		 */
 		lossTableView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 			@Override
 			public void handle(ContextMenuEvent e) {
@@ -146,7 +156,9 @@ public class LhcController implements Initializable {
 		});
 		lossRightClickMenu.hide();
 		
-		//modify text in loss table
+		/*
+		 * modify text in loss table
+		 */
 		lossTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		lossTextColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) ->
@@ -155,19 +167,23 @@ public class LhcController implements Initializable {
                 ).setText(t.getNewValue())
 		);
 		
+		
 		/*
 		 * 
 		 * below is code part for hazard
 		 * 
 		*/
 		
-		//add items to hazard table
+		
 		hazardIndexColumn.setCellValueFactory(cellData -> cellData.getValue().indexProperty());
 		hazardTextColumn.setCellValueFactory(cellData -> cellData.getValue().textProperty());
 		hazardLinkColumn.setCellValueFactory(cellData -> cellData.getValue().linkProperty());
 		
 		hazardTableView.setItems(hazardTableList); 
 		
+		/*
+		 * add items to hazard table
+		 */
 		addHazardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -199,7 +215,9 @@ public class LhcController implements Initializable {
 
 		});
 		
-		//delete items from hazard table
+		/*
+		 * delete items from hazard table
+		 */
 		ContextMenu hazardRightClickMenu = new ContextMenu();
 		MenuItem removeHazardMenu = new MenuItem("Delete");
 		hazardRightClickMenu.getItems().add(removeHazardMenu);
@@ -209,7 +227,9 @@ public class LhcController implements Initializable {
 		allHazardItems = hazardTableView.getItems();
 		selectedHazardItem = hazardTableView.getSelectionModel().getSelectedItems();
 		
-		//when right-clicked, show pop up
+		/*
+		*when mouse is right-clicked, show pop up
+		*/
 		hazardTableView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 			@Override
 			public void handle(ContextMenuEvent e) {
@@ -223,10 +243,9 @@ public class LhcController implements Initializable {
 		});
 		hazardRightClickMenu.hide();
 		
-		
-//		LHC selectedHazardCell = hazardTableView.getSelectionModel().getSelectedItem();
-		
-		//modify text in hazard table
+		/*
+		 * modify text in hazard table
+		*/
 		hazardTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		hazardTextColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) ->
@@ -235,8 +254,9 @@ public class LhcController implements Initializable {
 		        ).setText(t.getNewValue().toString())
 		);
 		
-		//now if I try to modify link, text cell also gets modified
-		//modify link in hazard table
+		/*
+		 * modify link in hazard table
+		 */
 		hazardLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		hazardLinkColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) -> {
@@ -260,13 +280,16 @@ public class LhcController implements Initializable {
 		 * 
 		*/
 				
-		//add items to constraint table
+		
 		constraintIndexColumn.setCellValueFactory(cellData -> cellData.getValue().indexProperty());
 		constraintTextColumn.setCellValueFactory(cellData -> cellData.getValue().textProperty());
 		constraintLinkColumn.setCellValueFactory(cellData -> cellData.getValue().linkProperty());
 		
 		constraintTableView.setItems(constraintTableList); 
 		
+		/*
+		 * add items to constraint table
+		 */
 		addConstraintButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -297,7 +320,9 @@ public class LhcController implements Initializable {
 			}
 		});
 		
-		//delete items from constraint table
+		/*
+		 * delete items from constraint table
+		 */
 		ContextMenu constraintRightClickMenu = new ContextMenu();
 		MenuItem removeConstraintMenu = new MenuItem("Delete");
 		constraintRightClickMenu.getItems().add(removeConstraintMenu);
@@ -306,7 +331,9 @@ public class LhcController implements Initializable {
 		allConstraintItems = constraintTableView.getItems();
 		selectedConstraintItem = constraintTableView.getSelectionModel().getSelectedItems();
 			
-		//when right-clicked, show pop up
+		/*
+		 * when right-clicked, you can delete selected row
+		 */
 		constraintTableView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 			@Override
 			public void handle(ContextMenuEvent e) {
@@ -320,7 +347,9 @@ public class LhcController implements Initializable {
 		});
 		constraintRightClickMenu.hide();
 		
-		//modify text in constraint table
+		/*
+		 * modify text in constraint table
+		 */
 		constraintTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		constraintTextColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) ->
@@ -329,23 +358,24 @@ public class LhcController implements Initializable {
 	            ).setText(t.getNewValue())
 		);
 		
-	//modify link in constraint table
-	constraintLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-	constraintLinkColumn.setOnEditCommit(
-		(TableColumn.CellEditEvent<LHC, String> t) -> {
-			if(t.getNewValue().contains("[") && t.getNewValue().contains("]")) {
-				(t.getTableView().getItems().get(
+		//modify link in constraint table
+		constraintLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		constraintLinkColumn.setOnEditCommit(
+			(TableColumn.CellEditEvent<LHC, String> t) -> {
+				if(t.getNewValue().contains("[") && t.getNewValue().contains("]")) {
+					(t.getTableView().getItems().get(
 						t.getTablePosition().getRow())
 						).setLink(t.getNewValue().toString());
-			} else {
-				try {
-					openLinkFormatPopUp();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				}else {
+					try {
+						openLinkFormatPopUp();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
-		});
+		);
 	}
 	
 	
