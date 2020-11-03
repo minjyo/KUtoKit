@@ -25,13 +25,15 @@ import kutokit.view.PmmController;
 import kutokit.view.DashboardController;
 import kutokit.view.CtmController;
 import kutokit.view.LhcController;
+import kutokit.view.LsController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
 import kutokit.model.*;
 import kutokit.model.cse.Components;
 import kutokit.model.cse.ComponentsXML;
 import kutokit.model.lhc.LHC;
-import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.lhc.LhcDataStore;
+import kutokit.model.lhc.LhcWrapper;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCADataStore;
 
@@ -42,7 +44,7 @@ public class MainApp extends Application {
 	 private CtmController controller;
 	 
 	 public static Components components;
-	 public static LHCDataStore lhcDataStore;
+	 public static LhcDataStore lhcDataStore;
 	 private ObservableList<LHC> lhcList;
 	 public ProcessModel models;
 	 public static UCADataStore ucadatastore;
@@ -65,7 +67,7 @@ public class MainApp extends Application {
 	
 	private void initDataStore() {
 		components = new Components();
-		lhcDataStore = new LHCDataStore();
+		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
 		ucadatastore = new UCADataStore();
 	}
@@ -200,7 +202,9 @@ public class MainApp extends Application {
         }
     }
     
-    //called when help button clicked
+    /*
+     * called when dashboard button clicked
+     */
 	public void showDashboardView() {
         try {
             // get maker scene
@@ -220,6 +224,27 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
+	
+	//called when loss scenario button clicked
+	public void showLsView() {
+		try {
+            // get maker scene
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
+            AnchorPane View = (AnchorPane) loader.load();
+
+            // add scene in center of root layout 
+            rootLayout.setCenter(View);
+            
+            //add controller
+            LsController controller = loader.getController();
+            controller.setMainApp(this);
+            
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 
     /**
 	 * return main stage
@@ -251,19 +276,31 @@ public class MainApp extends Application {
 	
 	public void openFile(File file) {
 		 try {
-		        
+			 	//LHC
+			 	JAXBContext lhcContext = JAXBContext.newInstance(LhcWrapper.class);
+			 	Unmarshaller unmarshaller = lhcContext.createUnmarshaller();
+			 	
+			 	LhcWrapper lhcXml = (LhcWrapper) unmarshaller.unmarshal(file);
+			 	
+			 	lhcDataStore.getLossTableList().addAll(lhcXml.getLossList());
+			 	lhcDataStore.getHazardTableList().addAll(lhcXml.getHazardList());
+			 	lhcDataStore.getConstraintTableList().addAll(lhcXml.getConstraintList());
+			 	
+			 	setFilePath(file);
+			 	
+			 
 		     	//CSE   
-		        JAXBContext context = JAXBContext
-		                .newInstance(ComponentsXML.class);
-		        Unmarshaller um = context.createUnmarshaller();
-
-		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
-
-		        components.getControllers().addAll(CSELHCwrapper.getControllers());
-		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
-		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());    
-		        
-		        setFilePath(file);
+//		        JAXBContext context = JAXBContext
+//		                .newInstance(ComponentsXML.class);
+//		        Unmarshaller um = context.createUnmarshaller();
+//
+//		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
+//
+//		        components.getControllers().addAll(CSELHCwrapper.getControllers());
+//		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
+//		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());    
+//		        
+//		        setFilePath(file);
 
 				//UCA
 //			 	JAXBContext context = JAXBContext
@@ -288,19 +325,44 @@ public class MainApp extends Application {
 	
 	public void saveFile(File file) {
 	    try {
+	    	
+//	    	JAXBContext projectContext = JAXBContext.newInstance(ProjectXML.class);
+//	    	
+//	    	Marshaller m = projectContext.createMarshaller();
+//	    	m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//	    	
+//	    	ProjectXML projectXml = new ProjectXML();
+//	    	
+//	    	projectXml.
+	    	
+	    	
+	    	//LHC
+	    	JAXBContext lhcContext = JAXBContext.newInstance(LhcWrapper.class);
+	    	
+	    	Marshaller marshaller = lhcContext.createMarshaller();
+	    	marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    	
+	    	
+	    	LhcWrapper lhcXml = new LhcWrapper();
+	    	lhcXml.setLossList(lhcDataStore.getLossTableList());
+	    	lhcXml.setHazardList(lhcDataStore.getHazardTableList());
+	    	lhcXml.setConstraintList(lhcDataStore.getConstraintTableList());
+	    	
+	    	marshaller.marshal(lhcXml, file);
+	    	
 	    	//CSE
-	        JAXBContext context = JAXBContext
-	                .newInstance(ComponentsXML.class);
-	      
-	        Marshaller m = context.createMarshaller();
-	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	      
-	        ComponentsXML CSEwrapper = new ComponentsXML();
-	        CSEwrapper.setControllers(components.getControllers());
-	        CSEwrapper.setControlActions(components.getControlActions());
-	        CSEwrapper.setFeedbacks(components.getFeedbacks());
-	        
-	        m.marshal(CSEwrapper, file);
+//	        JAXBContext context = JAXBContext
+//	                .newInstance(ComponentsXML.class);
+//	      
+//	        Marshaller m = context.createMarshaller();
+//	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//	      
+//	        ComponentsXML CSEwrapper = new ComponentsXML();
+//	        CSEwrapper.setControllers(components.getControllers());
+//	        CSEwrapper.setControlActions(components.getControlActions());
+//	        CSEwrapper.setFeedbacks(components.getFeedbacks());
+//	        
+//	        m.marshal(CSEwrapper, file);
 
 		    //UCA
 //	        JAXBContext context = JAXBContext

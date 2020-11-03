@@ -10,6 +10,7 @@ public class LHC {
 	 * default constructor
 	 */
 	public LHC() {
+		this(null, null, null);
 	}
 	
 	/*
@@ -44,7 +45,7 @@ public class LHC {
 	}
 
 	public void setText(String text) {
-		this.text.set(text);;
+		this.text.set(text);
 	}
 	
 	public String getLink() {

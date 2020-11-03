@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-      <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="745.0">
+      <Rectangle fill="DARKSEAGREEN" height="35.0" layoutY="-1.0" strokeWidth="0.0" width="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -23,47 +21,147 @@
             </LinearGradient>
          </stroke>
       </Rectangle>
-      <Text fill="WHITE" layoutX="18.0" layoutY="19.0" text="Help">
+      <Text fill="WHITE" layoutX="8.0" layoutY="25.0" text="Help">
          <font>
-            <Font size="10.0" />
+            <Font size="20.0" />
          </font></Text>
-      <HBox alignment="CENTER" layoutX="150.0" layoutY="360.0" spacing="5.0" />
-      <HBox alignment="BOTTOM_CENTER" layoutY="400.0" prefHeight="44.0" prefWidth="261.0">
-         <padding>
-            <Insets bottom="10.0" />
-         </padding>
-      </HBox>
-      <TabPane layoutY="31.0" prefHeight="474.0" prefWidth="745.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Loss/Hazard/Constraint">
+      <TabPane layoutY="31.0" prefHeight="474.0" prefWidth="745.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+          <Tab text="1. Define Purpose of the Analysis">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loss/Hazard/Constraint">
+                        <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loss" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
                            <font>
-                              <Font size="18.0" />
+                              <Font size="20.0" />
                            </font>
                         </Text>
-                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="content" />
+                        <Text layoutX="14.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hazard">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Constraint">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
+                     <Text layoutX="14.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) To delete specific row, select row and right-click to open pop up menu, and then click delete." wrappingWidth="775.513671875">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) To edit text in specific cell, double click the cell to edit and press enter key to apply changes." wrappingWidth="779.88623046875">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) To add loss in the table, click add button after entering needed informations." AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="42.796875">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) To add hazard in the table, click add button after entering needed informations.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) To edit text in specific cell, double click the cell to edit and press enter key to apply changes.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) Link from hazard to loss has to be in format of [Index of each loss related].">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) To delete specific row, select row and right-click to open pop up menu, and then click delete.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) To add constraint in the table, click add button after entering needed informations.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="484.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) To edit text in particular cell, double click the cell to edit and press enter key to apply changes.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) Link from constraint to hazard has to be in format of [Index of each hazard related].">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="506.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) To delete particular row, select row and right-click to open pop up menu, and then click delete." AnchorPane.bottomAnchor="14.0">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Control Structure Editor">
+            <Tab text="2. Model the Control Structure">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Control Structure Maker">
+                        <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Controller" AnchorPane.leftAnchor="14.0">
                            <font>
-                              <Font size="18.0" />
+                              <Font size="20.0" />
                            </font>
                         </Text>
-                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="content" />
+                        <Text layoutX="14.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1-1) To add controller, press controller button from side bar, on the left side of editor." AnchorPane.leftAnchor="14.0">
+                        <font>
+                           <Font size="16.0" />
+                        </font></Text>
+                     <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1-2) Enter name of controller into text field on pop-up, then click button below.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="102.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) To edit name of specific controller, right-click on the controller, click 'modify' from pop up menu and repeat 1-2)." wrappingWidth="771.8671875">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) To delete specific controller, right-click on the controller, click 'delete' from pop-up.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Controlled Process">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1-1) To add controlled process, press controller button from side bar, on the left side of editor.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1-2) Enter name of controller into text field on pop-up, then click button below.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="253.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) To edit name of specific controller, right-click on the controller, click 'modify' from pop up menu and repeat 1-2)." wrappingWidth="771.8671875">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) To delete specific controller, right-click on the controller, click 'delete' from pop-up.">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Process Model Maker">
+            <Tab text="Construct the Control Sturcture with Process Model/variable">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -77,7 +175,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Context Table Maker">
+            <Tab text="Generate Context Table from NuSCR">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -91,11 +189,25 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="UCA Table Maker">
+            <Tab text="3. Identify Unsafe Control Actions">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UCA Table Maker">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="content" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="4. Identify Loss Scenarios">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loss Scenario">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -119,7 +231,6 @@
                   </AnchorPane>
                </content>
             </Tab>
-        </tabs>
       </TabPane>
  	</children>
 </AnchorPane>
