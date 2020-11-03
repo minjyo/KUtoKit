@@ -150,7 +150,7 @@ public class UCA {
 		this.link = new SimpleStringProperty(link);
 ;	}
 
-	public SimpleStringProperty getlink() {
+	public SimpleStringProperty getLink() {
 		return link;
 	}
 

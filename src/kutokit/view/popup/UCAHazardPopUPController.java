@@ -10,9 +10,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import kutokit.MainApp;
 import kutokit.model.lhc.LHC;
-import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.lhc.LhcDataStore;
 
-public class UCAHazardPopUpController{
+public class UCAHazardPopUpController {
 	@FXML private TableView<LHC> hazardousTable;
 	@FXML private TableColumn<LHC, String> indexColumn, textColumn, linkColumn;
 

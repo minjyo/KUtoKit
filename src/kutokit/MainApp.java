@@ -20,12 +20,14 @@ import kutokit.view.PmmController;
 import kutokit.view.DashboardController;
 import kutokit.view.CtmController;
 import kutokit.view.LhcController;
+import kutokit.view.LsController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
 import kutokit.model.ProjectXML;
 import kutokit.model.cse.Components;
+import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
-import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCADataStore;
 
@@ -36,12 +38,11 @@ public class MainApp extends Application {
 	 private CtmController controller;
 
 	 public static Components components;
-	 public static LHCDataStore lhcDataStore;
+	 public static LhcDataStore lhcDataStore;
 	 private ObservableList<LHC> lhcList;
 	 public ProcessModel models;
 	 public static UCADataStore ucadatastore;
 	 public static CTMDataStore ctmDataStore;
-//	 private static CTMDataStore ctmdatastore;
 
 	@Override
 	//auto execute after main execute
@@ -60,7 +61,7 @@ public class MainApp extends Application {
 
 	private void initDataStore() {
 		components = new Components();
-		lhcDataStore = new LHCDataStore();
+		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
 		ucadatastore = new UCADataStore();
 		ctmDataStore = new CTMDataStore();
@@ -195,8 +196,10 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-
-    //called when help button clicked
+    
+    /*
+     * called when dashboard button clicked
+     */
 	public void showDashboardView() {
         try {
             // get maker scene
@@ -216,6 +219,27 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
+	
+	//called when loss scenario button clicked
+	public void showLsView() {
+		try {
+            // get maker scene
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
+            AnchorPane View = (AnchorPane) loader.load();
+
+            // add scene in center of root layout 
+            rootLayout.setCenter(View);
+            
+            //add controller
+            LsController controller = loader.getController();
+            controller.setMainApp(this);
+            
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 
     /**
 	 * return main stage
@@ -247,14 +271,17 @@ public class MainApp extends Application {
 
 	public void openFile(File file) {
 		 try {
-
-		     	//CSE
 		        JAXBContext context = JAXBContext
 		                .newInstance(ProjectXML.class);
 		        Unmarshaller um = context.createUnmarshaller();
 
 		        ProjectXML projectXML = (ProjectXML) um.unmarshal(file);
 
+		     // --------------------------- LHC --------------------------
+		        lhcDataStore.getLossTableList().addAll(projectXML.getLossList());
+		        lhcDataStore.getHazardTableList().addAll(projectXML.getHazardList());
+		        lhcDataStore.getConstraintTableList().addAll(projectXML.getConstraintList());
+			 // --------------------------- LHC --------------------------
 //		     // --------------------------- CSE --------------------------
 //		        components.getControllers().addAll(projectXML.getControllers());
 //		        components.getControlActions().addAll(projectXML.getControlActions());
@@ -286,15 +313,21 @@ public class MainApp extends Application {
 	}
 
 	public void saveFile(File file) {
-	    try {
-	        JAXBContext context = JAXBContext
+		 try {
+			 JAXBContext context = JAXBContext
 	                .newInstance(ProjectXML.class);
 
-	        Marshaller m = context.createMarshaller();
-	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			 Marshaller m = context.createMarshaller();
+			 m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-	        ProjectXML projectXML = new ProjectXML();
+			 ProjectXML projectXML = new ProjectXML();
 
+	     // --------------------------- LHC --------------------------
+	        projectXML.setLossList(lhcDataStore.getLossTableList());
+	        projectXML.setHazardList(lhcDataStore.getHazardTableList());
+	        projectXML.setConstraintList(lhcDataStore.getConstraintTableList());
+	     // --------------------------- LHC --------------------------
+	        
 	     // --------------------------- CSE --------------------------
 	        projectXML.setControllers(components.getControllers());
 	        projectXML.setControlActions(components.getControlActions());

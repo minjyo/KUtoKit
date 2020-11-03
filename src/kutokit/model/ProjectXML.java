@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import kutokit.model.lhc.LHC;
+import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.view.components.*;
@@ -17,7 +19,14 @@ import kutokit.view.components.*;
 @XmlRootElement(name = "kutokit")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 public class ProjectXML {
-
+	
+	// --------------------------- LHC --------------------------
+	LhcDataStore lhcDB = new LhcDataStore();
+	List<LHC> lossList = new ArrayList<LHC>();
+	List<LHC> hazardList = new ArrayList<LHC>();
+	List<LHC> constraintList = new ArrayList<LHC>();
+	// --------------------------- LHC --------------------------
+	
 	// --------------------------- CSE --------------------------
 	private ArrayList<Controller> controllers;
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
@@ -35,6 +44,35 @@ public class ProjectXML {
 	private ObservableList<String> valueList = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
+	// --------------------------- LHC --------------------------
+	@XmlElement(name = "Loss")
+	public List<LHC> getLossList(){
+		return this.lhcDB.getLossTableList();
+	}
+	
+	public void setLossList(List<LHC> lossList) {
+		this.lhcDB.getLossTableList().setAll(lossList);
+	}
+	
+	@XmlElement(name = "Hazard")
+	public List<LHC> getHazardList(){
+		return this.lhcDB.getHazardTableList();
+	}
+	
+	public void setHazardList(List<LHC> hazardList) {
+		this.lhcDB.getHazardTableList().setAll(hazardList);
+	}
+	
+	@XmlElement(name = "Constraint")
+	public List<LHC> getConstraintList(){
+		return this.lhcDB.getConstraintTableList();
+	}
+	
+	public void setConstraintList(List<LHC> constraintList) {
+		this.lhcDB.getConstraintTableList().setAll(constraintList);
+	}
+	// --------------------------- LHC --------------------------
+	
 	// --------------------------- CSE --------------------------
 	@XmlElement(name = "CSEontroller")
 	public ArrayList<Controller> getControllers() {

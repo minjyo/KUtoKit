@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import kutokit.MainApp;
 import kutokit.model.ctm.CTM;
 import kutokit.model.lhc.LHC;
-import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
 import kutokit.view.popup.UCAHazardPopUpController;
@@ -102,7 +102,7 @@ public class UtmController {
 		initialize();
 	}
 
-	public void setUcaTable(UCADataStore ucadatastore,LHCDataStore lhcdatastore) {
+	public void setUcaTable(UCADataStore ucadatastore,LhcDataStore lhcdatastore) {
 		// TODO Auto-generated method stub
 		 ucaData = ucadatastore.getUCATableList();
 		 ObservableList<UCA> temp = FXCollections.observableArrayList();

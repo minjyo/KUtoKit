@@ -64,6 +64,11 @@ public class RootLayoutController {
 		this.mainApp.showUtmView();
 	}
 	
+	@FXML
+	private void handleLSButton() {
+		this.mainApp.showLsView();
+	}
+	
 	
     @FXML
     private void handleOpen() {
