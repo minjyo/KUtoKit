@@ -1,6 +1,7 @@
 package kutokit.view;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -8,11 +9,15 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kutokit.MainApp;
 
@@ -57,6 +62,11 @@ public class RootLayoutController {
 	@FXML
 	private void handleUtmButton() {
 		this.mainApp.showUtmView();
+	}
+	
+	@FXML
+	private void handleLSButton() {
+		this.mainApp.showLsView();
 	}
 	
 	
@@ -106,7 +116,18 @@ public class RootLayoutController {
     
     @FXML
     private void handleHelp() {
-    	
+    	 FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(getClass().getResource("popup/HelpPopUp.fxml"));
+		  Parent popUproot;
+		  try {
+			  	popUproot = (Parent) loader.load();
+				Scene scene = new Scene(popUproot);
+				Stage stage = new Stage();
+				stage.setScene(scene);
+				stage.show();
+		  }catch(IOException e) {
+			  e.printStackTrace();
+		  }  
     }
     
     @FXML
