@@ -52,7 +52,6 @@ public class LhcController implements Initializable {
 	private MainApp mainApp;
 	private LhcDataStore lhcDB;
 	
-	@FXML private Tab lossTab, hazardTab, constraintTab;
 	@FXML private TableView<LHC> lossTableView;
 	@FXML private TableColumn<LHC, String> lossIndexColumn, lossTextColumn, lossLinkColumn;
 	@FXML private TableView<LHC> hazardTableView;

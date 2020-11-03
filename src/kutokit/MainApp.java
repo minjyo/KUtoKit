@@ -28,6 +28,7 @@ import kutokit.model.cse.Components;
 import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
+import kutokit.model.ls.LSDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCADataStore;
 
@@ -39,10 +40,10 @@ public class MainApp extends Application {
 
 	 public static Components components;
 	 public static LhcDataStore lhcDataStore;
-	 private ObservableList<LHC> lhcList;
 	 public ProcessModel models;
 	 public static UCADataStore ucadatastore;
 	 public static CTMDataStore ctmDataStore;
+	 public static LSDataStore lsDataStore;
 
 	@Override
 	//auto execute after main execute
@@ -65,6 +66,7 @@ public class MainApp extends Application {
 		models = new ProcessModel();
 		ucadatastore = new UCADataStore();
 		ctmDataStore = new CTMDataStore();
+		lsDataStore = new LSDataStore();
 	}
 
 	private void initRootLayout() {
@@ -220,7 +222,9 @@ public class MainApp extends Application {
         }
     }
 	
-	//called when loss scenario button clicked
+	/*
+	 * called when loss scenario button clicked
+	 */
 	public void showLsView() {
 		try {
             // get maker scene
@@ -282,16 +286,16 @@ public class MainApp extends Application {
 		        lhcDataStore.getHazardTableList().addAll(projectXML.getHazardList());
 		        lhcDataStore.getConstraintTableList().addAll(projectXML.getConstraintList());
 			 // --------------------------- LHC --------------------------
-//		     // --------------------------- CSE --------------------------
-//		        components.getControllers().addAll(projectXML.getControllers());
-//		        components.getControlActions().addAll(projectXML.getControlActions());
-//		        components.getFeedbacks().addAll(projectXML.getFeedbacks());
-//		     // --------------------------- CSE --------------------------
-//
-//
-//		     // --------------------------- UTM --------------------------
-//		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
-//		     // --------------------------- UTM --------------------------
+		     // --------------------------- CSE --------------------------
+		        components.getControllers().addAll(projectXML.getControllers());
+		        components.getControlActions().addAll(projectXML.getControlActions());
+		        components.getFeedbacks().addAll(projectXML.getFeedbacks());
+		     // --------------------------- CSE --------------------------
+
+
+		     // --------------------------- UTM --------------------------
+		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
+		     // --------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
 		        models.setControllerName(projectXML.getControllerName());;

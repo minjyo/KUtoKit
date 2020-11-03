@@ -135,10 +135,7 @@ public class CtmController {
 	            //2. Add Parsing File
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
-	            
-	            this.ParseMSC(temps);
-	            
-	            
+	            this.ParseMCS(temps);
 	            this.MakeTable();
 	            this.fillContextTable();
 
@@ -149,7 +146,7 @@ public class CtmController {
 		}
 	}
 
-	private void ParseMSC(String[] temps) {
+	private void ParseMCS(String[] temps) {
 
 		if(k==0) {
 			contextheader[k++] = output;
