@@ -13,20 +13,25 @@ import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import kutokit.Info;
 import kutokit.MainApp;
 import kutokit.model.CTM;
 
@@ -46,6 +51,7 @@ public class CtmController {
 	@FXML private TableColumn<CTM, String> CAColumn, casesColumn;
 	@FXML private TableColumn<CTM, Integer> noColumn;
 	@FXML private TableColumn hazardousColumn;
+	final HBox hb = new HBox();
 	
 	private String[] no = new String[100];
 	private String context[][] = new String[15][100];
@@ -53,7 +59,11 @@ public class CtmController {
 	
 	ObservableList<CTM> mcsData;
 	
-	int i=0, k=0;
+	ObservableList<String> effectiveVariable;
+	String CA;
+	String output;
+	
+	int i=0, k=0; //k=headers length
 	
 	// constructor
 	public CtmController() {
@@ -67,10 +77,17 @@ public class CtmController {
 	
 	@FXML
 	public void AddFile() {
+		effectiveVariable = mainApp.models.getValuelist();
+		CA = mainApp.models.getControlActionName();
+		output = mainApp.models.getOutputName();
+		System.out.println("eV:"+effectiveVariable);
+		System.out.println("CA:"+CA);
+		System.out.println("output:"+output);
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        
-        fc.setInitialDirectory(new File(Info.directory));
+        // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+        // minjyo - mac
+        fc.setInitialDirectory(new File("/Users/jerry/dearyeon/KUtoKit/"));
         // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
         fc.getExtensionFilters().addAll(txtType);
@@ -105,7 +122,7 @@ public class CtmController {
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
 	            
-	            this.ParseMCS(temps);
+	            this.ParseMSC(temps);
 	            
 	            
 	            this.MakeTable();
@@ -118,19 +135,16 @@ public class CtmController {
 		}
 	}
 
-<<<<<<< HEAD
 	private void ParseMSC(String[] temps) {
 
-=======
-	private void ParseMCS(String[] temps) {
-		//MSC ex 
-//		detect_term≤0.1sec Λ 	f_HI_LOG_POWER_Trip_Out=true
-//		detect_length≥1m Λ		f_HI_LOG_POWER_PV_Err=true
-//		sensor_error=false Λ 	th_HI_LOG_POWER_Trip_Logic=false
-//	malfunc_check_clear=true Λ 	th_HI_LOG_POWER_Trip_Logic_state=Waiting at t
-//		path_check=true Λ 		th_HI_LOG_POWER_Trip_Logic_state=Waiting at t=1
-//		gps_one=true
->>>>>>> 35471f1dfaba09dbf4ead7567c59c23d6fca61bc
+		if(k==0) {
+			contextheader[k++] = output;
+		}
+		for(int x=0;x<effectiveVariable.size();x++) {
+			contextheader[k++] = effectiveVariable.get(x);
+		}
+		System.out.println(Arrays.toString(contextheader));
+		
 		int i=0;
 		while(i < temps.length) {
 			no[i] = temps[i].substring(0, 1);
@@ -140,7 +154,7 @@ public class CtmController {
 
 			while(j < splits.length) {
 				int index= splits[j].indexOf("=");
-				if(index>=0 && splits[j].substring(0,index).contains("HI_LOG_POWER")) { //variable name
+				if(index>=0 && splits[j].substring(0,index).contains(output.substring(2,9))) { //variable name
 					for(int t=0;t<=k;t++) { //header loof
 						if(contextheader[t]!=null && splits[j].substring(0,index).contains(contextheader[t])) {
 							if(context[t][i]==null) {
@@ -158,48 +172,31 @@ public class CtmController {
 							temp = t;
 							break;
 						}
-						if(t==k) { //not contains header but variable
-							if(k>0 && splits[j].substring(0,index).contains("Trip_Out")) { //f_HI_LOG_POWER_Trip_Out
-								//break;
-							} else {
-								contextheader[k] = splits[j].substring(0,index);
-								if(contextheader[k].contains("(A)")) {
-									int a= splits[j].indexOf("(A)");
-									contextheader[k] = contextheader[k].substring(a+3);
-								}
-								if(contextheader[k].contains("!")) {
-									contextheader[k] = contextheader[k].substring(0,contextheader[k].length()-1);
-									if(splits[j].contains("false")) context[k][i] = "true";
-									else context[k][i] = "false";
-								} else {
-									context[k][i] = splits[j].substring(index+1);
-								}
-								if(k<15-1) {k++;break;}
+						
+						/*if(t==k && k>0) { //not contains header but variable
+							contextheader[k] = splits[j].substring(0,index);
+							if(contextheader[k].contains("(A)")) {
+								int a= splits[j].indexOf("(A)");
+								contextheader[k] = contextheader[k].substring(a+3);
 							}
+							if(contextheader[k].contains("!")) {
+								contextheader[k] = contextheader[k].substring(0,contextheader[k].length()-1);
+								if(splits[j].contains("false")) context[k][i] = "true";
+								else context[k][i] = "false";
+							} else {
+								context[k][i] = splits[j].substring(index+1);
+							}
+							if(k<15-1) {k++;break;}
 							temp = t;
-						}
+						}*/
 					}
 				} else if(index < 0) {
-					//System.out.println(splits[j]);
 					if(context[temp][i]==null || context[temp][i].contains("true") || context[temp][i].contains("false")) {
 						context[temp][i]=splits[j];
 					}else {
-						context[temp][i] += (" & \n" +splits[j]);
+						//context[temp][i] += (" & \n" +splits[j]);
 					}
-				}
-				
-				/*
-				for(int t=0;t<k;t++) {
-					if(contextheader[t]!=null && splits[j].contains(contextheader[t])) {
-						if(context[t][i]==null) {
-							System.out.println(contextheader[k]);
-							context[t][i] = splits[j].substring(index+1);
-						} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
-							context[t][i] += (" & \n" + splits[j].substring(index+1));
-						}
-					}
-				}*/
-				
+				}		
 				j++;
 			}
 			i++;
@@ -209,7 +206,7 @@ public class CtmController {
 			for(int y=0;y<100;y++) {
 				if(context[x][y]==null) {
 					context[x][y] = "N/A";
-				} 
+				}
 			}
 		}
 		//System.out.println(Arrays.toString(f_HI_LOG_POWER_Trip_Out));
@@ -236,6 +233,16 @@ public class CtmController {
  			int temp = x[0];
  			contextColumn.setCellValueFactory(cellData -> cellData.getValue().getContextProperty(temp));
  			contextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+ 			contextColumn.setOnEditCommit(
+ 	            new EventHandler<CellEditEvent<CTM, String>>() {
+ 	                @Override
+ 	                public void handle(CellEditEvent<CTM, String> t) {
+ 	                    ((CTM) t.getTableView().getItems().get(
+ 	                        t.getTablePosition().getRow())
+ 	                        ).setContext(temp, t.getNewValue());
+ 	                }
+ 	            }
+ 	        );
  		}
 
  	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
@@ -260,8 +267,8 @@ public class CtmController {
 			for(int t=0;t<k;t++) {
 				contexts[t] = context[t][i];
 			}
-			System.out.println(Arrays.toString(contexts));
-			mcsData.add(new CTM("Trip signal", "Not provided\ncauses hazard", i+1, contexts, FXCollections.observableArrayList("O","X")));
+			//System.out.println(Arrays.toString(contexts));
+			mcsData.add(new CTM(CA, "Not provided\ncauses hazard", i+1, contexts, FXCollections.observableArrayList("O","X")));
 			i++;
 		};
 	    contextTable.setItems(mcsData);
@@ -274,15 +281,15 @@ public class CtmController {
 		System.out.println(productStringCellEditEvent.getRowValue());
 		
 
-		System.out.println(temp.getContext(0));
-		System.out.println(productStringCellEditEvent.getRowValue().getContext(0));
+		//System.out.println(temp.getContext(0));
+		//System.out.println(productStringCellEditEvent.getRowValue().getContext(0));
 		
-		System.out.println(productStringCellEditEvent.getRowValue().getContext(0));
-		context[productStringCellEditEvent.getTablePosition().getColumn()-3][productStringCellEditEvent.getTablePosition().getRow()]=productStringCellEditEvent.getNewValue();
-		System.out.println(context[productStringCellEditEvent.getTablePosition().getColumn()-3][productStringCellEditEvent.getTablePosition().getRow()]);
-		mcsData.set(temp.getNo()-1, productStringCellEditEvent.getRowValue());
+		//System.out.println(productStringCellEditEvent.getRowValue().getContext(0));
+		//context[productStringCellEditEvent.getTablePosition().getColumn()-3][productStringCellEditEvent.getTablePosition().getRow()]=productStringCellEditEvent.getNewValue();
+		//System.out.println(context[productStringCellEditEvent.getTablePosition().getColumn()-3][productStringCellEditEvent.getTablePosition().getRow()]);
+		//mcsData.set(temp.getNo()-1, productStringCellEditEvent.getRowValue());
 		
-		System.out.println(mcsData.get(temp.getNo()-1).getContext(0));
+		//System.out.println(mcsData.get(temp.getNo()-1).getContext(0));
 		//Todo :: @@@@@@@@Edit Value@@@@@@@@@@
 		
 	}
@@ -300,6 +307,59 @@ public class CtmController {
 	
 	@FXML
 	public void closeAddFile(ActionEvent actionEvent) {
+
+		effectiveVariable = mainApp.models.getValuelist();
+		CA = mainApp.models.getControlActionName();
+		output = mainApp.models.getOutputName();
+		System.out.println("eV:"+effectiveVariable);
+		System.out.println("CA:"+CA);
+		System.out.println("output:"+output);
+		
+		if(k==0) {
+			contextheader[k++] = output;
+		}
+		for(int x=0;x<effectiveVariable.size();x++) {
+			contextheader[k++] = effectiveVariable.get(x);
+		}
+		
+		
+		final TextField addCA = new TextField();
+		addCA.setPromptText("Control Action");
+		addCA.setMaxWidth(CAColumn.getPrefWidth());
+        final TextField addCases = new TextField();
+        addCases.setMaxWidth(casesColumn.getPrefWidth());
+        addCases.setPromptText("cases");
+        /*final TextField addHazardous = new TextField();
+        addHazardous.setMaxWidth(hazardousColumn.getPrefWidth());
+        addHazardous.setPromptText("hazardous");*/
+        final TextField addContext = new TextField();
+        addContext.setMaxWidth(hazardousColumn.getPrefWidth());
+        addContext.setPromptText("contexts");
+        String[] contexts = new String[1];
+		for(int t=0;t<1;t++) {
+			contexts[t] = addContext.getText();
+		}
+ 
+        final Button addButton = new Button("Add");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                mcsData.add(new CTM(addCA.getText(),addCases.getText(),i++,contexts,FXCollections.observableArrayList("O","X")));
+                addCA.clear();
+                addCases.clear();
+                //addHazardous.clear();
+            }
+        });
+        hb.getChildren().addAll(addCA, addCases, addContext, addButton);
+        hb.setSpacing(3);
+ 
+        /*final VBox vbox = new VBox();
+        vbox.setSpacing(5);
+        vbox.setPadding(new Insets(10, 0, 0, 10));
+        vbox.getChildren().addAll(contextTable, hb);
+
+        vbox.show();*/
+		
 		AddFile.getChildren().clear();
 		MakeTable();
 	}

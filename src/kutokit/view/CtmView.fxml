@@ -50,16 +50,5 @@
             </AnchorPane>
          </children>
       </Pane>
-      <TextField fx:id="TextFieldCA" layoutY="6.0" prefHeight="27.0" prefWidth="101.0" promptText="Control Action" />
-      <TextField fx:id="TextFieldCases" layoutX="101.0" layoutY="6.0" prefHeight="27.0" prefWidth="90.0" promptText="Cases" />
-      <TextField fx:id="TextFieldContext1" layoutX="220.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_Trip_Out" />
-      <TextField fx:id="TextFieldContext2" layoutX="300.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="th_X_Trip_Logic" />
-      <TextField fx:id="TextFieldContext3" layoutX="380.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="th_X_Trip_Logic_State" />
-      <TextField fx:id="TextFieldContext4" layoutX="460.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_PV" />
-      <TextField fx:id="TextFieldContext5" layoutX="540.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_A/P/T/_Query" />
-      <TextField fx:id="TextFieldContext6" layoutX="620.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_Mod_Err" />
-      <TextField fx:id="TextFieldContext7" layoutX="700.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_Chan_Err" />
-      <TextField fx:id="TextFieldContext8" layoutX="780.0" layoutY="6.0" prefHeight="27.0" prefWidth="80.0" promptText="f_X_PV_Err" />
-      <Button layoutX="902.0" layoutY="6.0" mnemonicParsing="false" onAction="#addContext" text="insert" />
    </children>
 </AnchorPane>
