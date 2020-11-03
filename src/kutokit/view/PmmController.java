@@ -3,6 +3,7 @@ package kutokit.view;
 import kutokit.Info;
 import kutokit.MainApp;
 import kutokit.model.cse.Components;
+import kutokit.model.cse.Controller;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.pmm.XmlReader;
 import javafx.event.ActionEvent;
@@ -40,7 +41,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.stage.FileChooser.ExtensionFilter;
-import kutokit.view.components.Controller;
 import kutokit.view.popup.OutputlistPopUpController;
 import kutokit.view.popup.VariablePopUpController;
 

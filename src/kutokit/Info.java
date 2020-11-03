@@ -2,7 +2,7 @@ package kutokit;
 
 import java.util.ArrayList;
 
-import kutokit.view.components.Controller;
+import kutokit.model.cse.Controller;
 
 public class Info {
 
