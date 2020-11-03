@@ -15,7 +15,7 @@ import kutokit.model.cse.ControlAction;
 import kutokit.model.cse.Controller;
 import kutokit.model.cse.Feedback;
 import kutokit.model.lhc.LHC;
-import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.view.components.*;
@@ -25,7 +25,7 @@ import kutokit.view.components.*;
 public class ProjectXML {
 	
 	// --------------------------- LHC --------------------------
-	LHCDataStore lhcDB = new LHCDataStore();
+	LhcDataStore lhcDB = new LhcDataStore();
 	List<LHC> lossList = new ArrayList<LHC>();
 	List<LHC> hazardList = new ArrayList<LHC>();
 	List<LHC> constraintList = new ArrayList<LHC>();

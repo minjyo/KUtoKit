@@ -19,11 +19,10 @@
             </LinearGradient>
          </stroke>
       </Rectangle>
-	  <Text fill="WHITE" layoutX="28.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error">
+	  <Text fill="WHITE" layoutX="8.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" />
+      <Text layoutX="21.0" layoutY="63.0" text="There is same Controller!" AnchorPane.bottomAnchor="24.8486328125" AnchorPane.topAnchor="45.896484375">
          <font>
-            <Font size="10.0" />
-         </font>
-      </Text>
-      <Text layoutX="25.0" layoutY="63.0" text="There is same Controller!" AnchorPane.bottomAnchor="20.689453125" AnchorPane.topAnchor="50.0" />
+            <Font size="18.0" />
+         </font></Text>
  	</children>
 </AnchorPane>

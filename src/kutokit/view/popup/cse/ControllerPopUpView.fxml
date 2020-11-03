@@ -36,7 +36,7 @@
 	  <TextField fx:id="text" alignment="CENTER_RIGHT" layoutX="60.0" layoutY="48.0" prefHeight="27.0" prefWidth="124.0" text="Controller Name" />
       <HBox alignment="BOTTOM_CENTER" layoutX="1.0" layoutY="88.0" prefHeight="44.0" prefWidth="240.0">
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setData" text="확인" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setData" text="Confirm" />
          </children>
          <padding>
             <Insets bottom="10.0" />

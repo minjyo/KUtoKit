@@ -12,9 +12,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.popup.cse.AddCAPopUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="265.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.popup.cse.AddCAPopUpController">
 	<children>
-      <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="263.0">
+      <Rectangle fill="DARKSEAGREEN" height="29.0" layoutY="-1.0" strokeWidth="0.0" width="265.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -54,11 +54,11 @@
       <TextField fx:id="listInput" layoutX="18.0" layoutY="360.0" prefWidth="125.0" />
       <HBox alignment="CENTER" layoutX="150.0" layoutY="360.0" spacing="5.0">
          <children>
-           <Button fx:id="add" onAction="#addCA" text="추가">
+           <Button fx:id="add" onAction="#addCA" text="Add">
                <HBox.margin>
                   <Insets bottom="20.0" />
                </HBox.margin></Button>
-           <Button fx:id="remove" onAction="#removeCA" text="삭제">
+           <Button fx:id="remove" onAction="#removeCA" prefWidth="50.0" text="Del">
                <HBox.margin>
                   <Insets bottom="20.0" right="20.0" />
                </HBox.margin></Button>
@@ -66,7 +66,7 @@
       </HBox>
       <HBox alignment="BOTTOM_CENTER" layoutY="400.0" prefHeight="44.0" prefWidth="261.0">
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setData" text="확인" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setData" text="Confirm" />
          </children>
          <padding>
             <Insets bottom="10.0" />

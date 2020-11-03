@@ -44,13 +44,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import kutokit.MainApp;
 import kutokit.model.lhc.LHC;
-import kutokit.model.lhc.LHCDataStore;
+import kutokit.model.lhc.LhcDataStore;
 import javafx.fxml.*;
 
 public class LhcController implements Initializable {
 
 	private MainApp mainApp;
-	private LHCDataStore lhcDB;
+	private LhcDataStore lhcDB;
 	
 	@FXML private Tab lossTab, hazardTab, constraintTab;
 	@FXML private TableView<LHC> lossTableView;
