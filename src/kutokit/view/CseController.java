@@ -247,7 +247,7 @@ public class CseController {
 					case "feedback":
 						AddFBpop = loader.getController();
 						
-						if(AddCApop.OKclose) {
+						if(AddFBpop.OKclose) {
 							Feedback fb = new Feedback(AddFBpop.controlled, AddFBpop.controller, AddFBpop.FB, dataStore.curId, dataStore);
 							
 							DoubleProperty  startX1 = null, startY1 = null, endX1 = null,  endY1 = null;
