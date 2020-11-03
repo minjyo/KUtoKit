@@ -14,7 +14,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.Stage;
@@ -24,7 +23,7 @@ import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
-import kutokit.view.popup.UCAHazardPopUPController;
+import kutokit.view.popup.UCAHazardPopUpController;
 
 public class UtmController {
 
@@ -33,13 +32,15 @@ public class UtmController {
 
 	@FXML private TableView<UCA> ucaTable;
 	@FXML private TableColumn<UCA, String> CAColumn, providingColumn, notProvidingColumn, incorrectColumn, stoppedColumn;//,linkColumn;
-	@FXML private TableColumn linkColumn;
+	@FXML private TableColumn<UCA,String> linkColumn;
 
 	private ContextMenu menu;
 	private MenuItem add_menu,delete_menu;
-	private ObservableList<LHC> hazardData;
-	private static ObservableList<UCA> ucaData;
-	private ObservableList<String> hazardList;
+	private ObservableList<LHC> hazardData = FXCollections.observableArrayList();
+	private static ObservableList<UCA> ucaData =FXCollections.observableArrayList();
+	private ObservableList<CTM> ctmData = FXCollections.observableArrayList();
+
+	UCAHazardPopUpController ucaPopUp;
 
 	//constructor
 	public UtmController() {
@@ -50,9 +51,9 @@ public class UtmController {
 		dataStore = MainApp.ucadatastore;
 		hazardData = MainApp.lhcDataStore.getHazardTableList();
 		ucaData = dataStore.getUCATableList();
+		ctmData = MainApp.ctmDataStore.getCTMTableList();
 
-		hazardList = FXCollections.observableArrayList();
-		ucaHazardPopup();
+
 
 
 		menu = new ContextMenu();
@@ -107,17 +108,16 @@ public class UtmController {
 		 ObservableList<UCA> temp = FXCollections.observableArrayList();
 
 		 hazardData = lhcdatastore.getHazardTableList();
+//		 ucaHazardPopup();
 //		 ObservableList<String>hazardList = FXCollections.observableArrayList();
-		 for(LHC l : hazardData){
-			 hazardList.add(l.getIndex());
-		 }
-
+//		 for(LHC l : hazardData){
+//			 hazardList.add(l.getIndex());
+//		 }
 		 if(!ucaData.isEmpty())
 		{
 			for(UCA a : ucaData){
 				UCA uca = new UCA(a.ControlAction,a.ProvidingCausesHazard,a.NotProvidingCausesHazard,a.IncorrectTimingOrOrder,a.StoppedTooSoonOrAppliedTooLong,a.Link);
 				temp.add(uca);
-				System.out.println(a.ControlAction);
 			}
 			ucaData = temp;
 		}
@@ -125,25 +125,22 @@ public class UtmController {
 		{
 			//Get hazardous
 			//Example
-			UCA uca = new UCA("H","e","l","l","o","");
+			UCA uca = new UCA("example","new","table","control","action","");
 			ucaData.add(uca);
 
 		}
 
 		ucaTable.setItems(ucaData);
+		ucaTable.setVisible(true);
 
 		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlAction());
 		providingColumn.setCellValueFactory(cellData -> cellData.getValue().getProvidingCausesHazard());
 		notProvidingColumn.setCellValueFactory(cellData -> cellData.getValue().getNotProvidingCausesHazard());
 		incorrectColumn.setCellValueFactory(cellData -> cellData.getValue().getIncorrectTimingOrOrder());
 		stoppedColumn.setCellValueFactory(cellData -> cellData.getValue().getStoppedTooSoonOrAppliedTooLong());
-//		linkColumn.setCellValueFactory(cellData -> cellData.getValue().getLink());
-// 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
-		linkColumn.setCellValueFactory(new PropertyValueFactory<UCA, String>("Link"));
+		linkColumn.setCellValueFactory(cellData -> cellData.getValue().getLink());
 
-
-		System.out.println("hello");
-//	    linkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+	    linkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		CAColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 	    providingColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 	    notProvidingColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -178,17 +175,18 @@ public class UtmController {
 		// TODO Auto-generated method stub
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("popup/UCAHazardPopUpView.fxml"));
+		ucaPopUp = loader.getController();
+
 		Parent popUproot;
 
 		try {
 		  	popUproot = (Parent) loader.load();
 
 			Scene scene = new Scene(popUproot);
-			UCAHazardPopUPController pop = loader.getController();
 
-			  Stage stage = new Stage();
-			  stage.setScene(scene);
-			  stage.show();
+		    Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();
 
 	  } catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -196,6 +194,16 @@ public class UtmController {
 	  }
 	}
 
+	public void getContext(){
+		ctmData = mainApp.ctmDataStore.getCTMTableList();
+		if(!ctmData.isEmpty()){
+			for(CTM c : ctmData){
+				if(c.getHazardous().getValue()=="O"){
+					ucaData.add(new UCA(c.getControlAction(),"","","","",""));
+				}
+			}
+		}
+	}
 
 }
 
