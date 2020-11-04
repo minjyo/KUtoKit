@@ -21,6 +21,7 @@ public class Components {
 	public int curId=1;
 	public ControlAction curCA;
 	public Feedback curFB;
+	public Controller curController;
 	
 	public Components() {
 //		curId = 3;

@@ -496,7 +496,9 @@ public class CseController {
 
 			@Override
 			public void handle(ActionEvent event) {
-
+				RectangleView rect = (RectangleView) itemC1.getParentPopup().getOwnerNode();
+				dataStore.curController = dataStore.findController(rect.id);
+				mainApp.showPmmView();
 			}
 		});
 		ControllerContextMenu.getItems().addAll(itemC1, itemC2, itemC3);
