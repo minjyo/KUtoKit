@@ -11,10 +11,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.Stage;
@@ -57,6 +59,7 @@ public class UtmController {
 
 		dataStore = MainApp.ucadatastore;
 		hazardData = MainApp.lhcDataStore.getHazardTableList();
+//		System.out.println(hazardData.get(0).getIndex());
 		ucaData = dataStore.getUCATableList();
 		ctmData = MainApp.ctmDataStore.getCTMTableList();
 
@@ -89,9 +92,6 @@ public class UtmController {
 
         setUcaTable();
         ucaHazardPopup();
-
-
-
         return ;
 	}
 
@@ -106,20 +106,31 @@ public class UtmController {
 
 //		ObservableList<String> hazardousList = FXCollections.observableArrayList();
 
-		for(LHC l : hazardData){
-			hazardousList.add(l.getIndex());
-		}
+
 
 		 if(ucaData.isEmpty())
 		{
 			//Get hazardous
 			//Example
+			 for(LHC l : hazardData){
+					hazardousList.add(l.getIndex());
+			}
+
 			ComboBox<String> combobox = new ComboBox<String>(hazardousList);
 			UCA uca = new UCA("example","new","table","control","action",combobox);
 			ucaData.add(uca);
-			uca = new UCA("example","new","table","control","action1",combobox);
+			ComboBox<String> combobox0 = new ComboBox<String>(hazardousList);
+			uca = new UCA("example","new","table","control","action1",combobox0);
 			ucaData.add(uca);
 
+		}else{
+			hazardousList.removeAll(hazardousList);
+			for(LHC l : hazardData){
+				hazardousList.add(l.getIndex());
+			}
+			for(UCA u : ucaData){
+				u.setLink(new ComboBox<String>(hazardousList));
+			}
 		}
 
 		ucaTable.setItems(ucaData);
@@ -130,7 +141,9 @@ public class UtmController {
 		notProvidingColumn.setCellValueFactory(cellData -> cellData.getValue().getNotProvidingCausesHazard());
 		incorrectColumn.setCellValueFactory(cellData -> cellData.getValue().getIncorrectTimingOrOrder());
 		stoppedColumn.setCellValueFactory(cellData -> cellData.getValue().getStoppedTooSoonOrAppliedTooLong());
-//		linkColumn.setCellValueFactory(cellData -> cellData.getValue().getLink());
+		linkColumn.setCellValueFactory(new PropertyValueFactory<UCA, String>("Link"));
+//		linkColumn.setCellValueFactory(cellData ->);
+
 
 //	    linkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		CAColumn.setCellFactory(TextFieldTableCell.forTableColumn());

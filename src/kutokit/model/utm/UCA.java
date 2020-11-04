@@ -142,6 +142,7 @@ public class UCA {
 
 	public void setLink(ComboBox<String> link) {
 		this.Link = link.getValue();
+		this.link = link;
 	}
 
 	public ComboBox<String> getLink() {
