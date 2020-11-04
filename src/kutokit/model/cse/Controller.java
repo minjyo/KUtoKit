@@ -9,6 +9,7 @@ public class Controller {
 	String name;
 	int id;
 	Map<Integer, Integer> CA = new HashMap<Integer, Integer>(); //key: CA id, value: 1->controller, 0->controlled
+	Map<Integer, Integer> FB = new HashMap<Integer, Integer>(); //key: FB id, value: 1->controller, 0->controlled
 	
 	public Controller() {
 		
@@ -60,4 +61,21 @@ public class Controller {
 	public void addCA(int id, int type) {
 		this.CA.put(id, type);
 	}
+	
+	public void removeCA(int id) {
+		this.CA.remove(id);
+	}
+	
+	public Map<Integer, Integer> getFB(){
+		return this.FB;
+	}
+
+	public void addFB(int id, int type) {
+		this.FB.put(id, type);
+	}
+	
+	public void removeFB(int id) {
+		this.FB.remove(id);
+	}
+
 }

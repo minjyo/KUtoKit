@@ -31,6 +31,7 @@ import javafx.scene.image.ImageView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -269,6 +270,9 @@ public class CseController {
 							a1.setLabel(label1);
 							
 							dataStore.addFeedback(fb);
+							
+							dataStore.findController(AddFBpop.controller).addFB(fb.getId(), 1);
+							dataStore.findController(AddFBpop.controlled).addFB(fb.getId(), 0);
 						
 							addFeedback(a1, label1, fb);
 						}
@@ -314,7 +318,8 @@ public class CseController {
 		});
 
 		s.setId(Integer.toString(ca.getId()));
-		l.setId("-1");
+		int labelID = - ca.getId();
+		l.setId(Integer.toString(labelID));
 		
 		root.getChildren().addAll(s, l);
 		s.toBack();
@@ -332,7 +337,8 @@ public class CseController {
 		});
 
 		s.setId(Integer.toString(fb.getId()));
-		l.setId("-1");
+		int labelID = - fb.getId();
+		l.setId(Integer.toString(labelID));
 		
 		root.getChildren().addAll(s, l);
 		s.toBack();
@@ -481,14 +487,49 @@ public class CseController {
 			@Override
 			public void handle(ActionEvent event) {
 				RectangleView rect = (RectangleView) itemC1.getParentPopup().getOwnerNode();
-				dataStore.deleteController(rect.id);
-
+				
 				for (Node c : root.getChildren()) {
 					if (c.equals(rect)) {
 						root.getChildren().remove(c);
-						return;
+						break;
 					}
 				}
+				
+				//delete ca
+				Map<Integer, Integer> CAs = dataStore.findController(rect.id).getCA();
+				for(int i=0; i<CAs.size(); i++) {
+					for (Node ca : root.getChildren()) {
+						if (CAs.containsKey(Integer.parseInt(ca.getId()))) {
+							for(Node l : root.getChildren()) {
+								if(Integer.parseInt(l.getId()) == -Integer.parseInt(ca.getId())){
+									root.getChildren().remove(l);
+									break;
+								}
+							}
+							root.getChildren().remove(ca);
+							break;
+						}
+					}
+				}	
+				
+				//delete fb
+				Map<Integer, Integer> FBs = dataStore.findController(rect.id).getFB();
+				for(int i=0; i<CAs.size(); i++) {
+					for (Node fb : root.getChildren()) {
+						if (FBs.containsKey(Integer.parseInt(fb.getId()))) {
+							for(Node l : root.getChildren()) {
+								if(Integer.parseInt(l.getId()) == -Integer.parseInt(fb.getId())){
+									root.getChildren().remove(l);
+									break;
+								}
+							}
+							root.getChildren().remove(fb);
+							break;
+						}
+					}
+				}
+				
+				dataStore.deleteController(rect.id); 
 			}
 		});
 		itemC3 = new MenuItem("Process Model");
@@ -559,6 +600,7 @@ public class CseController {
 			public void handle(ActionEvent event) {
 				ArrowView arrow = (ArrowView) itemFB1.getParentPopup().getOwnerNode();
 				dataStore.deleteFeedback(arrow.getID());
+				
 				for (Node a : root.getChildren()) {
 					if (a.equals(arrow)) {
 						root.getChildren().remove(arrow.label);
