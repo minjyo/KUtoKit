@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -69,10 +71,10 @@ public class CtmController {
 	private static CTMDataStore ctmDataStore;
 	
 	
-	ObservableList<String> effectiveVariable;
-	String CA;
-	String output;
-	String ControllerName;
+	private ObservableList<String> effectiveVariable;
+	private String CA;
+	private String output;
+	private String ControllerName;
 	
 	int i=0, k=0; //k=headers length
 	
@@ -136,6 +138,7 @@ public class CtmController {
 		hazardousOX = FXCollections.observableArrayList();
 		hazardousOX.add("O");
 		hazardousOX.add("X");
+		int temp = i;
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -146,6 +149,12 @@ public class CtmController {
         			addContexts[t].clear();
         		}
                 mcsData.add(new CTM(addCA.getText(),addCases.getText(),1+i++,contexts,comboBox));
+    			comboBox.valueProperty().addListener(new ChangeListener<String>() {
+  			      @Override
+  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+  			        mcsData.get(temp).setHazardousValue(newValue);
+  			      }
+  			    });
         	    contextTable.setItems(mcsData);
                 addCA.clear();
                 addCases.clear();
@@ -289,12 +298,40 @@ public class CtmController {
         CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
    	 	casesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("cases"));
  	 	noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
+ 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
  	    
 	   	CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
 	   	casesColumn.setCellValueFactory(cellData -> cellData.getValue().getCasesProperty());
 	   	noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
 
 	    contextTable.setEditable(true);
+	    
+	    CAColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+	    casesColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+	   	CAColumn.setOnEditCommit(
+            new EventHandler<CellEditEvent<CTM, String>>() {
+                @Override
+                public void handle(CellEditEvent<CTM, String> t) {
+                    ((CTM) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())
+                        ).setControlAction(t.getNewValue());
+        			System.out.println(mcsData.get(4).getControlAction());
+                }
+            }
+ 	    );
+	   	casesColumn.setOnEditCommit(
+	            new EventHandler<CellEditEvent<CTM, String>>() {
+	                @Override
+	                public void handle(CellEditEvent<CTM, String> t) {
+	                    ((CTM) t.getTableView().getItems().get(
+	                        t.getTablePosition().getRow())
+	                        ).setCases(t.getNewValue());
+	        			System.out.println(mcsData.get(4).getCases());
+	                }
+	            }
+	 	    );
+
 	    
  		for(final int[] x= {0,};x[0]<k;x[0]++) {
  			TableColumn<CTM, String> contextColumn = new TableColumn<>(contextheader[x[0]]);
@@ -315,18 +352,6 @@ public class CtmController {
  	            }
  	        );
  		}
-
- 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
- 	    //test1.setCellValueFactory(new PropertyValueFactory<CTM, String>("test1"));
- 	    //test2.setCellValueFactory(new PropertyValueFactory<CTM, String>("test2"));
- 	    //contextsColumn.getColumns().addAll(test1,test2);
- 	    
-	   	// 5. Put data in table
-	   	//contextsColumn.setCellValueFactory(cellData -> cellData.getValue().getContextsProperty());
-	   	//hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());
-	   	//hazardousColumn.setCellFactory(ComboBoxTableCell.forTableColumn("Friends", "Family", "Work Contacts"));
-	    
-	    //contextTable.setEditable(true);
 	}
 	
 	public void fillContextTable() {
@@ -336,35 +361,22 @@ public class CtmController {
 		
 	    // 3. Create Data list ex
 		while(i < no.length) {
+	    	int temp = i;
 			String[] contexts = new String[k];
 			for(int t=0;t<k;t++) {
 				contexts[t] = context[t][i];
 			}
 			ComboBox<String> comboBox = new ComboBox(hazardousOX);
 			mcsData.add(new CTM(CA, "Not provided\ncauses hazard", i+1, contexts, comboBox));
+			comboBox.valueProperty().addListener(new ChangeListener<String>() {
+			      @Override
+			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+			        mcsData.get(temp).setHazardousValue(newValue);
+			      }
+			    });
 			i++;
 		};
 	    contextTable.setItems(mcsData);
-	}
-	
-	@FXML
-	public void onEditChange(TableColumn.CellEditEvent<CTM, String> productStringCellEditEvent) {
-		CTM temp = contextTable.getSelectionModel().getSelectedItem();
-		System.out.println(temp);
-		System.out.println(productStringCellEditEvent.getRowValue());
-		
-
-		//System.out.println(temp.getContext(0));
-		//System.out.println(productStringCellEditEvent.getRowValue().getContext(0));
-		
-		//System.out.println(productStringCellEditEvent.getRowValue().getContext(0));
-		//context[productStringCellEditEvent.getTablePosition().getColumn()-3][productStringCellEditEvent.getTablePosition().getRow()]=productStringCellEditEvent.getNewValue();
-		//System.out.println(context[productStringCellEditEvent.getTablePosition().getColumn()-3][productStringCellEditEvent.getTablePosition().getRow()]);
-		//mcsData.set(temp.getNo()-1, productStringCellEditEvent.getRowValue());
-		
-		//System.out.println(mcsData.get(temp.getNo()-1).getContext(0));
-		//Todo :: @@@@@@@@Edit Value@@@@@@@@@@
-		
 	}
 	
 	public ObservableList<CTM> getContextTableData() {
@@ -373,15 +385,8 @@ public class CtmController {
 	}
 	
 	@FXML
-	public void addContext(ActionEvent actionEvent) {
-		//CTM newContext = new CTM(TextFieldCA.getText(), TextFieldCases.getText(), ++i, TextFieldContext1.getText(), TextFieldContext2.getText(), TextFieldContext3.getText(), TextFieldContext4.getText(), TextFieldContext5.getText(), TextFieldContext6.getText(), TextFieldContext7.getText(), TextFieldContext8.getText(), FXCollections.observableArrayList("O","X"));
-		//contextTable.getItems().add(newContext);
-	}
-	
-	@FXML
 	public void closeAddFile(ActionEvent actionEvent) {
 		AddFile.setVisible(false);
-		//MakeTable();
 	}
 	
 }

@@ -94,9 +94,18 @@ public class CTM {
 	public ComboBox getHazardous() {
 		return hazardous;
 	}
+	
+	public String getHazardousValue() {
+		return Hazardous;
+	}
 
 	public void setHazardous(ComboBox val) {
 		this.hazardous = val;
+		Hazardous = hazardous.getValue();
+	}
+	
+	public void setHazardousValue(String val) {
+		this.hazardous.setValue(val);
 		Hazardous = hazardous.getValue();
 	}
 
