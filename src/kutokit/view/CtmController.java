@@ -61,7 +61,7 @@ public class CtmController {
 	final HBox hb = new HBox();
 	
 	private String[] no = new String[100];
-	private String context[][] = new String[15][100];
+	private String context[][] = new String[15][1024];
 	private String[] contextheader = new String[15];
 	
 	ObservableList<CTM> mcsData;
@@ -230,21 +230,25 @@ public class CtmController {
 			no[i] = temps[i].substring(0, 1);
 			String[] splits = temps[i].split("&");
 			int j=0;
-			int temp=0;
+			int temp=-1;
 
 			while(j < splits.length) {
 				int index= splits[j].indexOf("=");
-				if(index>=0 && splits[j].substring(0,index).contains(output.substring(2,9))) { //variable name
+				if(index>=0) {
 					for(int t=0;t<=k;t++) { //header loof
-						if(contextheader[t]!=null && splits[j].substring(0,index).contains(contextheader[t])) {
+						if(contextheader[t]!=null && splits[j].contains(contextheader[t])) {
 							if(context[t][i]==null) {
 								context[t][i] = splits[j].substring(index+1);
-								if(context[t][i].substring(0,1).contains("=")) { //th_HI_LOG_POWER_Trip_Logic_state
+								if(context[t][i].substring(0,1).contains("=")) {
 									context[t][i] = context[t][i].replace("= ", "");
 								}
-								if(splits[j].contains("!")) {
+								if(splits[j].substring(0,index).contains("!")) {
 									if(splits[j].contains("false")) context[t][i] = "true";
 									else if(splits[j].contains("true")) context[t][i] = "false";
+								}
+								if(splits[j].contains("<=")){
+									context[t][i] = splits[j].replace(contextheader[t], "x");
+									context[t][i] = context[t][i].replace("(A)", "");
 								}
 							} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
 								context[t][i] += (" & \n" + splits[j].substring(index+1));
@@ -252,30 +256,16 @@ public class CtmController {
 							temp = t;
 							break;
 						}
-						
-						/*if(t==k && k>0) { //not contains header but variable
-							contextheader[k] = splits[j].substring(0,index);
-							if(contextheader[k].contains("(A)")) {
-								int a= splits[j].indexOf("(A)");
-								contextheader[k] = contextheader[k].substring(a+3);
-							}
-							if(contextheader[k].contains("!")) {
-								contextheader[k] = contextheader[k].substring(0,contextheader[k].length()-1);
-								if(splits[j].contains("false")) context[k][i] = "true";
-								else context[k][i] = "false";
-							} else {
-								context[k][i] = splits[j].substring(index+1);
-							}
-							if(k<15-1) {k++;break;}
-							temp = t;
-						}*/
 					}
-				} else if(index < 0) {
+				} else if(index < 0 && temp >= 0) {
 					if(context[temp][i]==null || context[temp][i].contains("true") || context[temp][i].contains("false")) {
-						context[temp][i]=splits[j];
-					}else {
-						//context[temp][i] += (" & \n" +splits[j]);
+						if(splits[j].length()!=1) {
+							context[temp][i]=splits[j];
+						}
+					}else if(!context[temp][i].isEmpty() && !context[temp][i].contains("<=")){
+						context[temp][i] += (" & \n" +splits[j]);
 					}
+					temp = -1;
 				}		
 				j++;
 			}
@@ -283,7 +273,7 @@ public class CtmController {
 		}
 		
 		for(int x=0;x<k;x++) {
-			for(int y=0;y<100;y++) {
+			for(int y=0;y<no.length;y++) {
 				if(context[x][y]==null) {
 					context[x][y] = "N/A";
 				}
@@ -293,7 +283,9 @@ public class CtmController {
 	}
 	
 	private void MakeTable() {
-		contextTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+		//contextTable.prefHeightProperty().bind(CTMPane.heightProperty());
+		contextTable.prefWidthProperty().bind(CTMPane.widthProperty());
+		contextTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         // 4. Set table row 
         CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
    	 	casesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("cases"));
