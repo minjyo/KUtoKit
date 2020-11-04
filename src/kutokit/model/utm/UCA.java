@@ -12,8 +12,8 @@ public class UCA {
 	private SimpleStringProperty notProvidingCausesHazard;
 	private SimpleStringProperty incorrectTimingOrOrder;
 	private SimpleStringProperty stoppedTooSoonOrAppliedTooLong;
-	private SimpleStringProperty link;
-//	private ComboBox link ;
+//	private SimpleStringProperty link;
+	private ComboBox<String> link ;
 //	private ObservableList<String> linkList;
 
 
@@ -31,21 +31,21 @@ public class UCA {
 
 	}
 
-	public UCA(String controlAction,String providing , String notProviding, String incorrect , String stopped,String link)//ObservableList<String> link,int linkIndex)
+	public UCA(String controlAction,String providing , String notProviding, String incorrect , String stopped,ComboBox<String> link)//ObservableList<String> link,int linkIndex)
 	{
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.providingCausesHazard = new SimpleStringProperty(providing);
 		this.notProvidingCausesHazard = new SimpleStringProperty(notProviding);
 		this.incorrectTimingOrOrder = new SimpleStringProperty(incorrect);
 		this.stoppedTooSoonOrAppliedTooLong = new SimpleStringProperty(stopped);
-		this.link = new SimpleStringProperty(link);
+		this.link = link;
 
 		this.ControlAction = controlAction;
 		this.ProvidingCausesHazard = providing;
 		this.NotProvidingCausesHazard = notProviding;
 		this.IncorrectTimingOrOrder = incorrect;
 		this.StoppedTooSoonOrAppliedTooLong = stopped;
-		this.Link = link;
+		this.Link = link.getValue();
 
 //		if(!link.isEmpty()){
 //			this.Link = link.get(linkIndex);
@@ -60,7 +60,7 @@ public class UCA {
 		this.controlAction = new SimpleStringProperty(controlAction);
 	}
 
-	public void setUCA(String columnID,String setData,int linkIndex)
+	public void setUCA(String columnID,String setData,ComboBox<String> linkIndex)
 	{
 
 		switch(columnID)
@@ -81,7 +81,7 @@ public class UCA {
 			setStoppedTooSoonOrAppliedTooLong(setData);
 			break;
 		case "linkColumn" :
-			setLink(setData);
+			setLink(linkIndex);
 		default :
 			System.out.println("There is no "+ columnID +" Column");
 		}
@@ -140,14 +140,11 @@ public class UCA {
 	}
 
 
-	public void setLink(String link) {
-//		this.link = new SimpleStringProperty(link);
-//		this.Link = linkList.get(linkIndex);
-//		this.linkIndex = linkIndex;
-		this.link = new SimpleStringProperty(link);
-;	}
+	public void setLink(ComboBox<String> link) {
+		this.Link = link.getValue();
+	}
 
-	public SimpleStringProperty getLink() {
+	public ComboBox<String> getLink() {
 		return link;
 	}
 
