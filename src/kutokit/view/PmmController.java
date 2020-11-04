@@ -68,6 +68,8 @@ public class PmmController{
 
 	public PmmController() {
 		valuelist = FXCollections.observableArrayList();
+		
+		//Controller c = components.curController;
 	}
 
 	public void selectController() {
