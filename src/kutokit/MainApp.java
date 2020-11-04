@@ -169,7 +169,6 @@ public class MainApp extends Application {
 
             //add controller
             UtmController controller = loader.getController();
-            controller.setUcaTable(ucadatastore,lhcDataStore);
             controller.setMainApp(this);
 
         } catch (IOException e) {
