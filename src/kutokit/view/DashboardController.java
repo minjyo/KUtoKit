@@ -1,10 +1,18 @@
 package kutokit.view;
 
+import javafx.scene.control.Button;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import kutokit.MainApp;
 
-public class DashboardController{
+public class DashboardController implements Initializable{
 	private MainApp mainApp;
+	
+	@FXML
+	public Button cseBtn;
 	
 	//constructor
 	public DashboardController() {
@@ -43,5 +51,15 @@ public class DashboardController{
 	@FXML
 	private void toUtmController() {
 		this.mainApp.showUtmView();
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+//		//CSE
+//		if(mainApp.lhcDataStore.getLossTableList().isEmpty() || mainApp.lhcDataStore.getHazardTableList().isEmpty() || mainApp.lhcDataStore.getConstraintTableList().isEmpty()) {
+//			cseBtn.setDisable(true);
+//		}else {
+//			cseBtn.setDisable(false);
+//		}
 	}
 }

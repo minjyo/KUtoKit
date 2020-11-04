@@ -214,7 +214,6 @@ public class MainApp extends Application {
             DashboardController controller = loader.getController();
             controller.setMainApp(this);
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -282,16 +281,16 @@ public class MainApp extends Application {
 		        lhcDataStore.getHazardTableList().addAll(projectXML.getHazardList());
 		        lhcDataStore.getConstraintTableList().addAll(projectXML.getConstraintList());
 			 // --------------------------- LHC --------------------------
-//		     // --------------------------- CSE --------------------------
-//		        components.getControllers().addAll(projectXML.getControllers());
-//		        components.getControlActions().addAll(projectXML.getControlActions());
-//		        components.getFeedbacks().addAll(projectXML.getFeedbacks());
-//		     // --------------------------- CSE --------------------------
-//
-//
-//		     // --------------------------- UTM --------------------------
-//		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
-//		     // --------------------------- UTM --------------------------
+		       
+		     // --------------------------- CSE --------------------------
+		        components.getControllers().addAll(projectXML.getControllers());
+		        components.getControlActions().addAll(projectXML.getControlActions());
+		        components.getFeedbacks().addAll(projectXML.getFeedbacks());
+		     // --------------------------- CSE --------------------------
+
+		     // --------------------------- UTM --------------------------
+		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
+		     // --------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
 		        models.setControllerName(projectXML.getControllerName());;
