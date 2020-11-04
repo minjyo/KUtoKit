@@ -58,16 +58,7 @@ public class UtmController {
 
 		menu = new ContextMenu();
 
-		add_menu = new MenuItem("Add");
 		delete_menu = new MenuItem("Delete");
-
-		add_menu.setOnAction(new EventHandler<ActionEvent>() {
-		     @Override
-	         public void handle(ActionEvent event) {
-		    	 ucaData.add(new UCA("new","","","",""," "));
-		    	 ucaTable.setItems(ucaData);
-	         }
-	     });
 
         delete_menu.setOnAction(new EventHandler<ActionEvent>() {
 	     @Override
@@ -82,7 +73,7 @@ public class UtmController {
          }
         });
 
-        menu.getItems().addAll(add_menu, delete_menu);
+        menu.getItems().addAll(delete_menu);
 
         ucaTable.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 
@@ -113,19 +104,22 @@ public class UtmController {
 //		 for(LHC l : hazardData){
 //			 hazardList.add(l.getIndex());
 //		 }
-		 if(!ucaData.isEmpty())
-		{
-			for(UCA a : ucaData){
-				UCA uca = new UCA(a.ControlAction,a.ProvidingCausesHazard,a.NotProvidingCausesHazard,a.IncorrectTimingOrOrder,a.StoppedTooSoonOrAppliedTooLong,a.Link);
-				temp.add(uca);
-			}
-			ucaData = temp;
-		}
-		else
+//		 if(!ucaData.isEmpty())
+//		{
+//			for(UCA a : ucaData){
+//				UCA uca = new UCA(a.ControlAction,a.ProvidingCausesHazard,a.NotProvidingCausesHazard,a.IncorrectTimingOrOrder,a.StoppedTooSoonOrAppliedTooLong,a.Link);
+//				temp.add(uca);
+//			}
+//			ucaData = temp;
+//
+//		}
+		 if(ucaData.isEmpty())
 		{
 			//Get hazardous
 			//Example
 			UCA uca = new UCA("example","new","table","control","action","");
+			ucaData.add(uca);
+			uca = new UCA("example","new","table","control","action1","");
 			ucaData.add(uca);
 
 		}

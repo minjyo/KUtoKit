@@ -39,9 +39,6 @@ public class UCA {
 		this.incorrectTimingOrOrder = new SimpleStringProperty(incorrect);
 		this.stoppedTooSoonOrAppliedTooLong = new SimpleStringProperty(stopped);
 		this.link = new SimpleStringProperty(link);
-//		this.link = new ComboBox(link);
-//		ObservableList<String> str  = FXCollections.observableArrayList("h","e","l");
-//		this.link = new COmboBox(str);
 
 		this.ControlAction = controlAction;
 		this.ProvidingCausesHazard = providing;
