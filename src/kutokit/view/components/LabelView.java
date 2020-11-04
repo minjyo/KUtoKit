@@ -27,10 +27,10 @@ public class LabelView extends Label {
 		this.type = type;
 		
 		if(type=="CA") {
-			layoutXProperty().bind(endX.add(120).subtract(endX.add(120).subtract(startX.add(120)).divide(2)).add(10));
+			layoutXProperty().bind(endX.add(30).subtract(endX.add(30).subtract(startX.add(30)).divide(2)).add(10));
 			layoutYProperty().bind(endY.subtract(endY.subtract(startY.add(100)).divide(2)).subtract(10));
 		}else {
-			layoutXProperty().bind(endX.add(30).subtract(endX.add(30).subtract(startX.add(30)).divide(2)).add(10));
+			layoutXProperty().bind(endX.add(120).subtract(endX.add(120).subtract(startX.add(120)).divide(2)).add(10));
 			layoutYProperty().bind(endY.add(100).subtract(endY.add(100).subtract(startY).divide(2)).subtract(10));
 		}
 		

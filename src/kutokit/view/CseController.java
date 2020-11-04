@@ -14,23 +14,40 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import kutokit.MainApp;
+import kutokit.model.cse.Components;
+import kutokit.model.cse.ControlAction;
+import kutokit.model.cse.Controller;
+import kutokit.model.cse.Feedback;
 import kutokit.view.components.*;
 import kutokit.view.popup.*;
-import kutokit.model.Components;
+import kutokit.view.popup.cse.AddCAPopUpController;
+import kutokit.view.popup.cse.AddFBPopUpController;
+import kutokit.view.popup.cse.ControllerPopUpController;
+import kutokit.view.popup.cse.ModifyCAPopUpController;
+import kutokit.view.popup.cse.ModifyFBPopUpController;
 
 public class CseController {
 
@@ -49,6 +66,12 @@ public class CseController {
 	private ContextMenu FBContextMenu;
 	private MenuItem itemFB1, itemFB2;
 
+	ControllerPopUpController AddCpop;
+	AddCAPopUpController AddCApop;
+	AddFBPopUpController AddFBpop;
+	ModifyCAPopUpController ModifyCApop;
+	ModifyFBPopUpController ModifyFBpop;
+	
 	@FXML
 	Group root = new Group();
 	@FXML
@@ -63,7 +86,7 @@ public class CseController {
 
 	private void initialize() {
 		dataStore = mainApp.components;
-
+		
 		// draw board from data store
 		controllers = dataStore.getControllers();
 		for (Controller c : controllers) {
@@ -84,10 +107,11 @@ public class CseController {
 					startY = node.layoutYProperty();
 				}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
 					endX = node.layoutXProperty();
-					endY = node.layoutYProperty();
+					endY = node.layoutYProperty();    
 				}
 			}
 			ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
+			a.toBack();
 			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
 			a.setLabel(label);
 			
@@ -147,15 +171,19 @@ public class CseController {
 
 	private void addPopUp(String component) {
 		FXMLLoader loader = new FXMLLoader();
+		
 		switch (component) {
 		case "controller":
-			loader.setLocation(getClass().getResource("popup/ControllerPopUpView.fxml"));
+			loader.setLocation(getClass().getResource("popup/cse/ControllerPopUpView.fxml"));
+			AddCpop = loader.getController();
 			break;
 		case "ca":
-			loader.setLocation(getClass().getResource("popup/AddCAPopUpView.fxml"));
+			loader.setLocation(getClass().getResource("popup/cse/AddCAPopUpView.fxml"));
+			AddCApop = loader.getController();
 			break;
 		case "feedback":
-			loader.setLocation(getClass().getResource("popup/AddFBPopUpView.fxml"));
+			loader.setLocation(getClass().getResource("popup/cse/AddFBPopUpView.fxml"));
+			AddFBpop = loader.getController();
 			break;
 		}
 
@@ -176,68 +204,74 @@ public class CseController {
 				public void handle(WindowEvent e) {
 					switch (component) {
 					case "controller":
+						AddCpop = loader.getController();
 						
-						ControllerPopUpController pop = loader.getController();
-						Controller c = new Controller(10, 10, pop.name, dataStore.curId);
+						if(AddCpop.OKclose) {
+							Controller c = new Controller(10, 10, AddCpop.name, dataStore.curId);
 
-						DoubleProperty X = new SimpleDoubleProperty(c.getX());
-					    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
-					    
-						RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
+							DoubleProperty X = new SimpleDoubleProperty(c.getX());
+						    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
+						    
+							RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
 
-						addController(r, c);
-						dataStore.addController(c);
+							addController(r, c);
+							dataStore.addController(c);
+						}
 						break;
 					case "ca":
-						AddCAPopUpController pop2 = loader.getController();
-						ControlAction ca = new ControlAction(pop2.controller, pop2.controlled, pop2.CA, dataStore.curId, dataStore);
+						AddCApop = loader.getController();
 						
-						DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
-						
-						for(Node node: root.getChildren()) {
-							if(Integer.parseInt(node.getId())==ca.getControllerID()) {
-								startX = node.layoutXProperty();
-								startY = node.layoutYProperty();
-							}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
-								endX = node.layoutXProperty();
-								endY = node.layoutYProperty();
+						if(AddCApop.OKclose) {
+							ControlAction ca = new ControlAction(AddCApop.controller, AddCApop.controlled, AddCApop.CA, dataStore.curId, dataStore);
+							
+							DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
+							
+							for(Node node: root.getChildren()) {
+								if(Integer.parseInt(node.getId())==ca.getControllerID()) {
+									startX = node.layoutXProperty();
+									startY = node.layoutYProperty();
+								}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
+									endX = node.layoutXProperty();
+									endY = node.layoutYProperty();
+								}
 							}
+							ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
+							LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
+							a.setLabel(label);
+							
+							dataStore.addControlAction(ca);
+						
+							dataStore.findController(AddCApop.controller).addCA(ca.getId(), 1);
+							dataStore.findController(AddCApop.controlled).addCA(ca.getId(), 0);
+							
+							addControlAction(a, label, ca);
 						}
-						ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
-						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
-						a.setLabel(label);
-						
-						controlActions.add(ca);
-						dataStore.addControlAction(ca);
-						
-						dataStore.findController(pop2.controller).addCA(ca.getId(), 1);
-						dataStore.findController(pop2.controlled).addCA(ca.getId(), 0);
-						
-						addControlAction(a, label, ca);
 						break;
 					case "feedback":
-						AddFBPopUpController pop3 = loader.getController();
-						Feedback fb = new Feedback(pop3.controlled, pop3.controller, pop3.FB, dataStore.curId, dataStore);
+						AddFBpop = loader.getController();
 						
-						DoubleProperty  startX1 = null, startY1 = null, endX1 = null,  endY1 = null;
-						
-						for(Node node: root.getChildren()) {
-							if(Integer.parseInt(node.getId())==fb.getControlledID()) {
-								startX1 = node.layoutXProperty();
-								startY1 = node.layoutYProperty();
-							}else if(Integer.parseInt(node.getId())==fb.getControllerID()) {
-								endX1 = node.layoutXProperty();
-								endY1 = node.layoutYProperty();
+						if(AddFBpop.OKclose) {
+							Feedback fb = new Feedback(AddFBpop.controlled, AddFBpop.controller, AddFBpop.FB, dataStore.curId, dataStore);
+							
+							DoubleProperty  startX1 = null, startY1 = null, endX1 = null,  endY1 = null;
+							
+							for(Node node: root.getChildren()) {
+								if(Integer.parseInt(node.getId())==fb.getControlledID()) {
+									startX1 = node.layoutXProperty();
+									startY1 = node.layoutYProperty();
+								}else if(Integer.parseInt(node.getId())==fb.getControllerID()) {
+									endX1 = node.layoutXProperty();
+									endY1 = node.layoutYProperty();
+								}
 							}
-						}
-						ArrowView a1 = new ArrowView(fb, startX1, startY1, endX1,  endY1, fb.getId());
-						LabelView label1 = new LabelView(a1.startX, a1.startY, a1.endX, a1.endY, fb.getFB(), "FB");
-						a1.setLabel(label1);
+							ArrowView a1 = new ArrowView(fb, startX1, startY1, endX1,  endY1, fb.getId());
+							LabelView label1 = new LabelView(a1.startX, a1.startY, a1.endX, a1.endY, fb.getFB(), "FB");
+							a1.setLabel(label1);
+							
+							dataStore.addFeedback(fb);
 						
-						feedbacks.add(fb);
-						dataStore.addFeedback(fb);
-					
-						addFeedback(a1, label1, fb);
+							addFeedback(a1, label1, fb);
+						}
 						break;
 					}
 
@@ -265,6 +299,7 @@ public class CseController {
 		s.setId(Integer.toString(c.getId()));
 
 		root.getChildren().add(s);
+		//s.toFront();
 	}
 
 	private void addControlAction(Path s, Label l, ControlAction ca) {
@@ -282,6 +317,7 @@ public class CseController {
 		l.setId("-1");
 		
 		root.getChildren().addAll(s, l);
+		s.toBack();
 	}
 	
 	private void addFeedback(Path s, Label l, Feedback fb) {
@@ -291,7 +327,7 @@ public class CseController {
 			@Override
 			public void handle(ContextMenuEvent event) {
 
-				CAContextMenu.show(s, event.getScreenX(), event.getScreenY());
+				FBContextMenu.show(s, event.getScreenX(), event.getScreenY());
 			}
 		});
 
@@ -299,18 +335,19 @@ public class CseController {
 		l.setId("-1");
 		
 		root.getChildren().addAll(s, l);
+		s.toBack();
 	}
 
 	private void modifyControllerPopUp(RectangleView rect) {
-		 FXMLLoader loader = new FXMLLoader();
-		  loader.setLocation(getClass().getResource("popup/ControllerPopUpView.fxml"));
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(getClass().getResource("popup/cse/ControllerPopUpView.fxml"));
 		  Parent popUproot;
 		  
 		  try {
 			  	popUproot = (Parent) loader.load();
 				
 				Scene scene = new Scene(popUproot);
-				ControllerPopUpController pop = loader.getController();
+				AddCpop = loader.getController();
 				
 				  Stage stage = new Stage();
 				  stage.setScene(scene);
@@ -320,7 +357,11 @@ public class CseController {
 				  stage.setOnHidden(new EventHandler<WindowEvent>() {
 					    @Override
 					    public void handle(WindowEvent e) {
-					    	modifyRectangle(rect, pop.name);
+					    	AddCpop = loader.getController();
+					    	
+					    	if(AddCpop.OKclose) {
+					    		modifyRectangle(rect, AddCpop.name);
+					    	}
 					    }
 					  });
 		  } catch (IOException e) {
@@ -331,14 +372,14 @@ public class CseController {
 
 	private void modifyControlActionPopUp(ArrowView a) {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("popup/ModifyCAPopUpView.fxml"));
+		loader.setLocation(getClass().getResource("popup/cse/ModifyCAPopUpView.fxml"));
 		Parent popUproot;
 
 		try {
 			popUproot = (Parent) loader.load();
 
 			Scene scene = new Scene(popUproot);
-			ModifyCAPopUpController pop = loader.getController();
+			ModifyCApop = loader.getController();
 
 			Stage stage = new Stage();
 			stage.setScene(scene);
@@ -348,16 +389,20 @@ public class CseController {
 			stage.setOnHidden(new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent e) {
-					dataStore.curCA.setCA(pop.CA);
-					for(Node node : root.getChildren()) {
-						if(node.equals(a.label)) {
-							root.getChildren().remove(node);
-							break;
+					ModifyCApop = loader.getController();
+			    	
+			    	if(ModifyCApop.OKclose) {
+			    		dataStore.curCA.setCA(ModifyCApop.CA);
+						for(Node node : root.getChildren()) {
+							if(node.equals(a.label)) {
+								root.getChildren().remove(node);
+								break;
+							}
 						}
-					}
-					LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, pop.CA, "CA");
-					a.label = label;
-					root.getChildren().add(label);
+						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyCApop.CA, "CA");
+						a.label = label;
+						root.getChildren().add(label);
+			    	}
 				}
 			});
 		} catch (IOException e) {
@@ -368,14 +413,14 @@ public class CseController {
 	
 	private void modifyFeedbackPopUp(ArrowView a) {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("popup/ModifyFBPopUpView.fxml"));
+		loader.setLocation(getClass().getResource("popup/cse/ModifyFBPopUpView.fxml"));
 		Parent popUproot;
 
 		try {
 			popUproot = (Parent) loader.load();
 
 			Scene scene = new Scene(popUproot);
-			ModifyFBPopUpController pop = loader.getController();
+			ModifyFBpop = loader.getController();
 
 			Stage stage = new Stage();
 			stage.setScene(scene);
@@ -385,16 +430,21 @@ public class CseController {
 			stage.setOnHidden(new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent e) {
-					dataStore.curFB.setFB(pop.FB);
-					for(Node node : root.getChildren()) {
-						if(node.equals(a.label)) {
-							root.getChildren().remove(node);
-							break;
+					ModifyFBpop = loader.getController();
+			    	
+			    	if(ModifyFBpop.OKclose) {
+			    		dataStore.curFB.setFB(ModifyFBpop.FB);
+						for(Node node : root.getChildren()) {
+							if(node.equals(a.label)) {
+								root.getChildren().remove(node);
+								break;
+							}
 						}
-					}
-					LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, pop.FB, "FB");
-					a.label = label;
-					root.getChildren().add(label);
+						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyFBpop.FB, "FB");
+						a.label = label;
+						root.getChildren().add(label);
+			    	}
+					
 				}
 			});
 		} catch (IOException e) {

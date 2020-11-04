@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -75,6 +76,7 @@
             <VBox prefHeight="400.0" prefWidth="90.0" style="-fx-border-color: #8FBC8F#8FBC8F;">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hiearchy" />
+                
                </children></VBox>
          </children>
       </VBox>
@@ -87,10 +89,5 @@
             </AnchorPane>
          </content>
       </ScrollPane>
-      <!-- <ScrollPane fx:id="board" prefHeight="200.0" prefWidth="200.0">
-      	<children>
-      		
-      	</children>
-      </ScrollPane> -->
    </children>
 </AnchorPane>

@@ -3,11 +3,9 @@ package kutokit;
 import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -22,9 +20,17 @@ import kutokit.view.PmmController;
 import kutokit.view.DashboardController;
 import kutokit.view.CtmController;
 import kutokit.view.LhcController;
+import kutokit.view.LsController;
 import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
-import kutokit.model.*;
+import kutokit.model.ProjectXML;
+import kutokit.model.cse.Components;
+import kutokit.model.ctm.CTMDataStore;
+import kutokit.model.lhc.LHC;
+import kutokit.model.lhc.LhcDataStore;
+import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.ProcessModel;
+import kutokit.model.utm.UCADataStore;
 
 public class MainApp extends Application {
 
@@ -33,10 +39,11 @@ public class MainApp extends Application {
 	 private CtmController controller;
 
 	 public static Components components;
+	 public static LhcDataStore lhcDataStore;
+	 public ProcessModel models;
 	 public static UCADataStore ucadatastore;
-	 public static LHCDataStore lhcDataStore;
-	 private static CTMDataStore ctmdatastore;
-
+	 public static CTMDataStore ctmDataStore;
+	 public static LSDataStore lsDataStore;
 
 	@Override
 	//auto execute after main execute
@@ -55,8 +62,11 @@ public class MainApp extends Application {
 
 	private void initDataStore() {
 		components = new Components();
+		lhcDataStore = new LhcDataStore();
+		models = new ProcessModel();
 		ucadatastore = new UCADataStore();
-		lhcDataStore = new LHCDataStore();
+		ctmDataStore = new CTMDataStore();
+		lsDataStore = new LSDataStore();
 	}
 
 	private void initRootLayout() {
@@ -78,7 +88,6 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 	}
 
 	/**
@@ -98,7 +107,6 @@ public class MainApp extends Application {
             LhcController controller = loader.getController();
             controller.setMainApp(this);
 
-            System.out.println("a");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -141,7 +149,7 @@ public class MainApp extends Application {
             //add controller
             controller = loader.getController();
             controller.setMainApp(this);
-            System.out.println("a");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -163,7 +171,7 @@ public class MainApp extends Application {
             UtmController controller = loader.getController();
             controller.setUcaTable(ucadatastore,lhcDataStore);
             controller.setMainApp(this);
-            System.out.println("a");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -185,13 +193,15 @@ public class MainApp extends Application {
             //add controller
             PmmController controller = loader.getController();
             controller.setMainApp(this);
-            System.out.println("a");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    //called when help button clicked
+    
+    /*
+     * called when dashboard button clicked
+     */
 	public void showDashboardView() {
         try {
             // get maker scene
@@ -206,16 +216,43 @@ public class MainApp extends Application {
             DashboardController controller = loader.getController();
             controller.setMainApp(this);
 
-            System.out.println("a");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+	
+	/*
+	 * called when loss scenario button clicked
+	 */
+	public void showLsView() {
+		try {
+            // get maker scene
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
+            AnchorPane View = (AnchorPane) loader.load();
+
+            // add scene in center of root layout 
+            rootLayout.setCenter(View);
+            
+            //add controller
+            LsController controller = loader.getController();
+            controller.setMainApp(this);
+            
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 
     /**
 	 * return main stage
 	 * @return
 	 */
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
 	public File getFilePath() {
 	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 	    String filePath = prefs.get("filePath", null);
@@ -238,29 +275,36 @@ public class MainApp extends Application {
 
 	public void openFile(File file) {
 		 try {
-			 //UCA
-			 	JAXBContext context = JAXBContext
-		                .newInstance(UCAXML.class);
+		        JAXBContext context = JAXBContext
+		                .newInstance(ProjectXML.class);
 		        Unmarshaller um = context.createUnmarshaller();
 
-		        UCAXML UCAWrapper = (UCAXML) um.unmarshal(file);
+		        ProjectXML projectXML = (ProjectXML) um.unmarshal(file);
 
-		        ucadatastore.getUCATableList().addAll(UCAWrapper.getUCAList());
+		     // --------------------------- LHC --------------------------
+		        lhcDataStore.getLossTableList().addAll(projectXML.getLossList());
+		        lhcDataStore.getHazardTableList().addAll(projectXML.getHazardList());
+		        lhcDataStore.getConstraintTableList().addAll(projectXML.getConstraintList());
+			 // --------------------------- LHC --------------------------
+		     // --------------------------- CSE --------------------------
+		        components.getControllers().addAll(projectXML.getControllers());
+		        components.getControlActions().addAll(projectXML.getControlActions());
+		        components.getFeedbacks().addAll(projectXML.getFeedbacks());
+		     // --------------------------- CSE --------------------------
+
+
+		     // --------------------------- UTM --------------------------
+		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
+		     // --------------------------- UTM --------------------------
+
+			 // --------------------------- PMM --------------------------
+		        models.setControllerName(projectXML.getControllerName());;
+		        models.setControlActionName(projectXML.getControlActionName());
+		        models.setOutputName(projectXML.getOutputVariableName());
+		        models.getValuelist().addAll(projectXML.getValueList());
+			 // --------------------------- PMM --------------------------
 
 		        setFilePath(file);
-
-		      //CSE
-//		        context = JAXBContext
-//		                .newInstance(ComponentsXML.class);
-//		        um = context.createUnmarshaller();
-//
-//		        ComponentsXML CSELHCwrapper = (ComponentsXML) um.unmarshal(file);
-//
-//		        components.getControllers().addAll(CSELHCwrapper.getControllers());
-//		        components.getControlActions().addAll(CSELHCwrapper.getControlActions());
-//		        components.getFeedbacks().addAll(CSELHCwrapper.getFeedbacks());
-//
-//		        setFilePath(file);
 
 		    } catch (Exception e) {
 		        Alert alert = new Alert(AlertType.ERROR);
@@ -273,42 +317,42 @@ public class MainApp extends Application {
 	}
 
 	public void saveFile(File file) {
-	    try {
-	    	for(UCA a : ucadatastore.getUCATableList()) {
-//	    		System.out.println(a.getTextProperty());
-	    	}
-	        JAXBContext context = JAXBContext
-	                .newInstance(UCAXML.class);
+		 try {
+			 JAXBContext context = JAXBContext
+	                .newInstance(ProjectXML.class);
 
-	        Marshaller m = context.createMarshaller();
-	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			 Marshaller m = context.createMarshaller();
+			 m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-	        UCAXML UCAwrapper = new UCAXML();
-	        UCAwrapper.setUCAList(ucadatastore.getUCATableList());
-//	        for(UCA a : UCAwrapper.getLossTableList()) {
-//	    		System.out.println(a.getTextProperty());
-//	    	}
-//	        UCAwrapper.setHazard(ucadatastore.getUCATableList());
-//	        for(LHC a : UCAwrapper.getLossTableList1()) {
-//	    		System.out.println(a.index1);
-//	    	}
+			 ProjectXML projectXML = new ProjectXML();
 
-	        m.marshal(UCAwrapper, file);
+	     // --------------------------- LHC --------------------------
+	        projectXML.setLossList(lhcDataStore.getLossTableList());
+	        projectXML.setHazardList(lhcDataStore.getHazardTableList());
+	        projectXML.setConstraintList(lhcDataStore.getConstraintTableList());
+	     // --------------------------- LHC --------------------------
+	        
+	     // --------------------------- CSE --------------------------
+	        projectXML.setControllers(components.getControllers());
+	        projectXML.setControlActions(components.getControlActions());
+	        projectXML.setFeedbacks(components.getFeedbacks());
+	     // --------------------------- CSE --------------------------
 
-	    	//CSE
-//	        context = JAXBContext
-//	                .newInstance(ComponentsXML.class);
-//
-//	        m = context.createMarshaller();
-//	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//
-//	        ComponentsXML CSEwrapper = new ComponentsXML();
-//	        CSEwrapper.setControllers(components.getControllers());
-//	        CSEwrapper.setControlActions(components.getControlActions());
-//	        CSEwrapper.setFeedbacks(components.getFeedbacks());
-//
-//	        m.marshal(CSEwrapper, file);
 
+	     // --------------------------- UTM --------------------------
+	        projectXML.setUCAList(ucadatastore.getUCATableList());
+	     // --------------------------- UTM --------------------------
+
+		 // --------------------------- PMM --------------------------
+	        projectXML.setControllerName(models.getControllerName());
+	        projectXML.setControlActionName(models.getControlActionName());
+	        projectXML.setOutputVariableName(models.getOutputName());
+	        projectXML.setValueList(models.getValuelist());
+		 // --------------------------- PMM --------------------------
+
+
+
+	        m.marshal(projectXML, file);
 	        setFilePath(file);
 	    } catch (Exception e) {
 	    	e.printStackTrace();
@@ -320,30 +364,5 @@ public class MainApp extends Application {
 	        alert.showAndWait();
 	    }
 	}
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
 
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-
-	//ContextTable(myTable) �겫�뜄�쑎占쎌궎疫뀐옙
-	private ObservableList<CTM> getContextTable()
-	{
-		ObservableList<CTM> ctmList = null;
-		try {
-			// get maker scene
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
-			AnchorPane View = (AnchorPane) loader.load();
-			CtmController controller = loader.getController();
-			//get hazardous error
-//			ctmList = controller.getContextTableData();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return ctmList;
-	}
 }

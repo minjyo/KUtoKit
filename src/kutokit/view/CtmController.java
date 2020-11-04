@@ -12,20 +12,31 @@ import java.util.ResourceBundle;
 import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kutokit.Info;
 import kutokit.MainApp;
-import kutokit.model.CTM;
+import kutokit.model.ctm.CTM;
+import kutokit.model.ctm.CTMDataStore;
+import kutokit.model.utm.UCADataStore;
 
 public class CtmController {
 
@@ -34,30 +45,33 @@ public class CtmController {
 	private ObservableList<CTM> myTable;
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
-	//!!지금부터시작!!
+	
+	@FXML private TextField TextFieldCA;
+	@FXML private TextField TextFieldCases;
+	@FXML private TextField TextFieldContext1,TextFieldContext2,TextFieldContext3,TextFieldContext4,TextFieldContext5,TextFieldContext6,TextFieldContext7,TextFieldContext8;
+	
 	@FXML private TableView<CTM> contextTable;
-	@FXML private TableColumn<CTM, String> CAColumn = new TableColumn<>("CA"); 
-	@FXML private TableColumn<CTM, String> casesColumn = new TableColumn<>("cases");
-	@FXML private TableColumn<CTM, String> contexts1Column = new TableColumn<>("contexts1");
-	@FXML private TableColumn<CTM, String> contexts2Column = new TableColumn<>("contexts2");
-	@FXML private TableColumn<CTM, String> contexts3Column = new TableColumn<>("contexts3");
-	@FXML private TableColumn<CTM, String> contexts4Column = new TableColumn<>("contexts4");
-	@FXML private TableColumn<CTM, String> contexts5Column = new TableColumn<>("contexts5");
-	@FXML private TableColumn<CTM, String> contexts6Column = new TableColumn<>("contexts6");
-	@FXML private TableColumn<CTM, String> contexts7Column = new TableColumn<>("contexts7");
-	@FXML private TableColumn<CTM, String> contexts8Column = new TableColumn<>("contexts8");
-	@FXML private TableColumn<CTM, String> hazardousColumn = new TableColumn<>("hazardous");
-	@FXML private TableColumn<CTM, Integer> noColumn = new TableColumn<>("no");
-
+	@FXML private TableColumn<CTM, String> CAColumn, casesColumn;
+	@FXML private TableColumn<CTM, Integer> noColumn;
+	@FXML private TableColumn hazardousColumn;
+	final HBox hb = new HBox();
+	
 	private String[] no = new String[100];
-	private String[] f_HI_LOG_POWER_Trip_Out = new String[100];
-	private String[] th_HI_LOG_POWER_Trip_Logic = new String[100];
-	private String[] th_HI_LOG_POWER_Trip_Logic_State = new String[100];
-	private String[] f_HI_LOG_POWER_PV = new String[100];
-	private String[] f_HI_LOG_POWER_APT_Query = new String[100];
-	private String[] f_HI_LOG_POWER_Mod_Err = new String[100];
-	private String[] f_HI_LOG_POWER_Chan_Err = new String[100];
-	private String[] f_HI_LOG_POWER_PV_Err = new String[100];
+	private String context[][] = new String[15][100];
+	private String[] contextheader = new String[15];
+	
+	ObservableList<CTM> mcsData;
+
+	private ObservableList<String> hazardousOX;
+
+	private static CTMDataStore ctmDataStore;
+	
+	
+	ObservableList<String> effectiveVariable;
+	String CA;
+	String output;
+	
+	int i=0, k=0; //k=headers length
 	
 	// constructor
 	public CtmController() {
@@ -67,13 +81,26 @@ public class CtmController {
 	//set MainApp
 	public void setMainApp(MainApp mainApp)  {
 		this.mainApp = mainApp;
+		ctmDataStore = mainApp.ctmDataStore;
+		mcsData = ctmDataStore.getCTMTableList();
+	}
+
+	private void initialize(){
+
 	}
 	
 	@FXML
 	public void AddFile() {
+		effectiveVariable = mainApp.models.getValuelist();
+		CA = mainApp.models.getControlActionName();
+		output = mainApp.models.getOutputName();
+		System.out.println("eV:"+effectiveVariable);
+		System.out.println("CA:"+CA);
+		System.out.println("output:"+output);
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
-        
+        // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
+        // minjyo - mac
         fc.setInitialDirectory(new File(Info.directory));
         // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
@@ -108,13 +135,9 @@ public class CtmController {
 	            //2. Add Parsing File
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
-	            //System.out.println(temps[0]);
-	            //System.out.println(temps[1]);
-	            
 	            this.ParseMCS(temps);
-	            
-	            
 	            this.MakeTable();
+	            this.fillContextTable();
 
 	            //bis.close();    
 	        } catch (FileNotFoundException e) {
@@ -124,171 +147,240 @@ public class CtmController {
 	}
 
 	private void ParseMCS(String[] temps) {
-		//MSC ex 
-//		detect_term≤0.1sec Λ 	f_HI_LOG_POWER_Trip_Out=true
-//		detect_length≥1m Λ		f_HI_LOG_POWER_PV_Err=true
-//		sensor_error=false Λ 	th_HI_LOG_POWER_Trip_Logic=false
-//	malfunc_check_clear=true Λ 	th_HI_LOG_POWER_Trip_Logic_state=Waiting at t
-//		path_check=true Λ 		th_HI_LOG_POWER_Trip_Logic_state=Waiting at t=1
-//		gps_one=true
+
+		if(k==0) {
+			contextheader[k++] = output;
+		}
+		for(int x=0;x<effectiveVariable.size();x++) {
+			contextheader[k++] = effectiveVariable.get(x);
+		}
+		System.out.println(Arrays.toString(contextheader));
+		
 		int i=0;
 		while(i < temps.length) {
 			no[i] = temps[i].substring(0, 1);
 			String[] splits = temps[i].split("&");
 			int j=0;
+			int temp=0;
+
 			while(j < splits.length) {
 				int index= splits[j].indexOf("=");
-				if(splits[j].contains("Trip_Out")) {
-					if(f_HI_LOG_POWER_Trip_Out[i]==null) {
-						f_HI_LOG_POWER_Trip_Out[i] = splits[j].substring(index+1);
-					} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
-						f_HI_LOG_POWER_Trip_Out[i] += (" & \n" + splits[j].substring(index+1));
+				if(index>=0 && splits[j].substring(0,index).contains(output.substring(2,9))) { //variable name
+					for(int t=0;t<=k;t++) { //header loof
+						if(contextheader[t]!=null && splits[j].substring(0,index).contains(contextheader[t])) {
+							if(context[t][i]==null) {
+								context[t][i] = splits[j].substring(index+1);
+								if(context[t][i].substring(0,1).contains("=")) { //th_HI_LOG_POWER_Trip_Logic_state
+									context[t][i] = context[t][i].replace("= ", "");
+								}
+								if(splits[j].contains("!")) {
+									if(splits[j].contains("false")) context[t][i] = "true";
+									else if(splits[j].contains("true")) context[t][i] = "false";
+								}
+							} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
+								context[t][i] += (" & \n" + splits[j].substring(index+1));
+							}
+							temp = t;
+							break;
+						}
+						
+						/*if(t==k && k>0) { //not contains header but variable
+							contextheader[k] = splits[j].substring(0,index);
+							if(contextheader[k].contains("(A)")) {
+								int a= splits[j].indexOf("(A)");
+								contextheader[k] = contextheader[k].substring(a+3);
+							}
+							if(contextheader[k].contains("!")) {
+								contextheader[k] = contextheader[k].substring(0,contextheader[k].length()-1);
+								if(splits[j].contains("false")) context[k][i] = "true";
+								else context[k][i] = "false";
+							} else {
+								context[k][i] = splits[j].substring(index+1);
+							}
+							if(k<15-1) {k++;break;}
+							temp = t;
+						}*/
 					}
-				} else if(splits[j].contains("Trip_Logic")) {
-					if(th_HI_LOG_POWER_Trip_Logic[i]==null) {
-						th_HI_LOG_POWER_Trip_Logic[i] = splits[j].substring(index+1);
-					} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
-						th_HI_LOG_POWER_Trip_Logic[i] += (" & \n" + splits[j].substring(index+1));
+				} else if(index < 0) {
+					if(context[temp][i]==null || context[temp][i].contains("true") || context[temp][i].contains("false")) {
+						context[temp][i]=splits[j];
+					}else {
+						//context[temp][i] += (" & \n" +splits[j]);
 					}
-				} else if(splits[j].contains("Trip_Logic_State")) {
-					if(th_HI_LOG_POWER_Trip_Logic_State[i]==null) {
-						th_HI_LOG_POWER_Trip_Logic_State[i] = splits[j].substring(index+1);
-					} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
-						th_HI_LOG_POWER_Trip_Logic_State[i] += (" & \n" + splits[j].substring(index+1));
-					}
-				} else if(splits[j].contains("PV")) {
-					if(f_HI_LOG_POWER_PV[i]==null) {
-						splits[j]= splits[j].replace("f_HI_LOG_POWER_PV", "x");
-						f_HI_LOG_POWER_PV[i] = splits[j].substring(index+1);
-					} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
-						splits[j]= splits[j].replace("f_HI_LOG_POWER_PV", "x");
-						f_HI_LOG_POWER_PV[i] += (" & \n" + splits[j].substring(index+1));
-					}
-				} else if(splits[j].contains("Query")) {
-					if(f_HI_LOG_POWER_APT_Query[i]==null) {
-						f_HI_LOG_POWER_APT_Query[i] = splits[j].substring(index+1);
-					} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
-						f_HI_LOG_POWER_APT_Query[i] += (" & \n" + splits[j].substring(index+1));
-					}
-				} else if(splits[j].contains("Mod_Err")) {
-					if(f_HI_LOG_POWER_Mod_Err[i]==null) {
-						f_HI_LOG_POWER_Mod_Err[i] = splits[j].substring(index+1);
-					} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
-						f_HI_LOG_POWER_Mod_Err[i] += (" & \n" + splits[j].substring(index+1));
-					}
-				} else if(splits[j].contains("Chan_Err")) {
-					if(f_HI_LOG_POWER_Chan_Err[i]==null) {
-						f_HI_LOG_POWER_Chan_Err[i] = splits[j].substring(index+1);
-					} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
-						f_HI_LOG_POWER_Chan_Err[i] += (" & \n" + splits[j].substring(index+1));
-					}
-				} else if(splits[j].contains("PV_Err")) {
-					if(f_HI_LOG_POWER_PV_Err[i]==null) {
-						f_HI_LOG_POWER_PV_Err[i] = splits[j].substring(index+1);
-					} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
-						f_HI_LOG_POWER_PV_Err[i] += (" & \n" + splits[j].substring(index+1));
-					}
-				}
+				}		
 				j++;
 			}
-
-			
-			if(f_HI_LOG_POWER_Trip_Out[i]==null) {
-				f_HI_LOG_POWER_Trip_Out[i] = "N/A";
-			} 
-			if(th_HI_LOG_POWER_Trip_Logic[i]==null) {
-				th_HI_LOG_POWER_Trip_Logic[i] = "N/A";
-			} 
-			if(th_HI_LOG_POWER_Trip_Logic_State[i]==null) {
-				th_HI_LOG_POWER_Trip_Logic_State[i] = "N/A";
-			}
-			if(f_HI_LOG_POWER_PV[i]==null) {
-				f_HI_LOG_POWER_PV[i] = "N/A";
-			}
-			if(f_HI_LOG_POWER_APT_Query[i]==null) {
-				f_HI_LOG_POWER_APT_Query[i] = "N/A";
-			}
-			if(f_HI_LOG_POWER_Mod_Err[i]==null) {
-				f_HI_LOG_POWER_Mod_Err[i] = "N/A";
-			}
-			if(f_HI_LOG_POWER_Chan_Err[i]==null) {
-				f_HI_LOG_POWER_Chan_Err[i] = "N/A";
-			}
-			if(f_HI_LOG_POWER_PV_Err[i]==null) {
-				f_HI_LOG_POWER_PV_Err[i] = "N/A";
-			}
-				/*if(splits.length > 2) { // a ≤ x ≤ b
-				}else { // x ≤ a 
-					contexts[i] = "x <= " +  splits[1];
-				}*/
-			/*else if(temps[i].contains("≥")) {
-				String[] splits = temps[i].split("≥");
-				contexts[i] = "x >= " +  splits[1];
-			}else if(temps[i].contains("=")) { // x = true or false
-				String[] splits = temps[i].split("=");
-				contexts[i] = splits[1];
-			}else {
-				contexts[i] = "N/A";
-			}*/
 			i++;
 		}
-		//System.out.println(Arrays.toString(f_HI_LOG_POWER_Trip_Out));
 		
+		for(int x=0;x<k;x++) {
+			for(int y=0;y<100;y++) {
+				if(context[x][y]==null) {
+					context[x][y] = "N/A";
+				}
+			}
+		}
+		//System.out.println(Arrays.toString(f_HI_LOG_POWER_Trip_Out));
 	}
 	
 	private void MakeTable() {
-		
-		// 3. Create Data list ex
-		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
-		
-		int i=0;
-		while(i < no.length) {
-			mcsData.add(new CTM("Trip signal", "Not provided\ncauses hazard", i+1, f_HI_LOG_POWER_Trip_Out[i], th_HI_LOG_POWER_Trip_Logic[i], th_HI_LOG_POWER_Trip_Logic_State[i], f_HI_LOG_POWER_PV[i], f_HI_LOG_POWER_APT_Query[i], f_HI_LOG_POWER_Mod_Err[i], f_HI_LOG_POWER_Chan_Err[i], f_HI_LOG_POWER_PV_Err[i], FXCollections.observableArrayList("hihihi","hihihi1")));
-			i++;
-		};
-		/*mcsData = FXCollections.observableArrayList(
-			new CTM("Action", "case", i, f_HI_LOG_POWER_Trip_Out[i], f_HI_LOG_POWER_Chan_Err[i], FXCollections.observableArrayList("hihihi","hihihi1")),
-			new CTM("Action", "case", i, "ct12", "ct2", FXCollections.observableArrayList("hihihi")),
-			new CTM("Action", "case", i, "ct13", "ct2", FXCollections.observableArrayList("hihihi")),
-			new CTM("Action", "case", i, "ct14", "ct2", FXCollections.observableArrayList("hihihi")),
-			new CTM("Action", "case", i, "ct15", "ct2", FXCollections.observableArrayList("hihihi"))
-		);*/
-       
+		contextTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         // 4. Set table row 
         CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
    	 	casesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("cases"));
  	 	noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
- 	    contexts1Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts1"));
- 	    contexts2Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts2"));
- 	    contexts3Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts3"));
- 	    contexts4Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts4"));
- 	    contexts5Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts5"));
- 	    contexts6Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts6"));
- 	    contexts7Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts7"));
- 	    contexts8Column.setCellValueFactory(new PropertyValueFactory<CTM, String>("contexts8"));
- 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous?"));
-		
-		
+ 	    
+	   	CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
+	   	casesColumn.setCellValueFactory(cellData -> cellData.getValue().getCasesProperty());
+	   	noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
+
+	    contextTable.setEditable(true);
+	    
+ 		for(final int[] x= {0,};x[0]<k;x[0]++) {
+ 			TableColumn<CTM, String> contextColumn = new TableColumn<>(contextheader[x[0]]);
+ 			contextTable.getColumns().add(contextColumn);
+ 			contextColumn.setPrefWidth(80.0);
+ 			contextColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>(contextheader[x[0]]));
+ 			int temp = x[0];
+ 			contextColumn.setCellValueFactory(cellData -> cellData.getValue().getContextProperty(temp));
+ 			contextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+ 			contextColumn.setOnEditCommit(
+ 	            new EventHandler<CellEditEvent<CTM, String>>() {
+ 	                @Override
+ 	                public void handle(CellEditEvent<CTM, String> t) {
+ 	                    ((CTM) t.getTableView().getItems().get(
+ 	                        t.getTablePosition().getRow())
+ 	                        ).setContext(temp, t.getNewValue());
+ 	                }
+ 	            }
+ 	        );
+ 		}
+
+ 	    hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
  	    //test1.setCellValueFactory(new PropertyValueFactory<CTM, String>("test1"));
  	    //test2.setCellValueFactory(new PropertyValueFactory<CTM, String>("test2"));
  	    //contextsColumn.getColumns().addAll(test1,test2);
  	    
 	   	// 5. Put data in table
-	   	/*CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
-	   	casesColumn.setCellValueFactory(cellData -> cellData.getValue().getCasesProperty());
-	   	noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
-	   	contextsColumn.setCellValueFactory(cellData -> cellData.getValue().getContextsProperty());
-	   	hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());*/
+	   	//contextsColumn.setCellValueFactory(cellData -> cellData.getValue().getContextsProperty());
+	   	//hazardousColumn.setCellValueFactory(cellData -> cellData.getValue().getHazardousProperty());
 	   	//hazardousColumn.setCellFactory(ComboBoxTableCell.forTableColumn("Friends", "Family", "Work Contacts"));
+	    
+	    //contextTable.setEditable(true);
+	}
+	
+	public void fillContextTable() {
+		mcsData = FXCollections.observableArrayList();
+
+		hazardousOX = FXCollections.observableArrayList();
+		hazardousOX.add("O");
+		hazardousOX.add("X");
 		
-		//contextTable.getColumns().addAll(CAColumn,casesColumn);
+	    // 3. Create Data list ex
+		while(i < no.length) {
+			String[] contexts = new String[k];
+			for(int t=0;t<k;t++) {
+				contexts[t] = context[t][i];
+			}
+			ComboBox<String> comboBox = new ComboBox(hazardousOX);
+			//System.out.println(Arrays.toString(contexts));
+			mcsData.add(new CTM(CA, "Not provided\ncauses hazard", i+1, contexts, comboBox));
+			i++;
+		};
 	    contextTable.setItems(mcsData);
-	 	   
+	}
+	
+	@FXML
+	public void onEditChange(TableColumn.CellEditEvent<CTM, String> productStringCellEditEvent) {
+		CTM temp = contextTable.getSelectionModel().getSelectedItem();
+		System.out.println(temp);
+		System.out.println(productStringCellEditEvent.getRowValue());
+		
+
+		//System.out.println(temp.getContext(0));
+		//System.out.println(productStringCellEditEvent.getRowValue().getContext(0));
+		
+		//System.out.println(productStringCellEditEvent.getRowValue().getContext(0));
+		//context[productStringCellEditEvent.getTablePosition().getColumn()-3][productStringCellEditEvent.getTablePosition().getRow()]=productStringCellEditEvent.getNewValue();
+		//System.out.println(context[productStringCellEditEvent.getTablePosition().getColumn()-3][productStringCellEditEvent.getTablePosition().getRow()]);
+		//mcsData.set(temp.getNo()-1, productStringCellEditEvent.getRowValue());
+		
+		//System.out.println(mcsData.get(temp.getNo()-1).getContext(0));
+		//Todo :: @@@@@@@@Edit Value@@@@@@@@@@
+		
 	}
 	
 	public ObservableList<CTM> getContextTableData() {
-
 	       System.out.println(myTable.get(0));
 	      return myTable;
-	   }
+	}
+	
+	@FXML
+	public void addContext(ActionEvent actionEvent) {
+		//CTM newContext = new CTM(TextFieldCA.getText(), TextFieldCases.getText(), ++i, TextFieldContext1.getText(), TextFieldContext2.getText(), TextFieldContext3.getText(), TextFieldContext4.getText(), TextFieldContext5.getText(), TextFieldContext6.getText(), TextFieldContext7.getText(), TextFieldContext8.getText(), FXCollections.observableArrayList("O","X"));
+		//contextTable.getItems().add(newContext);
+	}
+	
+	@FXML
+	public void closeAddFile(ActionEvent actionEvent) {
+
+		effectiveVariable = mainApp.models.getValuelist();
+		CA = mainApp.models.getControlActionName();
+		output = mainApp.models.getOutputName();
+		System.out.println("eV:"+effectiveVariable);
+		System.out.println("CA:"+CA);
+		System.out.println("output:"+output);
+		
+		if(k==0) {
+			contextheader[k++] = output;
+		}
+		for(int x=0;x<effectiveVariable.size();x++) {
+			contextheader[k++] = effectiveVariable.get(x);
+		}
+		
+		
+		final TextField addCA = new TextField();
+		addCA.setPromptText("Control Action");
+		addCA.setMaxWidth(CAColumn.getPrefWidth());
+        final TextField addCases = new TextField();
+        addCases.setMaxWidth(casesColumn.getPrefWidth());
+        addCases.setPromptText("cases");
+        /*final TextField addHazardous = new TextField();
+        addHazardous.setMaxWidth(hazardousColumn.getPrefWidth());
+        addHazardous.setPromptText("hazardous");*/
+        final TextField addContext = new TextField();
+        addContext.setMaxWidth(hazardousColumn.getPrefWidth());
+        addContext.setPromptText("contexts");
+        String[] contexts = new String[1];
+		for(int t=0;t<1;t++) {
+			contexts[t] = addContext.getText();
+		}
+ 
+        final Button addButton = new Button("Add");
+		hazardousOX = FXCollections.observableArrayList();
+		hazardousOX.add("O");
+		hazardousOX.add("X");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+        		ComboBox<String> comboBox = new ComboBox(hazardousOX);
+                mcsData.add(new CTM(addCA.getText(),addCases.getText(),i++,contexts,comboBox));
+                addCA.clear();
+                addCases.clear();
+                //addHazardous.clear();
+            }
+        });
+        hb.getChildren().addAll(addCA, addCases, addContext, addButton);
+        hb.setSpacing(3);
+ 
+        /*final VBox vbox = new VBox();
+        vbox.setSpacing(5);
+        vbox.setPadding(new Insets(10, 0, 0, 10));
+        vbox.getChildren().addAll(contextTable, hb);
+        vbox.show();*/
+		
+		AddFile.getChildren().clear();
+		MakeTable();
+	}
+	
 }
