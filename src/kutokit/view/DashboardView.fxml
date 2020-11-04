@@ -134,7 +134,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="40.0" layoutY="598.0" mnemonicParsing="false" onAction="#toUtmController" prefHeight="80.0" prefWidth="200.0" text="4. Identify Loss Scenarios" wrapText="true">
+            <Button layoutX="40.0" layoutY="598.0" mnemonicParsing="false" onAction="#toLsController" prefHeight="80.0" prefWidth="200.0" text="4. Identify Loss Scenarios" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font>

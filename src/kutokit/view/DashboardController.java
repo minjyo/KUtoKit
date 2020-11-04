@@ -53,6 +53,12 @@ public class DashboardController implements Initializable{
 		this.mainApp.showUtmView();
 	}
 
+	//click button 4. Identify loss scenario
+	@FXML
+	private void toLsController() {
+		this.mainApp.showLsView();
+	}
+		
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 //		//CSE
@@ -61,5 +67,7 @@ public class DashboardController implements Initializable{
 //		}else {
 //			cseBtn.setDisable(false);
 //		}
+
 	}
+	
 }
