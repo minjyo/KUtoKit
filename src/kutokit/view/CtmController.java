@@ -72,6 +72,7 @@ public class CtmController {
 	ObservableList<String> effectiveVariable;
 	String CA;
 	String output;
+	String ControllerName;
 	
 	int i=0, k=0; //k=headers length
 	
@@ -83,15 +84,18 @@ public class CtmController {
 	//set MainApp
 	public void setMainApp(MainApp mainApp)  {
 		this.mainApp = mainApp;
+		mcsData = FXCollections.observableArrayList();
 		ctmDataStore = mainApp.ctmDataStore;
 		mcsData = ctmDataStore.getCTMTableList();
 		
 		effectiveVariable = mainApp.models.getValuelist();
 		CA = mainApp.models.getControlActionName();
 		output = mainApp.models.getOutputName();
+		ControllerName = mainApp.models.getControllerName();
 		System.out.println("eV:"+effectiveVariable);
 		System.out.println("CA:"+CA);
 		System.out.println("output:"+output);
+		System.out.println("ControllerName:"+ControllerName);
 		
 		if(k==0 && output!=null) {
 			contextheader[k++] = output;
@@ -100,6 +104,15 @@ public class CtmController {
 			contextheader[k++] = effectiveVariable.get(x);
 		}
 		
+
+        final Button fileButton = new Button("File PopUp");
+        fileButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+        		AddFile.setVisible(!AddFile.isVisible());
+            }
+        });
+        hb.getChildren().addAll(fileButton);
 		
 		final TextField addCA = new TextField();
 		addCA.setPromptText("Control Action");
@@ -129,18 +142,21 @@ public class CtmController {
         		ComboBox<String> comboBox = new ComboBox(hazardousOX);
         		for(int t=0;t<k;t++) {
         			contexts[t] = addContexts[t].getText();
+        			context[t][i] = addContexts[t].getText();
         			addContexts[t].clear();
         		}
                 mcsData.add(new CTM(addCA.getText(),addCases.getText(),1+i++,contexts,comboBox));
         	    contextTable.setItems(mcsData);
                 addCA.clear();
                 addCases.clear();
-                //addContext.clear();
             }
         });
         hb.getChildren().addAll(addButton);
         hb.setSpacing(3);
         CTMPane.getChildren().addAll(hb);
+        
+
+        this.MakeTable();
 	}
 
 	private void initialize(){
@@ -150,16 +166,9 @@ public class CtmController {
 	
 	@FXML
 	public void AddFile() {
-		effectiveVariable = mainApp.models.getValuelist();
-		CA = mainApp.models.getControlActionName();
-		output = mainApp.models.getOutputName();
-		System.out.println("eV:"+effectiveVariable);
-		System.out.println("CA:"+CA);
-		System.out.println("output:"+output);
         FileChooser fc = new FileChooser();
         fc.setTitle("Add File");
         // fc.setInitialDirectory(new File("C:/")); // default 디렉토리 설정
-        // minjyo - mac
         fc.setInitialDirectory(new File(Info.directory));
         // 확장자 제한
         ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
@@ -167,8 +176,6 @@ public class CtmController {
          
 	    selectedFile =  fc.showOpenDialog(null);
         if(selectedFile != null) {
-	        //System.out.println(selectedFile); 
-	        //System.out.println(selectedFile.getName());
 	        filename.setText(selectedFile.getName());
         }
     }
@@ -197,8 +204,8 @@ public class CtmController {
 	            
 	            this.ParseMSC(temps);
 	            
-	            
-	            this.MakeTable();
+
+	            //this.MakeTable();
 	            this.fillContextTable();
 
 	            //bis.close();    
@@ -323,8 +330,6 @@ public class CtmController {
 	}
 	
 	public void fillContextTable() {
-		mcsData = FXCollections.observableArrayList();
-
 		hazardousOX = FXCollections.observableArrayList();
 		hazardousOX.add("O");
 		hazardousOX.add("X");
@@ -336,7 +341,6 @@ public class CtmController {
 				contexts[t] = context[t][i];
 			}
 			ComboBox<String> comboBox = new ComboBox(hazardousOX);
-			//System.out.println(Arrays.toString(contexts));
 			mcsData.add(new CTM(CA, "Not provided\ncauses hazard", i+1, contexts, comboBox));
 			i++;
 		};
@@ -376,11 +380,8 @@ public class CtmController {
 	
 	@FXML
 	public void closeAddFile(ActionEvent actionEvent) {
-
-		
-		
-		AddFile.getChildren().clear();
-		MakeTable();
+		AddFile.setVisible(false);
+		//MakeTable();
 	}
 	
 }
