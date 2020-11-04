@@ -85,7 +85,7 @@ public class ProjectXML {
 	
 	
 	// --------------------------- CSE --------------------------
-	@XmlElement(name = "CSEontroller")
+	@XmlElement(name = "CSEcontroller")
 	public ArrayList<Controller> getControllers() {
 		return controllers;
 	}
@@ -130,7 +130,7 @@ public class ProjectXML {
 	
 	
 	// --------------------------- PMM --------------------------
-	@XmlElement(name = "Controller")
+	@XmlElement(name = "PMMController")
 	public String getControllerName() {
 		return controller;
 	}
@@ -138,7 +138,7 @@ public class ProjectXML {
 		this.controller = controllerName;
 	}
 	
-	@XmlElement(name = "ControlAction")
+	@XmlElement(name = "PMMControlAction")
 	public String getControlActionName() {
 		return controlAction;
 	}

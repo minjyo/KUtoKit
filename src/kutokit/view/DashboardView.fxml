@@ -28,7 +28,7 @@
             <Line endY="43.0" layoutX="140.0" layoutY="240.0" startY="-33.0" />
             <Line endY="43.0" layoutX="140.0" layoutY="396.0" startY="-33.0" />
             <Line endY="43.0" layoutX="139.0" layoutY="553.0" startY="-33.0" />
-            <Button layoutX="41.0" layoutY="284.0" mnemonicParsing="false" onAction="#toCseController" prefHeight="80.0" prefWidth="200.0" text="2. Model the Control Structure" wrapText="true">
+            <Button fx:id="cseBtn" layoutX="41.0" layoutY="284.0" mnemonicParsing="false" onAction="#toCseController" prefHeight="80.0" prefWidth="200.0" text="2. Model the Control Structure" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font>
