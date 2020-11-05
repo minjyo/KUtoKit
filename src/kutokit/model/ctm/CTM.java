@@ -27,12 +27,20 @@ public class CTM {
 	public String Hazardous;
 	public String[] Contexts;
 
+	public CTM(){
+
+	}
+
 	public CTM(String controlAction, String cases, int no, String[] contexts, ComboBox<String> hazardous) {
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.cases = new SimpleStringProperty(cases);
 		this.no = new SimpleIntegerProperty(no);
 		this.hazardous = hazardous;
 		hazardous.setValue("X");
+		hazardous.setOnAction(event ->{
+			this.Hazardous = hazardous.getSelectionModel().getSelectedItem();
+			System.out.println(this.Hazardous);
+		});
 
 		this.contexts = new StringProperty[contexts.length];
 
@@ -45,26 +53,33 @@ public class CTM {
 		this.No = no;
 		this.Contexts = contexts;
 		this.Hazardous = hazardous.getValue();
+	}
 
-
+	public void setCTMInit(){
+		this.controlAction = new SimpleStringProperty(this.ControlAction);
+		this.cases = new SimpleStringProperty(this.Cases);
+		this.no = new SimpleIntegerProperty(this.No);
+		this.contexts = new StringProperty[Contexts.length];
+		for(int i=0;i<Contexts.length;i++) {
+			this.contexts[i] = new SimpleStringProperty(Contexts[i]);
+		}
 	}
 
 	public String getContext(int i) {
 		return contexts[i].get();
 	}
-	
+
 	public StringProperty getContextProperty(int i) {
-		//System.out.println("property["+i+"]:"+test[i]);
 		return contexts[i];
 	}
 	public void setContext(int i, String val) {
 		this.contexts[i].set(val);
 	}
-	
+
 	public String getControlAction() {
 		return controlAction.get();
 	}
-	
+
 	public StringProperty getControlActionProperty() {
 		return controlAction;
 	}
@@ -75,38 +90,41 @@ public class CTM {
 	public String getCases() {
 		return cases.get();
 	}
-	
+
 	public StringProperty getCasesProperty() {
 		return cases;
 	}
 	public void setCases(String val) {
 		this.cases.set(val);
 	}
-	
+
 	public int getNo() {
 		return no.get();
 	}
-	
+
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
-	
-	public ComboBox getHazardous() {
+
+	public ComboBox getHazardousList() {
 		return hazardous;
 	}
-	
+
+	public String getHazardous(){
+		return Hazardous;
+	}
+
 	public String getHazardousValue() {
 		return Hazardous;
 	}
 
 	public void setHazardous(ComboBox val) {
 		this.hazardous = val;
-		Hazardous = hazardous.getValue();
-	}
-	
-	public void setHazardousValue(String val) {
-		this.hazardous.setValue(val);
-		Hazardous = hazardous.getValue();
+		this.hazardous.setValue(Hazardous);
+		hazardous.setOnAction(event ->{
+			this.Hazardous = hazardous.getSelectionModel().getSelectedItem();
+			System.out.println(this.Hazardous);
+		});
 	}
 
 
