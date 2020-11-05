@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
@@ -18,13 +20,13 @@
       <Text layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PmmView" />
       <Group layoutX="62.0" layoutY="-148.0">
          <children>
-            <Rectangle fx:id="CA" arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="483.0" layoutX="6.0" layoutY="290.0" stroke="WHITE" strokeType="INSIDE" width="865.0" />
-            <Label layoutX="606.0" layoutY="724.0" text="f_LO_SG1_LEVEL_Val_Out">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="542.0" layoutX="-45.0" layoutY="290.0" stroke="WHITE" strokeType="INSIDE" width="957.0" />
+            <Label layoutX="133.0" layoutY="761.0" text="Control Action Name">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <ListView fx:id="PM" layoutX="48.0" layoutY="330.0" onMouseClicked="#selectValue" prefHeight="384.0" prefWidth="477.0" />
+            <ListView fx:id="PM" layoutX="1.0" layoutY="350.0" onMouseClicked="#selectValue" prefHeight="384.0" prefWidth="477.0" />
             <Pane fx:id="addFile" layoutX="378.0" layoutY="473.0" prefHeight="118.0" prefWidth="200.0" visible="false">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="38.0" layoutY="-14.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
@@ -41,7 +43,7 @@
                   </AnchorPane>
                </children>
             </Pane>
-            <VBox layoutX="542.0" layoutY="330.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+            <VBox layoutX="501.0" layoutY="369.0" prefHeight="200.0" prefWidth="56.0" spacing="10.0">
                <children>
                   <ImageView fitHeight="58.0" fitWidth="49.0" onMouseClicked="#openFile" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -54,6 +56,32 @@
                      </image>
                   </ImageView>
                </children>
+            </VBox>
+            <VBox layoutX="602.0" layoutY="321.0" prefHeight="497.0" prefWidth="262.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Controller" />
+                  <ChoiceBox fx:id="controllerList" prefHeight="34.0" prefWidth="217.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Control Action" />
+                  <ChoiceBox fx:id="CAList" prefHeight="34.0" prefWidth="217.0" />
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#showOutput" text="Show output variables" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="20.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <ListView fx:id="outputList" prefHeight="192.0" prefWidth="253.0">
+                     <VBox.margin>
+                        <Insets right="10.0" />
+                     </VBox.margin>
+                  </ListView>
+                  <Button mnemonicParsing="false" onMouseClicked="#applyFile" text="Create Process model">
+                     <VBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+               </padding>
             </VBox>
          </children>
       </Group>

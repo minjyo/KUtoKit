@@ -300,7 +300,7 @@ public class MainApp extends Application {
 			 // --------------------------- PMM --------------------------
 		        models.setControllerName(projectXML.getControllerName());;
 		        models.setControlActionName(projectXML.getControlActionName());
-		        models.setOutputName(projectXML.getOutputVariableName());
+		        models.setOutputNames(projectXML.getOutputVariableName());
 		        models.getValuelist().addAll(projectXML.getValueList());
 			 // --------------------------- PMM --------------------------
 
@@ -346,7 +346,7 @@ public class MainApp extends Application {
 		 // --------------------------- PMM --------------------------
 	        projectXML.setControllerName(models.getControllerName());
 	        projectXML.setControlActionName(models.getControlActionName());
-	        projectXML.setOutputVariableName(models.getOutputName());
+	        projectXML.setOutputVariableName(models.getOutputNames());
 	        projectXML.setValueList(models.getValuelist());
 		 // --------------------------- PMM --------------------------
 

@@ -46,8 +46,8 @@ public class ProjectXML {
 	
 	// --------------------------- PMM --------------------------
 	private String controller;
-	private String controlAction;
-	private String outputVariable;
+	private ArrayList<String> controlAction = new ArrayList<String>();
+	private ArrayList<String> outputVariable = new ArrayList<String>();
 	private ObservableList<String> valueList = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
@@ -139,19 +139,19 @@ public class ProjectXML {
 	}
 	
 	@XmlElement(name = "PMMControlAction")
-	public String getControlActionName() {
+	public ArrayList<String> getControlActionName() {
 		return controlAction;
 	}
-	public void setControlActionName(String controlActionName) {
-		this.controlAction = controlActionName;
+	public void setControlActionName(ArrayList<String> controlActionName) {
+		this.controlAction.addAll(controlActionName);
 	}
 	
 	@XmlElement(name = "OutputVariable")
-	public String getOutputVariableName() {
+	public ArrayList<String> getOutputVariableName() {
 		return outputVariable;
 	}
-	public void setOutputVariableName(String OutputVariableName) {
-		outputVariable = OutputVariableName;
+	public void setOutputVariableName(ArrayList<String> outputVariables) {
+		this.outputVariable.addAll(outputVariables);
 	}
 	
 	@XmlElement(name = "Valuelist")
