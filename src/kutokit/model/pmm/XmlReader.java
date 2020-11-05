@@ -2,7 +2,9 @@
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,6 +35,7 @@ public class XmlReader {
 	public static final String TARGET_EXPRESSION = "/target[@refName='";
 	public static final String SOURCE_EXPRESSION = "/source";
 	public static final String ASSIGN_EXPRESSION = "/assignments";
+	public static final String OUTPUT_EXPRESSION = ".//output";
 	public static String firstLetter = "";
 	
 	public XmlReader(String filePath) {
@@ -88,23 +91,6 @@ public class XmlReader {
 			e.printStackTrace();
 		}
 		return findedNode;
-	}
-
-	// Get all FOD/SDT/TTS/FSM NodeList
-	public static NodeList showValidFods() {
-
-		NodeList fodNodes = XmlReader.getNodeList(XmlReader.getRootFod(), "//FOD");	// '//SDT, //FSM'	
-		
-		System.out.println(fodNodes.getLength());
-		for(int i = 0; i < fodNodes.getLength(); i ++) {
-			try {
-				String name = fodNodes.item(i).getAttributes().getNamedItem("name").getTextContent();
-				System.out.println(name);
-			}catch(Exception e) {
-				System.out.println(fodNodes.getLength());
-			}
-		}
-		return fodNodes;
 	}
 
 	// Get SDT/TTS/FSM variables list
@@ -210,9 +196,74 @@ public class XmlReader {
 	public static boolean isEmpty(String str) {
 		return str == null || str.isEmpty();
 	}
+	
+	
+	public static List<String> getOutputs() {
+		NodeList outputNodes = null;
+		List<String> outputList = new ArrayList<String>();
+		try {
+			outputNodes = (NodeList) xPath.compile(OUTPUT_EXPRESSION).evaluate(XmlReader.getRootFod(), XPathConstants.NODESET);
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		List<Node> outputs = new ArrayList<Node>();
 
-//	public static void main(String args[]) {
-//        XmlReader reader = new XmlReader("NuSCR_example.xml");
-//        reader.getTransitionNodes(reader.getNode("th_LO_SG1_LEVEL_Trip_Logic"));
-//	}
+		for(int i = 0; i < outputNodes.getLength(); i ++) {
+			            //String name = outputNodes.item(i).getAttributes().getNamedItem("name").getTextContent();
+			            //System.out.println("output : " + name);
+			outputs.add(outputNodes.item(i));
+
+		}
+
+		TreeSet<String> tree = new TreeSet<String>();
+	    for(Node value: outputs) {
+	    	tree.add(value.getAttributes().getNamedItem("name").getTextContent());
+	    }      
+	    
+	    Iterator<String> it = tree.iterator();
+        while ( it.hasNext() ) {
+        	outputList.add((String) it.next());
+        }
+		return outputList;
+	}
+	
+	public static List<Node> showValidFods() {
+
+		NodeList fodNodes = XmlReader.getNodeList(XmlReader.getRootFod(), XmlReader.FOD_EXPRESSION);
+		List<Node> validFods = new ArrayList<Node>();
+
+		for(int i = 0; i < fodNodes.getLength(); i ++) {
+			String name = fodNodes.item(i).getAttributes().getNamedItem("name").getTextContent();
+
+			if(XmlReader.getNode(fodNodes.item(i), "FOD") == null) {
+				validFods.add(fodNodes.item(i));
+			} else {
+			}
+
+		}
+
+		return validFods;
+	}
+	
+	public static Node getNode(Node node, String nodeName) {
+
+		Node findedNode = null;
+		String nodeExpression = ".//" + nodeName;
+
+		try {
+			findedNode = (Node) xPath.compile(nodeExpression).evaluate(node, XPathConstants.NODE);
+			//            //system.out.println("findedNode name : " + findedNode.getNodeName());
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+
+		return findedNode;
+	}
+	
+	public static void main(String args[]) {
+		XmlReader reader = new XmlReader("NuSCR_example.xml");
+		List<String> list = reader.getOutputs();
+		
+		
+	}
 }
