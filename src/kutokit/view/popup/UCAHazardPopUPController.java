@@ -27,7 +27,6 @@ public class UCAHazardPopUpController {
 			System.out.println(2);
 		}
 
-		hazardData.add(new LHC("L","H","C"));
 		//error
 //				hazardousTableView.setItems(hazardData);
 //

@@ -34,7 +34,7 @@ public class UtmController {
 
 	@FXML private TableView<UCA> ucaTable;
 	@FXML private TableColumn<UCA, String> CAColumn, providingColumn, notProvidingColumn, incorrectColumn, stoppedColumn;//,linkColumn;
-//	@FXML private TableColumn<UCA,String> linkColumn;
+//	@FXML private TableColumn<UCA,ObservableList<String>> linkColumn;
 	@FXML private TableColumn linkColumn;
 
 	private ContextMenu menu;
@@ -42,7 +42,7 @@ public class UtmController {
 	private ObservableList<LHC> hazardData = FXCollections.observableArrayList();
 	private static ObservableList<UCA> ucaData =FXCollections.observableArrayList();
 	private ObservableList<CTM> ctmData = FXCollections.observableArrayList();
-	private ObservableList<String> hazardousList = FXCollections.observableArrayList();
+	private ObservableList<String> hazardousList = FXCollections.observableArrayList("None");
 
 	UCAHazardPopUpController ucaPopUp;
 
@@ -52,14 +52,11 @@ public class UtmController {
 
 	private void initialize()
 	{
-        if(ucaTable==null)
-        {
-        	System.out.println(5);
-        }
 
 		dataStore = MainApp.ucadatastore;
+
 		hazardData = MainApp.lhcDataStore.getHazardTableList();
-//		System.out.println(hazardData.get(0).getIndex());
+
 		ucaData = dataStore.getUCATableList();
 		ctmData = MainApp.ctmDataStore.getCTMTableList();
 
@@ -103,11 +100,6 @@ public class UtmController {
 	}
 
 	public void setUcaTable() {
-
-//		ObservableList<String> hazardousList = FXCollections.observableArrayList();
-
-
-
 		 if(ucaData.isEmpty())
 		{
 			//Get hazardous
@@ -122,14 +114,16 @@ public class UtmController {
 			ComboBox<String> combobox0 = new ComboBox<String>(hazardousList);
 			uca = new UCA("example","new","table","control","action1",combobox0);
 			ucaData.add(uca);
-
 		}else{
+
 			hazardousList.removeAll(hazardousList);
+			hazardousList.add("None");
 			for(LHC l : hazardData){
 				hazardousList.add(l.getIndex());
 			}
 			for(UCA u : ucaData){
-				u.setLink(new ComboBox<String>(hazardousList));
+				u.setUCAInit();
+				u.setLinkList(new ComboBox<String>(hazardousList));
 			}
 		}
 
@@ -141,11 +135,8 @@ public class UtmController {
 		notProvidingColumn.setCellValueFactory(cellData -> cellData.getValue().getNotProvidingCausesHazard());
 		incorrectColumn.setCellValueFactory(cellData -> cellData.getValue().getIncorrectTimingOrOrder());
 		stoppedColumn.setCellValueFactory(cellData -> cellData.getValue().getStoppedTooSoonOrAppliedTooLong());
-		linkColumn.setCellValueFactory(new PropertyValueFactory<UCA, String>("Link"));
-//		linkColumn.setCellValueFactory(cellData ->);
+		linkColumn.setCellValueFactory(new PropertyValueFactory<UCA,String>("linkLists"));
 
-
-//	    linkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		CAColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 	    providingColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 	    notProvidingColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -200,7 +191,7 @@ public class UtmController {
 		ctmData = mainApp.ctmDataStore.getCTMTableList();
 		if(!ctmData.isEmpty()){
 			for(CTM c : ctmData){
-				if(c.getHazardous().getValue()=="O"){
+				if(c.getHazardousList().getValue()=="O"){
 					ucaData.add(new UCA(c.getControlAction(),"","","","",new ComboBox<String>(hazardousList)));
 				}
 			}

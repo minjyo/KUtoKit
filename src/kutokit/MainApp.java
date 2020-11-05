@@ -36,7 +36,6 @@ public class MainApp extends Application {
 
 	 private Stage primaryStage;
 	 private BorderPane rootLayout;
-	 private CtmController controller;
 
 	 public static Components components;
 	 public static LhcDataStore lhcDataStore;
@@ -147,7 +146,7 @@ public class MainApp extends Application {
             rootLayout.setCenter(View);
 
             //add controller
-            controller = loader.getController();
+            CtmController controller = loader.getController();
             controller.setMainApp(this);
 
         } catch (IOException e) {
@@ -197,7 +196,7 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-    
+
     /*
      * called when dashboard button clicked
      */
@@ -219,7 +218,7 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-	
+
 	/*
 	 * called when loss scenario button clicked
 	 */
@@ -230,14 +229,14 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
             AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout 
+            // add scene in center of root layout
             rootLayout.setCenter(View);
-            
+
             //add controller
             LsController controller = loader.getController();
             controller.setMainApp(this);
-            
-            
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -293,6 +292,8 @@ public class MainApp extends Application {
 
 
 		     // --------------------------- UTM --------------------------
+		       //if open reset
+//		        ucadatastore.getUCATableList().remove(0, ucadatastore.getUCATableList().size());
 		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
 		     // --------------------------- UTM --------------------------
 
@@ -302,6 +303,12 @@ public class MainApp extends Application {
 		        models.setOutputName(projectXML.getOutputVariableName());
 		        models.getValuelist().addAll(projectXML.getValueList());
 			 // --------------------------- PMM --------------------------
+
+
+			 // --------------------------- CTM --------------------------
+		        ctmDataStore.getCTMTableList().addAll(projectXML.getCTMList());
+   	         // --------------------------- CTM --------------------------
+
 
 		        setFilePath(file);
 
@@ -330,7 +337,7 @@ public class MainApp extends Application {
 	        projectXML.setHazardList(lhcDataStore.getHazardTableList());
 	        projectXML.setConstraintList(lhcDataStore.getConstraintTableList());
 	     // --------------------------- LHC --------------------------
-	        
+
 	     // --------------------------- CSE --------------------------
 	        projectXML.setControllers(components.getControllers());
 	        projectXML.setControlActions(components.getControlActions());
@@ -349,7 +356,9 @@ public class MainApp extends Application {
 	        projectXML.setValueList(models.getValuelist());
 		 // --------------------------- PMM --------------------------
 
-
+		 // --------------------------- CTM --------------------------
+	        projectXML.setCTMList(ctmDataStore.getCTMTableList());
+	     // --------------------------- CTM --------------------------
 
 	        m.marshal(projectXML, file);
 	        setFilePath(file);
