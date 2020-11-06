@@ -21,7 +21,7 @@
       <Group layoutX="62.0" layoutY="-148.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="542.0" layoutX="-45.0" layoutY="290.0" stroke="WHITE" strokeType="INSIDE" width="957.0" />
-            <Label layoutX="133.0" layoutY="761.0" text="Control Action Name">
+            <Label fx:id="CANameBar" layoutX="133.0" layoutY="761.0" text="Control Action Name">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
@@ -43,20 +43,11 @@
                   </AnchorPane>
                </children>
             </Pane>
-            <VBox layoutX="501.0" layoutY="369.0" prefHeight="200.0" prefWidth="56.0" spacing="10.0">
-               <children>
-                  <ImageView fitHeight="58.0" fitWidth="49.0" onMouseClicked="#openFile" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../assets/xmlfile.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="49.0" onMouseClicked="#selectPM" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../assets/newValue.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
+            <ImageView fitHeight="50.0" fitWidth="49.0" layoutX="510.0" layoutY="350.0" onMouseClicked="#selectPM" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/newValue.png" />
+               </image>
+            </ImageView>
             <VBox layoutX="602.0" layoutY="321.0" prefHeight="497.0" prefWidth="262.0" spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Controller" />

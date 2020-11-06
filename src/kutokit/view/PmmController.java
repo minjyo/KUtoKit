@@ -55,45 +55,53 @@ public class PmmController{
 	private Components components;
 	
 	private ProcessModel dataStore;
-	private String controllerName; // Selected controller from CSE
-	private ArrayList<String> controlAction[]; // 모든 control action from CSE
+	private ArrayList<String> controllerName = new ArrayList<String>(); // Selected controller from CSE
+	private ArrayList<String> controlAction = new ArrayList<String>(); // 모든 control action from CSE
 	private ArrayList<String> selectedCA = new ArrayList<String>();// 선택된 control action 저장 
+	private ArrayList<String> selectedOutput = new ArrayList<String>(); // 선택된 output Variables 저장 
 	
 	private ObservableList<String> allOutput = FXCollections.observableArrayList(); // 추출된 output Variables 저장
-	private ObservableList<String> selectedOutput = FXCollections.observableArrayList(); // 선택된 output Variables 저장 
 	private ObservableList<String> valuelist = FXCollections.observableArrayList(); // 추출된 value list 저장
+	private ObservableList<String> list = FXCollections.observableArrayList(); 
 
 	private Stage valueStage = new Stage();
 	private ContextMenu contextMenu = new ContextMenu();
 	private MenuItem item1, item2;
+	public String curOutput;
 	
-	@FXML private Label fileName;
+	@FXML private Label fileName, CANameBar;
 	@FXML private Pane addFile;
 	@FXML private ChoiceBox<String> controllerList, CAList;
 	@FXML private ListView<String> outputList, PM;
 
-	public String curOutput; // 연관변수를 추출해야할 temp 변수
-
 	public PmmController() {
+
 	}
 
 	// Get Controller, all of CA from CSE DataStore
-	public void selectController() {		
-		Controller controller = components.curController;
-		controllerName = controller.getName();
-
-		Map<Integer, Integer> controlActions = controller.getCA();
-		controlAction = new ArrayList[controlActions.size()];
-		int i=0;
-		for(Integer ca : controlActions.keySet()) {
-			controlAction[i] = components.findControlAction(ca).getCA();
-			i++;
+	public void selectController() {	
+		Controller controller = null;
+		if( components.curController == null) {
+			controllerName = dataStore.getControllerName();
+			
+			controlAction = dataStore.getAllCA();
+		} else {
+			controller = components.curController;
+			controllerName.add(controller.getName());	
+			
+			Map<Integer, Integer> controlActions = controller.getCA();
+			int i=0;
+			for(Integer ca : controlActions.keySet()) {
+				controlAction.addAll(components.findControlAction(ca).getCA());
+				i++;
+			}	
+			dataStore.setAllCA(controlAction);
+			
 		}
+		controllerList.getItems().addAll(controllerName);
+		controllerList.setValue(controllerName.get(0));
 		
-		controllerList.getItems().add(controllerName);
-		controllerList.setValue(controllerName);
-		
-		for( ArrayList<String> ca : controlAction) {
+		for( String ca : controlAction) {
 			CAList.getItems().addAll(ca);			
 		}
 	}
@@ -104,12 +112,13 @@ public class PmmController{
 		dataStore.setControllerName(controllerName);
 		String curCA = CAList.getSelectionModel().getSelectedItem();
 		System.out.println("cur ca : "+curCA);
+		CANameBar.setText(curCA);
 		selectedCA.add(curCA);
-		dataStore.setControlActionName(selectedCA);
-		
+		System.out.println(selectedCA);
 		addFile.setVisible(true);
 		
 	}
+
 	@FXML
 	public void selectPM(MouseEvent e) {
 		
@@ -228,14 +237,22 @@ public class PmmController{
 	@FXML
 	public void applyFile() {
 		addFile.getChildren().clear();
+		PM.getItems().clear();
 		// Create XmlReader constructor
         reader = new XmlReader(selectedFile.getName());
         
 		// Make process model
 		if(selectedFile != null && !allOutput.isEmpty()) { 
+			
+			// Save selected Output
+			for(String data : list) {
+				selectedOutput.add(data);
+			}
+			dataStore.setOutputNames(selectedOutput);
+			
 			System.out.println("프로세스 모델 생성");
 			System.out.println(selectedFile);
-			this.makeModel(allOutput);
+			this.makeModel(selectedOutput);
 		}  
 		
 		// Get output variables
@@ -247,11 +264,6 @@ public class PmmController{
 			}
 			dataStore.setAllOutput(allOutput);
 			outputList.setItems(allOutput);
-			
-			outputList.setOnMouseClicked((MouseEvent e) ->{
-				selectedOutput = outputList.getSelectionModel().getSelectedItems();
-				// System.out.println(outputVariable);
-			});
 		}
 		close();
 	}
@@ -262,12 +274,12 @@ public class PmmController{
 	}
 	
 	// Search & remove expressions from value
-	public List<String> checkValue(String[] valueName) {
+	public List<String> checkValue(String[] valueName, ArrayList<String> outputVariables) {
 
 		String[] expressions = { "<", ">", "=", ":=", "&", "|", "\\+", ">=", "<=", ":" };
-		String[] conditions = { "true", "false", curOutput, "k_", "g_"}; 
-		List<String> values = new ArrayList();
-		List<String> result = new ArrayList();
+		String[] conditions = { "true", "false", "k_", "g_" , curOutput}; 
+		List<String> values = new ArrayList<String>();
+		List<String> result = new ArrayList<String>();
 
 		String[] innerstr = new String[1];
 		String arg; // plus
@@ -293,7 +305,7 @@ public class PmmController{
 					// System.out.println("expression : "+arg);
 					next = str.indexOf(arg);
 					innerstr[0] = str.substring(0, next);
-					for(Object checked: checkValue(innerstr)) {
+					for(Object checked: checkValue(innerstr, outputVariables)) {
 						values.add((String) checked);	
 					}
 					str = str.substring(next+1);
@@ -318,81 +330,103 @@ public class PmmController{
 		
 		// 2. Check conditions in values
 		for(String str : values) {
+			int close = 0;
 			str = str.trim();
+			
 			if("".equals(str)) continue;
-			else if ((conditions[0].equals(str)) || ((conditions[1]).equals(str)) || (conditions[2].equals(str))) continue;
-			else if( conditions[3].equals(str.substring(0,2)) || conditions[4].equals(str.substring(0,2))) continue;
+			else if ((conditions[0].equals(str)) || ((conditions[1]).equals(str)) || (conditions[4].equals(str))) continue;
+			else if( conditions[2].equals(str.substring(0,2)) || conditions[3].equals(str.substring(0,2))) continue;
 			else {
-				result.add(str);
+				for(String output : outputVariables) {
+					if(str.equals(output)) {
+						close = 1;
+						break;
+					}
+				}
+				if(close == 1) continue;
+				else result.add(str);
 			}
 		}
 		return result;
 	}
 	
 	// Make process model 
-	public void makeModel(ObservableList<String> outputVariables) {
+	public void makeModel(ArrayList<String> outputVariables) {
 		
-		// outputVariables 의 모든 변수들을 curoutput에 넣어 추출하고 합쳐서 valuelist에 저장
+		String[] valueName = new String[50];
+		NodeList l1;
+		List<String> l2 = new ArrayList<String>();
 		
-		NodeList l1 = reader.getNodeList(reader.getNode(curOutput),"");
-		List<String> l2 = reader.getTransitionNodes(reader.getNode(curOutput));
-		
-		String nodeType = curOutput.substring(0,1);
-		String[] valueName = new String[10];
 		List<String> checkedl1 = new ArrayList<String>();
 		List<String> checkedl2 = new ArrayList<String>();
-
-		// SDT : L1+L2, TTS : L2
-		// Get input variables from l1
-		if( nodeType.equals("f") ) {
-			for(int i = 0 ; i< l1.getLength(); i++) {
-				String str = l1.item(i).getAttributes().getNamedItem("value").getTextContent();
-				valueName[i] = str;
-			}
-			checkedl1 = checkValue(valueName);
-			for(Object value : checkedl1) {
-				this.valuelist.add(value.toString());
-			}	 
-		}
 		
-		// Get transition variables from l2
-		for(int i = 0 ; i< l2.size(); i++) {
-			valueName[i] = l2.get(i);
-		}
-		checkedl2 = checkValue(valueName);
-		for(Object value : checkedl2) {
-			this.valuelist.add(value.toString());
-		}
+		for(String output : outputVariables) {
+			curOutput = output;
+			String nodeType = curOutput.substring(0,1);
+
+			l1 = reader.getNodeList(reader.getNode(curOutput),"");
+			l2 = reader.getTransitionNodes(reader.getNode(curOutput));
+				
+			// SDT : L1+L2, TTS : L2
+			// Get input variables from l1
+			if( nodeType.equals("f") ) {
+				for(int i = 0 ; i< l1.getLength(); i++) {
+					String str = l1.item(i).getAttributes().getNamedItem("value").getTextContent();
+					valueName[i] = str;
+				}
+				checkedl1 = checkValue(valueName, outputVariables);
+				for(Object value : checkedl1) {
+					this.valuelist.add(value.toString());
+				}	 
+			}
+			
+			// Get transition variables from l2
+			for(int i = 0 ; i< l2.size(); i++) {
+				valueName[i] = l2.get(i);
+			}
+			checkedl2 = checkValue(valueName, outputVariables);
+			for(Object value : checkedl2) {
+				this.valuelist.add(value.toString());
+			}
+			
+		}		
 		
 		// Remove redundant variables between l1 and l2
 		TreeSet tree = new TreeSet();
-	    for(String value: valuelist) {
-	    	tree.add(value);
-	    }       
-    	valuelist.clear();
-	    Iterator it = tree.iterator();
-        while ( it.hasNext() ) {
-        	valuelist.add(it.next().toString());
-        }
-        dataStore.setValuelist(valuelist);
-		PM.setItems(valuelist);
+		for(String value: valuelist) {
+			tree.add(value);
+		}       
+		
+		valuelist.clear();
+		
+		Iterator it = tree.iterator();
+		while ( it.hasNext() ) {
+			valuelist.add(it.next().toString());
+		}
+		
+		dataStore.setValuelist(valuelist);
+		PM.setItems(valuelist);		
 	}
 
 	private void initialize() {
-		
+				
 		dataStore = this.mainApp.models;
 		components = this.mainApp.components;
-		
+
 		selectController();
 		
 		selectedFile = dataStore.getFilePath();
 		selectedCA = dataStore.getControlActionName();
 		allOutput = dataStore.getAllOutput();
+		
 		outputList.getItems().addAll(dataStore.getAllOutput());
 		outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-//		valuelist = dataStore.getValuelist();
-//		PM.setItems(valuelist);
+		outputList.setOnMouseClicked((MouseEvent e) ->{
+			 list = outputList.getSelectionModel().getSelectedItems();
+		});	
+		
+		valuelist = dataStore.getValuelist();
+		PM.setItems(valuelist);
 		
 	}
 	
