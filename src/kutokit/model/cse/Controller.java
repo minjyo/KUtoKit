@@ -15,7 +15,7 @@ public class Controller {
 	int id;
 	Map<Integer, Integer> CA = new HashMap<Integer, Integer>(); //key: CA id, value: 1->controller, 0->controlled
 	Map<Integer, Integer> FB = new HashMap<Integer, Integer>(); //key: FB id, value: 1->controller, 0->controlled
-	int num[] = {0, 0}; //0: CA, 1: FB
+	int num[] = new int[2]; //0: CA, 1: FB
 	RectangleView r;
 	
 	public Controller() {

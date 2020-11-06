@@ -11,6 +11,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 
 public class LabelView extends Label {
 
@@ -37,6 +38,7 @@ public class LabelView extends Label {
 		
 		updateArrayCA(CA);
 
+		setFont(new Font(18));
 		setText(this.label);
 	}
 	

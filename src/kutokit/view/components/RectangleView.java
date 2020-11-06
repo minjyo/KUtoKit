@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import kutokit.model.cse.Components;
 
 public class RectangleView extends StackPane {
@@ -42,11 +43,12 @@ public class RectangleView extends StackPane {
 //		width.bind(Bindings.createDoubleBinding(
 //        	    () ->  150 + 50*num.get(),
 //        	   num));
-//		
+//	
 //		r.widthProperty().bind(width);
 		
-		
-		getChildren().addAll(r, new Label(name));
+		Label label = new Label(name);
+		label.setFont(new Font(18));
+		getChildren().addAll(r, label);
 		
 		enableDrag();
 	}

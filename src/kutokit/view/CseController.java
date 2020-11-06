@@ -236,6 +236,7 @@ public class CseController {
 						    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
 						    
 							RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
+							c.setRectangle(r);
 
 							addController(r, c);
 							dataStore.addController(c);
