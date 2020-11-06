@@ -50,6 +50,12 @@ public class RectangleView extends StackPane {
 		
 		enableDrag();
 	}
+	
+	public void resizeRectangle(int num) {
+		if(num>0) {
+			this.r.setWidth(75 * num);
+		}	
+	}
 
 	// make a node movable by dragging it around with the mouse.
 			private void enableDrag() {
