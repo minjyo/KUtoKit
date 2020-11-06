@@ -42,6 +42,7 @@ import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.utm.UCADataStore;
 
 public class CtmController {
+	private int test;
 
 	private MainApp mainApp;
 	private File selectedFile;
