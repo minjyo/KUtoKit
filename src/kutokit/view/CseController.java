@@ -31,9 +31,11 @@ import kutokit.model.cse.Components;
 import kutokit.model.cse.ControlAction;
 import kutokit.model.cse.Controller;
 import kutokit.model.cse.Feedback;
+import kutokit.model.cse.Text;
 import kutokit.view.components.*;
 import kutokit.view.popup.cse.AddCAPopUpController;
 import kutokit.view.popup.cse.AddFBPopUpController;
+import kutokit.view.popup.cse.AddTextPopUpController;
 import kutokit.view.popup.cse.ControllerPopUpController;
 import kutokit.view.popup.cse.ModifyCAPopUpController;
 import kutokit.view.popup.cse.ModifyFBPopUpController;
@@ -47,6 +49,7 @@ public class CseController {
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
 	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
+	private ArrayList<Text> texts = new ArrayList<Text>();
 
 	private ContextMenu ControllerContextMenu;
 	private MenuItem itemC1, itemC2, itemC3;
@@ -54,10 +57,13 @@ public class CseController {
 	private MenuItem itemCA1, itemCA2;
 	private ContextMenu FBContextMenu;
 	private MenuItem itemFB1, itemFB2;
+	private ContextMenu TextContextMenu;
+	private MenuItem itemT1, itemT2;
 
 	ControllerPopUpController AddCpop;
 	AddCAPopUpController AddCApop;
 	AddFBPopUpController AddFBpop;
+	AddTextPopUpController AddTextpop;
 	ModifyCAPopUpController ModifyCApop;
 	ModifyFBPopUpController ModifyFBpop;
 	
@@ -148,6 +154,19 @@ public class CseController {
 			
 			addFeedback(a, label, fb);
 		}
+		
+		texts = dataStore.getTexts();
+		for (Text text : texts) {
+			DoubleProperty X = new SimpleDoubleProperty(text.getX());
+		    DoubleProperty Y = new SimpleDoubleProperty(text.getY());
+		    
+		    //System.out.println(X.get() + " " + Y.get());
+		    
+		    TextView t = new TextView(X, Y, text.getContent(), text.getId(), dataStore);
+
+			addText(t, text);
+		}
+		
 
 		// Add through click
 		component.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -172,10 +191,19 @@ public class CseController {
 				event.consume();
 			}
 		});
+		
+		// Add through click
+		text.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent event) {
+				addPopUp("text");
+				event.consume();
+			}
+		});
 
 		addControllerContextMenu();
 		addCAContextMenu();
 		addFBContextMenu();
+		addTextContextMenu();
 	}
 
 	private void addPopUp(String component) {
@@ -193,6 +221,10 @@ public class CseController {
 		case "feedback":
 			loader.setLocation(getClass().getResource("popup/cse/AddFBPopUpView.fxml"));
 			AddFBpop = loader.getController();
+			break;
+		case "text":
+			loader.setLocation(getClass().getResource("popup/cse/AddTextPopUpView.fxml"));
+			AddTextpop = loader.getController();
 			break;
 		}
 
@@ -302,6 +334,21 @@ public class CseController {
 							addFeedback(a1, label1, fb);
 						}
 						break;
+					case "text":
+						AddTextpop = loader.getController();
+						
+						if(AddTextpop.OKclose) {
+							Text text = new Text(50, 50, AddTextpop.content, dataStore.curId);
+
+							DoubleProperty X = new SimpleDoubleProperty(text.getX());
+						    DoubleProperty Y = new SimpleDoubleProperty(text.getY());
+						    
+							TextView t = new TextView(X, Y, text.getContent(), text.getId(), dataStore);
+							
+							addText(t, text);
+							dataStore.addText(text);
+						}
+						break;
 					}
 
 				}
@@ -367,6 +414,22 @@ public class CseController {
 		
 		root.getChildren().addAll(s, l);
 		s.toBack();
+	}
+	
+	private void addText(TextView t, Text text) {
+
+		t.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+
+			@Override
+			public void handle(ContextMenuEvent event) {
+
+				TextContextMenu.show(t, event.getScreenX(), event.getScreenY());
+			}
+		});
+
+		t.setId(Integer.toString(text.getId()));
+		
+		root.getChildren().addAll(t);
 	}
 
 	private void modifyControllerPopUp(RectangleView rect) {
@@ -484,6 +547,48 @@ public class CseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void modifyTextPopUp(TextView text) {
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(getClass().getResource("popup/cse/AddTextPopUpView.fxml"));
+		  Parent popUproot;
+		  
+		  try {
+			  	popUproot = (Parent) loader.load();
+				
+				Scene scene = new Scene(popUproot);
+				AddTextpop = loader.getController();
+				
+				  Stage stage = new Stage();
+				  stage.setScene(scene);
+				  stage.show();
+				  
+				  //add controller with name when popup closed
+				  stage.setOnHidden(new EventHandler<WindowEvent>() {
+					    @Override
+					    public void handle(WindowEvent e) {
+					    	AddTextpop = loader.getController();
+					    	
+					    	if(AddTextpop.OKclose) {
+					    		Text t = dataStore.findText(text.id);
+					    		t.setContent(AddTextpop.content);
+					    		for(Node node : root.getChildren()) {		
+									if(node.equals(text)) {
+										root.getChildren().remove(node);
+										TextView text = new TextView(node.layoutXProperty(), node.layoutYProperty(), AddTextpop.content, Integer.parseInt(node.getId()), dataStore);
+										addText(text, t);
+										break;
+									}
+								}
+								
+					    	}
+					    }
+					  });
+		  } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		  }
 	}
 
 	private void modifyRectangle(RectangleView rect, String name) {
@@ -638,6 +743,38 @@ public class CseController {
 			}
 		});
 		FBContextMenu.getItems().addAll(itemFB1, itemFB2);
+	}
+	
+	public void addTextContextMenu() {
+		TextContextMenu = new ContextMenu();
+
+		itemT1 = new MenuItem("Modfiy");
+		itemT1.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				// modifyRectangle(getParentMenu().get)
+				TextView text = (TextView) itemT1.getParentPopup().getOwnerNode();
+				modifyTextPopUp(text);
+			}
+		});
+		itemT2 = new MenuItem("Delete");
+		itemT2.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				TextView text = (TextView) itemT1.getParentPopup().getOwnerNode();
+				dataStore.deleteText(text.id);
+				
+				for (Node a : root.getChildren()) {
+					if (a.equals(text)) {
+						root.getChildren().remove(a);
+						break;
+					}
+				}
+			}
+		});
+		TextContextMenu.getItems().addAll(itemT1, itemT2);
 	}
 
 	// set MainApp
