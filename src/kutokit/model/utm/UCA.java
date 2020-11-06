@@ -1,7 +1,6 @@
 package kutokit.model.utm;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
@@ -12,11 +11,7 @@ public class UCA {
 	private SimpleStringProperty notProvidingCausesHazard;
 	private SimpleStringProperty incorrectTimingOrOrder;
 	private SimpleStringProperty stoppedTooSoonOrAppliedTooLong;
-	private SimpleStringProperty link;
-//	private ComboBox link ;
-//	private ObservableList<String> linkList;
-
-
+	private ComboBox<String> links ;
 
 	public String ControlAction;
 	public String ProvidingCausesHazard;
@@ -24,46 +19,45 @@ public class UCA {
 	public String IncorrectTimingOrOrder;
 	public String StoppedTooSoonOrAppliedTooLong;
 	public String Link;
-//	public int linkIndex;
 
 	public UCA()
 	{
 
 	}
 
-	public UCA(String controlAction,String providing , String notProviding, String incorrect , String stopped,String link)//ObservableList<String> link,int linkIndex)
+	public UCA(String controlAction,String providing , String notProviding, String incorrect , String stopped,ComboBox<String> linkList)//ObservableList<String> link,int linkIndex)
 	{
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.providingCausesHazard = new SimpleStringProperty(providing);
 		this.notProvidingCausesHazard = new SimpleStringProperty(notProviding);
 		this.incorrectTimingOrOrder = new SimpleStringProperty(incorrect);
 		this.stoppedTooSoonOrAppliedTooLong = new SimpleStringProperty(stopped);
-		this.link = new SimpleStringProperty(link);
-//		this.link = new ComboBox(link);
-//		ObservableList<String> str  = FXCollections.observableArrayList("h","e","l");
-//		this.link = new COmboBox(str);
+		this.links = linkList;
+		linkList.setOnAction(event ->{
+			this.Link = linkList.getSelectionModel().getSelectedItem();
+		});
 
 		this.ControlAction = controlAction;
 		this.ProvidingCausesHazard = providing;
 		this.NotProvidingCausesHazard = notProviding;
 		this.IncorrectTimingOrOrder = incorrect;
 		this.StoppedTooSoonOrAppliedTooLong = stopped;
-		this.Link = link;
-
-//		if(!link.isEmpty()){
-//			this.Link = link.get(linkIndex);
-//
-//		}
-
-
+		this.Link = linkList.getValue();
 	}
 
 	public UCA(String controlAction) {
-		// TODO Auto-generated constructor stub
 		this.controlAction = new SimpleStringProperty(controlAction);
 	}
 
-	public void setUCA(String columnID,String setData,int linkIndex)
+	public void setUCAInit(){
+		this.controlAction = new SimpleStringProperty(ControlAction);
+		this.providingCausesHazard = new SimpleStringProperty(this.ProvidingCausesHazard);
+		this.notProvidingCausesHazard = new SimpleStringProperty(this.NotProvidingCausesHazard);
+		this.incorrectTimingOrOrder = new SimpleStringProperty(this.IncorrectTimingOrOrder);
+		this.stoppedTooSoonOrAppliedTooLong = new SimpleStringProperty(this.StoppedTooSoonOrAppliedTooLong);
+	}
+
+	public void setUCA(String columnID,String setData,ComboBox<String> linkIndex)
 	{
 
 		switch(columnID)
@@ -84,7 +78,7 @@ public class UCA {
 			setStoppedTooSoonOrAppliedTooLong(setData);
 			break;
 		case "linkColumn" :
-			setLink(setData);
+			setLinkList(links);
 		default :
 			System.out.println("There is no "+ columnID +" Column");
 		}
@@ -142,16 +136,22 @@ public class UCA {
 		this.StoppedTooSoonOrAppliedTooLong = stoppedTooSoonOrAppliedTooLong;
 	}
 
-
 	public void setLink(String link) {
-//		this.link = new SimpleStringProperty(link);
-//		this.Link = linkList.get(linkIndex);
-//		this.linkIndex = linkIndex;
-		this.link = new SimpleStringProperty(link);
-;	}
-
-	public SimpleStringProperty getLink() {
-		return link;
+		System.out.println(link);
+		this.Link = link;
 	}
 
+	public void setLinkList(ComboBox<String> linkList) {
+		this.links = linkList;
+		if(Link!=null){
+			links.setValue(Link);
+		}
+		linkList.setOnAction(event ->{
+			this.Link = linkList.getSelectionModel().getSelectedItem();
+		});
+	}
+
+	public ComboBox<String> getLinkLists() {
+		return links;
+	}
 }
