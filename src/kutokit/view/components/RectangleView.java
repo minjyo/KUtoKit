@@ -1,6 +1,9 @@
 package kutokit.view.components;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -17,25 +20,45 @@ public class RectangleView extends StackPane {
 	public int name;
 	public DoubleProperty x, y;
 	Components dataStore;
+	private DoubleProperty num;
+	public DoubleProperty width;
+	
 	
 	public RectangleView(DoubleProperty x, DoubleProperty y, String name, int id, Components dataStore) {
 	
 		this.dataStore = dataStore;
 		this.id = id;
 		
-		this.r = new Rectangle(150, 100, Color.web("#8fbc8f"));
+		width = new SimpleDoubleProperty(150);
+		this.r = new Rectangle(200, 100, Color.web("#8fbc8f"));
 		
 		this.x = x;
 		this.y = y;
 		x.bind(r.layoutXProperty());
 		y.bind(r.layoutYProperty());
+//		
+//		this.num = num;
+//		
+//		width.bind(Bindings.createDoubleBinding(
+//        	    () ->  150 + 50*num.get(),
+//        	   num));
+//		
+//		r.widthProperty().bind(width);
 		
-		//Label idLabel = new Label(Integer.toString(id));
-		//idLabel.setVisible(false);
-
+		
 		getChildren().addAll(r, new Label(name));
 		
 		enableDrag();
+	}
+	
+	public void resizeRectangle(int[] num) {
+		if(num[0]>0 && num[1]>0) {	
+			if(num[1]>1) {
+				this.r.setWidth(200 * num[1]);
+			}else {
+				this.r.setWidth(100 * num[0] + 100 * num[1]);
+			}
+		}	
 	}
 
 	// make a node movable by dragging it around with the mouse.
@@ -55,15 +78,15 @@ public class RectangleView extends StackPane {
 					@Override
 					public void handle(MouseEvent mouseEvent) {
 						getScene().setCursor(Cursor.HAND);
+						
+						dataStore.moveController(id, getLayoutX(), getLayoutY());
 					}
 				});
 				setOnMouseDragged(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent mouseEvent) {
 						setLayoutX(mouseEvent.getX() + dragDelta.x);
-						setLayoutY(mouseEvent.getY() + dragDelta.y);
-					
-						dataStore.moveController(id, getLayoutX(), getLayoutY());
+						setLayoutY(mouseEvent.getY() + dragDelta.y);	
 					}
 				});
 				setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -78,7 +101,7 @@ public class RectangleView extends StackPane {
 					@Override
 					public void handle(MouseEvent mouseEvent) {
 						if (!mouseEvent.isPrimaryButtonDown()) {
-							getScene().setCursor(Cursor.DEFAULT);
+							getScene().setCursor(Cursor.DEFAULT);		
 						}
 					}
 				});

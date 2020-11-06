@@ -288,6 +288,7 @@ public class MainApp extends Application {
 		        components.getControllers().addAll(projectXML.getControllers());
 		        components.getControlActions().addAll(projectXML.getControlActions());
 		        components.getFeedbacks().addAll(projectXML.getFeedbacks());
+		        components.setCurId(projectXML.getCurId());
 		     // --------------------------- CSE --------------------------
 
 
@@ -344,6 +345,7 @@ public class MainApp extends Application {
 	        projectXML.setControllers(components.getControllers());
 	        projectXML.setControlActions(components.getControlActions());
 	        projectXML.setFeedbacks(components.getFeedbacks());
+	        projectXML.setCurId(components.getCurId());
 	     // --------------------------- CSE --------------------------
 
 
