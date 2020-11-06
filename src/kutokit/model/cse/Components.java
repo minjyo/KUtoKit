@@ -1,18 +1,6 @@
 package kutokit.model.cse;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.prefs.Preferences;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import kutokit.MainApp;
-import kutokit.view.components.*;
 
 public class Components {
 
