@@ -1,7 +1,9 @@
 package kutokit.view;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
@@ -212,6 +214,7 @@ public class CseController {
 
 							DoubleProperty X = new SimpleDoubleProperty(c.getX());
 						    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
+						    DoubleProperty num = new SimpleDoubleProperty(c.getCA().size() + c.getFB().size());
 						    
 							RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
 
@@ -257,6 +260,7 @@ public class CseController {
 							DoubleProperty  startX1 = null, startY1 = null, endX1 = null,  endY1 = null;
 							
 							for(Node node: root.getChildren()) {
+								//System.out.println(node.getId());
 								if(Integer.parseInt(node.getId())==fb.getControlledID()) {
 									startX1 = node.layoutXProperty();
 									startY1 = node.layoutYProperty();

@@ -3,6 +3,10 @@ package kutokit.model.cse;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class Controller {
 
 	double x, y;
