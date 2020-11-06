@@ -1,12 +1,9 @@
 package kutokit.view;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -14,30 +11,20 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.shape.*;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import kutokit.MainApp;
 import kutokit.model.cse.Components;
@@ -45,7 +32,6 @@ import kutokit.model.cse.ControlAction;
 import kutokit.model.cse.Controller;
 import kutokit.model.cse.Feedback;
 import kutokit.view.components.*;
-import kutokit.view.popup.*;
 import kutokit.view.popup.cse.AddCAPopUpController;
 import kutokit.view.popup.cse.AddFBPopUpController;
 import kutokit.view.popup.cse.ControllerPopUpController;
@@ -236,6 +222,7 @@ public class CseController {
 						    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
 						    
 							RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
+							c.setRectangle(r);
 
 							addController(r, c);
 							dataStore.addController(c);

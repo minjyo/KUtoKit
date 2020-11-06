@@ -7,9 +7,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="60.0" prefWidth="263.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-      <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="263.0">
+      <Rectangle fill="DARKSEAGREEN" height="36.0" layoutY="-1.0" strokeWidth="0.0" width="263.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -19,8 +19,11 @@
             </LinearGradient>
          </stroke>
       </Rectangle>
-	  <Text fill="WHITE" layoutX="8.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" />
-      <Text layoutX="7.0" layoutY="63.0" text="There is no same Controller!" AnchorPane.bottomAnchor="24.76123046875" AnchorPane.topAnchor="45.896484375">
+	  <Text fill="WHITE" layoutX="8.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+      <Text layoutX="27.0" layoutY="69.0" text="There is no same Controller!" AnchorPane.bottomAnchor="29.47021484375" AnchorPane.topAnchor="51.59765625">
          <font>
             <Font size="18.0" />
          </font></Text>

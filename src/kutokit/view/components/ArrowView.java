@@ -10,7 +10,6 @@ import javafx.scene.shape.Path;
 import kutokit.model.cse.ControlAction;
 import kutokit.model.cse.Feedback;
 
-
 public class ArrowView extends Path{
 	
 	private static final double defaultArrowHeadSize = 15.0;
