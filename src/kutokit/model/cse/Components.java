@@ -25,12 +25,12 @@ public class Components {
 	public Controller curController;
 	
 	public Components() {
-		curId = 6;
+		curId = 4;
 		
 		//===================temp========================
 		controllers.add(new Controller(150,30, "c1", 1));
 		controllers.add(new Controller(100,300, "c2", 2));
-		controllers.add(new Controller(500,300, "c3", 3));
+		controllers.add(new Controller(400,300, "c3", 3));
 		
 		ArrayList<String> ca = new ArrayList<String>();
 		ca.add("a");

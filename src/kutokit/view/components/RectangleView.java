@@ -30,7 +30,7 @@ public class RectangleView extends StackPane {
 		this.id = id;
 		
 		width = new SimpleDoubleProperty(150);
-		this.r = new Rectangle(150, 100, Color.web("#8fbc8f"));
+		this.r = new Rectangle(200, 100, Color.web("#8fbc8f"));
 		
 		this.x = x;
 		this.y = y;
@@ -51,9 +51,13 @@ public class RectangleView extends StackPane {
 		enableDrag();
 	}
 	
-	public void resizeRectangle(int num) {
-		if(num>0) {
-			this.r.setWidth(75 * num);
+	public void resizeRectangle(int[] num) {
+		if(num[0]>0 && num[1]>0) {	
+			if(num[1]>1) {
+				this.r.setWidth(200 * num[1]);
+			}else {
+				this.r.setWidth(100 * num[0] + 100 * num[1]);
+			}
 		}	
 	}
 

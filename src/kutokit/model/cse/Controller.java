@@ -15,7 +15,7 @@ public class Controller {
 	int id;
 	Map<Integer, Integer> CA = new HashMap<Integer, Integer>(); //key: CA id, value: 1->controller, 0->controlled
 	Map<Integer, Integer> FB = new HashMap<Integer, Integer>(); //key: FB id, value: 1->controller, 0->controlled
-	int num=0;
+	int num[] = {0, 0}; //0: CA, 1: FB
 	RectangleView r;
 	
 	public Controller() {
@@ -33,8 +33,13 @@ public class Controller {
 		this.r=r;
 	}
 	
-	public void resizeRectangle() {
-		r.resizeRectangle(++num);
+	public void resizeRectangle(String type) {
+		if(type.equals("ca")) {
+			num[0] = num[0]+1;
+		}else {
+			num[1] = num[1]+1;
+		}
+		r.resizeRectangle(num);
 	}
 	
 	public double getX() {
@@ -97,7 +102,7 @@ public class Controller {
 		//num--;
 	}
 
-	public int getNum() {
+	public int[] getNum() {
 		return num;
 	}
 }
