@@ -58,7 +58,7 @@
                </font>
             </Text>
             <Line endX="-16.0" endY="6.0" layoutX="503.0" layoutY="231.0" startX="-16.0" startY="-26.0" />
-            <Button layoutX="363.0" layoutY="462.0" mnemonicParsing="false" onAction="#toPmmController" prefHeight="80.0" prefWidth="250.0" text="Construct the Control Sturcture with Process Model/variable" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="pmmBtn" layoutX="363.0" layoutY="462.0" mnemonicParsing="false" onAction="#toPmmController" prefHeight="80.0" prefWidth="250.0" text="Construct the Control Sturcture with Process Model/variable" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>

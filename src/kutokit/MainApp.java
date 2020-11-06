@@ -301,6 +301,8 @@ public class MainApp extends Application {
 		        models.setControllerName(projectXML.getControllerName());;
 		        models.setControlActionName(projectXML.getControlActionName());
 		        models.setOutputNames(projectXML.getOutputVariableName());
+		        models.setAllCA(projectXML.getAllCA());
+		        models.setAllOutput(projectXML.getAllOutput());
 		        models.getValuelist().addAll(projectXML.getValueList());
 			 // --------------------------- PMM --------------------------
 
@@ -353,6 +355,8 @@ public class MainApp extends Application {
 	        projectXML.setControllerName(models.getControllerName());
 	        projectXML.setControlActionName(models.getControlActionName());
 	        projectXML.setOutputVariableName(models.getOutputNames());
+	        projectXML.setAllCA(models.getAllCA());
+	        projectXML.setAllOutput(models.getAllOutput());
 	        projectXML.setValueList(models.getValuelist());
 		 // --------------------------- PMM --------------------------
 

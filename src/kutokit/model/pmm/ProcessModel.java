@@ -8,8 +8,9 @@ import javafx.collections.ObservableList;
 
 public class ProcessModel {
 	
-	private String controllerName;
+	private ArrayList<String> controllerName = new ArrayList<String>();
 	private ArrayList<String> controlActionNames = new ArrayList<String>();
+	private ArrayList<String> allCA =  new ArrayList<String>();
 	private ArrayList<String> outputNames = new ArrayList<String>(); 
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
 	private ObservableList<String> valuelist = FXCollections.observableArrayList();
@@ -29,12 +30,12 @@ public class ProcessModel {
 	}
 
 	// Controller 
-	public String getControllerName() {
+	public ArrayList<String> getControllerName() {
 		return controllerName;
 	}
 
-	public void setControllerName(String controllerName) {
-		this.controllerName = controllerName;
+	public void setControllerName(ArrayList<String> controllerName) {
+		this.controllerName.addAll(controllerName);
 	}
 
 	// Control Action
@@ -52,7 +53,7 @@ public class ProcessModel {
 	}
 
 	public void setOutputNames(ArrayList<String> outputVariables) {
-		this.outputNames.addAll(outputVariables);
+		this.outputNames = outputVariables;
 	}
 
 	// All output variables 
@@ -83,12 +84,18 @@ public class ProcessModel {
 				valuelist.set(valuelist.indexOf(value), newValue);
 			}
 		}
-		/*
-		 * if value is already existed, 
-		 */
 	}
 	
 	public void deleteValue(String value) {
 		valuelist.remove(value);
+	}
+
+	// All control actions
+	public ArrayList<String> getAllCA() {
+		return allCA;
+	}
+
+	public void setAllCA(ArrayList<String> controlAction) {
+		this.allCA = controlAction;
 	}
 }
