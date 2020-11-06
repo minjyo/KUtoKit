@@ -36,6 +36,7 @@ public class ProjectXML {
 	private ArrayList<Controller> controllers;
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
 	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
+	private int curId;
 	// --------------------------- CSE --------------------------
 	
 	
@@ -110,6 +111,15 @@ public class ProjectXML {
 
 	public void setFeedbacks(ArrayList<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
+	}
+	
+	@XmlElement(name = "curId")
+	public int getCurId() {
+		return curId;
+	}
+	
+	public void setCurId(int id) {
+		this.curId = id;
 	}
 	// --------------------------- CSE --------------------------
 	

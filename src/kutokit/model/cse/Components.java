@@ -25,19 +25,19 @@ public class Components {
 	public Controller curController;
 	
 	public Components() {
-		curId = 4;
-		
-		//===================temp========================
-		controllers.add(new Controller(150,30, "c1", 1));
-		controllers.add(new Controller(100,300, "c2", 2));
-		controllers.add(new Controller(400,300, "c3", 3));
-		
-		ArrayList<String> ca = new ArrayList<String>();
-		ca.add("a");
-		controlActions.add(new ControlAction("c1", "c2", ca, 4, this));
-		feedbacks.add(new Feedback("c2", "c1", ca, 5, this));
-		
-		//===================temp========================
+//		curId = 6;
+//		
+//		//===================temp========================
+//		controllers.add(new Controller(150,30, "c1", 1));
+//		controllers.add(new Controller(100,300, "c2", 2));
+//		controllers.add(new Controller(400,300, "c3", 3));
+//		
+//		ArrayList<String> ca = new ArrayList<String>();
+//		ca.add("a");
+//		controlActions.add(new ControlAction("c1", "c2", ca, 4, this));
+//		feedbacks.add(new Feedback("c2", "c1", ca, 5, this));
+//		
+//		//===================temp========================
 	}
 	
 	public ArrayList<Controller> getControllers() {
@@ -50,6 +50,14 @@ public class Components {
 	
 	public ArrayList<Feedback> getFeedbacks() {
 		return this.feedbacks;
+	}
+	
+	public int getCurId() {
+		return this.curId;
+	}
+	
+	public void setCurId(int id) {
+		this.curId = id;
 	}
 	
 	public void addController(Controller controller) {
