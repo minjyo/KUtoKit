@@ -12,9 +12,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="265.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.popup.cse.ModifyFBPopUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="298.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.popup.cse.ModifyFBPopUpController">
 	<children>
-      <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="265.0">
+      <Rectangle fill="DARKSEAGREEN" height="34.0" strokeWidth="0.0" width="298.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -24,32 +24,56 @@
             </LinearGradient>
          </stroke>
       </Rectangle>
-	  <Text layoutX="28.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Feedback">
+	  <Text fill="WHITE" layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Feedback">
          <font>
-            <Font size="10.0" />
+            <Font size="18.0" />
          </font>
       </Text>
-      <ListView fx:id="listView" layoutX="18.0" layoutY="60.0" prefHeight="200.0" prefWidth="225.0" />
-      <Text layoutX="28.0" layoutY="50.0" text="Feedback">
+      <Text layoutX="28.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Controller">
          <font>
-            <Font size="10.0" />
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="28.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Controlled">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="29.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Process">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <ListView fx:id="listView" layoutX="19.0" layoutY="192.0" prefHeight="167.0" prefWidth="261.0" />
+      <Text layoutX="28.0" layoutY="176.0" text="ControlAction">
+         <font>
+            <Font size="18.0" />
          </font></Text>
-      <TextField fx:id="listInput" layoutX="18.0" layoutY="270.0" prefWidth="125.0" />
-      <HBox alignment="CENTER" layoutX="150.0" layoutY="270.0" spacing="5.0">
+      <TextField fx:id="listInput" layoutX="18.0" layoutY="383.0" prefHeight="27.0" prefWidth="142.0" />
+      <HBox alignment="CENTER" layoutX="175.0" layoutY="382.0" spacing="5.0">
          <children>
-           <Button fx:id="add" onAction="#addFB" text="Add">
+           <Button fx:id="add" onAction="#addFB" prefHeight="29.0" prefWidth="50.0" text="Add">
                <HBox.margin>
                   <Insets bottom="20.0" />
-               </HBox.margin></Button>
-           <Button fx:id="remove" maxWidth="-Infinity" minWidth="-Infinity" onAction="#removeFB" prefWidth="50.0" text="Del">
+               </HBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
+           <Button fx:id="remove" onAction="#removeFB" prefHeight="27.0" prefWidth="50.0" text="Del">
                <HBox.margin>
                   <Insets bottom="20.0" right="20.0" />
-               </HBox.margin></Button>
+               </HBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
          </children>
       </HBox>
-      <HBox alignment="BOTTOM_CENTER" layoutY="310.0" prefHeight="44.0" prefWidth="261.0">
+      <HBox alignment="BOTTOM_CENTER" layoutX="3.0" layoutY="443.0" prefHeight="44.0" prefWidth="298.0">
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setData" text="Confirm" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setData" text="Confirm">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
          </children>
          <padding>
             <Insets bottom="10.0" />
