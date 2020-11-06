@@ -7,6 +7,8 @@ public class Components {
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
 	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
+	private ArrayList<Text> texts = new ArrayList<Text>();
+	
 	public int curId=1;
 	public ControlAction curCA;
 	public Feedback curFB;
@@ -40,6 +42,10 @@ public class Components {
 		return this.feedbacks;
 	}
 	
+	public ArrayList<Text> getTexts() {
+		return this.texts;
+	}
+	
 	public int getCurId() {
 		return this.curId;
 	}
@@ -47,6 +53,11 @@ public class Components {
 	public void setCurId(int id) {
 		this.curId = id;
 	}
+	
+	public void setTexts(ArrayList<Text> texts) {
+		this.texts = texts;
+	}
+	
 	
 	public void addController(Controller controller) {
 		controllers.add(controller);
@@ -63,11 +74,26 @@ public class Components {
 		curId++;
 	}
 	
+	public void addText(Text t) {
+		texts.add(t);
+		curId++;
+	}
+	
 	public void moveController(int id, double x, double y) {
 		for (Controller c : controllers) {
             if (c.getId()==id) {
                 c.setX(x);
                 c.setY(y);
+                return;
+            }
+        }
+	}
+	
+	public void moveText(int id, double x, double y) {
+		for (Text t : texts) {
+            if (t.getId()==id) {
+            	t.setX(x);
+                t.setY(y);
                 return;
             }
         }
@@ -168,6 +194,15 @@ public class Components {
         }
 	}
 	
+	public void deleteText(int id) {
+		for (Text t : texts) {
+            if (t.getId()==id) {
+            	texts.remove(t);
+                return;
+            }
+        }
+	}
+	
 	public void modifyController(int id, String name) {
 		for (Controller c : controllers) {
             if (c.getId()==id) {
@@ -190,6 +225,15 @@ public class Components {
 		for (Feedback fb : feedbacks) {
             if (fb.getId()==id) {
             	fb.setFB(FB);
+                return;
+            }
+        }
+	}
+	
+	public void modifyText(int id, String content) {
+		for (Text t : texts) {
+            if (t.getId()==id) {
+            	t.content = content;
                 return;
             }
         }
@@ -226,6 +270,15 @@ public class Components {
 		for (Feedback fb : feedbacks) {
             if (fb.getId()==id) {
                 return fb;
+            }
+        }
+		return null;
+	}
+	
+	public Text findText(int id) {
+		for (Text t : texts) {
+            if (t.getId()==id) {
+            	return t;
             }
         }
 		return null;

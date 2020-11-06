@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import kutokit.model.cse.ControlAction;
 import kutokit.model.cse.Controller;
 import kutokit.model.cse.Feedback;
+import kutokit.model.cse.Text;
 import kutokit.model.ctm.CTM;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
@@ -36,6 +37,7 @@ public class ProjectXML {
 	private ArrayList<Controller> controllers;
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
 	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
+	private ArrayList<Text> texts = new ArrayList<Text>();
 	private int curId;
 	// --------------------------- CSE --------------------------
 
@@ -119,6 +121,15 @@ public class ProjectXML {
 
 	public void setFeedbacks(ArrayList<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
+	}
+	
+	@XmlElement(name = "CSEtexts")
+	public ArrayList<Text> getTexts() {
+		return texts;
+	}
+
+	public void setTexts(ArrayList<Text> texts) {
+		this.texts = texts;
 	}
 	
 	@XmlElement(name = "curId")
