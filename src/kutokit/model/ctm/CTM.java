@@ -53,6 +53,16 @@ public class CTM {
 
 	}
 	
+	public void setCTMInit(){
+		this.controlAction = new SimpleStringProperty(this.ControlAction);
+		this.cases = new SimpleStringProperty(this.Cases);
+		this.no = new SimpleIntegerProperty(this.No);
+		this.contexts = new StringProperty[Contexts.length];
+		for(int i=0;i<Contexts.length;i++) {
+			this.contexts[i] = new SimpleStringProperty(Contexts[i]);
+		}
+	}
+	
 	public String getControllerName() {
 		return controllerName.get();
 	}

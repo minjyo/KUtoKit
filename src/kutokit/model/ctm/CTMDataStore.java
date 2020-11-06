@@ -1,13 +1,15 @@
-package kutokit.model.ctm;
+  package kutokit.model.ctm;
+
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class CTMDataStore {
 
-	ObservableList<CTM> CTMTableList = FXCollections.observableArrayList();
+	ArrayList<ObservableList<CTM>> CTMTableList = new ArrayList<>();
 
-	public ObservableList<CTM> getCTMTableList() {
+	public ArrayList<ObservableList<CTM>> getCTMTableList() {
 		return CTMTableList;
 	}
 

@@ -45,7 +45,6 @@ public class CtmController {
 
 	private MainApp mainApp;
 	private File selectedFile;
-	private ObservableList<CTM> myTable;
 
 	private static CTMDataStore ctmDataStore;
 	
@@ -53,32 +52,21 @@ public class CtmController {
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
 	private TabPane tabPane = new TabPane();
-
-	//private TableView<CTM> contextTable = new TableView<CTM>();
-	//private TableColumn<CTM, String> CAColumn = new TableColumn<CTM,String>("Control Action");
-	//private TableColumn<CTM, String> casesColumn = new TableColumn<CTM,String>("cases");
-	//private TableColumn<CTM, Integer> noColumn = new TableColumn<CTM,Integer>("No.");
-	//private TableColumn hazardousColumn = new TableColumn("Hazardous?");
-	
-	//private String[] no = new String[100];
-	//private String[] contextheader = new String[15];
 	
 	ArrayList<ObservableList<CTM>> totalData = new ArrayList<>();
 	private int controllerCount = 0;
+	private int curControllerNum, curCANum;
 	private ObservableList<String> hazardousOX;
 	
-	private String controllerName;
+	private ArrayList<String> controllerName;
 	private ArrayList<String> controlActionNames;
 	private ArrayList<String> outputNames;
 	private ObservableList<String> valuelist;
+	
 	private ArrayList<String> contextheader;
-
-	private TableView<CTM>[] totalTable;
 	
 	public CtmController() { }
 	private void initialize(){ }
-	
-	
 
 	//set MainApp
 	public void setMainApp(MainApp mainApp)  {
@@ -87,7 +75,7 @@ public class CtmController {
 		
 		this.mainApp = mainApp;
 		ctmDataStore = mainApp.ctmDataStore;
-		//mcsData = ctmDataStore.getCTMTableList(); //TODO
+		totalData = ctmDataStore.getCTMTableList(); //TODO
 		
 		controllerName = mainApp.models.getControllerName();
 		controlActionNames = mainApp.models.getControlActionName();
@@ -99,6 +87,10 @@ public class CtmController {
 		System.out.println("controlActionNames:"+controlActionNames);
 		System.out.println("outputNames:"+outputNames);
 		System.out.println("valuelist:"+valuelist);
+		
+		hazardousOX = FXCollections.observableArrayList();
+		hazardousOX.add("O");
+		hazardousOX.add("X");
 		
 		int headerlength = 0;
 		if(headerlength==0) {
@@ -113,8 +105,8 @@ public class CtmController {
 		final ToggleGroup group = new ToggleGroup();
  		HBox radioGroup = new HBox();
 
-		for(int i=0;i<1;i++) {
-	 		RadioButton rb = new RadioButton(controllerName);
+		for(int i=0;i<controllerName.size();i++) {
+	 		RadioButton rb = new RadioButton(controllerName.get(i));
 	 		rb.setToggleGroup(group);
 	 		if(i==0) {
 	 			rb.setSelected(true);
@@ -123,7 +115,7 @@ public class CtmController {
 	 		    public void changed(ObservableValue<? extends Toggle> ov,
 	 		        Toggle old_toggle, Toggle new_toggle) {
 	 		            if (group.getSelectedToggle() != null) {
-	 		            	//contextTable.setVisible(!contextTable.isVisible());
+	 		            	//TODO link radio
 	 		            	System.out.println(new_toggle.toString());
 	 		            }                
 	 		        }
@@ -149,7 +141,6 @@ public class CtmController {
 		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
         final TableView<CTM> contextTable = this.MakeTable(contextheader);
         
-        String[][] context = new String[15][1024];
         int len = 0;
         
 		Tab tab = new Tab();
@@ -162,9 +153,10 @@ public class CtmController {
         fileButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-        		//AddFile.setVisible(true); //TODO!!!!!!!! 파일팝업이랑 연
-        		//AddFile.toFront();
-            	AddFile();
+        		curCANum = tabNum;
+        		curControllerNum = 0; //TODO!!!!!!!! link radio
+        		AddFile.setVisible(true);
+        		AddFile.toFront();
             }
         });
         hb.getChildren().addAll(fileButton);
@@ -185,9 +177,6 @@ public class CtmController {
 		}
  
         final Button addButton = new Button("Add");
-		hazardousOX = FXCollections.observableArrayList();
-		hazardousOX.add("O");
-		hazardousOX.add("X");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -195,11 +184,9 @@ public class CtmController {
         		ComboBox<String> comboBox = new ComboBox(hazardousOX);
         		for(int t=0;t<contextheader.size();t++) {
         			contexts[t] = addContexts[t].getText();
-        			context[t][temp] = addContexts[t].getText();
         			addContexts[t].clear();
         		}
-        		//TODO 편집이벤트 달리는지 확인하
-        		mcsData.add(new CTM(controllerName, caName,addCases.getText(),1+temp,contexts,comboBox));
+        		mcsData.add(new CTM(controllerName.get(tabNum), caName,addCases.getText(),1+temp,contexts,comboBox));
     			comboBox.valueProperty().addListener(new ChangeListener<String>() {
   			      @Override
   			      public void changed(ObservableValue observable, String oldValue, String newValue) {
@@ -276,11 +263,11 @@ public class CtmController {
  	                    ((CTM) t.getTableView().getItems().get(
  	                        t.getTablePosition().getRow())
  	                        ).setContext(temp, t.getNewValue());
+ 	                   System.out.println((t.getTableView().getItems().get(t.getTablePosition().getRow()).getContext(temp)));
  	                }
  	            }
  	        );
  		}
-
  		contextTable.getColumns().add(hazardousColumn);
  		
  		return contextTable;
@@ -301,7 +288,7 @@ public class CtmController {
     }
 	
 	@FXML
-	public void ApplyFile() throws IOException {
+	public int ApplyFile() throws IOException {
 		
 		if(selectedFile != null) {
 			AddFile.setVisible(false);
@@ -316,25 +303,22 @@ public class CtmController {
 	            }    
 	            fis.close();
 	           
-	            //2. Add Parsing File
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
-	            
-	            String[][] data = this.ParseMSC(temps);
-	            //this.fillContextTable();
+	            this.ParseMSC(temps);
 	            
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
 	        }
 		}
+		return 0;
 	}
 
-	private String[][] ParseMSC(String[] temps) {
-		String[][] context = new String[15][1024];
-		
+	private void ParseMSC(String[] temps) {
+		String[][] context = new String[contextheader.size()][temps.length];
+
 		int i=0;
 		while(i < temps.length) {
-			//no[i] = temps[i].substring(0, 1);
 			String[] splits = temps[i].split("&");
 			int j=0;
 			int temp=-1;
@@ -342,7 +326,7 @@ public class CtmController {
 			while(j < splits.length) {
 				int index= splits[j].indexOf("=");
 				if(index>=0) {
-					for(int t=0;t<=contextheader.size();t++) { //header loof
+					for(int t=0;t<contextheader.size();t++) { //header loof
 						if(splits[j].contains(contextheader.get(t))) {
 							if(context[t][i]==null) {
 								context[t][i] = splits[j].substring(index+1);
@@ -380,77 +364,31 @@ public class CtmController {
 		}
 		
 		for(int x=0;x<contextheader.size();x++) {
-			for(int y=0;y<100;y++) { //TODO table length.....
+			for(int y=0;y<temps.length;y++) {
 				if(context[x][y]==null) {
 					context[x][y] = "N/A";
 				}
 			}
 		}
-		return context;
-	}
-	
-	/*public void fillContextTable(TableView<CTM> table) {
-		int i = table.getItems().size()-1;
-		if(i<0) return;
-		hazardousOX = FXCollections.observableArrayList();
-		hazardousOX.add("O");
-		hazardousOX.add("X");
 		
-		ObservableList<CTM> testmcsData = FXCollections.observableArrayList();
-		testmcsData = totalData.get(0);
-		///TODO 여기서부터!!!!!!!!!!!!!!1 totalData에 mcsData 넣을 때 index 넣는법 알기. 그래야 현재 mcsData파싱가
-		
-		
-	    // 3. Create Data list ex
-		while(i < no.length) {
-	    	int temp = i;
-			String[] contexts = new String[k];
-			for(int t=0;t<k;t++) {
-				contexts[t] = context[t][i];
+		for(int y=0;y<temps.length;y++) {
+	        String[] contexts = new String[contextheader.size()];
+			for(int x=0;x<contextheader.size();x++) {
+				contexts[x] = context[x][y];
 			}
-			ComboBox<String> comboBox = new ComboBox(hazardousOX);
-			mcsData.add(new CTM(ControllerName, CA, "Not provided\ncauses hazard", i+1, contexts, comboBox));
+			
+	   		ComboBox<String> comboBox = new ComboBox(hazardousOX);
 			comboBox.valueProperty().addListener(new ChangeListener<String>() {
 			      @Override
 			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-			        mcsData.get(temp).setHazardousValue(newValue);
+			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
 			      }
 			    });
-			i++;
-		};
-        totalData.add(mcsData);
-        table.setItems(mcsData);
-	}*/
-	
-	/*public void fillContextTable() {
-		hazardousOX = FXCollections.observableArrayList();
-		hazardousOX.add("O");
-		hazardousOX.add("X");
-		
-	    // 3. Create Data list ex
-		while(i < no.length) {
-	    	int temp = i;
-			String[] contexts = new String[k];
-			for(int t=0;t<k;t++) {
-				contexts[t] = context[t][i];
-			}
-			ComboBox<String> comboBox = new ComboBox(hazardousOX);
-			mcsData.add(new CTM(ControllerName, CA, "Not provided\ncauses hazard", i+1, contexts, comboBox));
-			comboBox.valueProperty().addListener(new ChangeListener<String>() {
-			      @Override
-			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-			        mcsData.get(temp).setHazardousValue(newValue);
-			      }
-			    });
-			i++;
-		};
-        totalData.add(mcsData);
-	    contextTable.setItems(mcsData);
-	}*/
-	
-	public ObservableList<CTM> getContextTableData() {
-	       System.out.println(myTable.get(0));
-	      return myTable;
+			totalData.get(curControllerNum).add(
+					//TODO setCases
+					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),"Not provided\ncauses hazard",totalData.get(curControllerNum).size()+1,contexts,comboBox)
+			);
+		}
 	}
 	
 	@FXML
