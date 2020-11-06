@@ -1,67 +1,40 @@
 package kutokit.view.components;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import kutokit.model.cse.Components;
 
-public class RectangleView extends StackPane {
-
-	Rectangle r;
+public class TextView extends Label {
 	public int id;
-	public int name;
+	public String content;
 	public DoubleProperty x, y;
 	Components dataStore;
-	private DoubleProperty num;
-	public DoubleProperty width;
-	
-	
-	public RectangleView(DoubleProperty x, DoubleProperty y, String name, int id, Components dataStore) {
+		
+	public TextView(DoubleProperty x, DoubleProperty y, String content, int id, Components dataStore) {
 	
 		this.dataStore = dataStore;
 		this.id = id;
-		
-		width = new SimpleDoubleProperty(150);
-		this.r = new Rectangle(200, 100, Color.web("#8fbc8f"));
-		
 		this.x = x;
 		this.y = y;
-		x.bind(r.layoutXProperty());
-		y.bind(r.layoutYProperty());
-//		
-//		this.num = num;
-//		
-//		width.bind(Bindings.createDoubleBinding(
-//        	    () ->  150 + 50*num.get(),
-//        	   num));
-//	
-//		r.widthProperty().bind(width);
+		this.content = content;
 		
-		Label label = new Label(name);
-		label.setFont(new Font(18));
-		getChildren().addAll(r, label);
+		setLayoutX(x.get());
+		setLayoutY(y.get());
+		
+		x.bind(layoutXProperty());
+		y.bind(layoutYProperty());
+		
+		//setBackground(new Background(new BackgroundFill(Color.web("#8fbc8f"), null, null)));
+		setText(content);
+		setFont(new Font(18));
+		setTextFill(Color.web("#8fbc8f"));
 		
 		enableDrag();
-	}
-	
-	public void resizeRectangle(int[] num) {
-		if(num[0]>=1 || num[1]>=1) {	
-			if(num[0]<1 && num[1]>=1) {
-				this.r.setWidth(200 * num[1]);
-			}else if(num[0]>=1 && num[1]<1){
-				this.r.setWidth(200 * num[0]);
-			}
-			else if(num[0]>=1 && num[1]>=1){
-				this.r.setWidth(100 * num[0] + 200 * num[1]);
-			}
-		}	
 	}
 
 	// make a node movable by dragging it around with the mouse.
@@ -82,7 +55,7 @@ public class RectangleView extends StackPane {
 					public void handle(MouseEvent mouseEvent) {
 						getScene().setCursor(Cursor.HAND);
 						
-						dataStore.moveController(id, getLayoutX(), getLayoutY());
+						dataStore.moveText(id, getLayoutX(), getLayoutY());
 					}
 				});
 				setOnMouseDragged(new EventHandler<MouseEvent>() {

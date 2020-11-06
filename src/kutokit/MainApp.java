@@ -303,6 +303,8 @@ public class MainApp extends Application {
 		        components.getControllers().addAll(projectXML.getControllers());
 		        components.getControlActions().addAll(projectXML.getControlActions());
 		        components.getFeedbacks().addAll(projectXML.getFeedbacks());
+		        components.setTexts(projectXML.getTexts());
+		        components.setCurId(projectXML.getCurId());
 		     // --------------------------- CSE --------------------------
 
 
@@ -321,7 +323,9 @@ public class MainApp extends Application {
 			 // --------------------------- PMM --------------------------
 		        models.setControllerName(projectXML.getControllerName());;
 		        models.setControlActionName(projectXML.getControlActionName());
-		        models.setOutputName(projectXML.getOutputVariableName());
+		        models.setOutputNames(projectXML.getOutputVariableName());
+		        models.setAllCA(projectXML.getAllCA());
+		        models.setAllOutput(projectXML.getAllOutput());
 		        models.getValuelist().addAll(projectXML.getValueList());
 			 // --------------------------- PMM --------------------------
 
@@ -363,6 +367,8 @@ public class MainApp extends Application {
 	        projectXML.setControllers(components.getControllers());
 	        projectXML.setControlActions(components.getControlActions());
 	        projectXML.setFeedbacks(components.getFeedbacks());
+	        projectXML.setTexts(components.getTexts());
+	        projectXML.setCurId(components.getCurId());
 	     // --------------------------- CSE --------------------------
 
 
@@ -374,7 +380,9 @@ public class MainApp extends Application {
 		 // --------------------------- PMM --------------------------
 	        projectXML.setControllerName(models.getControllerName());
 	        projectXML.setControlActionName(models.getControlActionName());
-	        projectXML.setOutputVariableName(models.getOutputName());
+	        projectXML.setOutputVariableName(models.getOutputNames());
+	        projectXML.setAllCA(models.getAllCA());
+	        projectXML.setAllOutput(models.getAllOutput());
 	        projectXML.setValueList(models.getValuelist());
 		 // --------------------------- PMM --------------------------
 

@@ -86,9 +86,9 @@ public class CtmController {
 		mcsData = ctmDataStore.getCTMTableList();
 
 		effectiveVariable = mainApp.models.getValuelist();
-		CA = mainApp.models.getControlActionName();
-		output = mainApp.models.getOutputName();
-		ControllerName = mainApp.models.getControllerName();
+//		CA = mainApp.models.getControlActionName();
+//		output = mainApp.models.getOutputName();
+//		ControllerName = mainApp.models.getControllerName();
 		System.out.println("eV:"+effectiveVariable);
 		System.out.println("CA:"+CA);
 		System.out.println("output:"+output);

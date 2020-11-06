@@ -13,7 +13,8 @@ public class DashboardController implements Initializable{
 	
 	@FXML
 	public Button cseBtn;
-	
+	public Button pmmBtn;
+
 	//constructor
 	public DashboardController() {
 		
@@ -68,6 +69,12 @@ public class DashboardController implements Initializable{
 //			cseBtn.setDisable(false);
 //		}
 
+		//PMM
+//		if(MainApp.components.getControllers().isEmpty() || MainApp.components.getControlActions().isEmpty() ) {
+//			pmmBtn.setDisable(true);
+//		}else {
+//			pmmBtn.setDisable(false);
+//		}
 	}
 	
 }
