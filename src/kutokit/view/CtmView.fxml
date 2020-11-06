@@ -10,26 +10,18 @@
 
 <AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CtmController" fx:id="CTMPane">
    <children>
-      <TableView fx:id="contextTable" layoutY="37.0" prefHeight="608.0" prefWidth="2000.0">
-        <columns>
-          <TableColumn fx:id="CAColumn" prefWidth="100.0" text="Control Action" />
-          <TableColumn fx:id="casesColumn" minWidth="6.0" prefWidth="90.0" text="Cases" />
-            <TableColumn fx:id="noColumn" minWidth="6.0" prefWidth="30.0" text="No." />
-            <TableColumn fx:id="hazardousColumn" minWidth="3.0" prefWidth="100.0" text="hazardous?" />
-        </columns>
-      </TableView>
-      <Pane fx:id="AddFile" layoutX="181.0" layoutY="96.0" prefHeight="109.0" prefWidth="238.0">
+      <Pane fx:id="AddFile" layoutX="378.0" layoutY="473.0" prefHeight="118.0" prefWidth="200.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#86da81" height="24.0" stroke="BLACK" strokeType="INSIDE" width="238.0" />
-            <Label layoutX="8.0" layoutY="5.0" text="Add File" />
-            <AnchorPane layoutX="2.0" layoutY="26.0" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="238.0">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="38.0" layoutY="-14.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
+            <Label layoutX="14.0" layoutY="-4.0" text="Add File" textFill="WHITE" />
+            <AnchorPane layoutX="2.0" layoutY="24.0" minHeight="0.0" minWidth="0.0" prefHeight="101.0" prefWidth="210.0">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="87.0" layoutX="-2.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="238.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="217.0" />
-                  <Button layoutX="197.0" layoutY="16.0" mnemonicParsing="false" onAction="#AddFile" prefHeight="14.0" prefWidth="28.0" text="..." />
-                  <Button layoutX="49.0" layoutY="47.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="100.0" layoutX="-2.0" layoutY="-4.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
+                  <Button layoutX="160.0" layoutY="15.0" mnemonicParsing="false" onAction="#AddFile" prefHeight="14.0" prefWidth="28.0" text="..." />
+                  <Button layoutX="46.0" layoutY="51.0" mnemonicParsing="false" onAction="#ApplyFile" text="Apply" />
                   <Label fx:id="filename" layoutX="14.0" layoutY="20.0" />
-                  <Button layoutX="128.0" layoutY="47.0" mnemonicParsing="false" onAction="#closeAddFile" text="Close" />
+                  <Button layoutX="115.0" layoutY="51.0" mnemonicParsing="false" onAction="#closeAddFile" text="Close" />
                </children>
             </AnchorPane>
          </children>

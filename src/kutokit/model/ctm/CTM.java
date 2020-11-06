@@ -15,19 +15,22 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 public class CTM {
+	private StringProperty controllerName;
 	private StringProperty controlAction;
 	private StringProperty cases;
 	private IntegerProperty no;
 	private ComboBox<String> hazardous;
 	private StringProperty[] contexts;
 
+	public String ControllerName;
 	public String ControlAction;
 	public String Cases;
 	public int No;
 	public String Hazardous;
 	public String[] Contexts;
 
-	public CTM(String controlAction, String cases, int no, String[] contexts, ComboBox<String> hazardous) {
+	public CTM(String controllerName, String controlAction, String cases, int no, String[] contexts, ComboBox<String> hazardous) {
+		this.controllerName = new SimpleStringProperty(controllerName);
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.cases = new SimpleStringProperty(cases);
 		this.no = new SimpleIntegerProperty(no);
@@ -40,6 +43,7 @@ public class CTM {
 			this.contexts[i] = new SimpleStringProperty(contexts[i]);
 		}
 
+		this.ControllerName = controllerName;
 		this.ControlAction = controlAction;
 		this.Cases = cases;
 		this.No = no;
@@ -47,6 +51,17 @@ public class CTM {
 		this.Hazardous = hazardous.getValue();
 
 
+	}
+	
+	public String getControllerName() {
+		return controllerName.get();
+	}
+	
+	public StringProperty getControllerNameProperty() {
+		return controllerName;
+	}
+	public void setControllerName(String val) {
+		this.controllerName.set(val);
 	}
 
 	public String getContext(int i) {
