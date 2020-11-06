@@ -52,11 +52,14 @@ public class RectangleView extends StackPane {
 	}
 	
 	public void resizeRectangle(int[] num) {
-		if(num[0]>0 && num[1]>0) {	
-			if(num[1]>1) {
+		if(num[0]>=1 || num[1]>=1) {	
+			if(num[0]<1 && num[1]>=1) {
 				this.r.setWidth(200 * num[1]);
-			}else {
-				this.r.setWidth(100 * num[0] + 100 * num[1]);
+			}else if(num[0]>=1 && num[1]<1){
+				this.r.setWidth(200 * num[0]);
+			}
+			else if(num[0]>=1 && num[1]>=1){
+				this.r.setWidth(100 * num[0] + 200 * num[1]);
 			}
 		}	
 	}
