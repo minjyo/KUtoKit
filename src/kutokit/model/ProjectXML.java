@@ -19,6 +19,7 @@ import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
+import kutokit.model.utm.UCADataStore;
 import kutokit.view.components.*;
 
 @XmlRootElement(name = "kutokit")
@@ -41,7 +42,8 @@ public class ProjectXML {
 
 
 	// --------------------------- UTM --------------------------
-	ObservableList<UCA> UCAList = FXCollections.observableArrayList();
+	ObservableList<UCA> UCA = FXCollections.observableArrayList();
+	ObservableList<UCADataStore> UCAList = FXCollections.observableArrayList();
 	// --------------------------- UTM --------------------------
 
 
@@ -122,13 +124,25 @@ public class ProjectXML {
 
 
 	// --------------------------- UTM --------------------------
-	@XmlElement(name = "UCA")
-	public ObservableList<UCA> getUCAList() {
+	@XmlElement(name = "UCAList")
+	public ObservableList<UCADataStore> getUCADataStoreList() {
 		return this.UCAList;
 	}
 
-	public void setUCAList(ObservableList<UCA> UCAList) {
+	@XmlElement(name = "UCA")
+	public ObservableList<UCA> getUCA(){
+		for(UCADataStore u : UCAList){
+			UCA.addAll(u.getUCATableList());
+		}
+		return UCA;
+	}
+
+	public void setUCAList(ObservableList<UCADataStore> UCAList) {
 		this.UCAList = UCAList;
+	}
+
+	public void setUCA(ObservableList<UCA> UCA) {
+		this.UCA = UCA;
 	}
 	// --------------------------- UTM --------------------------
 

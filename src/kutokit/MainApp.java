@@ -2,11 +2,13 @@ package kutokit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.prefs.Preferences;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,6 +32,7 @@ import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.ls.LSDataStore;
 import kutokit.model.pmm.ProcessModel;
+import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
 
 public class MainApp extends Application {
@@ -40,7 +43,8 @@ public class MainApp extends Application {
 	 public static Components components;
 	 public static LhcDataStore lhcDataStore;
 	 public ProcessModel models;
-	 public static UCADataStore ucadatastore;
+	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
+	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static CTMDataStore ctmDataStore;
 	 public static LSDataStore lsDataStore;
 
@@ -63,7 +67,9 @@ public class MainApp extends Application {
 		components = new Components();
 		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
-		ucadatastore = new UCADataStore();
+//change
+//		ucadatastore = new UCADataStore();
+
 		ctmDataStore = new CTMDataStore();
 		lsDataStore = new LSDataStore();
 	}
@@ -159,6 +165,15 @@ public class MainApp extends Application {
      */
     public void showUtmView() {
         try {
+        	//Open when CTM data isn't null
+        	if(ctmDataStore.getCTMTableList().isEmpty()){
+    	        Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setTitle("Caution");
+    	        alert.setContentText("Please import CTM data before access UTM");
+    	        alert.show();
+        		return;
+        	}
+
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/UtmView.fxml"));
@@ -292,10 +307,16 @@ public class MainApp extends Application {
 
 
 		     // --------------------------- UTM --------------------------
-		       //if open reset
-//		        ucadatastore.getUCATableList().remove(0, ucadatastore.getUCATableList().size());
-		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
-		     // --------------------------- UTM --------------------------
+		        ucadatastore.addAll(projectXML.getUCA());
+		        ucaDataStoreList.addAll(projectXML.getUCADataStoreList());
+		        int i=0;
+		        for(UCADataStore u : ucaDataStoreList){
+		        	for(int j=0;j<u.size;j++){
+		        		u.getUCATableList().add(ucadatastore.get(i));
+		        		i++;
+		        	}
+		        }
+		      //--------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
 		        models.setControllerName(projectXML.getControllerName());;
@@ -346,7 +367,8 @@ public class MainApp extends Application {
 
 
 	     // --------------------------- UTM --------------------------
-	        projectXML.setUCAList(ucadatastore.getUCATableList());
+	        projectXML.setUCA(ucadatastore);
+	        projectXML.setUCAList(ucaDataStoreList);
 	     // --------------------------- UTM --------------------------
 
 		 // --------------------------- PMM --------------------------

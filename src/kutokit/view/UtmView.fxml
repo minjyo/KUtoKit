@@ -1,23 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane minHeight="800.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.UtmController">
    <children>
-      <TableView fx:id="ucaTable" prefHeight="800.0" prefWidth="1000.0">
-        <columns>
-          <TableColumn fx:id="CAColumn" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="CA" />
-          <TableColumn fx:id="providingColumn" minWidth="4.0" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Providing Causes Hazard" />
-            <TableColumn fx:id="notProvidingColumn" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Not Providing Causes Hazard" />
-            <TableColumn fx:id="incorrectColumn" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Incorrect Timing/Order" />
-            <TableColumn fx:id="stoppedColumn" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Stopped Too Soon/Applied Too Long" />
-            <TableColumn fx:id="linkColumn" onEditCommit="#onEditChange" resizable="false" prefWidth="100.0" text="Link" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
+      <AnchorPane prefHeight="40.0" prefWidth="1000.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="47.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1000.0" />
+            <Text fill="WHITE" layoutX="484.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UCA ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="47.0" maxHeight="760.0" minHeight="760.0" prefHeight="760.0" prefWidth="1000.0">
+         <children>
+            <TabPane fx:id="tabPane" prefHeight="760.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="CA 1">
+                     <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="ucaTable" prefHeight="770.0" prefWidth="1000.0">
+                                <columns>
+                               	 <TableColumn fx:id="CAColumnO" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="CA" />
+        	      					 <TableColumn fx:id="providingColumnO" minWidth="4.0" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Providing Causes Hazard" />
+         					 	     <TableColumn fx:id="notProvidingColumnO" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Not Providing Causes Hazard" />
+      				    	     <TableColumn fx:id="incorrectColumnO" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Incorrect Timing/Order" />
+      							 <TableColumn fx:id="stoppedColumnO" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Stopped Too Soon/Applied Too Long" />
+      					         <TableColumn fx:id="linkColumnO" onEditCommit="#onEditChange" prefWidth="100.0" resizable="false" text="Link" />
+                               </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
