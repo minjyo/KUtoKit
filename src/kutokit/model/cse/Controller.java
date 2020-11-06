@@ -102,4 +102,9 @@ public class Controller {
 	public int[] getNum() {
 		return num;
 	}
+	
+	public void clearNum() {
+		this.num[0] = 0;
+		this.num[1] = 0;
+	}
 }

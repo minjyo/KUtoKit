@@ -87,6 +87,7 @@ public class CseController {
 		for (Controller c : controllers) {
 			DoubleProperty X = new SimpleDoubleProperty(c.getX());
 		    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
+		    c.clearNum();
 		    
 			RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
 			c.setRectangle(r);
