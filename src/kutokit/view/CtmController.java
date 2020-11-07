@@ -44,17 +44,19 @@ import kutokit.model.utm.UCADataStore;
 public class CtmController {
 
 	private MainApp mainApp;
+	private CTMDataStore ctmDB;
 	private File selectedFile;
 
-	private static CTMDataStore ctmDataStore;
+	private static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
 	
 	@FXML private AnchorPane CTMPane;
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
 	private TabPane tabPane = new TabPane();
 	
-	ArrayList<ObservableList<CTM>> totalData = new ArrayList<>();
-	ObservableList<CTM> mcsData;
+//	ObservableList<ObservableList<CTM>> totalData = FXCollections.observableArrayList();
+	ObservableList<CTMDataStore> totalData = FXCollections.observableArrayList();
+	ObservableList<CTM> mcsData = FXCollections.observableArrayList();;
 	private int controllerCount = 0;
 	private int curControllerNum, curCANum;
 	private ObservableList<String> hazardousOX;
@@ -78,8 +80,8 @@ public class CtmController {
 		AddFile.setVisible(false);
 		
 		this.mainApp = mainApp;
-		ctmDataStore = mainApp.ctmDataStore;
-		totalData = ctmDataStore.getCTMTableList();
+		ctmDataStoreList = MainApp.ctmDataStoreList;
+		totalData = ctmDataStoreList;
 		
 		controllerName = mainApp.models.getControllerName();
 		controlActionNames = mainApp.models.getControlActionName();
@@ -150,9 +152,8 @@ public class CtmController {
 	public Tab MakeTab(int tabNum, String caName, ArrayList<String> contextheader) {
 		//final int row=0; //row= 테이블 길이..파일 파싱이후 데이터 추가했을때를 생각해야
         final TableView<CTM> contextTable = this.MakeTable(contextheader);
-		mcsData = FXCollections.observableArrayList();
         if(totalData.size() >= tabNum+1) { 
-        	mcsData = totalData.get(tabNum);
+        	mcsData =  totalData.get(tabNum).getCTMTableList();
 			contextTable.setItems(mcsData);
         }
         contextTable.setPrefHeight(800.0);
@@ -218,10 +219,14 @@ public class CtmController {
         totalhb.getChildren().addAll(hb,contextTable);
         tab.setContent(totalhb);
 
+    	CTMDataStore ctm = new CTMDataStore();
         if(totalData.size()<= tabNum) { 
-        	totalData.add(mcsData);
+        	for(CTM c : mcsData) {
+        		ctm.getCTMTableList().add(c);
+        	}
+        	totalData.add(ctm);
         } else {
-        	totalData.set(tabNum, mcsData);
+        	totalData.set(tabNum, ctm);
         }
 
         return tab;
@@ -316,7 +321,7 @@ public class CtmController {
 	           
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
-	            this.ParseMSC(temps);
+	            this.ParseMCS(temps);
 	            
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
@@ -325,7 +330,7 @@ public class CtmController {
 		return 0;
 	}
 
-	private void ParseMSC(String[] temps) {
+	private void ParseMCS(String[] temps) {
 		String[][] context = new String[contextheader.size()][temps.length];
 
 		int i=0;
@@ -389,24 +394,27 @@ public class CtmController {
 			}
 			
 	   		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
-	   		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
-			      @Override
-			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-			    	 totalData.get(curControllerNum).get(curCANum).setCasesValue(newValue);
-			      }
-			    });
+//	   		comboBox1.setOnAction(event ->
+//	   				ctmDB.get);
+//	   		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+//			      @Override
+//			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+//			    	  
+//			    	 totalData.get(curControllerNum).get.get(curCANum).setCasesValue(newValue);
+//			      }
+//			    });
 			
 	   		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
-	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
-			      @Override
-			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
-			      }
-			    });
-			
-			totalData.get(curControllerNum).add(
-					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
-			);
+//	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
+//			      @Override
+//			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+//			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
+//			      }
+//			    });
+//			
+//			totalData.get(curControllerNum).add(
+//					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
+//			);
 		}
 	}
 	

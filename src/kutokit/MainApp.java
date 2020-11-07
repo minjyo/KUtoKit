@@ -27,6 +27,7 @@ import kutokit.view.UtmController;
 import kutokit.view.RootLayoutController;
 import kutokit.model.ProjectXML;
 import kutokit.model.cse.Components;
+import kutokit.model.ctm.CTM;
 import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
@@ -45,7 +46,8 @@ public class MainApp extends Application {
 	 public ProcessModel models;
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
-	 public static CTMDataStore ctmDataStore;
+	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
+	 public static ObservableList<CTM> ctmDataStore = FXCollections.observableArrayList();
 	 public static LSDataStore lsDataStore;
 
 	@Override
@@ -67,10 +69,6 @@ public class MainApp extends Application {
 		components = new Components();
 		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
-//change
-//		ucadatastore = new UCADataStore();
-
-		ctmDataStore = new CTMDataStore();
 		lsDataStore = new LSDataStore();
 	}
 
@@ -166,7 +164,7 @@ public class MainApp extends Application {
     public void showUtmView() {
         try {
         	//Open when CTM data isn't null
-        	if(ctmDataStore.getCTMTableList().isEmpty()){
+        	if(ctmDataStoreList.isEmpty()){
     	        Alert alert = new Alert(AlertType.INFORMATION);
         		alert.setTitle("Caution");
     	        alert.setContentText("Please import CTM data before access UTM");
@@ -298,13 +296,12 @@ public class MainApp extends Application {
 		        lhcDataStore.getHazardTableList().addAll(projectXML.getHazardList());
 		        lhcDataStore.getConstraintTableList().addAll(projectXML.getConstraintList());
 			 // --------------------------- LHC --------------------------
-
+		        
 		     // --------------------------- CSE --------------------------
 		        components.getControllers().addAll(projectXML.getControllers());
 		        components.getControlActions().addAll(projectXML.getControlActions());
 		        components.getFeedbacks().addAll(projectXML.getFeedbacks());
 		     // --------------------------- CSE --------------------------
-
 
 		     // --------------------------- UTM --------------------------
 		        ucadatastore.remove(0, ucadatastore.size()-1);
@@ -330,20 +327,35 @@ public class MainApp extends Application {
 		        models.getValuelist().addAll(projectXML.getValueList());
 			 // --------------------------- PMM --------------------------
 
-
 			 // --------------------------- CTM --------------------------
-		        ctmDataStore.getCTMTableList().addAll(projectXML.getCTMList());
+		        ctmDataStore.remove(0, ctmDataStore.size()-1);
+		        ctmDataStoreList.remove(0, ctmDataStoreList.size()-1);
+
+		        ctmDataStore.addAll(projectXML.getCTM());
+		        ctmDataStoreList.addAll(projectXML.getCtmDataStoreList());
+		        int j = 0;
+		        for(CTMDataStore c : ctmDataStoreList){
+		        	for(int k = 0; k < c.tableSize; k++){
+		        		c.getCTMTableList().add(ctmDataStore.get(j));
+		        		j++;
+		        	}
+		        }
    	         // --------------------------- CTM --------------------------
-
-
+		        
+		     // --------------------------- LS ---------------------------
+		        lsDataStore.getLsUcaList().addAll(projectXML.getLsUcaList());
+		        lsDataStore.getLossFactorList().addAll(projectXML.getLossFactorList());
+		        lsDataStore.getLossScenarioList().addAll(projectXML.getLossScenarioList());
+		     // --------------------------- LS ---------------------------
+		        
 		        setFilePath(file);
 
-		    } catch (Exception e) {
+		     } catch (Exception e) {
 		        Alert alert = new Alert(AlertType.ERROR);
 		        alert.setTitle("Error");
 		        alert.setHeaderText("Could not load data");
 		        alert.setContentText("Could not load data from file:\n" + file.getPath());
-
+		        
 		        alert.showAndWait();
 		    }
 	}
@@ -359,15 +371,15 @@ public class MainApp extends Application {
 			 ProjectXML projectXML = new ProjectXML();
 
 	     // --------------------------- LHC --------------------------
-//	        projectXML.setLossList(lhcDataStore.getLossTableList());
-//	        projectXML.setHazardList(lhcDataStore.getHazardTableList());
-//	        projectXML.setConstraintList(lhcDataStore.getConstraintTableList());
+	        projectXML.setLossList(lhcDataStore.getLossTableList());
+	        projectXML.setHazardList(lhcDataStore.getHazardTableList());
+	        projectXML.setConstraintList(lhcDataStore.getConstraintTableList());
 	     // --------------------------- LHC --------------------------
 
 	     // --------------------------- CSE --------------------------
-//	        projectXML.setControllers(components.getControllers());
-//	        projectXML.setControlActions(components.getControlActions());
-//	        projectXML.setFeedbacks(components.getFeedbacks());
+	        projectXML.setControllers(components.getControllers());
+	        projectXML.setControlActions(components.getControlActions());
+	        projectXML.setFeedbacks(components.getFeedbacks());
 	     // --------------------------- CSE --------------------------
 
 
@@ -377,17 +389,24 @@ public class MainApp extends Application {
 	     // --------------------------- UTM --------------------------
 
 		 // --------------------------- PMM --------------------------
-//	        projectXML.setControllerName(models.getControllerName());
-//	        projectXML.setControlActionName(models.getControlActionName());
-//	        projectXML.setOutputVariableName(models.getOutputNames());
-//	        projectXML.setAllCA(models.getAllCA());
-//	        projectXML.setAllOutput(models.getAllOutput());
-//	        projectXML.setValueList(models.getValuelist());
-		 // --------------------------- PMM --------------------------
+	        projectXML.setControllerName(models.getControllerName());
+	        projectXML.setControlActionName(models.getControlActionName());
+	        projectXML.setOutputVariableName(models.getOutputNames());
+	        projectXML.setAllCA(models.getAllCA());
+	        projectXML.setAllOutput(models.getAllOutput());
+	        projectXML.setValueList(models.getValuelist());
+    	 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------
-//	        projectXML.setCTMList(ctmDataStore.getCTMTableList());
+	        projectXML.setCTM(ctmDataStore);
+	        projectXML.setCTMList(ctmDataStoreList);
 	     // --------------------------- CTM --------------------------
+	        
+	     // --------------------------- LS ---------------------------
+	        projectXML.setLsUcaList(lsDataStore.getLsUcaList());
+	        projectXML.setLossFactorList(lsDataStore.getLossFactorList());
+	        projectXML.setLossScenarioList(lsDataStore.getLossScenarioList());
+	     // --------------------------- LS ---------------------------
 
 	        m.marshal(projectXML, file);
 	        setFilePath(file);
@@ -397,7 +416,7 @@ public class MainApp extends Application {
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");
 	        alert.setContentText("Could not save data to file:\n" + file.getPath());
-
+	        
 	        alert.showAndWait();
 	    }
 	}
