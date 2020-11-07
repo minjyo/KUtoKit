@@ -54,6 +54,7 @@ public class CtmController {
 	private TabPane tabPane = new TabPane();
 	
 	ArrayList<ObservableList<CTM>> totalData = new ArrayList<>();
+	ObservableList<CTM> mcsData;
 	private int controllerCount = 0;
 	private int curControllerNum, curCANum;
 	private ObservableList<String> hazardousOX;
@@ -77,7 +78,7 @@ public class CtmController {
 		
 		this.mainApp = mainApp;
 		ctmDataStore = mainApp.ctmDataStore;
-		totalData = ctmDataStore.getCTMTableList(); //TODO
+		totalData = ctmDataStore.getCTMTableList();
 		
 		controllerName = mainApp.models.getControllerName();
 		controlActionNames = mainApp.models.getControlActionName();
@@ -141,8 +142,12 @@ public class CtmController {
 	
 	public Tab MakeTab(int tabNum, String caName, ArrayList<String> contextheader) {
 		//final int row=0; //row= 테이블 길이..파일 파싱이후 데이터 추가했을때를 생각해야
-		ObservableList<CTM> mcsData = FXCollections.observableArrayList();
         final TableView<CTM> contextTable = this.MakeTable(contextheader);
+		mcsData = FXCollections.observableArrayList();
+        if(totalData.size() >= tabNum+1) { 
+        	mcsData = totalData.get(tabNum);
+			contextTable.setItems(mcsData);
+        }
         contextTable.setPrefHeight(800.0);
         
         int len = 0;
@@ -198,7 +203,6 @@ public class CtmController {
   			      }
   			    });
     			contextTable.setItems(mcsData);
-        		totalData.add(mcsData);
                 addCases.clear();
             }
         });
@@ -206,12 +210,19 @@ public class CtmController {
         hb.setSpacing(3);
         totalhb.getChildren().addAll(hb,contextTable);
         tab.setContent(totalhb);
-        
+
+        if(totalData.size()<= tabNum) { 
+        	totalData.add(mcsData);
+        } else {
+        	totalData.set(tabNum, mcsData);
+        }
+
         return tab;
 	}
 	
 	public TableView<CTM> MakeTable(ArrayList<String> contextheader) {
 		TableView<CTM> contextTable = new TableView<CTM>();
+		
 		contextTable.prefWidthProperty().bind(tabPane.widthProperty());
 		contextTable.prefWidth(1000.0);
 		contextTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
