@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -42,6 +43,7 @@ public class UtmController {
 	@FXML private ObservableList<TableColumn<UCA, String>> incorrectColumn= FXCollections.observableArrayList();
 	@FXML private ObservableList<TableColumn<UCA, String>> stoppedColumn= FXCollections.observableArrayList();
 	@FXML private ObservableList<TableColumn> linkColumn= FXCollections.observableArrayList();
+	@FXML private ObservableList<RadioButton> controllerButton = FXCollections.observableArrayList();
 
 	@FXML private TabPane tabPane;
 

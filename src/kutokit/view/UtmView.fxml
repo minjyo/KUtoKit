@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -21,15 +22,20 @@
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="47.0" maxHeight="760.0" minHeight="760.0" prefHeight="760.0" prefWidth="1000.0">
+      <AnchorPane layoutY="40.0" prefHeight="30.0" prefWidth="1000.0">
          <children>
-            <TabPane fx:id="tabPane" layoutY="-7.0" prefHeight="760.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
+            <RadioButton layoutX="8.0" layoutY="3.0" mnemonicParsing="false" prefWidth="116.0" text="Controller" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="65.0" maxHeight="730.0" minHeight="735.0" prefHeight="730.0" prefWidth="1000.0">
+         <children>
+            <TabPane fx:id="tabPane" layoutY="3.0" prefHeight="730.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="CA 1">
                      <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="691.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="ucaTable" prefHeight="725.0" prefWidth="1000.0">
+                              <TableView fx:id="ucaTable" prefHeight="691.0" prefWidth="1000.0">
                                 <columns>
                                	 <TableColumn fx:id="CAColumnO" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="CA" />
         	      					 <TableColumn fx:id="providingColumnO" minWidth="4.0" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Providing Causes Hazard" />
