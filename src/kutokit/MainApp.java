@@ -359,15 +359,15 @@ public class MainApp extends Application {
 			 ProjectXML projectXML = new ProjectXML();
 
 	     // --------------------------- LHC --------------------------
-//	        projectXML.setLossList(lhcDataStore.getLossTableList());
-//	        projectXML.setHazardList(lhcDataStore.getHazardTableList());
-//	        projectXML.setConstraintList(lhcDataStore.getConstraintTableList());
+	        projectXML.setLossList(lhcDataStore.getLossTableList());
+	        projectXML.setHazardList(lhcDataStore.getHazardTableList());
+	        projectXML.setConstraintList(lhcDataStore.getConstraintTableList());
 	     // --------------------------- LHC --------------------------
 
 	     // --------------------------- CSE --------------------------
-//	        projectXML.setControllers(components.getControllers());
-//	        projectXML.setControlActions(components.getControlActions());
-//	        projectXML.setFeedbacks(components.getFeedbacks());
+	        projectXML.setControllers(components.getControllers());
+	        projectXML.setControlActions(components.getControlActions());
+	        projectXML.setFeedbacks(components.getFeedbacks());
 	     // --------------------------- CSE --------------------------
 
 
@@ -377,16 +377,16 @@ public class MainApp extends Application {
 	     // --------------------------- UTM --------------------------
 
 		 // --------------------------- PMM --------------------------
-//	        projectXML.setControllerName(models.getControllerName());
-//	        projectXML.setControlActionName(models.getControlActionName());
-//	        projectXML.setOutputVariableName(models.getOutputNames());
-//	        projectXML.setAllCA(models.getAllCA());
-//	        projectXML.setAllOutput(models.getAllOutput());
-//	        projectXML.setValueList(models.getValuelist());
+	        projectXML.setControllerName(models.getControllerName());
+	        projectXML.setControlActionName(models.getControlActionName());
+	        projectXML.setOutputVariableName(models.getOutputNames());
+	        projectXML.setAllCA(models.getAllCA());
+	        projectXML.setAllOutput(models.getAllOutput());
+	        projectXML.setValueList(models.getValuelist());
 		 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------
-//	        projectXML.setCTMList(ctmDataStore.getCTMTableList());
+	        projectXML.setCTMList(ctmDataStore.getCTMTableList());
 	     // --------------------------- CTM --------------------------
 
 	        m.marshal(projectXML, file);
