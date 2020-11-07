@@ -92,21 +92,36 @@ public class UtmController {
 		//example
 //	 	String ctmController = "Controller";
 //	 	String ctmControlAction = "Control Action";
+// 		CTM ctm = ctmData.get(0).get(0);
+// 		System.out.println(ctm.getCases()+ctm.getContext(0)+ctm.getControlAction()+ctm.getControllerName()+ctm.getHazardousValue());
 
    	 	int i=0;
-   	 	for(int j=0;j>ctmData.size();j++){
-   	 		i=0;
-	   	 	for(UCADataStore u : ucaDataStoreList){
-		 		i++;
-		 		if(u.getControllAction() == ctmData.get(j).get(0).getControllerName()&& u.getController()==ctmData.get(j).get(0).getControlAction()){
-		   	 			break;
-		 		}
-		 	}
-		   	//new Ctm Table
-	   	 	if(i==ucaDataStoreList.size()){
-	   	 		addUcaTable(ctmData.get(j));
-	   	 	}
-   	 	}
+//   	 	for(int j=0;j<ctmData.size();j++){
+//   	 		i=0;
+//	   	 	for(UCADataStore u : ucaDataStoreList){
+//		 		if(u.getControllAction() == ctmData.get(j).get(0).getControllerName()&& u.getController()==ctmData.get(j).get(0).getControlAction()){
+//		 			System.out.println(i);
+//		   	 			break;
+//		 		}
+//		 		i++;
+//		 	}
+//		   	//new Ctm Table
+//	   	 	if(i==ucaDataStoreList.size()){
+//	   	 		addUcaTable(ctmData.get(j));
+//	   	 	}
+//   	 	}
+
+   	 	for(UCADataStore u : ucaDataStoreList){
+	 		if(u.getControllAction() == ctmData.get(0).get(0).getControllerName()&& u.getController()==ctmData.get(0).get(0).getControlAction()){
+	 			System.out.println(i);
+	   	 			break;
+	 		}
+	 		i++;
+	 	}
+	   	//new Ctm Table
+	 	if(i==ucaDataStoreList.size()){
+	 		addUcaTable(ctmData.get(0));
+	 	}
 		// Initialize from data store ,Tab -table View
 		for(i=0;i<ucaDataStoreList.size();i++){
 			ucaDataList.add(ucaDataStoreList.get(i).getUCATableList());
@@ -195,14 +210,13 @@ public class UtmController {
 
 
    	 	tabPane.getTabs().remove(0,tabPane.getTabs().size());
-   	 	System.out.println(ucaDataStoreList.size());
    	 	for(i=0;i<ucaDataStoreList.size();i++){
    	 		String title = ucaDataStoreList.get(i).getController()+"-"+ucaDataStoreList.get(i).getControllAction();
    	 		Tab tab =new Tab(title,ucaTableList.get(i));
-   	 		setUcaTable(tab,i);
+   	 		setUcaTable(i);
    	 		tabPane.getTabs().add(tab);
    	 	}
-        ucaHazardPopup();
+//        ucaHazardPopup();
 
         return ;
 	}
@@ -240,18 +254,14 @@ public class UtmController {
 		// and new UCA Table from CTM data
 
 		String tabtext = ctmData.get(0).getControllerName() + "-" + ctmData.get(0).getControlAction();
-
 		UCADataStore ucadatastore = new UCADataStore();
 		ObservableList<UCA> ucaData = FXCollections.observableArrayList();
 		ucaData = ucadatastore.getUCATableList();
 
 
 		for(CTM c : ctmData){
-			System.out.println("d");
 			String ucaColumn = "";
-			if(c.Hazardous =="O"){
-				System.out.println("y");
-
+			if(c.Hazardous =="X"){
 				switch(c.getCases())
 				{
 				//case naming corretly -dayun should modify
@@ -274,9 +284,10 @@ public class UtmController {
 					break;
 				}
 				String Context = "";
-				for(int j =0;j<c.Contexts.length;j++){
-					if(c.getContext(j)!="N/A"){
-						Context +=", "+mainApp.models.getValuelist().get(j) +" =" +c.getContext(j);
+				System.out.println(c.Contexts.length+" "+mainApp.models.getValuelist().size() );
+				for(int j =0;j<mainApp.models.getValuelist().size();j++){
+					if(c.getContext(j)!="N/A" || !c.getContext(j).isEmpty()){
+						Context +=mainApp.models.getValuelist().get(j) +" =" +c.getContext(j)+", ";
 					}
 				}
 
@@ -297,16 +308,12 @@ public class UtmController {
 		return;
 	}
 
-	public void setUcaTable(Tab tab,int i) {
+	public void setUcaTable(int i) {
 		// Setting Link ComboBox considering hazardList(from LHC table) update
 		hazardousList.removeAll(hazardousList);
 		hazardousList.add("None");
 		for(LHC l : hazardData){
 			hazardousList.add(l.getIndex());
-		}
-
-		if(i==2){
-			System.out.println("5"+ucaDataList.get(i).get(0).ControlAction);
 		}
 
 		for(UCA u : ucaDataList.get(i)){
