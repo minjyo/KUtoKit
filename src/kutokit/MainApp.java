@@ -283,7 +283,7 @@ public class MainApp extends Application {
 		        lhcDataStore.getHazardTableList().addAll(projectXML.getHazardList());
 		        lhcDataStore.getConstraintTableList().addAll(projectXML.getConstraintList());
 			 // --------------------------- LHC --------------------------
-
+		        
 		     // --------------------------- CSE --------------------------
 		        components.getControllers().addAll(projectXML.getControllers());
 		        components.getControlActions().addAll(projectXML.getControlActions());
@@ -292,13 +292,12 @@ public class MainApp extends Application {
 		        components.setCurId(projectXML.getCurId());
 		     // --------------------------- CSE --------------------------
 
-
 		     // --------------------------- UTM --------------------------
 		       //if open reset
 //		        ucadatastore.getUCATableList().remove(0, ucadatastore.getUCATableList().size());
 		        ucadatastore.getUCATableList().addAll(projectXML.getUCAList());
 		     // --------------------------- UTM --------------------------
-
+		        
 			 // --------------------------- PMM --------------------------
 		        models.setControllerName(projectXML.getControllerName());;
 		        models.setControlActionName(projectXML.getControlActionName());
@@ -308,12 +307,16 @@ public class MainApp extends Application {
 		        models.getValuelist().addAll(projectXML.getValueList());
 			 // --------------------------- PMM --------------------------
 
-
 			 // --------------------------- CTM --------------------------
 		        ctmDataStore.getCTMTableList().addAll(projectXML.getCTMList());
    	         // --------------------------- CTM --------------------------
-
-
+		        
+		     // --------------------------- LS ---------------------------
+		        lsDataStore.getLsUcaList().addAll(projectXML.getLsUcaList());
+		        lsDataStore.getLossFactorList().addAll(projectXML.getLossFactorList());
+		        lsDataStore.getLossScenarioList().addAll(projectXML.getLossScenarioList());
+		     // --------------------------- LS ---------------------------
+		        
 		        setFilePath(file);
 
 		    } catch (Exception e) {
@@ -321,7 +324,7 @@ public class MainApp extends Application {
 		        alert.setTitle("Error");
 		        alert.setHeaderText("Could not load data");
 		        alert.setContentText("Could not load data from file:\n" + file.getPath());
-
+		        
 		        alert.showAndWait();
 		    }
 	}
@@ -367,6 +370,12 @@ public class MainApp extends Application {
 		 // --------------------------- CTM --------------------------
 	        projectXML.setCTMList(ctmDataStore.getCTMTableList());
 	     // --------------------------- CTM --------------------------
+	        
+	     // --------------------------- LS ---------------------------
+	        projectXML.setLsUcaList(lsDataStore.getLsUcaList());
+	        projectXML.setLossFactorList(lsDataStore.getLossFactorList());
+	        projectXML.setLossScenarioList(lsDataStore.getLossScenarioList());
+	     // --------------------------- LS ---------------------------
 
 	        m.marshal(projectXML, file);
 	        setFilePath(file);
@@ -376,7 +385,7 @@ public class MainApp extends Application {
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");
 	        alert.setContentText("Could not save data to file:\n" + file.getPath());
-
+	        
 	        alert.showAndWait();
 	    }
 	}

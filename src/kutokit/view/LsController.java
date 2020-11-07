@@ -63,9 +63,11 @@ public class LsController implements Initializable {
 		this.mainApp = mainApp;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		lsDB = mainApp.lsDataStore;
+		ucaDB = mainApp.ucadatastore;
 		
 		lossScenarioTableList = lsDB.getLossScenarioList();
 		
@@ -75,6 +77,7 @@ public class LsController implements Initializable {
 		
 		lossScenarioTableView.setItems(lossScenarioTableList);
 		
+		UcaComboBox.setItems(ucaDB.getUCATableList());
 		lossFactorComboBox.setItems(lossFactorCBList);
 //		UcaComboBox.setItems(ucaCBList);
 		
@@ -84,7 +87,8 @@ public class LsController implements Initializable {
 		addLossScenario.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				LS ls = new LS(UcaComboBox.getValue().toString(), lossFactorComboBox.getValue().toString(), lossScenarioTextField.getText());
+				//여기 코드 깨짐.
+				LS ls = new LS(UcaComboBox.getSelectionModel().selectedItemProperty().toString(), lossFactorComboBox.getValue().toString(), lossScenarioTextField.getText());
 				//if text field is empty, warning pop up opens
 				if(lossScenarioTextField.getText().isEmpty()) {
 					try {

@@ -19,6 +19,8 @@ import kutokit.model.cse.Text;
 import kutokit.model.ctm.CTM;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
+import kutokit.model.ls.LS;
+import kutokit.model.ls.LSDataStore;
 import kutokit.model.utm.UCA;
 
 @XmlRootElement(name = "kutokit")
@@ -62,10 +64,18 @@ public class ProjectXML {
 	// --------------------------- CTM --------------------------
 	ObservableList<CTM> CTMList = FXCollections.observableArrayList();
 	// --------------------------- CTM --------------------------
+	
+	
+	// --------------------------- LS ---------------------------
+	LSDataStore lsDB = new LSDataStore();
+	List<LS> lsUcaList = new ArrayList<LS>();
+	List<LS> lossFactorList = new ArrayList<LS>();
+	List<LS> lossScenarioList = new ArrayList<LS>();
+	// --------------------------- LS ---------------------------
 
 
 	// --------------------------- LHC --------------------------
-	@XmlElement(name = "Loss")
+	@XmlElement(name = "LHC-loss")
 	public List<LHC> getLossList(){
 		return this.lhcDB.getLossTableList();
 	}
@@ -74,7 +84,7 @@ public class ProjectXML {
 		this.lhcDB.getLossTableList().setAll(lossList);
 	}
 
-	@XmlElement(name = "Hazard")
+	@XmlElement(name = "LHC-hazard")
 	public List<LHC> getHazardList(){
 		return this.lhcDB.getHazardTableList();
 	}
@@ -83,7 +93,7 @@ public class ProjectXML {
 		this.lhcDB.getHazardTableList().setAll(hazardList);
 	}
 
-	@XmlElement(name = "Constraint")
+	@XmlElement(name = "LHC-constraint")
 	public List<LHC> getConstraintList(){
 		return this.lhcDB.getConstraintTableList();
 	}
@@ -96,7 +106,7 @@ public class ProjectXML {
 
 
 	// --------------------------- CSE --------------------------
-	@XmlElement(name = "CSEcontroller")
+	@XmlElement(name = "CSE-controller")
 	public ArrayList<Controller> getControllers() {
 		return controllers;
 	}
@@ -105,7 +115,7 @@ public class ProjectXML {
 		this.controllers = controllers;
 	}
 
-	@XmlElement(name = "CSEcontrolActions")
+	@XmlElement(name = "CSE-control-Actions")
 	public ArrayList<ControlAction> getControlActions() {
 		return controlActions;
 	}
@@ -114,7 +124,7 @@ public class ProjectXML {
 		this.controlActions = controlActions;
 	}
 
-	@XmlElement(name = "CSEfeedbacks")
+	@XmlElement(name = "CSE-feedbacks")
 	public ArrayList<Feedback> getFeedbacks() {
 		return feedbacks;
 	}
@@ -123,7 +133,7 @@ public class ProjectXML {
 		this.feedbacks = feedbacks;
 	}
 	
-	@XmlElement(name = "CSEtexts")
+	@XmlElement(name = "CSE-texts")
 	public ArrayList<Text> getTexts() {
 		return texts;
 	}
@@ -132,7 +142,7 @@ public class ProjectXML {
 		this.texts = texts;
 	}
 	
-	@XmlElement(name = "curId")
+	@XmlElement(name = "cur-Id")
 	public int getCurId() {
 		return curId;
 	}
@@ -159,7 +169,7 @@ public class ProjectXML {
 
 
 	// --------------------------- PMM --------------------------
-	@XmlElement(name = "PMMController")
+	@XmlElement(name = "PMM-controller")
 	public ArrayList<String> getControllerName() {
 		return controller;
 	}
@@ -167,7 +177,7 @@ public class ProjectXML {
 		this.controller = controllerName;
 	}
 
-	@XmlElement(name = "PMMControlAction")
+	@XmlElement(name = "PMM-control-action")
 	public ArrayList<String> getControlActionName() {
 		return controlAction;
 	}
@@ -175,7 +185,7 @@ public class ProjectXML {
 		this.controlAction.addAll(controlActionName);
 	}
 
-	@XmlElementWrapper(name="PMMOutputlist")
+	@XmlElementWrapper(name="PMM-output-list")
 	@XmlElement(name = "Output")
 	public ArrayList<String> getOutputVariableName() {
 		return outputVariable;
@@ -184,7 +194,7 @@ public class ProjectXML {
 		this.outputVariable.addAll(outputVariables);
 	}
 	
-	@XmlElementWrapper(name="PMMValuelist")
+	@XmlElementWrapper(name="PMM-value-list")
 	@XmlElement(name = "Value")
 	public ObservableList<String> getValueList() {
 		return valueList;
@@ -193,7 +203,7 @@ public class ProjectXML {
 		valueList = valueListName;
 	}
 	
-	@XmlElementWrapper(name="PMMAllCA")
+	@XmlElementWrapper(name="PMM-all-CA")
 	@XmlElement(name = "Allca")
 	public ArrayList<String> getAllCA() {
 		return allCA;
@@ -203,7 +213,7 @@ public class ProjectXML {
 		this.allCA = controlAction;
 	}
 	
-	@XmlElementWrapper(name="PMMAllOutput")
+	@XmlElementWrapper(name="PMM-all-output")
 	@XmlElement(name = "Alloutput")
 	public ObservableList<String> getAllOutput() {
 		return allOutput;
@@ -224,4 +234,34 @@ public class ProjectXML {
 		this.CTMList = CTMList;
 	}
 	// --------------------------- CTM --------------------------
+	
+	
+	// --------------------------- LS ---------------------------
+	@XmlElement(name = "LS-UCA")
+	public List<LS> getLsUcaList(){
+		return this.lsDB.getLsUcaList();
+	}
+	
+	public void setLsUcaList(List<LS> lsUcaList) {
+		this.lsDB.getLsUcaList().setAll(lsUcaList);
+	}
+	
+	@XmlElement(name = "LS-loss-factor")
+	public List<LS> getLossFactorList(){
+		return this.lsDB.getLossFactorList();
+	}
+	
+	public void setLossFactorList(List<LS> lossFactorList) {
+		this.lsDB.getLossFactorList().setAll(lossFactorList);
+	}
+	
+	@XmlElement(name = "LS-loss-scenario")
+	public List<LS> getLossScenarioList(){
+		return this.lsDB.getLossScenarioList();
+	}
+	
+	public void setLossScenarioList(List<LS> lossScenarioList) {
+		this.lsDB.getLossScenarioList().setAll(lossScenarioList);
+	}
+	// --------------------------- LS ---------------------------
 }

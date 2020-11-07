@@ -1,9 +1,7 @@
 package kutokit.model.lhc;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,19 +11,19 @@ public class LhcDataStore {
 	private ObservableList<LHC> hazardTableList = FXCollections.observableArrayList();
 	private ObservableList<LHC> constraintTableList = FXCollections.observableArrayList();
 
-	@XmlElement(name = "Loss")
+	@XmlElement(name = "LHC-loss")
 	@XmlJavaTypeAdapter(lossListAdapter.class)
 	public ObservableList<LHC> getLossTableList() {
 		return this.lossTableList;
 	}
 	
-	@XmlElement(name = "Hazard")
+	@XmlElement(name = "LHC-hazard")
 	@XmlJavaTypeAdapter(hazardListAdapter.class)
 	public ObservableList<LHC> getHazardTableList() {
 		return this.hazardTableList;
 	}
 	
-	@XmlElement(name = "Constraint")
+	@XmlElement(name = "LHC-constraint")
 	@XmlJavaTypeAdapter(constraintListAdapter.class)
 	public ObservableList<LHC> getConstraintTableList() {
 		return this.constraintTableList;

@@ -1,9 +1,7 @@
 package kutokit.model.lhc;
 
-import java.util.List;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import kutokit.model.ProjectXML;
