@@ -58,6 +58,7 @@ public class CtmController {
 	private int controllerCount = 0;
 	private int curControllerNum, curCANum;
 	private ObservableList<String> hazardousOX;
+	private ObservableList<String> casesCombo;
 	
 	private ArrayList<String> controllerName;
 	private ArrayList<String> controlActionNames;
@@ -94,6 +95,11 @@ public class CtmController {
 		hazardousOX = FXCollections.observableArrayList();
 		hazardousOX.add("O");
 		hazardousOX.add("X");
+		
+		casesCombo = FXCollections.observableArrayList();
+		casesCombo.add("not providing\ncauses hazard");
+		casesCombo.add("too early, too late,\nout of order");
+		casesCombo.add("providing causes hazard");
 		
 		int headerlength = 0;
 		if(headerlength==0) {
@@ -136,6 +142,7 @@ public class CtmController {
         tabPane.setPrefHeight(800.0);
         tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
         CTMPane.getChildren().addAll(radioGroup,tabPane);
+		System.out.println("@@@@:9");
 	}
 	
 	
@@ -149,7 +156,7 @@ public class CtmController {
 			contextTable.setItems(mcsData);
         }
         contextTable.setPrefHeight(800.0);
-        
+
         int len = 0;
         
 		Tab tab = new Tab();
@@ -169,41 +176,41 @@ public class CtmController {
             }
         });
         hb.getChildren().addAll(fileButton);
-		
-        final TextField addCases = new TextField();
-        addCases.setPrefWidth(80.0);
-        addCases.setPromptText("cases");
-        hb.getChildren().addAll(addCases);
 
         String[] contexts = new String[contextheader.size()];
         final TextField[] addContexts = new TextField[contextheader.size()];
 		for(int t=0;t<contextheader.size();t++) {
 	        final TextField addContext = new TextField();
-	        addCases.setPrefWidth(80.0);
 	        addContext.setPromptText(contextheader.get(t));
 			addContexts[t] = addContext;
 			hb.getChildren().addAll(addContexts[t]);
 		}
- 
+
         final Button addButton = new Button("Add");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
         		int temp = contextTable.getItems().size();
-        		ComboBox<String> comboBox = new ComboBox(hazardousOX);
         		for(int t=0;t<contextheader.size();t++) {
         			contexts[t] = addContexts[t].getText();
         			addContexts[t].clear();
         		}
-        		mcsData.add(new CTM(controllerName.get(tabNum), caName,addCases.getText(),1+temp,contexts,comboBox));
-    			comboBox.valueProperty().addListener(new ChangeListener<String>() {
+        		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
+        		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
+        		mcsData.add(new CTM(controllerName.get(tabNum), caName,comboBox1,1+temp,contexts,comboBox2));
+        		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+    			      @Override
+    			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+    			    	mcsData.get(temp).setCasesValue(newValue);
+    			      }
+    			    });
+        		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
   			      @Override
   			      public void changed(ObservableValue observable, String oldValue, String newValue) {
   			    	mcsData.get(temp).setHazardousValue(newValue);
   			      }
   			    });
     			contextTable.setItems(mcsData);
-                addCases.clear();
             }
         });
         hb.getChildren().addAll(addButton);
@@ -228,12 +235,12 @@ public class CtmController {
 		contextTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		TableColumn<CTM, String> CAColumn = new TableColumn<CTM,String>("Control Action");
-		TableColumn<CTM, String> casesColumn = new TableColumn<CTM,String>("cases");
+		TableColumn casesColumn = new TableColumn("cases");
 		TableColumn<CTM, Integer> noColumn = new TableColumn<CTM,Integer>("No.");
 		TableColumn hazardousColumn = new TableColumn("Hazardous?");
 
 		CAColumn.setPrefWidth(100.0);
-		casesColumn.setPrefWidth(90.0);
+		casesColumn.setPrefWidth(100.0);
 		noColumn.setPrefWidth(30.0);
 		hazardousColumn.setPrefWidth(100.0);
 		
@@ -244,24 +251,12 @@ public class CtmController {
 		casesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("cases"));
 		noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
 		hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
- 	    
+
 		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
-		casesColumn.setCellValueFactory(cellData -> cellData.getValue().getCasesProperty());
 		noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
 
 		contextTable.setEditable(true);
 	    
-		casesColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		casesColumn.setOnEditCommit(
-	            new EventHandler<CellEditEvent<CTM, String>>() {
-	                @Override
-	                public void handle(CellEditEvent<CTM, String> t) {
-	                    ((CTM) t.getTableView().getItems().get(
-	                        t.getTablePosition().getRow())
-	                        ).setCases(t.getNewValue());
-	                }
-	            }
-	 	    );
 		contextTable.getColumns().addAll(CAColumn, casesColumn, noColumn);
 	    
  		for(final int[] x= {0,};x[0]<contextheader.size();x[0]++) {
@@ -393,16 +388,24 @@ public class CtmController {
 				contexts[x] = context[x][y];
 			}
 			
-	   		ComboBox<String> comboBox = new ComboBox(hazardousOX);
-			comboBox.valueProperty().addListener(new ChangeListener<String>() {
+	   		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
+	   		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+			      @Override
+			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+			    	 totalData.get(curControllerNum).get(curCANum).setCasesValue(newValue);
+			      }
+			    });
+			
+	   		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
+	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
 			      @Override
 			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
 			      }
 			    });
+			
 			totalData.get(curControllerNum).add(
-					//TODO setCases
-					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),"Not provided\ncauses hazard",totalData.get(curControllerNum).size()+1,contexts,comboBox)
+					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
 			);
 		}
 	}

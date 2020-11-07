@@ -17,7 +17,7 @@ import javafx.scene.control.ComboBox;
 public class CTM {
 	private StringProperty controllerName;
 	private StringProperty controlAction;
-	private StringProperty cases;
+	private ComboBox<String> cases;
 	private IntegerProperty no;
 	private ComboBox<String> hazardous;
 	private StringProperty[] contexts;
@@ -29,14 +29,14 @@ public class CTM {
 	public String Hazardous;
 	public String[] Contexts;
 
-	public CTM(String controllerName, String controlAction, String cases, int no, String[] contexts, ComboBox<String> hazardous) {
+	public CTM(String controllerName, String controlAction, ComboBox<String> cases, int no, String[] contexts, ComboBox<String> hazardous) {
 		this.controllerName = new SimpleStringProperty(controllerName);
 		this.controlAction = new SimpleStringProperty(controlAction);
-		this.cases = new SimpleStringProperty(cases);
+		this.cases = cases;
 		this.no = new SimpleIntegerProperty(no);
 		this.hazardous = hazardous;
+		cases.setValue("not providing\ncauses hazard");
 		hazardous.setValue("X");
-
 		this.contexts = new StringProperty[contexts.length];
 
 		for(int i=0;i<contexts.length;i++) {
@@ -45,17 +45,14 @@ public class CTM {
 
 		this.ControllerName = controllerName;
 		this.ControlAction = controlAction;
-		this.Cases = cases;
+		this.Cases = cases.getValue();
 		this.No = no;
 		this.Contexts = contexts;
 		this.Hazardous = hazardous.getValue();
-
-
 	}
 	
 	public void setCTMInit(){
 		this.controlAction = new SimpleStringProperty(this.ControlAction);
-		this.cases = new SimpleStringProperty(this.Cases);
 		this.no = new SimpleIntegerProperty(this.No);
 		this.contexts = new StringProperty[Contexts.length];
 		for(int i=0;i<Contexts.length;i++) {
@@ -96,17 +93,7 @@ public class CTM {
 	public void setControlAction(String val) {
 		this.controlAction.set(val);
 	}
-
-	public String getCases() {
-		return cases.get();
-	}
 	
-	public StringProperty getCasesProperty() {
-		return cases;
-	}
-	public void setCases(String val) {
-		this.cases.set(val);
-	}
 	
 	public int getNo() {
 		return no.get();
@@ -115,7 +102,24 @@ public class CTM {
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
+
+	public ComboBox getCases() {
+		return cases;
+	}
+	public String getCasesValue() {
+		return Cases;
+	}
+
+	public void setCases(ComboBox val) {
+		this.cases = val;
+		Cases = cases.getValue();
+	}
 	
+	public void setCasesValue(String val) {
+		this.cases.setValue(val);
+		Cases = cases.getValue();
+	}
+
 	public ComboBox getHazardous() {
 		return hazardous;
 	}

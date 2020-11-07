@@ -62,7 +62,7 @@ public class ProjectXML {
 
 
 	// --------------------------- CTM --------------------------
-	ObservableList<CTM> CTMList = FXCollections.observableArrayList();
+	private ArrayList<ObservableList<CTM>> CTMList = new ArrayList<>();
 	// --------------------------- CTM --------------------------
 
 
@@ -230,12 +230,12 @@ public class ProjectXML {
 
 	// --------------------------- CTM --------------------------
 	@XmlElement(name = "CTM")
-	public ObservableList<CTM> getCTMList() {
+	public ArrayList<ObservableList<CTM>> getCTMList() {
 		return this.CTMList;
 	}
 
-	public void setCTMList(ObservableList<CTM> CTMList) {
-		this.CTMList = CTMList;
+	public void setCTMList(ArrayList<ObservableList<CTM>> arrayList) {
+		this.CTMList = arrayList;
 	}
 	// --------------------------- CTM --------------------------
 }
