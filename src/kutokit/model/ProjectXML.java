@@ -65,8 +65,8 @@ public class ProjectXML {
 
 
 	// --------------------------- CTM --------------------------
-	ObservableList<CTM> CTM = FXCollections.observableArrayList();
-	ObservableList<CTMDataStore> CTMList = FXCollections.observableArrayList();
+//	ObservableList<CTM> CTM = FXCollections.observableArrayList();
+//	ObservableList<CTMDataStore> CTMList = FXCollections.observableArrayList();
 	// --------------------------- CTM --------------------------
 	
 	
@@ -241,26 +241,26 @@ public class ProjectXML {
 
 
 	// --------------------------- CTM --------------------------
-	@XmlElement(name = "CTM-List")
-	public ObservableList<CTMDataStore> getCtmDataStoreList() {
-		return this.CTMList;
-	}
-
-	@XmlElement(name = "CTM")
-	public ObservableList<CTM> getCTM(){
-		for(CTMDataStore c : CTMList){
-			CTM.addAll(c.getCTMTableList());
-		}
-		return CTM;
-	}
-
-	public void setCTMList(ObservableList<CTMDataStore> CTMList) {
-		this.CTMList = CTMList;
-	}
-
-	public void setCTM(ObservableList<CTM> CTM) {
-		this.CTM = CTM;
-	}
+//	@XmlElement(name = "CTM-List")
+//	public ObservableList<CTMDataStore> getCtmDataStoreList() {
+//		return this.CTMList;
+//	}
+//
+//	@XmlElement(name = "CTM")
+//	public ObservableList<CTM> getCTM(){
+//		for(CTMDataStore c : CTMList){
+//			CTM.addAll(c.getCTMTableList());
+//		}
+//		return CTM;
+//	}
+//
+//	public void setCTMList(ObservableList<CTMDataStore> CTMList) {
+//		this.CTMList = CTMList;
+//	}
+//
+//	public void setCTM(ObservableList<CTM> CTM) {
+//		this.CTM = CTM;
+//	}
 	// --------------------------- CTM --------------------------
 	
 	

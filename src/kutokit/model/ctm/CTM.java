@@ -111,7 +111,7 @@ public class CTM {
 		return no;
 	}
 
-	public ComboBox getCases() {
+	public ComboBox getCasesList() {
 		return cases;
 	}
 	
@@ -129,7 +129,7 @@ public class CTM {
 		Cases = cases.getValue();
 	}
 
-	public ComboBox getHazardous() {
+	public ComboBox getHazardousList() {
 		return hazardous;
 	}
 	

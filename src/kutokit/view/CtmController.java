@@ -113,28 +113,28 @@ public class CtmController {
 			contextheader.add(valuelist.get(x));
 		}
 		
-		final ToggleGroup group = new ToggleGroup();
- 		HBox radioGroup = new HBox();
-
-		for(int i=0;i<controllerName.size();i++) {
-	 		RadioButton rb = new RadioButton(controllerName.get(i));
-	 		rb.setToggleGroup(group);
-	 		if(i==0) {
-	 			rb.setSelected(true);
-	 		}
-	 		group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
-	 		    public void changed(ObservableValue<? extends Toggle> ov,
-	 		        Toggle old_toggle, Toggle new_toggle) {
-	 		            if (group.getSelectedToggle() != null) {
-	 		            	//TODO link radio
-	 		            	System.out.println(new_toggle.toString());
-	 		            }                
-	 		        }
-	 		});
-	 		
-	 		radioGroup.getChildren().add(rb);
-	 		controllerCount++;
-		}
+//		final ToggleGroup group = new ToggleGroup();
+// 		HBox radioGroup = new HBox();
+// 		
+//		for(int i=0;i<controllerName.size();i++) {
+//	 		RadioButton rb = new RadioButton(controllerName.get(i));
+//	 		rb.setToggleGroup(group);
+//	 		if(i==0) {
+//	 			rb.setSelected(true);
+//	 		}
+//	 		group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+//	 		    public void changed(ObservableValue<? extends Toggle> ov,
+//	 		        Toggle old_toggle, Toggle new_toggle) {
+//	 		            if (group.getSelectedToggle() != null) {
+//	 		            	//TODO link radio
+//	 		            	System.out.println(new_toggle.toString());
+//	 		            }                
+//	 		        }
+//	 		});
+//	 		
+//	 		radioGroup.getChildren().add(rb);
+//	 		controllerCount++;
+//		}
 		
 		for(int i=0;i<controlActionNames.size();i++) {
 			tabPane.getTabs().add(MakeTab(i,controlActionNames.get(i), contextheader));
@@ -143,7 +143,7 @@ public class CtmController {
         tabPane.setPrefWidth(1000.0);
         tabPane.setPrefHeight(800.0);
         tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-        CTMPane.getChildren().addAll(radioGroup,tabPane);
+//        CTMPane.getChildren().addAll(radioGroup,tabPane);
 		System.out.println("@@@@:9");
 	}
 	
@@ -155,6 +155,9 @@ public class CtmController {
         if(totalData.size() >= tabNum+1) { 
         	mcsData =  totalData.get(tabNum).getCTMTableList();
 			contextTable.setItems(mcsData);
+        }else {
+        	CTMDataStore c = new CTMDataStore();
+        	ctmDataStoreList.add(c);
         }
         contextTable.setPrefHeight(800.0);
 
@@ -412,9 +415,9 @@ public class CtmController {
 //			      }
 //			    });
 //			
-//			totalData.get(curControllerNum).add(
-//					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
-//			);
+			totalData.get(curControllerNum).getCTMTableList().add(
+					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).tableSize+1,contexts,comboBox2)
+			);
 		}
 	}
 	

@@ -63,7 +63,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="363.0" layoutY="578.0" mnemonicParsing="false" onAction="#toCtmController" prefHeight="80.0" prefWidth="250.0" text="Generate Context Table from NuSCR" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="ctmBtn" layoutX="363.0" layoutY="578.0" mnemonicParsing="false" onAction="#toCtmController" prefHeight="80.0" prefWidth="250.0" text="Generate Context Table from NuSCR" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
@@ -129,12 +129,12 @@
             <Polygon layoutX="838.0" layoutY="619.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
             <Polygon layoutX="707.0" layoutY="335.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -10.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" />
             <Polygon layoutX="619.0" layoutY="634.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -10.0" rotate="-90.0" stroke="BLACK" strokeType="INSIDE" />
-            <Button layoutX="40.0" layoutY="440.0" mnemonicParsing="false" onAction="#toUtmController" prefHeight="80.0" prefWidth="200.0" text="3. Identify Unsafe Control Actions" wrapText="true">
+            <Button fx:id="utmBtn" layoutX="40.0" layoutY="440.0" mnemonicParsing="false" onAction="#toUtmController" prefHeight="80.0" prefWidth="200.0" text="3. Identify Unsafe Control Actions" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="40.0" layoutY="598.0" mnemonicParsing="false" onAction="#toLsController" prefHeight="80.0" prefWidth="200.0" text="4. Identify Loss Scenarios" wrapText="true">
+            <Button fx:id="lsBtn" layoutX="40.0" layoutY="598.0" mnemonicParsing="false" onAction="#toLsController" prefHeight="80.0" prefWidth="200.0" text="4. Identify Loss Scenarios" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font>

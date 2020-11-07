@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -45,6 +46,7 @@ public class LsController implements Initializable {
 	@FXML private Button addLossScenario, addNewTab;
 	@FXML private ComboBox UcaComboBox, lossFactorComboBox;
 	@FXML private TableRow<LS> lsRow;
+	@FXML private TabPane tabPane;
 	
 	ObservableList<LS> lossScenarioTableList;
 	ObservableList<String> lossFactorCBList = FXCollections.observableArrayList("1) Controller Problems", "2) Feedback Problems", "3) Control Path Problems", "4) Controlled Process Problems");
