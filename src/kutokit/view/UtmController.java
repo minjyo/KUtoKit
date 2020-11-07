@@ -25,6 +25,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.Stage;
 import kutokit.MainApp;
 import kutokit.model.ctm.CTM;
+import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
@@ -51,7 +52,7 @@ public class UtmController {
 	private MenuItem delete_menu;
 	private ObservableList<LHC> hazardData = FXCollections.observableArrayList();
 	private static ObservableList<ObservableList<UCA>> ucaDataList =FXCollections.observableArrayList();
-	private ArrayList<ObservableList<CTM>> ctmData = new ArrayList<>();
+	private ObservableList<CTMDataStore> ctmData = FXCollections.observableArrayList();
 	private ObservableList<String> hazardousList = FXCollections.observableArrayList();
 
 	UCAHazardPopUpController ucaPopUp;
@@ -73,7 +74,7 @@ public class UtmController {
 	{
 		ucaDataStoreList = MainApp.ucaDataStoreList;
 		hazardData = MainApp.lhcDataStore.getHazardTableList();
-		ctmData = MainApp.ctmDataStore.getCTMTableList();
+		ctmData = MainApp.ctmDataStoreList;
 
 		//Test example
 //		Test();
@@ -111,17 +112,18 @@ public class UtmController {
 //	   	 	}
 //   	 	}
 
-   	 		for(UCADataStore u : ucaDataStoreList){
-   	 			if(u.getControllAction() == ctmData.get(0).get(0).getControllerName()&& u.getController()==ctmData.get(0).get(0).getControlAction()){
-	   	 			break;
-   	 			}
-   		 		i++;
-   	 		}
+//   	 		for(UCADataStore u : ucaDataStoreList){
+//   	 			if(u.getControllAction() == ctmData.get(0).get(0).getControllerName()&& u.getController()==ctmData.get(0).get(0).getControlAction()){
+//	   	 			break;
+//   	 			}
+//   		 		i++;
+//   	 		}
 
 //	 	}
+   	 	i++;
 	   	//new Ctm Table
 	 	if(i==ucaDataStoreList.size()){
-	 		addUcaTable(ctmData.get(0));
+	 		addUcaTable(ctmData.get(0).getCTMTableList());
 	 	}
 		// Initialize from data store ,Tab -table View
 		for(i=0;i<ucaDataStoreList.size();i++){
@@ -265,7 +267,7 @@ public class UtmController {
 
 		for(CTM c : ctmData){
 			String ucaColumn = "";
-			if(c.Hazardous =="O"){
+			if(c.getHazardous().getValue().equals("O")){
 				switch((String)c.getCases().getValue())
 				{
 				//case naming corretly -dayun should modify

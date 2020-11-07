@@ -39,6 +39,14 @@ public class CTM {
 		hazardous.setValue("X");
 		this.contexts = new StringProperty[contexts.length];
 
+		cases.setOnAction(event -> {
+			this.Cases = cases.getValue();
+		});
+		
+		hazardous.setOnAction(event -> {
+			this.Hazardous = hazardous.getValue();
+		});
+		
 		for(int i=0;i<contexts.length;i++) {
 			this.contexts[i] = new SimpleStringProperty(contexts[i]);
 		}
@@ -106,6 +114,7 @@ public class CTM {
 	public ComboBox getCases() {
 		return cases;
 	}
+	
 	public String getCasesValue() {
 		return Cases;
 	}
@@ -136,6 +145,11 @@ public class CTM {
 	public void setHazardousValue(String val) {
 		this.hazardous.setValue(val);
 		Hazardous = hazardous.getValue();
+	}
+
+	public CTM get(int i) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
