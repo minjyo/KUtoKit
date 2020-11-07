@@ -111,13 +111,13 @@ public class UtmController {
 //	   	 	}
 //   	 	}
 
-   	 	for(UCADataStore u : ucaDataStoreList){
-	 		if(u.getControllAction() == ctmData.get(0).get(0).getControllerName()&& u.getController()==ctmData.get(0).get(0).getControlAction()){
-	 			System.out.println(i);
-	   	 			break;
-	 		}
-	 		i++;
-	 	}
+//   	 	for(UCADataStore u : ucaDataStoreList){
+//	 		if(u.getControllAction() == ctmData.get(0).get(0).getControllerName()&& u.getController()==ctmData.get(0).get(0).getControlAction()){
+//	 			System.out.println(i);
+//	   	 			break;
+//	 		}
+//	 		i++;
+//	 	}
 	   	//new Ctm Table
 	 	if(i==ucaDataStoreList.size()){
 	 		addUcaTable(ctmData.get(0));
@@ -210,12 +210,16 @@ public class UtmController {
 
 
    	 	tabPane.getTabs().remove(0,tabPane.getTabs().size());
-   	 	for(i=0;i<ucaDataStoreList.size();i++){
-   	 		String title = ucaDataStoreList.get(i).getController()+"-"+ucaDataStoreList.get(i).getControllAction();
-   	 		Tab tab =new Tab(title,ucaTableList.get(i));
-   	 		setUcaTable(i);
-   	 		tabPane.getTabs().add(tab);
-   	 	}
+ 		String title = ucaDataStoreList.get(0).getController()+"-"+ucaDataStoreList.get(0).getControllAction();
+ 		Tab tab =new Tab(title,ucaTableList.get(0));
+ 		setUcaTable(0);
+ 		tabPane.getTabs().add(tab);
+//   	 	for(i=0;i<ucaDataStoreList.size();i++){
+//   	 		String title = ucaDataStoreList.get(i).getController()+"-"+ucaDataStoreList.get(i).getControllAction();
+//   	 		Tab tab =new Tab(title,ucaTableList.get(i));
+//   	 		setUcaTable(i);
+//   	 		tabPane.getTabs().add(tab);
+//   	 	}
 //        ucaHazardPopup();
 
         return ;
@@ -261,7 +265,7 @@ public class UtmController {
 
 		for(CTM c : ctmData){
 			String ucaColumn = "";
-			if(c.Hazardous =="X"){
+			if(c.Hazardous =="O"){
 				switch(c.getCases())
 				{
 				//case naming corretly -dayun should modify
