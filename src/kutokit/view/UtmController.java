@@ -111,12 +111,13 @@ public class UtmController {
 //	   	 	}
 //   	 	}
 
-//   	 	for(UCADataStore u : ucaDataStoreList){
-//	 		if(u.getControllAction() == ctmData.get(0).get(0).getControllerName()&& u.getController()==ctmData.get(0).get(0).getControlAction()){
-//	 			System.out.println(i);
-//	   	 			break;
-//	 		}
-//	 		i++;
+   	 		for(UCADataStore u : ucaDataStoreList){
+   	 			if(u.getControllAction() == ctmData.get(0).get(0).getControllerName()&& u.getController()==ctmData.get(0).get(0).getControlAction()){
+	   	 			break;
+   	 			}
+   		 		i++;
+   	 		}
+
 //	 	}
 	   	//new Ctm Table
 	 	if(i==ucaDataStoreList.size()){
@@ -256,7 +257,6 @@ public class UtmController {
 
 	public void addUcaTable(ObservableList<CTM> ctmData) {
 		// and new UCA Table from CTM data
-
 		String tabtext = ctmData.get(0).getControllerName() + "-" + ctmData.get(0).getControlAction();
 		UCADataStore ucadatastore = new UCADataStore();
 		ObservableList<UCA> ucaData = FXCollections.observableArrayList();
@@ -266,19 +266,19 @@ public class UtmController {
 		for(CTM c : ctmData){
 			String ucaColumn = "";
 			if(c.Hazardous =="O"){
-				switch(c.getCases())
+				switch((String)c.getCases().getValue())
 				{
 				//case naming corretly -dayun should modify
 				case "CA ":
 					ucaColumn = "CA";
 					break;
-				case "Providing Causes Hazard":
+				case "providing causes hazard":
 					ucaColumn = "Providing Causes Hazard";
 					break;
-				case "Not provided\ncauses hazard" :
+				case "not providing\ncauses hazard" :
 					ucaColumn = "Not Providing Causes Hazard";
 					break;
-				case "Incorrect Timing/Order" :
+				case "too early, too late,\nout of order" :
 					ucaColumn = "Incorrect Timing/Order";
 					break;
 				case "Stopped Too Soon/Applied Too Long" :
@@ -288,7 +288,6 @@ public class UtmController {
 					break;
 				}
 				String Context = "";
-				System.out.println(c.Contexts.length+" "+mainApp.models.getValuelist().size() );
 				for(int j =0;j<mainApp.models.getValuelist().size();j++){
 					if(c.getContext(j)!="N/A" || !c.getContext(j).isEmpty()){
 						Context +=mainApp.models.getValuelist().get(j) +" =" +c.getContext(j)+", ";
