@@ -7,19 +7,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ProcessModel {
-	
+
 	private ArrayList<String> controllerName = new ArrayList<String>();
 	private ArrayList<String> controlActionNames = new ArrayList<String>();
 	private ArrayList<String> allCA =  new ArrayList<String>();
-	private ArrayList<String> outputNames = new ArrayList<String>(); 
+	private ArrayList<String> outputNames = new ArrayList<String>();
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
 	private ObservableList<String> valuelist = FXCollections.observableArrayList();
 	private File filePath;
-	
+
 	public ProcessModel() {
-		
+
 	}
-	
+
 	// File path
 	public File getFilePath() {
 		return filePath;
@@ -29,7 +29,7 @@ public class ProcessModel {
 		this.filePath = filePath;
 	}
 
-	// Controller 
+	// Controller
 	public ArrayList<String> getControllerName() {
 		return controllerName;
 	}
@@ -56,7 +56,7 @@ public class ProcessModel {
 		this.outputNames = outputVariables;
 	}
 
-	// All output variables 
+	// All output variables
 	public ObservableList<String> getAllOutput() {
 		return allOutput;
 	}
@@ -73,11 +73,11 @@ public class ProcessModel {
 	public void setValuelist(ObservableList<String> valuelist) {
 		this.valuelist = valuelist;
 	}
-	
+
 	public void addValuelist(String value) {
 		this.valuelist.add(value);
 	}
-	
+
 	public void modifyValue(String oldValue, String newValue) {
 		for(String value: valuelist) {
 			if( oldValue.equals(value)) {
@@ -85,7 +85,7 @@ public class ProcessModel {
 			}
 		}
 	}
-	
+
 	public void deleteValue(String value) {
 		valuelist.remove(value);
 	}
