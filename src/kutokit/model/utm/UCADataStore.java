@@ -5,31 +5,29 @@ import javafx.collections.ObservableList;
 
 public class UCADataStore {
 
+	private String controller;
+	private String controllAction;
+	public int size;
+
 	ObservableList<UCA> UCATableList = FXCollections.observableArrayList();
 
 	public ObservableList<UCA> getUCATableList() {
+		size = UCATableList.size();
 		return UCATableList;
 	}
+	public String getController() {
+		return controller;
+	}
 
-//	public void addUCA(UCA uca) {
-//		this.UCATableList.add(uca);
-//	}
-//
-//	public void removeUCA(UCA uca,int index)
-//	{
-//		UCATableList.remove(index);
-//	}
+	public void setController(String controller) {
+		this.controller = controller;
+	}
 
-//	public void setUCA(UCA uca,int index)
-//	{
-//		UCATableList.set(index, uca);
-//		System.out.println(index + " : " + uca.getControlAction());
-//	}
+	public String getControllAction() {
+		return controllAction;
+	}
 
-//	public void setUCATableList(ObservableList<UCA> UCATableList)
-//	{
-//		this.UCATableList = UCATableList;
-//	}
-
-
+	public void setControllAction(String controllAction) {
+		this.controllAction = controllAction;
+	}
 }

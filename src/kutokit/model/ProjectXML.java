@@ -20,6 +20,7 @@ import kutokit.model.ctm.CTM;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.utm.UCA;
+import kutokit.model.utm.UCADataStore;
 
 @XmlRootElement(name = "kutokit")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
@@ -43,7 +44,8 @@ public class ProjectXML {
 
 
 	// --------------------------- UTM --------------------------
-	ObservableList<UCA> UCAList = FXCollections.observableArrayList();
+	ObservableList<UCA> UCA = FXCollections.observableArrayList();
+	ObservableList<UCADataStore> UCAList = FXCollections.observableArrayList();
 	// --------------------------- UTM --------------------------
 
 
@@ -51,7 +53,7 @@ public class ProjectXML {
 	private ArrayList<String> controller = new ArrayList<String>();
 	private ArrayList<String> controlAction = new ArrayList<String>();
 	private ArrayList<String> outputVariable = new ArrayList<String>();
-	
+
 	private ArrayList<String> allCA;
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
 
@@ -122,7 +124,7 @@ public class ProjectXML {
 	public void setFeedbacks(ArrayList<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
 	}
-	
+
 	@XmlElement(name = "CSEtexts")
 	public ArrayList<Text> getTexts() {
 		return texts;
@@ -131,12 +133,12 @@ public class ProjectXML {
 	public void setTexts(ArrayList<Text> texts) {
 		this.texts = texts;
 	}
-	
+
 	@XmlElement(name = "curId")
 	public int getCurId() {
 		return curId;
 	}
-	
+
 	public void setCurId(int id) {
 		this.curId = id;
 	}
@@ -146,13 +148,25 @@ public class ProjectXML {
 
 
 	// --------------------------- UTM --------------------------
-	@XmlElement(name = "UCA")
-	public ObservableList<UCA> getUCAList() {
+	@XmlElement(name = "UCAList")
+	public ObservableList<UCADataStore> getUCADataStoreList() {
 		return this.UCAList;
 	}
 
-	public void setUCAList(ObservableList<UCA> UCAList) {
+	@XmlElement(name = "UCA")
+	public ObservableList<UCA> getUCA(){
+		for(UCADataStore u : UCAList){
+			UCA.addAll(u.getUCATableList());
+		}
+		return UCA;
+	}
+
+	public void setUCAList(ObservableList<UCADataStore> UCAList) {
 		this.UCAList = UCAList;
+	}
+
+	public void setUCA(ObservableList<UCA> UCA) {
+		this.UCA = UCA;
 	}
 	// --------------------------- UTM --------------------------
 
@@ -183,7 +197,7 @@ public class ProjectXML {
 	public void setOutputVariableName(ArrayList<String> outputVariables) {
 		this.outputVariable.addAll(outputVariables);
 	}
-	
+
 	@XmlElementWrapper(name="PMMValuelist")
 	@XmlElement(name = "Value")
 	public ObservableList<String> getValueList() {
@@ -192,7 +206,7 @@ public class ProjectXML {
 	public void setValueList(ObservableList<String> valueListName) {
 		valueList = valueListName;
 	}
-	
+
 	@XmlElementWrapper(name="PMMAllCA")
 	@XmlElement(name = "Allca")
 	public ArrayList<String> getAllCA() {
@@ -202,7 +216,7 @@ public class ProjectXML {
 	public void setAllCA(ArrayList<String> controlAction) {
 		this.allCA = controlAction;
 	}
-	
+
 	@XmlElementWrapper(name="PMMAllOutput")
 	@XmlElement(name = "Alloutput")
 	public ObservableList<String> getAllOutput() {
@@ -212,7 +226,7 @@ public class ProjectXML {
 	public void setAllOutput(ObservableList<String> allOutput) {
 		this.allOutput = allOutput;
 	}
-	
+
 
 	// --------------------------- CTM --------------------------
 	@XmlElement(name = "CTM")

@@ -12,5 +12,4 @@ public class CTMDataStore {
 	public ArrayList<ObservableList<CTM>> getCTMTableList() {
 		return CTMTableList;
 	}
-
 }
