@@ -13,8 +13,8 @@
    <children>
       <AnchorPane prefHeight="40.0" prefWidth="1000.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="47.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1000.0" />
-            <Text fill="WHITE" layoutX="484.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UCA ">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1000.0" />
+            <Text fill="WHITE" layoutX="452.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UCA  Table">
                <font>
                   <Font size="18.0" />
                </font>
@@ -23,13 +23,13 @@
       </AnchorPane>
       <AnchorPane layoutY="47.0" maxHeight="760.0" minHeight="760.0" prefHeight="760.0" prefWidth="1000.0">
          <children>
-            <TabPane fx:id="tabPane" prefHeight="760.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" layoutY="-7.0" prefHeight="760.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="CA 1">
                      <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="ucaTable" prefHeight="770.0" prefWidth="1000.0">
+                              <TableView fx:id="ucaTable" prefHeight="725.0" prefWidth="1000.0">
                                 <columns>
                                	 <TableColumn fx:id="CAColumnO" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="CA" />
         	      					 <TableColumn fx:id="providingColumnO" minWidth="4.0" onEditCommit="#onEditChange" prefWidth="180.0" resizable="false" text="Providing Causes Hazard" />

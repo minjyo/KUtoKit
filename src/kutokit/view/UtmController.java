@@ -1,6 +1,7 @@
 package kutokit.view;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,7 +49,7 @@ public class UtmController {
 	private MenuItem delete_menu;
 	private ObservableList<LHC> hazardData = FXCollections.observableArrayList();
 	private static ObservableList<ObservableList<UCA>> ucaDataList =FXCollections.observableArrayList();
-	private ObservableList<CTM> ctmData = FXCollections.observableArrayList();
+	private ArrayList<ObservableList<CTM>> ctmData = new ArrayList<>();
 	private ObservableList<String> hazardousList = FXCollections.observableArrayList();
 
 	UCAHazardPopUpController ucaPopUp;
@@ -73,7 +74,7 @@ public class UtmController {
 		ctmData = MainApp.ctmDataStore.getCTMTableList();
 
 		//Test example
-		//Test();
+//		Test();
 		//After CTM_table array -> change
 		//test after input ctm example
 		//input data about ctm in datastore
@@ -81,26 +82,29 @@ public class UtmController {
 //   	 	ObservableList<String> l = FXCollections.observableArrayList();
 //   	 	l.add("O");
 //   	 	l.add("X");
-//   	 	ComboBox comboBox = new ComboBox(l);
-//   	 	ctmData.add(new CTM("1","1",1,context,comboBox));
+//   	 	ComboBox<String> comboBox = new ComboBox(l);
+//   	 	ObservableList<CTM> ctm = FXCollections.observableArrayList();
+//   	 	ctm.add(new CTM("controller name","control aciton","cases",0,context,comboBox));
+//   	 	ctmData.add(ctm);
 
 		//example
-	 	String ctmController = "Controller";
-	 	String ctmControlAction = "Control Action";
+//	 	String ctmController = "Controller";
+//	 	String ctmControlAction = "Control Action";
 
    	 	int i=0;
-	 	for(UCADataStore u : ucaDataStoreList){
-	 		i++;
-	 		if(u.getControllAction() == ctmControlAction && u.getController()==ctmController){
-	   	 			break;
-	 		}
-	 	}
-
-   	 	//new Ctm Table
-   	 	if(i==ucaDataStoreList.size()){
-   	 		addUcaTable(ctmData);
+   	 	for(int j=0;j>ctmData.size();j++){
+   	 		i=0;
+	   	 	for(UCADataStore u : ucaDataStoreList){
+		 		i++;
+		 		if(u.getControllAction() == ctmData.get(j).get(0).getControllerName()&& u.getController()==ctmData.get(j).get(0).getControlAction()){
+		   	 			break;
+		 		}
+		 	}
+		   	//new Ctm Table
+	   	 	if(i==ucaDataStoreList.size()){
+	   	 		addUcaTable(ctmData.get(j));
+	   	 	}
    	 	}
-
 		// Initialize from data store ,Tab -table View
 		for(i=0;i<ucaDataStoreList.size();i++){
 			ucaDataList.add(ucaDataStoreList.get(i).getUCATableList());
@@ -232,10 +236,8 @@ public class UtmController {
 
 	public void addUcaTable(ObservableList<CTM> ctmData) {
 		// and new UCA Table from CTM data
-		String ctmController = "Controller45";
-		String ctmControlAction = "ControlAciton";
 
-		String tabtext = ctmController + "-" + ctmControlAction;
+		String tabtext = ctmData.get(0).getControllerName() + "-" + ctmData.get(0).getControlAction();
 
 		UCADataStore ucadatastore = new UCADataStore();
 		ObservableList<UCA> ucaData = FXCollections.observableArrayList();
@@ -272,8 +274,7 @@ public class UtmController {
 				String Context = "";
 				for(int j =0;j<c.Contexts.length;j++){
 					if(c.getContext(j)!="N/A"){
-//						Context +=", "+mainApp.models.getValuelist().get(j) +" =" +c.getContext(j);
-						Context +=", " +" =" +c.getContext(j);
+						Context +=", "+mainApp.models.getValuelist().get(j) +" =" +c.getContext(j);
 					}
 				}
 
@@ -284,8 +285,8 @@ public class UtmController {
 			}
 
 			if(!ucaData.isEmpty()){
-				ucadatastore.setControllAction(ctmControlAction);
-				ucadatastore.setController(ctmController);
+				ucadatastore.setControllAction(ctmData.get(0).getControllerName());
+				ucadatastore.setController(ctmData.get(0).getControlAction());
 				ucaDataStoreList.add(ucadatastore);
 			}
 		}

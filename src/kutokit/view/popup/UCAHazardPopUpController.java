@@ -18,7 +18,17 @@ public class UCAHazardPopUpController {
 		ObservableList<LHC> hazardList = FXCollections.observableArrayList();
 		hazardList = MainApp.lhcDataStore.getHazardTableList();
 
-//		System.out.println(hazardList.get(0).indexProperty().getValue());
+		System.out.println(hazardList.get(0).indexProperty().getValue());
+
+		TableView<LHC> hazardTableView = new TableView();
+
+		TableColumn<LHC,String> indexColumn= new TableColumn("index");
+		indexColumn.setId("indexColumn");
+		TableColumn<LHC,String> textColumn= new TableColumn("link");
+		indexColumn.setId("textColumn");
+		TableColumn<LHC,String> linkColumn= new TableColumn("index");
+		indexColumn.setId("indexColumn");
+
 
 		indexColumn.setCellValueFactory(cellData ->cellData.getValue().indexProperty());
 		textColumn.setCellValueFactory(cellData ->cellData.getValue().textProperty());
