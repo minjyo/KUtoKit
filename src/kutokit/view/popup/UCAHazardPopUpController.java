@@ -1,39 +1,30 @@
 
 package kutokit.view.popup;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import kutokit.MainApp;
 import kutokit.model.lhc.LHC;
-import kutokit.view.popup.*;
 
 public class UCAHazardPopUpController {
 
-	@FXML private TableView<LHC> hazardousTableView;
-	@FXML private TableColumn<LHC, String> indexColumn, textColumn, linkColumn;
-
-	ObservableList<LHC> hazardData=FXCollections.observableArrayList();
+	@FXML private TableView<LHC> hazardTableView;
+	@FXML private TableColumn<LHC,String> indexColumn,textColumn,linkColumn;
 
 	public UCAHazardPopUpController(){
+		ObservableList<LHC> hazardList = FXCollections.observableArrayList();
+		hazardList = MainApp.lhcDataStore.getHazardTableList();
 
-		hazardData = MainApp.lhcDataStore.getHazardTableList();
+//		System.out.println(hazardList.get(0).indexProperty().getValue());
 
-		if(hazardousTableView==null){
-			System.out.println(2);
-		}
+		indexColumn.setCellValueFactory(cellData ->cellData.getValue().indexProperty());
+		textColumn.setCellValueFactory(cellData ->cellData.getValue().textProperty());
+		linkColumn.setCellValueFactory(cellData ->cellData.getValue().linkProperty());
 
-		//error
-//				hazardousTableView.setItems(hazardData);
-//
-//		indexColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIndex()));
-//		textColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getText()));
-//		linkColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLink()));
-//
+		hazardTableView.setItems(hazardList);
 	}
 
 }

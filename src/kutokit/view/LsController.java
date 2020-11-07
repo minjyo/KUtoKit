@@ -48,7 +48,8 @@ public class LsController implements Initializable {
 	
 	ObservableList<LS> lossScenarioTableList;
 	ObservableList<String> lossFactorCBList = FXCollections.observableArrayList("1) Controller Problems", "2) Feedback Problems", "3) Control Path Problems", "4) Controlled Process Problems");
-//	ObservableList<UCA> ucaCBList = ucaDB.getUCATableList();
+	ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
+	//	ObservableList<UCA> ucaCBList = ucaDB.getUCATableList();
 	/*
 	 * default constructor
 	 */
@@ -67,7 +68,12 @@ public class LsController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		lsDB = mainApp.lsDataStore;
-		ucaDB = mainApp.ucadatastore;
+		ucaDataStoreList = mainApp.ucaDataStoreList;
+		for(UCADataStore u : ucaDataStoreList) {
+			for(int i=0;i<ucaDataStoreList.size();i++) {
+				ucaDB.getUCATableList().add(u.getUCATableList().get(i));
+			}
+		}
 		
 		lossScenarioTableList = lsDB.getLossScenarioList();
 		
