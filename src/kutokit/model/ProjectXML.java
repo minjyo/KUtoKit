@@ -15,15 +15,12 @@ import javafx.collections.ObservableList;
 import kutokit.model.cse.ControlAction;
 import kutokit.model.cse.Controller;
 import kutokit.model.cse.Feedback;
-import kutokit.model.cse.Text;
 import kutokit.model.ctm.CTM;
-import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
-import kutokit.model.ls.LS;
-import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
-import kutokit.model.utm.UCADataStore;
+import kutokit.view.components.*;
 
 @XmlRootElement(name = "kutokit")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
@@ -41,45 +38,32 @@ public class ProjectXML {
 	private ArrayList<Controller> controllers;
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
 	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
-	private ArrayList<Text> texts = new ArrayList<Text>();
-	private int curId;
 	// --------------------------- CSE --------------------------
 
 
 	// --------------------------- UTM --------------------------
-	ObservableList<UCA> UCA = FXCollections.observableArrayList();
-	ObservableList<UCADataStore> UCAList = FXCollections.observableArrayList();
+	ObservableList<UCA> UCAList = FXCollections.observableArrayList();
 	// --------------------------- UTM --------------------------
 
 
 	// --------------------------- PMM --------------------------
 	private ArrayList<String> controller = new ArrayList<String>();
-	private ArrayList<String> controlAction = new ArrayList<String>();
-	private ArrayList<String> outputVariable = new ArrayList<String>();
-
-	private ArrayList<String> allCA;
+	private ArrayList<String>[] controlAction = new ArrayList[10];
+	private ArrayList<String>[] outputVariable = new ArrayList[10];
+	
+	private ArrayList<String>[] allCA;
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-
 	private ObservableList<String> valueList = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
 
 	// --------------------------- CTM --------------------------
-	ObservableList<CTM> CTM = FXCollections.observableArrayList();
-	ObservableList<CTMDataStore> CTMList = FXCollections.observableArrayList();
+	ObservableList<CTM> CTMList = FXCollections.observableArrayList();
 	// --------------------------- CTM --------------------------
-	
-	
-	// --------------------------- LS ---------------------------
-	LSDataStore lsDB = new LSDataStore();
-	List<LS> lsUcaList = new ArrayList<LS>();
-	List<LS> lossFactorList = new ArrayList<LS>();
-	List<LS> lossScenarioList = new ArrayList<LS>();
-	// --------------------------- LS ---------------------------
 
 
 	// --------------------------- LHC --------------------------
-	@XmlElement(name = "LHC-loss")
+	@XmlElement(name = "Loss")
 	public List<LHC> getLossList(){
 		return this.lhcDB.getLossTableList();
 	}
@@ -88,7 +72,7 @@ public class ProjectXML {
 		this.lhcDB.getLossTableList().setAll(lossList);
 	}
 
-	@XmlElement(name = "LHC-hazard")
+	@XmlElement(name = "Hazard")
 	public List<LHC> getHazardList(){
 		return this.lhcDB.getHazardTableList();
 	}
@@ -97,7 +81,7 @@ public class ProjectXML {
 		this.lhcDB.getHazardTableList().setAll(hazardList);
 	}
 
-	@XmlElement(name = "LHC-constraint")
+	@XmlElement(name = "Constraint")
 	public List<LHC> getConstraintList(){
 		return this.lhcDB.getConstraintTableList();
 	}
@@ -110,7 +94,7 @@ public class ProjectXML {
 
 
 	// --------------------------- CSE --------------------------
-	@XmlElement(name = "CSE-controller")
+	@XmlElement(name = "CSEcontroller")
 	public ArrayList<Controller> getControllers() {
 		return controllers;
 	}
@@ -119,7 +103,7 @@ public class ProjectXML {
 		this.controllers = controllers;
 	}
 
-	@XmlElement(name = "CSE-control-Actions")
+	@XmlElement(name = "CSEcontrolActions")
 	public ArrayList<ControlAction> getControlActions() {
 		return controlActions;
 	}
@@ -128,7 +112,7 @@ public class ProjectXML {
 		this.controlActions = controlActions;
 	}
 
-	@XmlElement(name = "CSE-feedbacks")
+	@XmlElement(name = "CSEfeedbacks")
 	public ArrayList<Feedback> getFeedbacks() {
 		return feedbacks;
 	}
@@ -136,56 +120,26 @@ public class ProjectXML {
 	public void setFeedbacks(ArrayList<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
 	}
-	
-	@XmlElement(name = "CSE-texts")
-	public ArrayList<Text> getTexts() {
-		return texts;
-	}
-
-	public void setTexts(ArrayList<Text> texts) {
-		this.texts = texts;
-	}
-	
-	@XmlElement(name = "cur-Id")
-	public int getCurId() {
-		return curId;
-	}
-
-	public void setCurId(int id) {
-		this.curId = id;
-	}
 	// --------------------------- CSE --------------------------
 
 
 
 
 	// --------------------------- UTM --------------------------
-	@XmlElement(name = "UCA-List")
-	public ObservableList<UCADataStore> getUCADataStoreList() {
+	@XmlElement(name = "UCA")
+	public ObservableList<UCA> getUCAList() {
 		return this.UCAList;
 	}
 
-	@XmlElement(name = "UCA")
-	public ObservableList<UCA> getUCA(){
-		for(UCADataStore u : UCAList){
-			UCA.addAll(u.getUCATableList());
-		}
-		return UCA;
-	}
-
-	public void setUCAList(ObservableList<UCADataStore> UCAList) {
+	public void setUCAList(ObservableList<UCA> UCAList) {
 		this.UCAList = UCAList;
-	}
-
-	public void setUCA(ObservableList<UCA> UCA) {
-		this.UCA = UCA;
 	}
 	// --------------------------- UTM --------------------------
 
 
 
 	// --------------------------- PMM --------------------------
-	@XmlElement(name = "PMM-controller")
+	@XmlElement(name = "PMMController")
 	public ArrayList<String> getControllerName() {
 		return controller;
 	}
@@ -193,24 +147,24 @@ public class ProjectXML {
 		this.controller = controllerName;
 	}
 
-	@XmlElement(name = "PMM-control-action")
-	public ArrayList<String> getControlActionName() {
+	@XmlElement(name = "PMMControlAction")
+	public ArrayList<String>[] getControlActionName() {
 		return controlAction;
 	}
-	public void setControlActionName(ArrayList<String> controlActionName) {
-		this.controlAction.addAll(controlActionName);
+	public void setControlActionName(ArrayList<String>[] controlActionName) {
+		this.controlAction = controlActionName;
 	}
 
-	@XmlElementWrapper(name="PMM-output-list")
+	@XmlElementWrapper(name="PMMOutputlist")
 	@XmlElement(name = "Output")
-	public ArrayList<String> getOutputVariableName() {
+	public ArrayList<String>[] getOutputVariableName() {
 		return outputVariable;
 	}
-	public void setOutputVariableName(ArrayList<String> outputVariables) {
-		this.outputVariable.addAll(outputVariables);
+	public void setOutputVariableName(ArrayList<String>[] outputVariables) {
+		this.outputVariable = outputVariables;
 	}
 	
-	@XmlElementWrapper(name="PMM-value-list")
+	@XmlElementWrapper(name="PMMValuelist")
 	@XmlElement(name = "Value")
 	public ObservableList<String> getValueList() {
 		return valueList;
@@ -219,17 +173,17 @@ public class ProjectXML {
 		valueList = valueListName;
 	}
 	
-	@XmlElementWrapper(name="PMM-all-CA")
+	@XmlElementWrapper(name="PMMAllCA")
 	@XmlElement(name = "Allca")
-	public ArrayList<String> getAllCA() {
+	public ArrayList<String>[] getAllCA() {
 		return allCA;
 	}
 
-	public void setAllCA(ArrayList<String> controlAction) {
+	public void setAllCA(ArrayList<String>[] controlAction) {
 		this.allCA = controlAction;
 	}
 	
-	@XmlElementWrapper(name="PMM-all-output")
+	@XmlElementWrapper(name="PMMAllOutput")
 	@XmlElement(name = "Alloutput")
 	public ObservableList<String> getAllOutput() {
 		return allOutput;
@@ -238,58 +192,16 @@ public class ProjectXML {
 	public void setAllOutput(ObservableList<String> allOutput) {
 		this.allOutput = allOutput;
 	}
-
+	
 
 	// --------------------------- CTM --------------------------
-	@XmlElement(name = "CTM-List")
-	public ObservableList<CTMDataStore> getCtmDataStoreList() {
+	@XmlElement(name = "CTM")
+	public ObservableList<CTM> getCTMList() {
 		return this.CTMList;
 	}
 
-	@XmlElement(name = "CTM")
-	public ObservableList<CTM> getCTM(){
-		for(CTMDataStore c : CTMList){
-			CTM.addAll(c.getCTMTableList());
-		}
-		return CTM;
-	}
-
-	public void setCTMList(ObservableList<CTMDataStore> CTMList) {
+	public void setCTMList(ObservableList<CTM> CTMList) {
 		this.CTMList = CTMList;
 	}
-
-	public void setCTM(ObservableList<CTM> CTM) {
-		this.CTM = CTM;
-	}
 	// --------------------------- CTM --------------------------
-	
-	
-	// --------------------------- LS ---------------------------
-	@XmlElement(name = "LS-UCA")
-	public List<LS> getLsUcaList(){
-		return this.lsDB.getLsUcaList();
-	}
-	
-	public void setLsUcaList(List<LS> lsUcaList) {
-		this.lsDB.getLsUcaList().setAll(lsUcaList);
-	}
-	
-	@XmlElement(name = "LS-loss-factor")
-	public List<LS> getLossFactorList(){
-		return this.lsDB.getLossFactorList();
-	}
-	
-	public void setLossFactorList(List<LS> lossFactorList) {
-		this.lsDB.getLossFactorList().setAll(lossFactorList);
-	}
-	
-	@XmlElement(name = "LS-loss-scenario")
-	public List<LS> getLossScenarioList(){
-		return this.lsDB.getLossScenarioList();
-	}
-	
-	public void setLossScenarioList(List<LS> lossScenarioList) {
-		this.lsDB.getLossScenarioList().setAll(lossScenarioList);
-	}
-	// --------------------------- LS ---------------------------
 }
