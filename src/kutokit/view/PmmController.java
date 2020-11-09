@@ -152,7 +152,13 @@ public class PmmController{
 	  		}
         } else 	System.out.println("Error: select output variable.");
 
-          
+        System.out.println("-------PMM------");
+        System.out.println("controllerName:"+controllerName.toString());
+        System.out.println("controlAction:"+controlAction.toString());	
+        System.out.println("selectedCA:"+selectedCA.toString());	
+        System.out.println("selectedOutput:"+selectedOutput.toString());
+        System.out.println("valuelist:"+valuelist.toString());
+        System.out.println("----------------");
 	}
 	
 	@FXML
