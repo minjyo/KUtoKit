@@ -48,12 +48,11 @@ public class ProjectXML {
 
 	// --------------------------- PMM --------------------------
 	private ArrayList<String> controller = new ArrayList<String>();
-	private ArrayList<String> controlAction = new ArrayList<String>();
-	private ArrayList<String> outputVariable = new ArrayList<String>();
+	private ArrayList<String>[] controlAction = new ArrayList[10];
+	private ArrayList<String>[] outputVariable = new ArrayList[10];
 	
-	private ArrayList<String> allCA;
+	private ArrayList<String>[] allCA;
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-
 	private ObservableList<String> valueList = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
@@ -149,20 +148,20 @@ public class ProjectXML {
 	}
 
 	@XmlElement(name = "PMMControlAction")
-	public ArrayList<String> getControlActionName() {
+	public ArrayList<String>[] getControlActionName() {
 		return controlAction;
 	}
-	public void setControlActionName(ArrayList<String> controlActionName) {
-		this.controlAction.addAll(controlActionName);
+	public void setControlActionName(ArrayList<String>[] controlActionName) {
+		this.controlAction = controlActionName;
 	}
 
 	@XmlElementWrapper(name="PMMOutputlist")
 	@XmlElement(name = "Output")
-	public ArrayList<String> getOutputVariableName() {
+	public ArrayList<String>[] getOutputVariableName() {
 		return outputVariable;
 	}
-	public void setOutputVariableName(ArrayList<String> outputVariables) {
-		this.outputVariable.addAll(outputVariables);
+	public void setOutputVariableName(ArrayList<String>[] outputVariables) {
+		this.outputVariable = outputVariables;
 	}
 	
 	@XmlElementWrapper(name="PMMValuelist")
@@ -176,11 +175,11 @@ public class ProjectXML {
 	
 	@XmlElementWrapper(name="PMMAllCA")
 	@XmlElement(name = "Allca")
-	public ArrayList<String> getAllCA() {
+	public ArrayList<String>[] getAllCA() {
 		return allCA;
 	}
 
-	public void setAllCA(ArrayList<String> controlAction) {
+	public void setAllCA(ArrayList<String>[] controlAction) {
 		this.allCA = controlAction;
 	}
 	
