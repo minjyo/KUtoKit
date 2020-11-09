@@ -2,6 +2,7 @@ package kutokit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 import javax.xml.bind.JAXBContext;
@@ -47,7 +48,7 @@ public class MainApp extends Application {
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
-	 public static ObservableList<CTM> ctmDataStore = FXCollections.observableArrayList();
+	 public static CTMDataStore ctmDataStore;
 	 public static LSDataStore lsDataStore;
 
 	@Override
@@ -70,6 +71,7 @@ public class MainApp extends Application {
 		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
+		ctmDataStore = new CTMDataStore();
 	}
 
 	private void initRootLayout() {
@@ -328,7 +330,7 @@ public class MainApp extends Application {
 			 // --------------------------- PMM --------------------------
 
 			 // --------------------------- CTM --------------------------
-		        ctmDataStore.remove(0, ctmDataStore.size()-1);
+		        /*ctmDataStore.remove(0, ctmDataStore.size()-1);
 		        ctmDataStoreList.remove(0, ctmDataStoreList.size()-1);
 
 		        ctmDataStore.addAll(projectXML.getCTM());
@@ -339,7 +341,7 @@ public class MainApp extends Application {
 		        		c.getCTMTableList().add(ctmDataStore.get(j));
 		        		j++;
 		        	}
-		        }
+		        }*/
    	         // --------------------------- CTM --------------------------
 		        
 		     // --------------------------- LS ---------------------------
@@ -398,8 +400,8 @@ public class MainApp extends Application {
     	 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------
-	        projectXML.setCTM(ctmDataStore);
-	        projectXML.setCTMList(ctmDataStoreList);
+	        //projectXML.setCTM(ctmDataStore);
+	        //projectXML.setCTMList(ctmDataStoreList);
 	     // --------------------------- CTM --------------------------
 	        
 	     // --------------------------- LS ---------------------------
