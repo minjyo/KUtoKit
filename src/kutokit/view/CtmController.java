@@ -81,9 +81,11 @@ public class CtmController {
 		AddFile.setVisible(false);
 		
 		this.mainApp = mainApp;
-		ctmDataStore = mainApp.ctmDataStore;
-		totalData = ctmDataStore.getCTMTableList();
 		System.out.println("222@");
+		ctmDataStore = mainApp.ctmDataStore;
+		System.out.println("333@");
+		totalData = ctmDataStore.getCTMTableList();
+		System.out.println("444@");
 		
 		controllerName = mainApp.models.getControllerName();
 		controlActionNames = mainApp.models.getControlActionName();
@@ -91,7 +93,6 @@ public class CtmController {
 		valuelist = mainApp.models.getValuelist();
 		contextheader = new ArrayList<>();
 
-		System.out.println("333@");
 		System.out.println("controllerName:"+controllerName.toString());
 		System.out.println("controlActionNames:"+controlActionNames.toString());
 		System.out.println("outputNames:"+outputNames.toString());

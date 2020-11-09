@@ -71,6 +71,7 @@ public class MainApp extends Application {
 		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
+		ctmDataStore = new CTMDataStore();
 	}
 
 	private void initRootLayout() {
