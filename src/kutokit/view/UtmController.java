@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -44,8 +45,8 @@ public class UtmController {
 	@FXML private ObservableList<TableColumn<UCA, String>> incorrectColumn= FXCollections.observableArrayList();
 	@FXML private ObservableList<TableColumn<UCA, String>> stoppedColumn= FXCollections.observableArrayList();
 	@FXML private ObservableList<TableColumn> linkColumn= FXCollections.observableArrayList();
-	@FXML private ObservableList<RadioButton> controllerButton = FXCollections.observableArrayList();
-
+	@FXML private ComboBox<String> controllerComboBox,controlActionComboBox;
+	@FXML private Button addCtmButton;
 	@FXML private TabPane tabPane;
 
 	private ContextMenu menu;
@@ -76,6 +77,7 @@ public class UtmController {
 		hazardData = MainApp.lhcDataStore.getHazardTableList();
 		ctmData = MainApp.ctmDataStoreList;
 
+//		controllerComboBox
 		//Test example
 //		Test();
 		//After CTM_table array -> change
@@ -112,15 +114,20 @@ public class UtmController {
 //	   	 	}
 //   	 	}
 
-//   	 		for(UCADataStore u : ucaDataStoreList){
-//   	 			if(u.getControllAction() == ctmData.get(0).get(0).getControllerName()&& u.getController()==ctmData.get(0).get(0).getControlAction()){
-//	   	 			break;
-//   	 			}
-//   		 		i++;
-//   	 		}
+   	 		for(UCADataStore u : ucaDataStoreList){
+   	 			if(u.getControllAction() == ctmData.get(0).getCTMTableList().get(0).getControllerName()&& u.getController()==ctmData.get(0).getCTMTableList().get(0).getControlAction()){
+	   	 			break;
+   	 			}
+   		 		i++;
+   	 		}
 
 //	 	}
-   	 	i++;
+   			for(CTM c : ctmData.get(0).getCTMTableList()){
+   				System.out.println(c.getControlAction()+c.getContext(0)+c.getNo());
+   				System.out.println(c.getControlAction());
+   				System.out.println(c.getContext(0));
+   				System.out.println(c.getCasesValue());
+   			}
 	   	//new Ctm Table
 	 	if(i==ucaDataStoreList.size()){
 	 		addUcaTable(ctmData.get(0).getCTMTableList());
@@ -223,7 +230,7 @@ public class UtmController {
 //   	 		setUcaTable(i);
 //   	 		tabPane.getTabs().add(tab);
 //   	 	}
-//        ucaHazardPopup();
+        ucaHazardPopup();
 
         return ;
 	}
@@ -259,7 +266,9 @@ public class UtmController {
 
 	public void addUcaTable(ObservableList<CTM> ctmData) {
 		// and new UCA Table from CTM data
+
 		String tabtext = ctmData.get(0).getControllerName() + "-" + ctmData.get(0).getControlAction();
+		System.out.println(tabtext);
 		UCADataStore ucadatastore = new UCADataStore();
 		ObservableList<UCA> ucaData = FXCollections.observableArrayList();
 		ucaData = ucadatastore.getUCATableList();
@@ -267,8 +276,8 @@ public class UtmController {
 
 		for(CTM c : ctmData){
 			String ucaColumn = "";
-			if(c.getHazardous().getValue().equals("O")){
-				switch((String)c.getCases().getValue())
+			if(c.getHazardousList().getValue().equals("O")){
+				switch((String)c.getCasesList().getValue())
 				{
 				//case naming corretly -dayun should modify
 				case "CA ":
@@ -372,13 +381,17 @@ public class UtmController {
 
 			Scene scene = new Scene(popUproot);
 
-		    Stage stage = new Stage();
+			Stage stage = new Stage();
+			ObservableList<LHC> hazardList = FXCollections.observableArrayList();
+			hazardList = MainApp.lhcDataStore.getHazardTableList();
+
 			stage.setScene(scene);
 			stage.show();
 
 		  } catch (IOException e) {
 				e.printStackTrace();
 		  }
+
 	}
 
 }
