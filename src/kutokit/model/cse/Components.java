@@ -1,36 +1,31 @@
 package kutokit.model.cse;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.prefs.Preferences;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import kutokit.MainApp;
-import kutokit.view.components.*;
 
 public class Components {
 
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
 	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
+	private ArrayList<Text> texts = new ArrayList<Text>();
+	
 	public int curId=1;
 	public ControlAction curCA;
 	public Feedback curFB;
 	public Controller curController;
 	
 	public Components() {
-//		curId = 3;
+//		curId = 6;
 //		
-//		//curID 나중에 수정 필
 //		//===================temp========================
-//		controllers.add(new Controller(100,30, "c1", 1));
+//		controllers.add(new Controller(150,30, "c1", 1));
 //		controllers.add(new Controller(100,300, "c2", 2));
+//		controllers.add(new Controller(400,300, "c3", 3));
+//		
+//		ArrayList<String> ca = new ArrayList<String>();
+//		ca.add("a");
+//		controlActions.add(new ControlAction("c1", "c2", ca, 4, this));
+//		feedbacks.add(new Feedback("c2", "c1", ca, 5, this));
 //		
 //		//===================temp========================
 	}
@@ -47,6 +42,23 @@ public class Components {
 		return this.feedbacks;
 	}
 	
+	public ArrayList<Text> getTexts() {
+		return this.texts;
+	}
+	
+	public int getCurId() {
+		return this.curId;
+	}
+	
+	public void setCurId(int id) {
+		this.curId = id;
+	}
+	
+	public void setTexts(ArrayList<Text> texts) {
+		this.texts = texts;
+	}
+	
+	
 	public void addController(Controller controller) {
 		controllers.add(controller);
 		curId++;
@@ -62,11 +74,26 @@ public class Components {
 		curId++;
 	}
 	
+	public void addText(Text t) {
+		texts.add(t);
+		curId++;
+	}
+	
 	public void moveController(int id, double x, double y) {
 		for (Controller c : controllers) {
             if (c.getId()==id) {
                 c.setX(x);
                 c.setY(y);
+                return;
+            }
+        }
+	}
+	
+	public void moveText(int id, double x, double y) {
+		for (Text t : texts) {
+            if (t.getId()==id) {
+            	t.setX(x);
+                t.setY(y);
                 return;
             }
         }
@@ -167,6 +194,15 @@ public class Components {
         }
 	}
 	
+	public void deleteText(int id) {
+		for (Text t : texts) {
+            if (t.getId()==id) {
+            	texts.remove(t);
+                return;
+            }
+        }
+	}
+	
 	public void modifyController(int id, String name) {
 		for (Controller c : controllers) {
             if (c.getId()==id) {
@@ -189,6 +225,15 @@ public class Components {
 		for (Feedback fb : feedbacks) {
             if (fb.getId()==id) {
             	fb.setFB(FB);
+                return;
+            }
+        }
+	}
+	
+	public void modifyText(int id, String content) {
+		for (Text t : texts) {
+            if (t.getId()==id) {
+            	t.content = content;
                 return;
             }
         }
@@ -225,6 +270,15 @@ public class Components {
 		for (Feedback fb : feedbacks) {
             if (fb.getId()==id) {
                 return fb;
+            }
+        }
+		return null;
+	}
+	
+	public Text findText(int id) {
+		for (Text t : texts) {
+            if (t.getId()==id) {
+            	return t;
             }
         }
 		return null;

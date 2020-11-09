@@ -4,7 +4,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -12,40 +11,31 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.shape.*;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import kutokit.MainApp;
 import kutokit.model.cse.Components;
 import kutokit.model.cse.ControlAction;
 import kutokit.model.cse.Controller;
 import kutokit.model.cse.Feedback;
+import kutokit.model.cse.Text;
 import kutokit.view.components.*;
-import kutokit.view.popup.*;
 import kutokit.view.popup.cse.AddCAPopUpController;
 import kutokit.view.popup.cse.AddFBPopUpController;
+import kutokit.view.popup.cse.AddTextPopUpController;
 import kutokit.view.popup.cse.ControllerPopUpController;
 import kutokit.view.popup.cse.ModifyCAPopUpController;
 import kutokit.view.popup.cse.ModifyFBPopUpController;
@@ -59,6 +49,7 @@ public class CseController {
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	private ArrayList<ControlAction> controlActions = new ArrayList<ControlAction>();
 	private ArrayList<Feedback> feedbacks = new ArrayList<Feedback>();
+	private ArrayList<Text> texts = new ArrayList<Text>();
 
 	private ContextMenu ControllerContextMenu;
 	private MenuItem itemC1, itemC2, itemC3;
@@ -66,10 +57,13 @@ public class CseController {
 	private MenuItem itemCA1, itemCA2;
 	private ContextMenu FBContextMenu;
 	private MenuItem itemFB1, itemFB2;
+	private ContextMenu TextContextMenu;
+	private MenuItem itemT1, itemT2;
 
 	ControllerPopUpController AddCpop;
 	AddCAPopUpController AddCApop;
 	AddFBPopUpController AddFBpop;
+	AddTextPopUpController AddTextpop;
 	ModifyCAPopUpController ModifyCApop;
 	ModifyFBPopUpController ModifyFBpop;
 	
@@ -93,53 +87,87 @@ public class CseController {
 		for (Controller c : controllers) {
 			DoubleProperty X = new SimpleDoubleProperty(c.getX());
 		    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
+		    c.clearNum();
 		    
 			RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
+			c.setRectangle(r);
 
 			addController(r, c);
 		}
 		
 		controlActions = dataStore.getControlActions();
 		for (ControlAction ca : controlActions) {
+			Controller controller = dataStore.findController(ca.getControllerID());
+			Controller controlled = dataStore.findController(ca.getControlledID());
+			
+			int[] startNum = controller.getNum();
+			int[] endNum = controlled.getNum();
+			
 			DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
 			for(Node node: root.getChildren()) {
 				if(Integer.parseInt(node.getId())==ca.getControllerID()) {
 					startX = node.layoutXProperty();
 					startY = node.layoutYProperty();
+					controller.resizeRectangle("ca");
 				}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
 					endX = node.layoutXProperty();
-					endY = node.layoutYProperty();    
+					endY = node.layoutYProperty();   
+					controlled.resizeRectangle("ca");
 				}
 			}
-			ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
+			ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId(), startNum, endNum);
 			a.toBack();
-			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
+			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA", endNum);
 			a.setLabel(label);
 			
-			dataStore.findController(ca.getControllerID()).addCA(ca.getId(), 1);
-			dataStore.findController(ca.getControlledID()).addCA(ca.getId(), 0);
+			controller.addCA(ca.getId(), 1);
+			controlled.addCA(ca.getId(), 0);
 			
 			addControlAction(a, label, ca);
 		}
 		
 		feedbacks = dataStore.getFeedbacks();
 		for (Feedback fb : feedbacks) {
+			Controller controller = dataStore.findController(fb.getControllerID());
+			Controller controlled = dataStore.findController(fb.getControlledID());
+			
+			int[] startNum = controller.getNum();
+			int[] endNum = controlled.getNum();
+			
 			DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
 			for(Node node: root.getChildren()) {
 				if(Integer.parseInt(node.getId())==fb.getControlledID()) {
 					startX = node.layoutXProperty();
 					startY = node.layoutYProperty();
+					controlled.resizeRectangle("fb");
 				}else if(Integer.parseInt(node.getId())==fb.getControllerID()) {
 					endX = node.layoutXProperty();
 					endY = node.layoutYProperty();
+					controller.resizeRectangle("fb");
 				}
 			}
-			ArrowView a = new ArrowView(fb, startX, startY, endX,  endY, fb.getId());
-			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, fb.getFB(), "FB");
+			ArrowView a = new ArrowView(fb, startX, startY, endX,  endY, fb.getId(), startNum, endNum);
+			LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, fb.getFB(), "FB", endNum);
 			a.setLabel(label);
 	
+			controller.addFB(fb.getId(), 1);
+			controlled.addFB(fb.getId(), 0);
+			
 			addFeedback(a, label, fb);
 		}
+		
+		texts = dataStore.getTexts();
+		for (Text text : texts) {
+			DoubleProperty X = new SimpleDoubleProperty(text.getX());
+		    DoubleProperty Y = new SimpleDoubleProperty(text.getY());
+		    
+		    //System.out.println(X.get() + " " + Y.get());
+		    
+		    TextView t = new TextView(X, Y, text.getContent(), text.getId(), dataStore);
+
+			addText(t, text);
+		}
+		
 
 		// Add through click
 		component.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -164,10 +192,19 @@ public class CseController {
 				event.consume();
 			}
 		});
+		
+		// Add through click
+		text.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent event) {
+				addPopUp("text");
+				event.consume();
+			}
+		});
 
 		addControllerContextMenu();
 		addCAContextMenu();
 		addFBContextMenu();
+		addTextContextMenu();
 	}
 
 	private void addPopUp(String component) {
@@ -185,6 +222,10 @@ public class CseController {
 		case "feedback":
 			loader.setLocation(getClass().getResource("popup/cse/AddFBPopUpView.fxml"));
 			AddFBpop = loader.getController();
+			break;
+		case "text":
+			loader.setLocation(getClass().getResource("popup/cse/AddTextPopUpView.fxml"));
+			AddTextpop = loader.getController();
 			break;
 		}
 
@@ -214,6 +255,7 @@ public class CseController {
 						    DoubleProperty Y = new SimpleDoubleProperty(c.getY());
 						    
 							RectangleView r = new RectangleView(X, Y, c.getName(), c.getId(), dataStore);
+							c.setRectangle(r);
 
 							addController(r, c);
 							dataStore.addController(c);
@@ -224,26 +266,34 @@ public class CseController {
 						
 						if(AddCApop.OKclose) {
 							ControlAction ca = new ControlAction(AddCApop.controller, AddCApop.controlled, AddCApop.CA, dataStore.curId, dataStore);
+							Controller controller = dataStore.findController(AddCApop.controller);
+							Controller controlled = dataStore.findController(AddCApop.controlled);
+							
+							int[] startNum = controller.getNum();
+							int[] endNum = controlled.getNum();
 							
 							DoubleProperty  startX = null, startY = null, endX = null,  endY = null;
+							
 							
 							for(Node node: root.getChildren()) {
 								if(Integer.parseInt(node.getId())==ca.getControllerID()) {
 									startX = node.layoutXProperty();
 									startY = node.layoutYProperty();
+									controller.resizeRectangle("ca");
 								}else if(Integer.parseInt(node.getId())==ca.getControlledID()) {
 									endX = node.layoutXProperty();
 									endY = node.layoutYProperty();
+									controlled.resizeRectangle("ca");
 								}
 							}
-							ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId());
-							LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA");
+							ArrowView a = new ArrowView(ca, startX, startY, endX,  endY, ca.getId(), startNum, endNum);
+							LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ca.getCA(), "CA", endNum);
 							a.setLabel(label);
 							
 							dataStore.addControlAction(ca);
-						
-							dataStore.findController(AddCApop.controller).addCA(ca.getId(), 1);
-							dataStore.findController(AddCApop.controlled).addCA(ca.getId(), 0);
+							
+							controller.addCA(ca.getId(), 1);
+							controlled.addCA(ca.getId(), 0);
 							
 							addControlAction(a, label, ca);
 						}
@@ -253,28 +303,51 @@ public class CseController {
 						
 						if(AddFBpop.OKclose) {
 							Feedback fb = new Feedback(AddFBpop.controlled, AddFBpop.controller, AddFBpop.FB, dataStore.curId, dataStore);
+							Controller controller = dataStore.findController(AddFBpop.controller);
+							Controller controlled = dataStore.findController(AddFBpop.controlled);
+							
+							int[] startNum = controlled.getNum();
+							int[] endNum = controller.getNum();
 							
 							DoubleProperty  startX1 = null, startY1 = null, endX1 = null,  endY1 = null;
 							
 							for(Node node: root.getChildren()) {
+								//System.out.println(node.getId());
 								if(Integer.parseInt(node.getId())==fb.getControlledID()) {
 									startX1 = node.layoutXProperty();
 									startY1 = node.layoutYProperty();
+									controlled.resizeRectangle("fb");
 								}else if(Integer.parseInt(node.getId())==fb.getControllerID()) {
 									endX1 = node.layoutXProperty();
 									endY1 = node.layoutYProperty();
+									controller.resizeRectangle("fb");
 								}
 							}
-							ArrowView a1 = new ArrowView(fb, startX1, startY1, endX1,  endY1, fb.getId());
-							LabelView label1 = new LabelView(a1.startX, a1.startY, a1.endX, a1.endY, fb.getFB(), "FB");
+							ArrowView a1 = new ArrowView(fb, startX1, startY1, endX1,  endY1, fb.getId(), startNum, endNum);
+							LabelView label1 = new LabelView(a1.startX, a1.startY, a1.endX, a1.endY, fb.getFB(), "FB", endNum);
 							a1.setLabel(label1);
 							
 							dataStore.addFeedback(fb);
 							
-							dataStore.findController(AddFBpop.controller).addFB(fb.getId(), 1);
-							dataStore.findController(AddFBpop.controlled).addFB(fb.getId(), 0);
+							controller.addFB(fb.getId(), 1);
+							controlled.addFB(fb.getId(), 0);
 						
 							addFeedback(a1, label1, fb);
+						}
+						break;
+					case "text":
+						AddTextpop = loader.getController();
+						
+						if(AddTextpop.OKclose) {
+							Text text = new Text(50, 50, AddTextpop.content, dataStore.curId);
+
+							DoubleProperty X = new SimpleDoubleProperty(text.getX());
+						    DoubleProperty Y = new SimpleDoubleProperty(text.getY());
+						    
+							TextView t = new TextView(X, Y, text.getContent(), text.getId(), dataStore);
+							
+							addText(t, text);
+							dataStore.addText(text);
 						}
 						break;
 					}
@@ -343,6 +416,22 @@ public class CseController {
 		root.getChildren().addAll(s, l);
 		s.toBack();
 	}
+	
+	private void addText(TextView t, Text text) {
+
+		t.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+
+			@Override
+			public void handle(ContextMenuEvent event) {
+
+				TextContextMenu.show(t, event.getScreenX(), event.getScreenY());
+			}
+		});
+
+		t.setId(Integer.toString(text.getId()));
+		
+		root.getChildren().addAll(t);
+	}
 
 	private void modifyControllerPopUp(RectangleView rect) {
 		  FXMLLoader loader = new FXMLLoader();
@@ -405,7 +494,8 @@ public class CseController {
 								break;
 							}
 						}
-						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyCApop.CA, "CA");
+						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyCApop.CA, "CA", a.endNum);
+						label.setId(a.getId());
 						a.label = label;
 						root.getChildren().add(label);
 			    	}
@@ -446,7 +536,8 @@ public class CseController {
 								break;
 							}
 						}
-						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyFBpop.FB, "FB");
+						LabelView label = new LabelView(a.startX, a.startY, a.endX, a.endY, ModifyFBpop.FB, "FB", a.endNum);
+						label.setId(a.getId());
 						a.label = label;
 						root.getChildren().add(label);
 			    	}
@@ -457,6 +548,48 @@ public class CseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void modifyTextPopUp(TextView text) {
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(getClass().getResource("popup/cse/AddTextPopUpView.fxml"));
+		  Parent popUproot;
+		  
+		  try {
+			  	popUproot = (Parent) loader.load();
+				
+				Scene scene = new Scene(popUproot);
+				AddTextpop = loader.getController();
+				
+				  Stage stage = new Stage();
+				  stage.setScene(scene);
+				  stage.show();
+				  
+				  //add controller with name when popup closed
+				  stage.setOnHidden(new EventHandler<WindowEvent>() {
+					    @Override
+					    public void handle(WindowEvent e) {
+					    	AddTextpop = loader.getController();
+					    	
+					    	if(AddTextpop.OKclose) {
+					    		Text t = dataStore.findText(text.id);
+					    		t.setContent(AddTextpop.content);
+					    		for(Node node : root.getChildren()) {		
+									if(node.equals(text)) {
+										root.getChildren().remove(node);
+										TextView text = new TextView(node.layoutXProperty(), node.layoutYProperty(), AddTextpop.content, Integer.parseInt(node.getId()), dataStore);
+										addText(text, t);
+										break;
+									}
+								}
+								
+					    	}
+					    }
+					  });
+		  } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		  }
 	}
 
 	private void modifyRectangle(RectangleView rect, String name) {
@@ -611,6 +744,38 @@ public class CseController {
 			}
 		});
 		FBContextMenu.getItems().addAll(itemFB1, itemFB2);
+	}
+	
+	public void addTextContextMenu() {
+		TextContextMenu = new ContextMenu();
+
+		itemT1 = new MenuItem("Modfiy");
+		itemT1.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				// modifyRectangle(getParentMenu().get)
+				TextView text = (TextView) itemT1.getParentPopup().getOwnerNode();
+				modifyTextPopUp(text);
+			}
+		});
+		itemT2 = new MenuItem("Delete");
+		itemT2.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				TextView text = (TextView) itemT1.getParentPopup().getOwnerNode();
+				dataStore.deleteText(text.id);
+				
+				for (Node a : root.getChildren()) {
+					if (a.equals(text)) {
+						root.getChildren().remove(a);
+						break;
+					}
+				}
+			}
+		});
+		TextContextMenu.getItems().addAll(itemT1, itemT2);
 	}
 
 	// set MainApp

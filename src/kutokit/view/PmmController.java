@@ -216,7 +216,6 @@ public class PmmController{
 	  		}
         } else 	System.out.println("Error: select output variable.");
 
-          
 	}
 	
 	@FXML
