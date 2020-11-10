@@ -113,29 +113,29 @@ public class CtmController {
 			contextheader.add(valuelist.get(x));
 		}
 		
-//		final ToggleGroup group = new ToggleGroup();
-// 		HBox radioGroup = new HBox();
-// 		
-//		for(int i=0;i<controllerName.size();i++) {
-//	 		RadioButton rb = new RadioButton(controllerName.get(i));
-//	 		rb.setToggleGroup(group);
-//	 		if(i==0) {
-//	 			rb.setSelected(true);
-//	 		}
-//	 		group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
-//	 		    public void changed(ObservableValue<? extends Toggle> ov,
-//	 		        Toggle old_toggle, Toggle new_toggle) {
-//	 		            if (group.getSelectedToggle() != null) {
-//	 		            	//TODO link radio
-//	 		            	System.out.println(new_toggle.toString());
-//	 		            }                
-//	 		        }
-//	 		});
-//	 		
-//	 		radioGroup.getChildren().add(rb);
-//	 		controllerCount++;
-//		}
-		
+		final ToggleGroup group = new ToggleGroup();
+ 		HBox radioGroup = new HBox();
+ 		
+		for(int i=0;i<controllerName.size();i++) {
+	 		RadioButton rb = new RadioButton(controllerName.get(i));
+	 		rb.setToggleGroup(group);
+	 		if(i==0) {
+	 			rb.setSelected(true);
+	 		}
+	 		group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+	 		    public void changed(ObservableValue<? extends Toggle> ov,
+	 		        Toggle old_toggle, Toggle new_toggle) {
+	 		            if (group.getSelectedToggle() != null) {
+	 		            	//TODO link radio
+	 		            	System.out.println(new_toggle.toString());
+	 		            }                
+	 		        }
+	 		});
+	 		
+	 		radioGroup.getChildren().add(rb);
+	 		controllerCount++;
+		}
+	
 		for(int i=0;i<controlActionNames.size();i++) {
 			tabPane.getTabs().add(MakeTab(i,controlActionNames.get(i), contextheader));
 		}
@@ -260,7 +260,7 @@ public class CtmController {
 		noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
 		hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
 
-		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
+		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getCANameProperty());
 		noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
 
 		contextTable.setEditable(true);

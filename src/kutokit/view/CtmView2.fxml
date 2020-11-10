@@ -17,9 +17,9 @@
       <Rectangle fill="DARKSEAGREEN" height="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1000.0" />
       <ComboBox fx:id="controllerCB" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="126.0" promptText="controller" />
       <ComboBox fx:id="controlActionCB" layoutX="126.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="154.0" promptText="control action" />
-      <TabPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+      <TabPane fx:id="tabPane" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
         <tabs>
-          <Tab>
+          <Tab fx:id="firstTab">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -50,7 +50,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="addTabButton" layoutX="790.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="210.0" text="add New Tab for other CA" />
-      <Button layoutX="710.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#AddFile" prefHeight="30.0" prefWidth="80.0" text="Add file" />
+      <Button fx:id="addTabButton" layoutX="790.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addNewTab" prefHeight="30.0" prefWidth="210.0" text="add New Tab for other CA" />
+      <Button fx:id="addFileButton" layoutX="710.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#AddFile" prefHeight="30.0" prefWidth="80.0" text="Add file" />
    </children>
 </AnchorPane>
