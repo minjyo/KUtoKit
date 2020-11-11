@@ -82,7 +82,7 @@ public class Controller {
 	
 	public void removeCA(int id) {
 		this.CA.remove(id);
-		//num--;
+		num[0] = num[0]-1;
 	}
 	
 	public Map<Integer, Integer> getFB(){
@@ -96,7 +96,7 @@ public class Controller {
 	
 	public void removeFB(int id) {
 		this.FB.remove(id);
-		//num--;
+		num[1] = num[1]+1;
 	}
 
 	public int[] getNum() {
