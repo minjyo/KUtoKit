@@ -72,7 +72,7 @@ public class PmmController{
 	private ContextMenu contextMenu = new ContextMenu();
 	private MenuItem item1, item2;
 	public String curOutput;
-	public int curIndex;
+	public int curIndex; //controller 번호
 	
 	@FXML private Label fileName, CANameBar;
 	@FXML private Pane addFile;
@@ -131,6 +131,7 @@ public class PmmController{
 			
 			// 선택된 controller 의 CA 가져오기
 			Map<Integer, Integer> controlActions = controller.getCA();
+			System.out.println(controlActions.toString());
 			
 			int j=0;
 			if(!dataStore.isEmpty(dataStore.getAllCA())) {
@@ -140,7 +141,8 @@ public class PmmController{
 			
 			for(Integer ca : controlActions.keySet()) {
 				allCA[j] = components.findControlAction(ca).getCA();
-				j++;
+				System.out.println(allCA[j] + " : allCA[j]");
+//				j++;
 			}
 			
 			for(ArrayList<String> list : allCA) {
