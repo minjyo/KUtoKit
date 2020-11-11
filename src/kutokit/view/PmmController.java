@@ -78,8 +78,8 @@ public class PmmController{
 	@FXML private ChoiceBox<String> controllerList, CAList;
 	@FXML private ListView<String> outputList, PM;
 	@FXML private TabPane tabPane;
-	@FXML private Tab tab_1; // default tab
-	@FXML private AnchorPane newPane;
+	@FXML private Tab tab_1, tab_2; // default tab
+//	@FXML private AnchorPane newPane;
 	
 	PmmTabPopUpController c;
 	
@@ -114,9 +114,12 @@ public class PmmController{
 				System.out.println("저장된 controller: "+controllerName);
 				System.out.println("controllerName size: "+controllerName.size()+", tabsize: "+tabPane.getTabs().size());
 				
-				if(controllerName.size() != tabPane.getTabs().size()) {
+				if(controllerName.size() > tabPane.getTabs().size()) {
 					System.out.println("Create new tab for new controller.");
 					addTab(tabPane);
+				}else {
+					System.out.println("No need to add new tab.");
+					tab_1.setText(controllerName + "-" + CAList.getSelectionModel().getSelectedItem());
 				}
 			}
 			
@@ -170,17 +173,30 @@ public class PmmController{
 	}
 
 	public void addTab(TabPane tabpane) {
-		Tab newtab = new Tab("Controller 2");
+		Tab newTab = new Tab(controllerName + "-" + CAList.getSelectionModel().getSelectedItem());
+		
+		tabpane.getTabs().add(newTab);
+		
+		AnchorPane newPane = new AnchorPane();
+		ListView newListView = new ListView();
 		
 		// tab에 가져온 pane을 붙여서 tabPane에 tab 추가
-		try {
-			AnchorPane pane = FXMLLoader.load(getClass().getResource("popup/PmmTabPopUpView.fxml"));
-			this.newPane = pane;
-			newtab.setContent(this.newPane);
-			tabpane.getTabs().add(newtab);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			AnchorPane pane = FXMLLoader.load(getClass().getResource("popup/PmmTabPopUpView.fxml"));
+//			this.newPane = pane;
+//			newtab.setContent(this.newPane);
+//			tabpane.getTabs().add(newtab);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		newTab.setContent(newPane);
+//		tabPane.getTabs().add(newTab);
+		
+		newPane.setTopAnchor(newListView, 0.0);
+		newPane.setLeftAnchor(newListView, 0.0);
+		newPane.setBottomAnchor(newListView, 0.0);
+		newPane.setRightAnchor(newListView, 0.0);
 	}
 
 	@FXML

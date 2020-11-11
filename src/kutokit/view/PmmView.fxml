@@ -73,9 +73,9 @@
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
-            <TabPane layoutX="-25.0" layoutY="312.0" prefHeight="452.0" prefWidth="551.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" layoutX="-25.0" layoutY="312.0" prefHeight="452.0" prefWidth="551.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab>
+                <Tab fx:id="tab_1">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -84,7 +84,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab>
+                <Tab fx:id="tab_2">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
