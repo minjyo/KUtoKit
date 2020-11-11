@@ -134,10 +134,8 @@ public class PmmController{
 				allCA = dataStore.getAllCA();
 				j = dataStore.getSize(dataStore.getAllCA());
 			}
-			
 			for(Integer ca : controlActions.keySet()) {
-				allCA[j] = components.findControlAction(ca).getCA();
-				j++;
+				allCA[j].addAll(components.findControlAction(ca).getCA());
 			}
 			
 			for(ArrayList<String> list : allCA) {
@@ -521,6 +519,7 @@ public class PmmController{
 		// Initialize
 		for(int i=0; i<components.getControllers().size(); i++) {
 			selectedOutput[i] = new ArrayList<String>();
+			allCA[i] = new ArrayList<String>();
 		}
 		// From Dashboard to PMM
 		if( components.curController == null) { 
