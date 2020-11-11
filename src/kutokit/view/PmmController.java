@@ -59,13 +59,14 @@ public class PmmController{
 	
 	private ProcessModel dataStore;
 	private ArrayList<String> controllerName = new ArrayList<String>(); // Selected controller
-	private ArrayList<String> controlAction[]; // 모든 control action
+	private ArrayList<String> allCA[]; // 모든 control action
 	private ArrayList<String> selectedCA[]; // 선택된 control action
 	private ArrayList<String> selectedOutput[]; // 선택된 output
 	
 	private ObservableList<String> allOutput = FXCollections.observableArrayList(); // 추출된 output
 	private ObservableList<String> valuelist = FXCollections.observableArrayList(); // 추출된 value list
 	private ObservableList<String> list = FXCollections.observableArrayList(); 
+	private ArrayList<String> valuelists = new ArrayList<String>(); // valuelist 실제 데이터 저장,관리
 
 	private Stage valueStage = new Stage();
 	private ContextMenu contextMenu = new ContextMenu();
@@ -89,29 +90,30 @@ public class PmmController{
 
 	// Get Controller, all of CA from CSE DataStore
 	public void selectController() {	
+		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡSelect Controllerㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+
 		// CSE -> PMM 모드 진입 
 		// 선택된 controller에 대한 정보 가져오기
 		Controller controller = components.curController;
-			System.out.println("controllerame: "+controllerName);
+			System.out.println("저장 전 controller Name: "+dataStore.getControllerName());
 			
 			if( controllerName.contains(controller.getName())) {
 				// 이미 같은 이름의 controller tab이 존재할 때, 
-				System.out.println("이미 같은 controller가 존재하네요.");
+				System.out.println("이미 같은 controller가 존재");
 			} 
 			
 			else {
 				// 새로운 controller 추가
-				System.out.println("Add new Controller");
+				System.out.println("Add new Controller : "+controller.getName());
 				
 				// Create new tab
 				if(!dataStore.getControllerName().isEmpty()) {
 					// 이전에 추가해둔 controller가 존재할때, 배열에 가져오기 
-					System.out.println("이전에 추가한 controller가 있네요. : "+dataStore.getControllerName());
 					controllerName.addAll(dataStore.getControllerName());
 				}
 				// 이후 새로운 controller 배열에 추가
 				controllerName.add(controller.getName());
-				System.out.println("저장된 controller: "+controllerName);
+				System.out.println("저장 후 controller: "+controllerName);
 				System.out.println("controllerName size: "+controllerName.size()+", tabsize: "+tabPane.getTabs().size());
 				
 				if(controllerName.size() > tabPane.getTabs().size()) {
@@ -125,51 +127,61 @@ public class PmmController{
 			
 			curIndex = controllerName.indexOf(controller.getName());
 			System.out.println("현재 controller index (curIndex) : "+curIndex);
+			System.out.println();
+			
+			// 선택된 controller 의 CA 가져오기
 			Map<Integer, Integer> controlActions = controller.getCA();
-			controlAction = new ArrayList[controlActions.size()];
-			selectedCA = new ArrayList[controlAction.length];
-			selectedOutput = new ArrayList[controlActions.size()];
-				
-			int i=0;
+			
+			int j=0;
+			if(!dataStore.isEmpty(dataStore.getAllCA())) {
+				allCA = dataStore.getAllCA();
+				j = dataStore.getSize(dataStore.getAllCA());
+			}
+			
 			for(Integer ca : controlActions.keySet()) {
-				
-				if(i > controlAction.length-1) break;
-				if(!dataStore.isAllCAEmpty()) {
-					controlAction = dataStore.getAllCA();
-					i = dataStore.getAllCAsize();
-				}
-				controlAction[i] = components.findControlAction(ca).getCA();
-				i++;
+				allCA[j] = components.findControlAction(ca).getCA();
+				j++;
 			}
 			
-			for(ArrayList<String> list : controlAction) {
-				System.out.println("After->list: "+list);
+			for(ArrayList<String> list : allCA) {
+				System.out.println("All CA : "+list);
 			}
 			
-			dataStore.setAllCA(controlAction);
+			dataStore.setAllCA(allCA);
 			
 			controllerList.getItems().addAll(controllerName);
-			CAList.getItems().addAll(controlAction[curIndex]);
+			CAList.getItems().addAll(allCA[curIndex]);
 	}
 	
 	@FXML
 	public void showOutput() {
 		// Save selected controller, ca in datastore
+		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡSHOW outputㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+		
 		dataStore.setControllerName(controllerName);
 		String curCA = CAList.getSelectionModel().getSelectedItem();
 		CANameBar.setText(curCA);
 		
-		selectedCA[curIndex].add(curCA);
-		System.out.println("before dataStore.ca : "+dataStore.getControlActionName());
-		System.out.println("selectedCA: "+selectedCA);
-		dataStore.setControlActionName(selectedCA);
-		
-		System.out.println("after dataStore.ca: "+dataStore.getControlActionName());
-		for(ArrayList<String> list : dataStore.getAllCA()) {
-			System.out.println("All input: "+list);
+		if(!dataStore.isEmpty(dataStore.getControlActionName())) {
+			// 이전 selected CA 가져오기
+			selectedCA = dataStore.getControlActionName();
+			System.out.println(dataStore.getSize(selectedCA));
+			selectedCA[dataStore.getSize(selectedCA)].add(curCA);
+		} else {
+			System.out.println("이전 selected CA 비어있음");
+			for(int i=0; i<components.getControllers().size(); i++) {
+				selectedCA[i] = new ArrayList<String>();
+			}
+			selectedCA[curIndex].add(curCA);
 		}
+		
+		for(ArrayList<String> list : selectedCA) {
+			System.out.println("selected CA : "+list);
+		}
+		
+		dataStore.setControlActionName(selectedCA);
 		addFile.setVisible(true);
-	
+		
 	}
 
 	public void addTab(TabPane tabpane) {
@@ -317,37 +329,42 @@ public class PmmController{
 	public void applyFile() {
 		addFile.getChildren().clear();
 		PM.getItems().clear();
+		
 		// Create XmlReader constructor
         reader = new XmlReader(selectedFile.getName());
         
-		// Make process model
-		if(selectedFile != null && !allOutput.isEmpty()) { 
-			for(ArrayList<String> list: selectedOutput) {
-				System.out.println(list);
-			}
-			// Save selected Output
-			for(String data : list) {
+	     // Get selected output
+	     outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	     list = outputList.getSelectionModel().getSelectedItems();
+	     for(String data : list) {
 				selectedOutput[curIndex].add(data);
-			}
-			dataStore.setOutputNames(selectedOutput);
-			
+	     }
+		// Make process model
+		if(selectedFile != null && !selectedOutput[curIndex].isEmpty()) { 
 			System.out.println("프로세스 모델 생성");
 			System.out.println(selectedFile);
 			this.makeModel(selectedOutput);
 		}  
 		
 		// Get output variables
-		else if( allOutput.isEmpty() ){
+		else if( selectedOutput[curIndex].isEmpty() ){
+			
 			System.out.println("output 변수 추출");
-			List<String> list = reader.getOutputs();
-			for(String data : list) {
+
+			// VIEW
+			List<String> outputs = reader.getOutputs();
+			for(String data : outputs) {
 				allOutput.add(data);
-			}
-			dataStore.setAllOutput(allOutput);
+			}	
 			outputList.setItems(allOutput);
+			
+			dataStore.setOutputNames(selectedOutput);
+			dataStore.setAllOutput(allOutput);
+
 		}
 		close();
 	}
+	// ERROR; 다른 controller의 show output 생성이 안되고, 프로세스 모델생성으로 바로 넘어감 
 	
 	@FXML
 	public void close() {
@@ -485,25 +502,48 @@ public class PmmController{
 			valuelist.add(it.next().toString());
 		}
 		
-		dataStore.setValuelist(valuelist);
-		PM.setItems(valuelist);		
-		System.out.println("최종 저장된 controller name: "+controllerName);
-		System.out.println("최종 저장된 control action: "+controlAction[0]+","+controlAction[1]);
+//		dataStore.setValuelist(valuelist);
+//		PM.setItems(valuelist);		
+		
+		System.out.println("[dataStore] controller name: "+dataStore.getControllerName());
+		for(ArrayList<String> list: dataStore.getControlActionName()) {
+			System.out.println("[dataStore] selected ca: "+list);
+
+		}
+		System.out.println();
+		
+		for(ArrayList<String> list: dataStore.getOutputNames()) {
+			System.out.println("[dataStore] selected output: "+list);
+		}
+		System.out.println();
+		
+		for(String list: dataStore.getValuelist()) {
+			System.out.println("[dataStore] value list: "+list);
+		}
+		System.out.println();
 	}
 
 	private void initialize() {
-		
+		System.out.println("initialize!! ");
 		// PMM, CSE Data Store
 		dataStore = this.mainApp.models;
 		components = this.mainApp.components;
-
+	
+		int controllerCnt = components.getControllers().size();
+		allCA = new ArrayList[controllerCnt];
+		selectedCA = new ArrayList[controllerCnt];
+		selectedOutput = new ArrayList[controllerCnt];
+		
+		// Initialize
+		for(int i=0; i<components.getControllers().size(); i++) {
+			selectedOutput[i] = new ArrayList<String>();
+		}
 		// From Dashboard to PMM
 		if( components.curController == null) { 
-			
 			// When through file open,
 			if((!dataStore.getControllerName().isEmpty()) && controllerName.isEmpty()) {
 				controllerName = dataStore.getControllerName();
-				controlAction = dataStore.getAllCA();
+				allCA = dataStore.getAllCA();
 			} 
 			else if(dataStore.getControllerName().isEmpty() && (!components.getControllers().isEmpty())){
 				// not file open
@@ -523,22 +563,21 @@ public class PmmController{
 			}
 		} else { 
 			// CSE -> PMM
+			System.out.println("*****curController:"+components.curController);
 			selectController();
 		}
 
 		// Data
-		selectedFile = dataStore.getFilePath();
-		selectedCA = dataStore.getControlActionName();
-		selectedOutput = dataStore.getOutputNames();
-		allOutput = dataStore.getAllOutput();
-		valuelist = dataStore.getValuelist();
+				selectedFile = dataStore.getFilePath();
+				selectedCA = dataStore.getControlActionName();
+				selectedOutput = dataStore.getOutputNames();
+				allOutput = dataStore.getAllOutput();
+				valuelist = dataStore.getValuelist();
 
-		// View 
-		outputList.getItems().addAll(dataStore.getAllOutput());
-		outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		list = outputList.getSelectionModel().getSelectedItems();
-		PM.setItems(valuelist);
-
+				// View 
+				outputList.getItems().addAll(allOutput);
+				PM.setItems(valuelist);
+				
 	}
 
 	
