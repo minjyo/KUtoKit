@@ -260,10 +260,10 @@ public class XmlReader {
 		return findedNode;
 	}
 	
-	public static void main(String args[]) {
-		XmlReader reader = new XmlReader("NuSCR_example.xml");
-		List<String> list = reader.getOutputs();
-		
-		
-	}
+//	public static void main(String args[]) {
+//		XmlReader reader = new XmlReader("NuSCR_example.xml");
+//		List<String> list = reader.getOutputs();
+//		
+//		
+//	}
 }

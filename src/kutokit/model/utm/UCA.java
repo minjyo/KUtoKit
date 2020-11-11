@@ -25,7 +25,7 @@ public class UCA {
 
 	}
 
-	public UCA(String controlAction,String providing , String notProviding, String incorrect , String stopped,ComboBox<String> linkList)//ObservableList<String> link,int linkIndex)
+	public UCA(String controlAction,String providing , String notProviding, String incorrect , String stopped,ComboBox<String> linkList)
 	{
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.providingCausesHazard = new SimpleStringProperty(providing);
@@ -33,16 +33,21 @@ public class UCA {
 		this.incorrectTimingOrOrder = new SimpleStringProperty(incorrect);
 		this.stoppedTooSoonOrAppliedTooLong = new SimpleStringProperty(stopped);
 		this.links = linkList;
-		linkList.setOnAction(event ->{
-			this.Link = linkList.getSelectionModel().getSelectedItem();
-		});
+
+		if(linkList != null){
+			System.out.println(links.getVisibleRowCount());
+			linkList.setOnAction(event ->{
+				this.Link = linkList.getSelectionModel().getSelectedItem();
+			});
+		}
+
 
 		this.ControlAction = controlAction;
 		this.ProvidingCausesHazard = providing;
 		this.NotProvidingCausesHazard = notProviding;
 		this.IncorrectTimingOrOrder = incorrect;
 		this.StoppedTooSoonOrAppliedTooLong = stopped;
-		this.Link = linkList.getValue();
+		if(links != null) this.Link = linkList.getValue();
 	}
 
 	public UCA(String controlAction) {
@@ -62,27 +67,28 @@ public class UCA {
 
 		switch(columnID)
 		{
-		case "CAColumn" :
+		case "CA" :
 			setControlAction(setData);
 			break;
-		case "providingColumn" :
+		case "Providing Causes Hazard" :
 			setProvidingCausesHazard(setData);
 			break;
-		case "notProvidingColumn":
+		case "Not Providing Causes Hazard":
 			setNotProvidingCausesHazard(setData);
 			break;
-		case "incorrectColumn" :
+		case "Incorrect Timing/Order" :
 			setIncorrectTimingOrOrder(setData);
 			break;
-		case "stoppedColumn" :
+		case "Stopped Too Soon/Applied Too Long" :
 			setStoppedTooSoonOrAppliedTooLong(setData);
 			break;
-		case "linkColumn" :
+		case "Link" :
 			setLinkList(links);
 		default :
 			System.out.println("There is no "+ columnID +" Column");
 		}
 	}
+
 	public SimpleStringProperty getControlAction()
 	{
 		return controlAction;

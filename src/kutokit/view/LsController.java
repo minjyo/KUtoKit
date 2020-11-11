@@ -48,7 +48,8 @@ public class LsController implements Initializable {
 	
 	ObservableList<LS> lossScenarioTableList;
 	ObservableList<String> lossFactorCBList = FXCollections.observableArrayList("1) Controller Problems", "2) Feedback Problems", "3) Control Path Problems", "4) Controlled Process Problems");
-//	ObservableList<UCA> ucaCBList = ucaDB.getUCATableList();
+	ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
+	//	ObservableList<UCA> ucaCBList = ucaDB.getUCATableList();
 	/*
 	 * default constructor
 	 */
@@ -63,9 +64,16 @@ public class LsController implements Initializable {
 		this.mainApp = mainApp;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		lsDB = mainApp.lsDataStore;
+		ucaDataStoreList = mainApp.ucaDataStoreList;
+		for(UCADataStore u : ucaDataStoreList) {
+			for(int i=0;i<ucaDataStoreList.size();i++) {
+				ucaDB.getUCATableList().add(u.getUCATableList().get(i));
+			}
+		}
 		
 		lossScenarioTableList = lsDB.getLossScenarioList();
 		
@@ -75,6 +83,7 @@ public class LsController implements Initializable {
 		
 		lossScenarioTableView.setItems(lossScenarioTableList);
 		
+		UcaComboBox.setItems(ucaDB.getUCATableList());
 		lossFactorComboBox.setItems(lossFactorCBList);
 //		UcaComboBox.setItems(ucaCBList);
 		
@@ -84,7 +93,8 @@ public class LsController implements Initializable {
 		addLossScenario.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				LS ls = new LS(UcaComboBox.getValue().toString(), lossFactorComboBox.getValue().toString(), lossScenarioTextField.getText());
+				//여기 코드 깨짐.
+				LS ls = new LS(UcaComboBox.getSelectionModel().selectedItemProperty().toString(), lossFactorComboBox.getValue().toString(), lossScenarioTextField.getText());
 				//if text field is empty, warning pop up opens
 				if(lossScenarioTextField.getText().isEmpty()) {
 					try {

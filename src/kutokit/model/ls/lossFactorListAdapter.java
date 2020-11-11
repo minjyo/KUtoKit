@@ -6,13 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import kutokit.model.ProjectXML;
 
-public class lsListAdapter extends XmlAdapter<ProjectXML, ObservableList<LS>> {
+public class lossFactorListAdapter extends XmlAdapter<ProjectXML, ObservableList<LS>> {
 
 	@Override
 	public ObservableList<LS> unmarshal(ProjectXML v) throws Exception {
 		// TODO Auto-generated method stub
-		ObservableList<LS> lossScenarioList = FXCollections.observableArrayList(v.getLossScenarioList());
-		return lossScenarioList;
+		ObservableList<LS> lossFactorList = FXCollections.observableArrayList(v.getLossFactorList());
+		return lossFactorList;
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class lsListAdapter extends XmlAdapter<ProjectXML, ObservableList<LS>> {
 		// TODO Auto-generated method stub
 		ProjectXML lsXml = new ProjectXML();
 		v.stream().forEach((ls) -> {
-			lsXml.getLossScenarioList().add(ls);
+			lsXml.getLossFactorList().add(ls);
 		});
 		return lsXml;
 	}
