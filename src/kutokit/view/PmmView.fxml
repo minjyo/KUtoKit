@@ -6,6 +6,8 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,18 +17,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.PmmController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.PmmController">
    <children>
-      <Text layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PmmView" />
-      <Group layoutX="62.0" layoutY="-148.0">
+      <Group layoutX="45.0" layoutY="-167.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="542.0" layoutX="-45.0" layoutY="290.0" stroke="WHITE" strokeType="INSIDE" width="957.0" />
-            <Label fx:id="CANameBar" layoutX="133.0" layoutY="761.0" text="Control Action Name">
+            <Label fx:id="CANameBar" layoutX="178.0" layoutY="794.0" text="Control Action Name">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <ListView fx:id="PM" layoutX="1.0" layoutY="350.0" onMouseClicked="#selectValue" prefHeight="384.0" prefWidth="477.0" />
             <Pane fx:id="addFile" layoutX="378.0" layoutY="473.0" prefHeight="118.0" prefWidth="200.0" visible="false">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="38.0" layoutY="-14.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
@@ -43,23 +42,23 @@
                   </AnchorPane>
                </children>
             </Pane>
-            <ImageView fitHeight="50.0" fitWidth="49.0" layoutX="510.0" layoutY="350.0" onMouseClicked="#selectPM" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="50.0" fitWidth="49.0" layoutX="545.0" layoutY="313.0" onMouseClicked="#selectPM" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/newValue.png" />
                </image>
             </ImageView>
-            <VBox layoutX="602.0" layoutY="321.0" prefHeight="497.0" prefWidth="262.0" spacing="10.0">
+            <VBox layoutX="601.0" layoutY="299.0" prefHeight="529.0" prefWidth="336.0" spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Controller" />
-                  <ChoiceBox fx:id="controllerList" prefHeight="34.0" prefWidth="217.0" />
+                  <ChoiceBox fx:id="controllerList" prefHeight="34.0" prefWidth="245.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Control Action" />
-                  <ChoiceBox fx:id="CAList" prefHeight="34.0" prefWidth="217.0" />
+                  <ChoiceBox fx:id="CAList" prefHeight="34.0" prefWidth="245.0" />
                   <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#showOutput" text="Show output variables" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="15.0" left="20.0" top="15.0" />
                      </VBox.margin>
                   </Button>
-                  <ListView fx:id="outputList" prefHeight="192.0" prefWidth="253.0">
+                  <ListView fx:id="outputList" prefHeight="237.0" prefWidth="296.0">
                      <VBox.margin>
                         <Insets right="10.0" />
                      </VBox.margin>
@@ -74,7 +73,35 @@
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
+            <TabPane layoutX="-25.0" layoutY="312.0" prefHeight="452.0" prefWidth="551.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab>
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="PM" onMouseClicked="#selectValue" prefHeight="384.0" prefWidth="477.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab>
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="PM1" onMouseClicked="#selectValue" prefHeight="414.0" prefWidth="551.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
          </children>
       </Group>
+      <Rectangle fill="DARKSEAGREEN" height="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1000.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Label layoutX="431.0" layoutY="8.0" text="Process Model" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

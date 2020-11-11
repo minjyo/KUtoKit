@@ -66,7 +66,6 @@ public class LsController implements Initializable {
 		this.mainApp = mainApp;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		lsDB = mainApp.lsDataStore;

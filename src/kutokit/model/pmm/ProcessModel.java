@@ -9,9 +9,11 @@ import javafx.collections.ObservableList;
 public class ProcessModel {
 
 	private ArrayList<String> controllerName = new ArrayList<String>();
-	private ArrayList<String> controlActionNames = new ArrayList<String>();
-	private ArrayList<String> allCA =  new ArrayList<String>();
-	private ArrayList<String> outputNames = new ArrayList<String>();
+
+	private ArrayList<String>[] controlActionNames = new ArrayList[10];
+	private ArrayList<String>[] allCA =  new ArrayList[10];
+	private ArrayList<String>[] outputNames =  new ArrayList[10];
+
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
 	private ObservableList<String> valuelist = FXCollections.observableArrayList();
 	private File filePath;
@@ -39,20 +41,20 @@ public class ProcessModel {
 	}
 
 	// Control Action
-	public ArrayList<String> getControlActionName() {
+	public ArrayList<String>[] getControlActionName() {
 		return controlActionNames;
 	}
 
-	public void setControlActionName(ArrayList<String> arrayList) {
-		this.controlActionNames.addAll(arrayList);
+	public void setControlActionName(ArrayList<String>[] arrayList) {
+		this.controlActionNames = arrayList;
 	}
 
 	// Selected Output variables
-	public ArrayList<String> getOutputNames() {
+	public ArrayList<String>[] getOutputNames() {
 		return outputNames;
 	}
 
-	public void setOutputNames(ArrayList<String> outputVariables) {
+	public void setOutputNames(ArrayList<String>[] outputVariables) {
 		this.outputNames = outputVariables;
 	}
 
@@ -91,11 +93,31 @@ public class ProcessModel {
 	}
 
 	// All control actions
-	public ArrayList<String> getAllCA() {
+	public ArrayList<String>[] getAllCA() {
 		return allCA;
 	}
 
-	public void setAllCA(ArrayList<String> controlAction) {
+	public void setAllCA(ArrayList<String>[] controlAction) {
 		this.allCA = controlAction;
+	}
+	
+	public boolean isAllCAEmpty() {
+		boolean result = false;
+		for(ArrayList<String> list : allCA) {
+			if(list == null) {
+				result = true;
+			}else break;
+		}
+		return result;
+	}
+	
+	public int getAllCAsize() {
+		int i=0;
+		for(ArrayList<String> list : allCA) {
+			if(list != null) {
+				i++;
+			}
+		}
+		return i;
 	}
 }

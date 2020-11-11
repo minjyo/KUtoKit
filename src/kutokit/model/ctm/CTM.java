@@ -39,8 +39,33 @@ public class CTM {
 		this.no = new SimpleIntegerProperty(no);
 		this.hazardous = new ComboBox();
 		this.contexts = FXCollections.observableArrayList();
+//		this.hazardous = hazardous;
+//		cases.setValue("not providing\ncauses hazard");
+//		hazardous.setValue("X");
+//		this.contexts = new StringProperty[contexts.length];
+//
+//		for(int i=0;i<contexts.length;i++) {
+//			this.contexts[i] = new SimpleStringProperty(contexts[i]);
+//		}
+//
+//		this.ControllerName = controllerName;
+//		this.ControlAction = controlAction;
+//		this.Cases = cases.getValue();
+//		this.No = no;
+//		this.Contexts = contexts;
+//		this.Hazardous = hazardous.getValue();
 	}
 	
+	public CTM(String string, ArrayList<String> controlActionNames2, ComboBox<String> comboBox1, int i,
+			ObservableList<StringProperty> contexts2, ComboBox<String> comboBox2) {
+		// TODO Auto-generated constructor stub
+		this.controllerName = new SimpleStringProperty(string);
+		this.controlActionName = new SimpleStringProperty(controlActionNames2.get(i));
+		this.cases = comboBox1;
+		this.no = new SimpleIntegerProperty(i);
+		this.contexts = contexts2;
+	}
+
 	public StringProperty getControllerNameProperty() {
 		return this.controllerName;
 	}
@@ -69,9 +94,9 @@ public class CTM {
 		return this.cases;
 	}
 	
-	public void setCases(ComboBox cases) {
-		this.cases = cases;
-	}
+//	public void setCases(ComboBox cases) {
+//		this.cases = cases;
+//	}
 	
 	public int getNo() {
 		return no.get();
@@ -84,6 +109,15 @@ public class CTM {
 	public void setNo(int num) {
 		this.no.set(num);
 	}
+//
+//	public String getCasesValue() {
+//		return Cases;
+//	}
+//
+//	public void setCases(ComboBox val) {
+//		this.cases = val;
+//		Cases = cases.getValue();
+//	}
 	
 	public String getContext(int i) {
 		return contexts.get(i).get();
@@ -101,7 +135,7 @@ public class CTM {
 		return hazardous;
 	}
 	
-	public void setHazardous(ComboBox hazardous) {
-		this.hazardous = hazardous;
-	}
+//	public void setHazardous(ComboBox hazardous) {
+//		this.hazardous = hazardous;
+//	}
 }

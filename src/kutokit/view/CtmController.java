@@ -44,9 +44,9 @@ import kutokit.model.utm.UCADataStore;
 public class CtmController {
 
 	private MainApp mainApp;
-	private CTMDataStore ctmDB;
 	private File selectedFile;
 
+	private static CTMDataStore ctmDataStore;
 	private static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
 	
 	@FXML private AnchorPane CTMPane;
@@ -54,18 +54,19 @@ public class CtmController {
 	@FXML private Pane AddFile;
 	private TabPane tabPane = new TabPane();
 	
-//	ObservableList<ObservableList<CTM>> totalData = FXCollections.observableArrayList();
-	ObservableList<CTMDataStore> totalData = FXCollections.observableArrayList();
-	ObservableList<CTM> mcsData = FXCollections.observableArrayList();;
+	ArrayList<ObservableList<CTM>> totalData = new ArrayList<>();
+	ObservableList<CTM> mcsData;
 	private int controllerCount = 0;
 	private int curControllerNum, curCANum;
 	private ObservableList<String> hazardousOX;
 	private ObservableList<String> casesCombo;
-	
-	private ArrayList<String> controllerName;
-	private ArrayList<String> controlActionNames;
-	private ArrayList<String> outputNames;
+
+	private ArrayList<String> controllerName; // Selected controller from CSE
+	private ArrayList<String>[] controlActionNames;
+	private ArrayList<String>[] outputNames;
 	private ObservableList<String> valuelist;
+	private ArrayList<String> selectedCA = new ArrayList<String>();// 선택된 control action 저장 
+	private ArrayList<String> selectedOutput = new ArrayList<String>(); // 선택된 output Variables 저장 
 	
 	private ArrayList<String> contextheader;
 	
@@ -76,23 +77,27 @@ public class CtmController {
 
 	//set MainApp
 	public void setMainApp(MainApp mainApp)  {
+		System.out.println("111@");
 
 		AddFile.setVisible(false);
 		
 		this.mainApp = mainApp;
-		ctmDataStoreList = MainApp.ctmDataStoreList;
-		totalData = ctmDataStoreList;
+		System.out.println("222@");
+		ctmDataStore = mainApp.ctmDataStore;
+		System.out.println("333@");
+		totalData = ctmDataStore.getCTMTableList();
+		System.out.println("444@");
 		
 		controllerName = mainApp.models.getControllerName();
 		controlActionNames = mainApp.models.getControlActionName();
 		outputNames = mainApp.models.getOutputNames();
 		valuelist = mainApp.models.getValuelist();
 		contextheader = new ArrayList<>();
-		
-		System.out.println("controllerName:"+controllerName);
-		System.out.println("controlActionNames:"+controlActionNames);
-		System.out.println("outputNames:"+outputNames);
-		System.out.println("valuelist:"+valuelist);
+
+		System.out.println("controllerName:"+controllerName.toString());
+		System.out.println("controlActionNames:"+controlActionNames.toString());
+		System.out.println("outputNames:"+outputNames.toString());
+		System.out.println("valuelist:"+valuelist.toString());
 		
 		hazardousOX = FXCollections.observableArrayList();
 		hazardousOX.add("O");
@@ -105,8 +110,8 @@ public class CtmController {
 		
 		int headerlength = 0;
 		if(headerlength==0) {
-			for(int x=0;x<outputNames.size();x++) {
-				contextheader.add(outputNames.get(x));
+			for(int x=0;x<outputNames.length;x++) {
+				contextheader.addAll(outputNames[x]);
 			}
 		}
 		for(int x=0;x<valuelist.size();x++) {
@@ -136,8 +141,8 @@ public class CtmController {
 	 		controllerCount++;
 		}
 	
-		for(int i=0;i<controlActionNames.size();i++) {
-			tabPane.getTabs().add(MakeTab(i,controlActionNames.get(i), contextheader));
+		for(int i=0;i<controlActionNames.length;i++) {
+			tabPane.getTabs().add(MakeTab(i,controlActionNames[i], contextheader));
 		}
         tabPane.setLayoutY(30.0);
         tabPane.setPrefWidth(1000.0);
@@ -149,11 +154,12 @@ public class CtmController {
 	
 	
 	
-	public Tab MakeTab(int tabNum, String caName, ArrayList<String> contextheader) {
+	public Tab MakeTab(int tabNum, ArrayList<String> controlActionNames2, ArrayList<String> contextheader) {
 		//final int row=0; //row= 테이블 길이..파일 파싱이후 데이터 추가했을때를 생각해야
         final TableView<CTM> contextTable = this.MakeTable(contextheader);
+		mcsData = FXCollections.observableArrayList();
         if(totalData.size() >= tabNum+1) { 
-        	mcsData =  totalData.get(tabNum).getCTMTableList();
+        	mcsData = totalData.get(tabNum);
 			contextTable.setItems(mcsData);
         }else {
         	CTMDataStore c = new CTMDataStore();
@@ -164,7 +170,7 @@ public class CtmController {
         int len = 0;
         
 		Tab tab = new Tab();
-		tab.setText(caName);
+		tab.setText(controlActionNames2.get(tabNum)); //수정 필요
 		HBox hb = new HBox();
 		VBox totalhb = new VBox();
 		
@@ -201,7 +207,7 @@ public class CtmController {
         		}
         		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
         		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
-        		mcsData.add(new CTM(controllerName.get(tabNum), caName,comboBox1,1+temp,contexts,comboBox2));
+        		mcsData.add(new CTM(controllerName.get(tabNum), controlActionNames2,comboBox1,1+temp,contexts,comboBox2));
         		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
     			      @Override
     			      public void changed(ObservableValue observable, String oldValue, String newValue) {
@@ -222,14 +228,10 @@ public class CtmController {
         totalhb.getChildren().addAll(hb,contextTable);
         tab.setContent(totalhb);
 
-    	CTMDataStore ctm = new CTMDataStore();
         if(totalData.size()<= tabNum) { 
-        	for(CTM c : mcsData) {
-        		ctm.getCTMTableList().add(c);
-        	}
-        	totalData.add(ctm);
+        	totalData.add(mcsData);
         } else {
-        	totalData.set(tabNum, ctm);
+        	totalData.set(tabNum, mcsData);
         }
 
         return tab;
@@ -324,7 +326,7 @@ public class CtmController {
 	           
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
-	            this.ParseMCS(temps);
+	            this.ParseMSC(temps);
 	            
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
@@ -333,7 +335,7 @@ public class CtmController {
 		return 0;
 	}
 
-	private void ParseMCS(String[] temps) {
+	private void ParseMSC(String[] temps) {
 		String[][] context = new String[contextheader.size()][temps.length];
 
 		int i=0;
@@ -397,17 +399,15 @@ public class CtmController {
 			}
 			
 	   		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
-//	   		comboBox1.setOnAction(event ->
-//	   				ctmDB.get);
-//	   		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
-//			      @Override
-//			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-//			    	  
-//			    	 totalData.get(curControllerNum).get.get(curCANum).setCasesValue(newValue);
-//			      }
-//			    });
+	   		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+			      @Override
+			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+			    	 totalData.get(curControllerNum).get(curCANum).setCasesValue(newValue);
+			      }
+			    });
 			
 	   		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
+<<<<<<< HEAD
 //	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
 //			      @Override
 //			      public void changed(ObservableValue observable, String oldValue, String newValue) {
@@ -417,6 +417,17 @@ public class CtmController {
 //			
 			totalData.get(curControllerNum).getCTMTableList().add(
 					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).tableSize+1,contexts,comboBox2)
+=======
+	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
+			      @Override
+			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
+			      }
+			    });
+			
+			totalData.get(curControllerNum).add(
+					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
+>>>>>>> 434ea028e203c05d0c1c5ca62cf20f059e26108e
 			);
 		}
 	}
@@ -427,3 +438,5 @@ public class CtmController {
 	}
 	
 }
+
+

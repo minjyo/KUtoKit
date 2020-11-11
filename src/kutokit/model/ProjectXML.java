@@ -54,19 +54,20 @@ public class ProjectXML {
 
 	// --------------------------- PMM --------------------------
 	private ArrayList<String> controller = new ArrayList<String>();
-	private ArrayList<String> controlAction = new ArrayList<String>();
-	private ArrayList<String> outputVariable = new ArrayList<String>();
 
-	private ArrayList<String> allCA;
+	private ArrayList<String>[] controlAction = new ArrayList[10];
+	private ArrayList<String>[] outputVariable = new ArrayList[10];
+	
+	private ArrayList<String>[] allCA;
+
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-
 	private ObservableList<String> valueList = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
 
 	// --------------------------- CTM --------------------------
-//	ObservableList<CTM> CTM = FXCollections.observableArrayList();
-//	ObservableList<CTMDataStore> CTMList = FXCollections.observableArrayList();
+	ObservableList<CTM> CTM = FXCollections.observableArrayList();
+	ObservableList<CTMDataStore> CTMList = FXCollections.observableArrayList();
 	// --------------------------- CTM --------------------------
 	
 	
@@ -193,21 +194,21 @@ public class ProjectXML {
 		this.controller = controllerName;
 	}
 
-	@XmlElement(name = "PMM-control-action")
-	public ArrayList<String> getControlActionName() {
+	@XmlElement(name = "PMMControlAction")
+	public ArrayList<String>[] getControlActionName() {
 		return controlAction;
 	}
-	public void setControlActionName(ArrayList<String> controlActionName) {
-		this.controlAction.addAll(controlActionName);
+	public void setControlActionName(ArrayList<String>[] controlActionName) {
+		this.controlAction = controlActionName;
 	}
 
 	@XmlElementWrapper(name="PMM-output-list")
 	@XmlElement(name = "Output")
-	public ArrayList<String> getOutputVariableName() {
+	public ArrayList<String>[] getOutputVariableName() {
 		return outputVariable;
 	}
-	public void setOutputVariableName(ArrayList<String> outputVariables) {
-		this.outputVariable.addAll(outputVariables);
+	public void setOutputVariableName(ArrayList<String>[] outputVariables) {
+		this.outputVariable = outputVariables;
 	}
 	
 	@XmlElementWrapper(name="PMM-value-list")
@@ -221,11 +222,11 @@ public class ProjectXML {
 	
 	@XmlElementWrapper(name="PMM-all-CA")
 	@XmlElement(name = "Allca")
-	public ArrayList<String> getAllCA() {
+	public ArrayList<String>[] getAllCA() {
 		return allCA;
 	}
 
-	public void setAllCA(ArrayList<String> controlAction) {
+	public void setAllCA(ArrayList<String>[] controlAction) {
 		this.allCA = controlAction;
 	}
 	
@@ -261,6 +262,27 @@ public class ProjectXML {
 //	public void setCTM(ObservableList<CTM> CTM) {
 //		this.CTM = CTM;
 //	}
+
+@XmlElement(name = "CTM-List")
+	public ObservableList<CTMDataStore> getCtmDataStoreList() {
+		return this.CTMList;
+	}
+
+	@XmlElement(name = "CTM")
+	public ObservableList<CTM> getCTM(){
+		for(CTMDataStore c : CTMList){
+			//CTM.addAll(c.getCTMTableList());
+		}
+		return CTM;
+	}
+
+	public void setCTMList(ObservableList<CTMDataStore> CTMList) {
+		this.CTMList = CTMList;
+	}
+
+	public void setCTM(ObservableList<CTM> CTM) {
+		this.CTM = CTM;
+	}
 	// --------------------------- CTM --------------------------
 	
 	
