@@ -16,10 +16,16 @@ public class ProcessModel {
 
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
 	private ObservableList<String> valuelist = FXCollections.observableArrayList();
+	private ArrayList<String> valuelists = new ArrayList<String>();
+	
 	private File filePath;
 
 	public ProcessModel() {
-
+		for(int i=0; i<10; i++) {
+			controlActionNames[i] = new ArrayList<String>();
+			allCA[i] = new ArrayList<String>();
+			outputNames[i] = new ArrayList<String>();
+		}
 	}
 
 	// File path
@@ -46,6 +52,7 @@ public class ProcessModel {
 	}
 
 	public void setControlActionName(ArrayList<String>[] arrayList) {
+
 		this.controlActionNames = arrayList;
 	}
 
@@ -73,7 +80,10 @@ public class ProcessModel {
 	}
 
 	public void setValuelist(ObservableList<String> valuelist) {
-		this.valuelist = valuelist;
+		for(String data : valuelist) {
+			valuelists.add(data);
+		}
+		this.valuelist.addAll(valuelists);
 	}
 
 	public void addValuelist(String value) {
@@ -101,23 +111,23 @@ public class ProcessModel {
 		this.allCA = controlAction;
 	}
 	
-	public boolean isAllCAEmpty() {
+	public boolean isEmpty(ArrayList<String>[] arraylist) {
 		boolean result = false;
-		for(ArrayList<String> list : allCA) {
-			if(list == null) {
-				result = true;
-			}else break;
+		int cnt = 0;
+		for(ArrayList<String> list : arraylist) {
+			if(list == null || list.isEmpty()) {
+				cnt++;
+			}
 		}
+		if(cnt == arraylist.length) result = true;
 		return result;
 	}
 	
-	public int getAllCAsize() {
-		int i=0;
-		for(ArrayList<String> list : allCA) {
-			if(list != null) {
-				i++;
-			}
+	public int getSize(ArrayList<String>[] arraylist) {
+		int cnt=0;
+		if(!isEmpty(arraylist)) {
+			cnt++;
 		}
-		return i;
+		return cnt;
 	}
 }
