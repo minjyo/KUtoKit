@@ -20,6 +20,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import kutokit.MainApp;
+import kutokit.model.cse.Controller;
 
 public class AddCAPopUpController implements Initializable {
 
@@ -57,8 +58,34 @@ public class AddCAPopUpController implements Initializable {
 			  controlled = text2.getText();
 			  
 			  if(!listItems.isEmpty()) {
-				  OKclose = true;
-				  close();
+				  Controller  controller = mainApp.components.findController(text1.getText());
+				  Controller  controlled = mainApp.components.findController(text2.getText());
+				  if(controller.getCA().isEmpty() || controlled.getCA().isEmpty()) {
+					  OKclose = true;
+    				  close();
+				  }else {
+					  for( int caId : controller.getCA().keySet() ){
+		            		if(controlled.getCA().containsKey(caId)) {
+		            			  FXMLLoader loader = new FXMLLoader();
+			          			  loader.setLocation(getClass().getResource("ErrorSameCA.fxml"));
+			          			  Parent popUproot;
+			          			  try {
+			          				  	popUproot = (Parent) loader.load();
+			          					Scene scene = new Scene(popUproot);
+			          					Stage stage = new Stage();
+			          					stage.setScene(scene);
+			          					stage.show();
+			          			  }catch(IOException e) {
+			          				  e.printStackTrace();
+			          			  }
+			          			  break;
+		            		}else {
+		            			 OKclose = true;
+		       				  	 close();
+		            		}	
+		              }
+				  }
+				  
 			  }else {
 				  FXMLLoader loader = new FXMLLoader();
 				  loader.setLocation(getClass().getResource("ErrorNoCA.fxml"));
