@@ -120,10 +120,9 @@ public class UtmController {
 //   	 		}
 
 //	 	}
-   	 	i++;
 	   	//new Ctm Table
 	 	if(i==ucaDataStoreList.size()){
-	 		addUcaTable(ctmData.get(0).getCTMTableList());
+	 		addUcaTable(ctmData.get(0).getCTMTableList().get(i));
 	 	}
 		// Initialize from data store ,Tab -table View
 		for(i=0;i<ucaDataStoreList.size();i++){
@@ -259,7 +258,7 @@ public class UtmController {
 
 	public void addUcaTable(ObservableList<CTM> ctmData) {
 		// and new UCA Table from CTM data
-		String tabtext = ctmData.get(0).getControllerName() + "-" + ctmData.get(0).getControlAction();
+		String tabtext = ctmData.get(0).getControllerName()+ "-" + ctmData.get(0).getCAName();
 		UCADataStore ucadatastore = new UCADataStore();
 		ObservableList<UCA> ucaData = FXCollections.observableArrayList();
 		ucaData = ucadatastore.getUCATableList();
@@ -267,10 +266,10 @@ public class UtmController {
 
 		for(CTM c : ctmData){
 			String ucaColumn = "";
-			if(c.getHazardous().getValue().equals("O")){
+			if(c.getHazardousList().getValue().equals("O")){
 				switch((String)c.getCases().getValue())
 				{
-				//case naming corretly -dayun should modify
+				//case naming correctly -dayun should modify
 				case "CA ":
 					ucaColumn = "CA";
 					break;
@@ -296,7 +295,7 @@ public class UtmController {
 					}
 				}
 
-				UCA uca = new UCA(c.ControlAction,"","","","",null);
+				UCA uca = new UCA(c.getCAName(),"","","","",null);
 				uca.setUCA(ucaColumn, Context,null);
 				ucaData.add(uca);
 				ucaDataList.add(ucaData);
@@ -304,7 +303,7 @@ public class UtmController {
 
 			if(!ucaData.isEmpty()){
 				ucadatastore.setControllAction(ctmData.get(0).getControllerName());
-				ucadatastore.setController(ctmData.get(0).getControlAction());
+				ucadatastore.setController(ctmData.get(0).getCAName());
 				ucaDataStoreList.add(ucadatastore);
 			}
 		}

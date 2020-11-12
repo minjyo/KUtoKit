@@ -15,85 +15,88 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 public class CTM {
-	private StringProperty controllerName;
-	private StringProperty controlAction;
-	private ComboBox<String> cases;
+	private StringProperty controllerName, controlActionName;
+	private ComboBox cases, hazardous;
 	private IntegerProperty no;
-	private ComboBox<String> hazardous;
-	private StringProperty[] contexts;
+	private ObservableList<StringProperty> contexts;
 
-	public String ControllerName;
-	public String ControlAction;
-	public String Cases;
-	public int No;
-	public String Hazardous;
-	public String[] Contexts;
+	private int No;
+	private String[] Contexts;
 
-	public CTM(String controllerName, String controlAction, ComboBox<String> cases, int no, String[] contexts, ComboBox<String> hazardous) {
-		this.controllerName = new SimpleStringProperty(controllerName);
-		this.controlAction = new SimpleStringProperty(controlAction);
-		this.cases = cases;
-		this.no = new SimpleIntegerProperty(no);
-		this.hazardous = hazardous;
-		cases.setValue("not providing\ncauses hazard");
-		hazardous.setValue("X");
-		this.contexts = new StringProperty[contexts.length];
-
-		for(int i=0;i<contexts.length;i++) {
-			this.contexts[i] = new SimpleStringProperty(contexts[i]);
-		}
-
-		this.ControllerName = controllerName;
-		this.ControlAction = controlAction;
-		this.Cases = cases.getValue();
-		this.No = no;
-		this.Contexts = contexts;
-		this.Hazardous = hazardous.getValue();
+	/*
+	 * default constructor
+	 */
+	public CTM() {
 	}
 	
-	public void setCTMInit(){
-		this.controlAction = new SimpleStringProperty(this.ControlAction);
-		this.no = new SimpleIntegerProperty(this.No);
-		this.contexts = new StringProperty[Contexts.length];
-		for(int i=0;i<Contexts.length;i++) {
-			this.contexts[i] = new SimpleStringProperty(Contexts[i]);
-		}
+	/*
+	 * initialize constructor
+	 */
+	public CTM(String controllerName, String controlActionName, int no) {
+		this.controllerName = new SimpleStringProperty(controllerName);
+		this.controlActionName = new SimpleStringProperty(controlActionName);
+		this.cases = new ComboBox(); 
+		this.no = new SimpleIntegerProperty(no);
+		this.hazardous = new ComboBox();
+		this.contexts = FXCollections.observableArrayList();
+//		this.hazardous = hazardous;
+//		cases.setValue("not providing\ncauses hazard");
+//		hazardous.setValue("X");
+//		this.contexts = new StringProperty[contexts.length];
+//
+//		for(int i=0;i<contexts.length;i++) {
+//			this.contexts[i] = new SimpleStringProperty(contexts[i]);
+//		}
+//
+//		this.ControllerName = controllerName;
+//		this.ControlAction = controlAction;
+//		this.Cases = cases.getValue();
+//		this.No = no;
+//		this.Contexts = contexts;
+//		this.Hazardous = hazardous.getValue();
+	}
+	
+	public CTM(String string, ArrayList<String> controlActionNames2, ComboBox<String> comboBox1, int i,
+			ObservableList<StringProperty> contexts2, ComboBox<String> comboBox2) {
+		// TODO Auto-generated constructor stub
+		this.controllerName = new SimpleStringProperty(string);
+		this.controlActionName = new SimpleStringProperty(controlActionNames2.get(i));
+		this.cases = comboBox1;
+		this.no = new SimpleIntegerProperty(i);
+		this.contexts = contexts2;
+	}
+
+	public StringProperty getControllerNameProperty() {
+		return this.controllerName;
 	}
 	
 	public String getControllerName() {
-		return controllerName.get();
+		return this.controllerName.get();
 	}
 	
-	public StringProperty getControllerNameProperty() {
-		return controllerName;
-	}
-	public void setControllerName(String val) {
-		this.controllerName.set(val);
-	}
-
-	public String getContext(int i) {
-		return contexts[i].get();
+	public void setControllerName(String controllerName) {
+		this.controllerName.set(controllerName);
 	}
 	
-	public StringProperty getContextProperty(int i) {
-		//System.out.println("property["+i+"]:"+test[i]);
-		return contexts[i];
-	}
-	public void setContext(int i, String val) {
-		this.contexts[i].set(val);
+	public StringProperty getCANameProperty() {
+		return this.controlActionName;
 	}
 	
-	public String getControlAction() {
-		return controlAction.get();
+	public String getCAName() {
+		return this.controlActionName.get();
 	}
 	
-	public StringProperty getControlActionProperty() {
-		return controlAction;
-	}
-	public void setControlAction(String val) {
-		this.controlAction.set(val);
+	public void setCAName(String caName) {
+		this.controlActionName.set(caName);
 	}
 	
+	public ComboBox getCases() {
+		return this.cases;
+	}
+	
+//	public void setCases(ComboBox cases) {
+//		this.cases = cases;
+//	}
 	
 	public int getNo() {
 		return no.get();
@@ -102,42 +105,37 @@ public class CTM {
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
-
-	public ComboBox getCases() {
-		return cases;
+	
+	public void setNo(int num) {
+		this.no.set(num);
 	}
-	public String getCasesValue() {
-		return Cases;
-	}
-
-	public void setCases(ComboBox val) {
-		this.cases = val;
-		Cases = cases.getValue();
+//
+//	public String getCasesValue() {
+//		return Cases;
+//	}
+//
+//	public void setCases(ComboBox val) {
+//		this.cases = val;
+//		Cases = cases.getValue();
+//	}
+	
+	public String getContext(int i) {
+		return contexts.get(i).get();
 	}
 	
-	public void setCasesValue(String val) {
-		this.cases.setValue(val);
-		Cases = cases.getValue();
+	public StringProperty getContextProperty(int i) {
+		return contexts.get(i);
 	}
-
-	public ComboBox getHazardous() {
+	
+	public void setContext(int i, StringProperty val) {
+		this.contexts.set(i, val);
+	}
+	
+	public ComboBox getHazardousList() {
 		return hazardous;
 	}
 	
-	public String getHazardousValue() {
-		return Hazardous;
-	}
-
-	public void setHazardous(ComboBox val) {
-		this.hazardous = val;
-		Hazardous = hazardous.getValue();
-	}
-	
-	public void setHazardousValue(String val) {
-		this.hazardous.setValue(val);
-		Hazardous = hazardous.getValue();
-	}
-
-
-
+//	public void setHazardous(ComboBox hazardous) {
+//		this.hazardous = hazardous;
+//	}
 }

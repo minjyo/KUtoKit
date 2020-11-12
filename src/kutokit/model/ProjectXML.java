@@ -55,10 +55,10 @@ public class ProjectXML {
 	// --------------------------- PMM --------------------------
 	private ArrayList<String> controller = new ArrayList<String>();
 
-	private ArrayList<String>[] controlAction = new ArrayList[10];
-	private ArrayList<String>[] outputVariable = new ArrayList[10];
+	private ArrayList<ArrayList<String>> selectedCAs = new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<String>> outputVariables = new ArrayList<ArrayList<String>>();
 	
-	private ArrayList<String>[] allCA;
+	private ArrayList<ArrayList<String>> allCAs = new ArrayList<ArrayList<String>>();
 
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
 	private ObservableList<String> valueList = FXCollections.observableArrayList();
@@ -195,20 +195,20 @@ public class ProjectXML {
 	}
 
 	@XmlElement(name = "PMMControlAction")
-	public ArrayList<String>[] getControlActionName() {
-		return controlAction;
+	public ArrayList<ArrayList<String>> getControlActionNames() {
+		return selectedCAs;
 	}
-	public void setControlActionName(ArrayList<String>[] controlActionName) {
-		this.controlAction = controlActionName;
+	public void setControlActionNames(ArrayList<ArrayList<String>> controlActionName) {
+		this.selectedCAs = controlActionName;
 	}
 
 	@XmlElementWrapper(name="PMM-output-list")
 	@XmlElement(name = "Output")
-	public ArrayList<String>[] getOutputVariableName() {
-		return outputVariable;
+	public ArrayList<ArrayList<String>> getOutputVariableName() {
+		return outputVariables;
 	}
-	public void setOutputVariableName(ArrayList<String>[] outputVariables) {
-		this.outputVariable = outputVariables;
+	public void setOutputVariableName(ArrayList<ArrayList<String>> outputVariables) {
+		this.outputVariables = outputVariables;
 	}
 	
 	@XmlElementWrapper(name="PMM-value-list")
@@ -222,12 +222,12 @@ public class ProjectXML {
 	
 	@XmlElementWrapper(name="PMM-all-CA")
 	@XmlElement(name = "Allca")
-	public ArrayList<String>[] getAllCA() {
-		return allCA;
+	public ArrayList<ArrayList<String>> getAllCA() {
+		return allCAs;
 	}
 
-	public void setAllCA(ArrayList<String>[] controlAction) {
-		this.allCA = controlAction;
+	public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
+		this.allCAs = controlAction;
 	}
 	
 	@XmlElementWrapper(name="PMM-all-output")

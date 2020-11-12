@@ -47,6 +47,7 @@ public class CtmController {
 	private File selectedFile;
 
 	private static CTMDataStore ctmDataStore;
+	private static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
 	
 	@FXML private AnchorPane CTMPane;
 	@FXML private Label filename;
@@ -61,8 +62,8 @@ public class CtmController {
 	private ObservableList<String> casesCombo;
 
 	private ArrayList<String> controllerName; // Selected controller from CSE
-	private ArrayList<String> controlActionNames;
-	private ArrayList<String> outputNames;
+	private ArrayList<String>[] controlActionNames;
+	private ArrayList<String>[] outputNames;
 	private ObservableList<String> valuelist;
 	private ArrayList<String> selectedCA = new ArrayList<String>();// 선택된 control action 저장 
 	private ArrayList<String> selectedOutput = new ArrayList<String>(); // 선택된 output Variables 저장 
@@ -109,8 +110,8 @@ public class CtmController {
 		
 		int headerlength = 0;
 		if(headerlength==0) {
-			for(int x=0;x<outputNames.size();x++) {
-				contextheader.add(outputNames.get(x));
+			for(int x=0;x<outputNames.length;x++) {
+				contextheader.addAll(outputNames[x]);
 			}
 		}
 		for(int x=0;x<valuelist.size();x++) {
@@ -119,7 +120,7 @@ public class CtmController {
 		
 		final ToggleGroup group = new ToggleGroup();
  		HBox radioGroup = new HBox();
-
+ 		
 		for(int i=0;i<controllerName.size();i++) {
 	 		RadioButton rb = new RadioButton(controllerName.get(i));
 	 		rb.setToggleGroup(group);
@@ -139,34 +140,37 @@ public class CtmController {
 	 		radioGroup.getChildren().add(rb);
 	 		controllerCount++;
 		}
-		
-		for(int i=0;i<controlActionNames.size();i++) {
-			tabPane.getTabs().add(MakeTab(i,controlActionNames.get(i), contextheader));
+	
+		for(int i=0;i<controlActionNames.length;i++) {
+			tabPane.getTabs().add(MakeTab(i,controlActionNames[i], contextheader));
 		}
         tabPane.setLayoutY(30.0);
         tabPane.setPrefWidth(1000.0);
         tabPane.setPrefHeight(800.0);
         tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-        CTMPane.getChildren().addAll(radioGroup,tabPane);
+//        CTMPane.getChildren().addAll(radioGroup,tabPane);
 		System.out.println("@@@@:9");
 	}
 	
 	
 	
-	public Tab MakeTab(int tabNum, String caName, ArrayList<String> contextheader) {
+	public Tab MakeTab(int tabNum, ArrayList<String> controlActionNames2, ArrayList<String> contextheader) {
 		//final int row=0; //row= 테이블 길이..파일 파싱이후 데이터 추가했을때를 생각해야
         final TableView<CTM> contextTable = this.MakeTable(contextheader);
 		mcsData = FXCollections.observableArrayList();
         if(totalData.size() >= tabNum+1) { 
         	mcsData = totalData.get(tabNum);
 			contextTable.setItems(mcsData);
+        }else {
+        	CTMDataStore c = new CTMDataStore();
+        	ctmDataStoreList.add(c);
         }
         contextTable.setPrefHeight(800.0);
 
         int len = 0;
         
 		Tab tab = new Tab();
-		tab.setText(caName);
+		tab.setText(controlActionNames2.get(tabNum)); //수정 필요
 		HBox hb = new HBox();
 		VBox totalhb = new VBox();
 		
@@ -203,7 +207,7 @@ public class CtmController {
         		}
         		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
         		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
-        		mcsData.add(new CTM(controllerName.get(tabNum), caName,comboBox1,1+temp,contexts,comboBox2));
+        		mcsData.add(new CTM(controllerName.get(tabNum), controlActionNames2,comboBox1,1+temp,contexts,comboBox2));
         		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
     			      @Override
     			      public void changed(ObservableValue observable, String oldValue, String newValue) {
@@ -258,7 +262,7 @@ public class CtmController {
 		noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
 		hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
 
-		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
+		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getCANameProperty());
 		noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
 
 		contextTable.setEditable(true);
@@ -403,6 +407,17 @@ public class CtmController {
 			    });
 			
 	   		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
+<<<<<<< HEAD
+//	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
+//			      @Override
+//			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+//			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
+//			      }
+//			    });
+//			
+			totalData.get(curControllerNum).getCTMTableList().add(
+					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).tableSize+1,contexts,comboBox2)
+=======
 	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
 			      @Override
 			      public void changed(ObservableValue observable, String oldValue, String newValue) {
@@ -412,6 +427,7 @@ public class CtmController {
 			
 			totalData.get(curControllerNum).add(
 					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
+>>>>>>> 434ea028e203c05d0c1c5ca62cf20f059e26108e
 			);
 		}
 	}

@@ -12,8 +12,8 @@ public class ProcessModel {
 
 	private ArrayList<ArrayList<String>> controlActionNames = new ArrayList<ArrayList<String>>();
 	private ArrayList<ArrayList<String>> allCA =  new ArrayList<ArrayList<String>>();
-	private ArrayList<String>[] outputNames = new ArrayList[10];
 
+	private ArrayList<ArrayList<String>> outputNames =  new ArrayList<ArrayList<String>>();
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
 	private ObservableList<String> valuelist = FXCollections.observableArrayList();
 	private ArrayList<String> valuelists = new ArrayList<String>();
@@ -21,10 +21,7 @@ public class ProcessModel {
 	private File filePath;
 
 	public ProcessModel() {
-		for(int i=0; i<10; i++) {
-			
-			outputNames[i] = new ArrayList<String>();
-		}
+
 	}
 
 	// File path
@@ -46,21 +43,21 @@ public class ProcessModel {
 	}
 
 	// Control Action
-	public ArrayList<ArrayList<String>> getControlActionName() {
+
+	public ArrayList<ArrayList<String>> getControlActionNames() {
 		return controlActionNames;
 	}
 
-	public void setControlActionName(ArrayList<ArrayList<String>> selectedCA) {
-
-		this.controlActionNames = selectedCA;
+	public void setControlActionNames(ArrayList<ArrayList<String>> arrayList) {
+		this.controlActionNames = arrayList;
 	}
 
 	// Selected Output variables
-	public ArrayList<String>[] getOutputNames() {
+	public ArrayList<ArrayList<String>> getOutputNames() {
 		return outputNames;
 	}
 
-	public void setOutputNames(ArrayList<String>[] outputVariables) {
+	public void setOutputNames(ArrayList<ArrayList<String>> outputVariables) {
 		this.outputNames = outputVariables;
 	}
 
@@ -110,15 +107,21 @@ public class ProcessModel {
 		this.allCA = controlAction;
 	}
 	
-	public boolean isEmpty(ArrayList<ArrayList<String>> arrayList) {
+
+	public boolean isEmpty(ArrayList<ArrayList<String>> arraylist) {
 		boolean result = false;
 		int cnt = 0;
-		for(ArrayList<String> list : arrayList) {
+		for(ArrayList<String> list : arraylist) {
 			if(list == null || list.isEmpty()) {
 				cnt++;
+			}else {
+				continue;
 			}
 		}
-		if(cnt == arrayList.size()) result = true;
+
+		if(cnt == arraylist.size()) {
+			result = true;
+		}
 		return result;
 	}
 	
