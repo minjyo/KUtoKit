@@ -70,9 +70,26 @@ public class ModifyFBPopUpController implements Initializable {
 	  
 	  @FXML
 	  private void addFB(ActionEvent action){
-	    listItems.add(listInput.getText());
-	    FB.add(listInput.getText());
-	    listInput.clear();
+		  if(!listInput.getText().equals("")) {
+			  if(listItems.contains(listInput.getText())) {
+					FXMLLoader loader = new FXMLLoader();
+					  loader.setLocation(getClass().getResource("ErrorSameFBText.fxml"));
+					  Parent popUproot;
+					  try {
+						  	popUproot = (Parent) loader.load();
+							Scene scene = new Scene(popUproot);
+							Stage stage = new Stage();
+							stage.setScene(scene);
+							stage.show();
+					  }catch(IOException e) {
+						  e.printStackTrace();
+					  }  
+				}else {
+					listItems.add(listInput.getText());
+				    FB.add(listInput.getText());
+				    listInput.clear();
+				}
+		  }
 	  }
 	 
 	  @FXML
