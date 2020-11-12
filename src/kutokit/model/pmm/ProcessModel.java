@@ -10,9 +10,9 @@ public class ProcessModel {
 
 	private ArrayList<String> controllerName = new ArrayList<String>();
 
-	private ArrayList<String>[] controlActionNames = new ArrayList[10];
-	private ArrayList<String>[] allCA =  new ArrayList[10];
-	private ArrayList<String>[] outputNames =  new ArrayList[10];
+	private ArrayList<ArrayList<String>> controlActionNames = new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<String>> allCA =  new ArrayList<ArrayList<String>>();
+	private ArrayList<String>[] outputNames = new ArrayList[10];
 
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
 	private ObservableList<String> valuelist = FXCollections.observableArrayList();
@@ -22,8 +22,7 @@ public class ProcessModel {
 
 	public ProcessModel() {
 		for(int i=0; i<10; i++) {
-			controlActionNames[i] = new ArrayList<String>();
-			allCA[i] = new ArrayList<String>();
+			
 			outputNames[i] = new ArrayList<String>();
 		}
 	}
@@ -47,13 +46,13 @@ public class ProcessModel {
 	}
 
 	// Control Action
-	public ArrayList<String>[] getControlActionName() {
+	public ArrayList<ArrayList<String>> getControlActionName() {
 		return controlActionNames;
 	}
 
-	public void setControlActionName(ArrayList<String>[] arrayList) {
+	public void setControlActionName(ArrayList<ArrayList<String>> selectedCA) {
 
-		this.controlActionNames = arrayList;
+		this.controlActionNames = selectedCA;
 	}
 
 	// Selected Output variables
@@ -103,30 +102,32 @@ public class ProcessModel {
 	}
 
 	// All control actions
-	public ArrayList<String>[] getAllCA() {
+	public ArrayList<ArrayList<String>> getAllCA() {
 		return allCA;
 	}
 
-	public void setAllCA(ArrayList<String>[] controlAction) {
+	public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
 		this.allCA = controlAction;
 	}
 	
-	public boolean isEmpty(ArrayList<String>[] arraylist) {
+	public boolean isEmpty(ArrayList<ArrayList<String>> arrayList) {
 		boolean result = false;
 		int cnt = 0;
-		for(ArrayList<String> list : arraylist) {
+		for(ArrayList<String> list : arrayList) {
 			if(list == null || list.isEmpty()) {
 				cnt++;
 			}
 		}
-		if(cnt == arraylist.length) result = true;
+		if(cnt == arrayList.size()) result = true;
 		return result;
 	}
 	
-	public int getSize(ArrayList<String>[] arraylist) {
+	public int getSize(ArrayList<ArrayList<String>> arraylist) {
 		int cnt=0;
-		if(!isEmpty(arraylist)) {
-			cnt++;
+		for(ArrayList<String> list: arraylist) {
+			if(!isEmpty(arraylist)) {
+				cnt++;
+			}	
 		}
 		return cnt;
 	}

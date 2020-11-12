@@ -59,8 +59,8 @@ public class PmmController{
 	
 	private ProcessModel dataStore;
 	private ArrayList<String> controllerName = new ArrayList<String>(); // Selected controller
-	private ArrayList<String> allCA[]; // 모든 control action
-	private ArrayList<String> selectedCA[]; // 선택된 control action
+	private ArrayList<ArrayList<String>> allCA = new ArrayList<ArrayList<String>>(); // 모든 control action
+	private ArrayList<ArrayList<String>> selectedCA = new ArrayList<ArrayList<String>>(); // 선택된 control action
 	private ArrayList<String> selectedOutput[]; // 선택된 output
 	
 	private ObservableList<String> allOutput = FXCollections.observableArrayList(); // 추출된 output
@@ -131,11 +131,13 @@ public class PmmController{
 			
 			int j=0;
 			if(!dataStore.isEmpty(dataStore.getAllCA())) {
+				System.out.println("이전에 가져온 ca가 존재하네요");
 				allCA = dataStore.getAllCA();
 				j = dataStore.getSize(dataStore.getAllCA());
 			}
+			allCA.add(new ArrayList<String>());
 			for(Integer ca : controlActions.keySet()) {
-				allCA[j].addAll(components.findControlAction(ca).getCA());
+				allCA.get(j).addAll(components.findControlAction(ca).getCA());
 			}
 			
 			for(ArrayList<String> list : allCA) {
@@ -145,7 +147,7 @@ public class PmmController{
 			dataStore.setAllCA(allCA);
 			
 			controllerList.getItems().addAll(controllerName);
-			CAList.getItems().addAll(allCA[curIndex]);
+			CAList.getItems().addAll(allCA.get(curIndex));
 	}
 	
 	@FXML
@@ -161,13 +163,10 @@ public class PmmController{
 			// 이전 selected CA 가져오기
 			selectedCA = dataStore.getControlActionName();
 			System.out.println(dataStore.getSize(selectedCA));
-			selectedCA[dataStore.getSize(selectedCA)].add(curCA);
+			//selectedCA.add(curCA);
 		} else {
 			System.out.println("이전 selected CA 비어있음");
-			for(int i=0; i<components.getControllers().size(); i++) {
-				selectedCA[i] = new ArrayList<String>();
-			}
-			selectedCA[curIndex].add(curCA);
+			//selectedCA.add(curCA);
 		}
 		
 		for(ArrayList<String> list : selectedCA) {
@@ -512,14 +511,12 @@ public class PmmController{
 		components = this.mainApp.components;
 	
 		int controllerCnt = components.getControllers().size();
-		allCA = new ArrayList[controllerCnt];
-		selectedCA = new ArrayList[controllerCnt];
+		
 		selectedOutput = new ArrayList[controllerCnt];
 		
 		// Initialize
 		for(int i=0; i<components.getControllers().size(); i++) {
 			selectedOutput[i] = new ArrayList<String>();
-			allCA[i] = new ArrayList<String>();
 		}
 		// From Dashboard to PMM
 		if( components.curController == null) { 
