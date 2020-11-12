@@ -60,9 +60,11 @@ public class PmmController{
 	
 	private ProcessModel dataStore;
 	private ArrayList<String> controllerName = new ArrayList<String>(); // Selected controller
+
 	private ArrayList<String> allCA = new ArrayList<String>(); //all CA from selected controller action
 	private ArrayList<String> selectedCA = new ArrayList<String>(); //selected CA from allCA
 	private ArrayList<String> selectedOutput = new ArrayList<String>(); //selected output
+
 	
 	private ArrayList<ArrayList<String>> allCAs = new ArrayList<ArrayList<String>>(); //list for allCA
 	private ArrayList<ArrayList<String>> selectedCAs = new ArrayList<ArrayList<String>>(); //list for selectedCA
@@ -155,7 +157,7 @@ public class PmmController{
 		//get CA from selected controller
 		Map<Integer, Integer> controlActions = controller.getCA();
 		System.out.println(controlActions);
-			
+
 		if(!dataStore.isEmpty(dataStore.getAllCA())) {
 			//if allCA is not empty
 			allCAs = dataStore.getAllCA();
@@ -191,7 +193,7 @@ public class PmmController{
 			
 		dataStore.setAllCA(allCAs);
 		
-		controllerList.getItems().addAll(controllerName.get(curIndex));
+		controllerList.getItems().add(controllerName.get(curIndex));
 		CAList.getItems().addAll(allCAs.get(curIndex));
 		
 		if(allCAs.get(curIndex).size() > 1) {
@@ -224,6 +226,8 @@ public class PmmController{
 			setTabTitle(selectedTab, controllerList.getSelectionModel().getSelectedItem(), curCA);
 		}
 		
+		System.out.println("[datastore]controllerName : " + controllerName);
+
 		if(!dataStore.isEmpty(dataStore.getControlActionNames())) {
 			//get previously selected CA
 			selectedCAs = dataStore.getControlActionNames();
@@ -400,7 +404,6 @@ public class PmmController{
 	@FXML
 	public void applyFile() {
 		//first, clear all items
-//        outputList.getItems().clear();
 		addFile.getChildren().clear();
 		PM.getItems().clear();
 		
@@ -413,20 +416,21 @@ public class PmmController{
         System.out.println(curIndex + " : index of selected controller");
 	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	    list = outputList.getSelectionModel().getSelectedItems();
+
 	    for(String data : list) {
 	    	selectedOutput.add(data);
 	    	selectedOutputs.add(selectedOutput);
 	    }
-	    
+
 		// Make process model
-		if(selectedFile != null && !selectedOutput.isEmpty()) { 
+		if(selectedFile != null && !selectedOutputs.isEmpty()) { 
 			System.out.println("make process model");
 			System.out.println(selectedFile);
 			this.makeModel(selectedOutputs);
 		}  
 		
 		// Get output variables
-		else if(selectedOutput.isEmpty()){
+		else if(selectedOutputs.isEmpty()){
 			
 			System.out.println("parse output variable");
 
@@ -616,26 +620,75 @@ public class PmmController{
 		// From Dashboard to PMM
 		if(components.curController == null) { 
 			// When through file open,
-			if((!dataStore.getControllerName().isEmpty()) && controllerName.isEmpty()) {
-				controllerName = dataStore.getControllerName();
-				allCAs = dataStore.getAllCA();
-			} 
-			else if(dataStore.getControllerName().isEmpty() && (!components.getControllers().isEmpty())){
-				// not file open
+ 
+			if((!components.getControllers().isEmpty()) && dataStore.getControllerName().isEmpty()){
+				// After working in CSE
 				System.out.println("getting completed control structure's data.");
-				int i=0;
+				
+				// Move controller from CSE to VIEW
+				int i = 0;
 				for(Controller c : components.getControllers()) {
+					controllerList.getItems().add(c.getName());
 					System.out.println("add controller to controllerName list with index of " + i);
 					controllerName.add(i, c.getName());
 					i++;
 				}
 				
-				 //Add all ca in list with selected controller
-//				controllerList.setOnMouseClicked((MouseEvent e) ->{
-//					  controllerName.addAll(outputList.getSelectionModel().getSelectedItems());
-//				});	
-//				curIndex = controllerName.indexOf(components.getControllers().toString());
-	
+				// Get selected controller from list & Add ca in list
+				CAList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						try{
+//							allCA.clear();
+//							allCAs.clear();
+							CAList.getItems().clear();
+							
+							System.out.println("whole controller : " + controllerName);
+							int currentIndex = controllerName.indexOf(controllerList.getSelectionModel().getSelectedItem());
+							for(int i = 0; i < components.getControllers().size(); i++) {
+								System.out.println("controller " + i + " from CSE : " + components.getControllers().get(i).getName());
+							}
+							Controller controller = components.getControllers().get(currentIndex);
+							System.out.println(controller.getName() + " : find selected controller in CSE DB\n");
+							
+							Map<Integer, Integer> controlActions = controller.getCA();
+							System.out.println("get CA : " + controlActions);
+							for(Integer ca : controlActions.keySet()) {
+								System.out.println("if there is related CA");
+								allCA.addAll(components.findControlAction(ca).getCA());
+								System.out.println("add all CA connected to selected CA");
+								if(allCAs.isEmpty()) {
+									System.out.println("To add allCA to allCA list");
+									allCAs.add(allCA);
+								}else {
+									for(int i = 0; i < allCAs.size(); i++) {
+										System.out.println("To add allCA to allCA list__");
+										ArrayList<String> arr = new ArrayList<String>();
+										arr.addAll(allCAs.get(i));
+										if(arr.equals(allCA)) {
+											//if selected allCA is already in list for allCA, don't add to allCA list
+											System.out.println("No need to add new CA into allCA list");
+											continue;
+										}else {
+											System.out.println("Add allCA into AllCA list with index of " + currentIndex);
+											allCAs.add(allCA);
+										}
+									}
+								}
+							}
+
+							for(ArrayList<String> arr : allCAs) {
+								if(allCAs.indexOf(allCA) == currentIndex)
+									CAList.getItems().addAll(allCAs.get(currentIndex));
+							}
+						}catch(NullPointerException e) {
+							e.getStackTrace();
+						}
+					}
+				});
+			}else {
+			// while working data in PMM
+			System.out.println("You have working data.");
 			}
 		} else { 
 			// CSE -> PMM
@@ -643,6 +696,7 @@ public class PmmController{
 			
 			System.out.println("controllers in list : " + controllerName);
 			System.out.println("*****curController:" + components.curController.getName());
+
 			selectController();
 		}
 
