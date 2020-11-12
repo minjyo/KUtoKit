@@ -88,8 +88,8 @@ public class CtmController {
 		System.out.println("444@");
 		
 		controllerName = mainApp.models.getControllerName();
-		//controlActionNames = mainApp.models.getControlActionName();
-		//outputNames = mainApp.models.getOutputNames();
+		controlActionNames = mainApp.models.getControlActionName();
+		outputNames = mainApp.models.getOutputNames();
 		valuelist = mainApp.models.getValuelist();
 		contextheader = new ArrayList<>();
 
