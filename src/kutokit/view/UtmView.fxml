@@ -26,9 +26,9 @@
       </AnchorPane>
       <AnchorPane layoutY="40.0" prefHeight="30.0" prefWidth="1000.0">
          <children>
-            <ComboBox fx:id="ControllerComboBox" layoutX="14.0" layoutY="1.0" prefWidth="150.0" promptText="Controller" />
+            <ComboBox fx:id="controllerComboBox" layoutX="14.0" layoutY="1.0" prefWidth="150.0" promptText="Controller" />
             <ComboBox fx:id="controlActionComboBox" layoutX="185.0" prefHeight="29.0" prefWidth="188.0" promptText="Control Action" />
-            <Button fx:id="addCtmButton" layoutX="843.0" mnemonicParsing="false" text="Add from CTM" />
+            <Button fx:id="addCtmButton" layoutX="843.0" mnemonicParsing="false" onAction="#addFromCTM" text="Add from CTM" />
          </children>
       </AnchorPane>
       <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0">

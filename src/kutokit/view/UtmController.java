@@ -2,6 +2,7 @@ package kutokit.view;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,13 +54,10 @@ public class UtmController {
 	private MenuItem delete_menu;
 	private ObservableList<LHC> hazardData = FXCollections.observableArrayList();
 	private static ObservableList<ObservableList<UCA>> ucaDataList =FXCollections.observableArrayList();
-	private ObservableList<CTMDataStore> ctmData = FXCollections.observableArrayList();
+	private ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
 	private ObservableList<String> hazardousList = FXCollections.observableArrayList();
 
 	UCAHazardPopUpController ucaPopUp;
-
-	public String controller = null;
-	public String controlAction = null;
 
 	//constructor
 	public UtmController() {
@@ -75,115 +73,42 @@ public class UtmController {
 	{
 		ucaDataStoreList = MainApp.ucaDataStoreList;
 		hazardData = MainApp.lhcDataStore.getHazardTableList();
-		ctmData = MainApp.ctmDataStoreList;
+		ctmDataStoreList = MainApp.ctmDataStoreList;
+
+		Test();
+		tabPane.getTabs().remove(0);
 
 //		controllerComboBox
-		//Test example
-//		Test();
-		//After CTM_table array -> change
-		//test after input ctm example
-		//input data about ctm in datastore
-//   	 	String[] context = {"one","two"};
-//   	 	ObservableList<String> l = FXCollections.observableArrayList();
-//   	 	l.add("O");
-//   	 	l.add("X");
-//   	 	ComboBox<String> comboBox = new ComboBox(l);
-//   	 	ObservableList<CTM> ctm = FXCollections.observableArrayList();
-//   	 	ctm.add(new CTM("controller name","control aciton","cases",0,context,comboBox));
-//   	 	ctmData.add(ctm);
-
-		//example
-//	 	String ctmController = "Controller";
-//	 	String ctmControlAction = "Control Action";
-// 		CTM ctm = ctmData.get(0).get(0);
-// 		System.out.println(ctm.getCases()+ctm.getContext(0)+ctm.getControlAction()+ctm.getControllerName()+ctm.getHazardousValue());
-
-   	 	int i=0;
-//   	 	for(int j=0;j<ctmData.size();j++){
-//   	 		i=0;
-//	   	 	for(UCADataStore u : ucaDataStoreList){
-//		 		if(u.getControllAction() == ctmData.get(j).get(0).getControllerName()&& u.getController()==ctmData.get(j).get(0).getControlAction()){
-//		 			System.out.println(i);
-//		   	 			break;
-//		 		}
-//		 		i++;
-//		 	}
-//		   	//new Ctm Table
-//	   	 	if(i==ucaDataStoreList.size()){
-//	   	 		addUcaTable(ctmData.get(j));
-//	   	 	}
-//   	 	}
-
-   	 		for(UCADataStore u : ucaDataStoreList){
-   	 			if(u.getControllAction() == ctmData.get(0).getCTMTableList().get(0).getControllerName()&& u.getController()==ctmData.get(0).getCTMTableList().get(0).getControlAction()){
-	   	 			break;
-   	 			}
-   		 		i++;
-   	 		}
-
-//	 	}
-   			for(CTM c : ctmData.get(0).getCTMTableList()){
-   				System.out.println(c.getControlAction()+c.getContext(0)+c.getNo());
-   				System.out.println(c.getControlAction());
-   				System.out.println(c.getContext(0));
-   				System.out.println(c.getCasesValue());
-   			}
-	   	//new Ctm Table
-	 	if(i==ucaDataStoreList.size()){
-	 		addUcaTable(ctmData.get(0).getCTMTableList());
-	 	}
-		// Initialize from data store ,Tab -table View
-		for(i=0;i<ucaDataStoreList.size();i++){
-			ucaDataList.add(ucaDataStoreList.get(i).getUCATableList());
-			TableView tableView = new TableView();
-			tableView.setItems(ucaDataList.get(i));
-			ucaTableList.add(tableView);
-
-			//Column init
-			TableColumn<UCA,String> ca = new TableColumn<>("CA");
-			ca.setPrefWidth(180);
-			ca.setResizable(false);
-			ca.setOnEditCommit(event ->{
-				onEditChange(event);
-			});
-			CAColumn.add(ca);
-			TableColumn<UCA,String> pc = new TableColumn<>("Providing Causes Hazard");
-			pc.setPrefWidth(180);
-			pc.setResizable(false);
-			pc.setOnEditCommit(event ->{
-				onEditChange(event);
-			});
-			providingColumn.add(pc);
-			TableColumn<UCA,String> np = new TableColumn<>("Not Providing Causes Hazard");
-			np.setPrefWidth(180);
-			np.setResizable(false);
-			np.setOnEditCommit(event ->{
-				onEditChange(event);
-			});
-			notProvidingColumn.add(np);
-			TableColumn<UCA,String> it = new TableColumn<>("Incorrect Timing/Order");
-			it.setPrefWidth(180);
-			it.setResizable(false);
-			it.setOnEditCommit(event ->{
-				onEditChange(event);
-			});
-			incorrectColumn.add(it);
-			TableColumn<UCA,String> st = new TableColumn<>("Stopped Too Soon/Applied Too Long");
-			st.setPrefWidth(180);
-			st.setResizable(false);
-			st.setOnEditCommit(event ->{
-				onEditChange(event);
-			});
-			stoppedColumn.add(st);
-			TableColumn<UCA,String> li = new TableColumn<>("Link");
-			li.setPrefWidth(100);
-			li.setResizable(false);
-			li.setOnEditCommit(event ->{
-				onEditChange(event);
-			});
-			linkColumn.add(li);
+		ObservableList<String> controllerName = FXCollections.observableArrayList();
+		for(String s : mainApp.models.getControllerName()){
+			controllerName.add(s);
 		}
+		controllerComboBox = new ComboBox(controllerName);
+		controllerComboBox.setOnAction(event->{
 
+			//Set ControlAction ComboBox about Clicked Controller
+			int id = -1;
+			for(int i=0;i<controllerName.size();i++){
+				String s = controllerName.get(i);
+				if(controllerComboBox.getValue()==s){
+					id = i;
+					break;
+				}
+			}
+			if(id == -1){
+				System.out.println("Get controller Error");
+				return;
+			}
+
+			ObservableList<String> controlActionName = FXCollections.observableArrayList();
+			for(String s : mainApp.models.getControlActionName()[id]){
+				controlActionName.add(s);
+			}
+			controlActionComboBox = new ComboBox(controlActionName);
+
+			//Show Controller Table
+			showControllerTable(controllerComboBox.getValue(),id);
+		});
 
 		//Mouse Right Click for delete
 		menu = new ContextMenu();
@@ -216,68 +141,117 @@ public class UtmController {
 	            }
 	        });
    	 	}
-
-
-
-   	 	tabPane.getTabs().remove(0,tabPane.getTabs().size());
- 		String title = ucaDataStoreList.get(0).getController()+"-"+ucaDataStoreList.get(0).getControllAction();
- 		Tab tab =new Tab(title,ucaTableList.get(0));
- 		setUcaTable(0);
- 		tabPane.getTabs().add(tab);
-//   	 	for(i=0;i<ucaDataStoreList.size();i++){
-//   	 		String title = ucaDataStoreList.get(i).getController()+"-"+ucaDataStoreList.get(i).getControllAction();
-//   	 		Tab tab =new Tab(title,ucaTableList.get(i));
-//   	 		setUcaTable(i);
-//   	 		tabPane.getTabs().add(tab);
-//   	 	}
         ucaHazardPopup();
 
         return ;
 	}
 
-	private void Test() {
-		// Test input data from dataStore
-
-		//first Tab
-		UCADataStore ucadatastore = new UCADataStore();
-		String controller = "controller1";
-		String controllAction = "ControlAciton1";
-		UCA uca = new UCA("1","1","1","1","1",null); // in real should setUCA in initial
-		ObservableList ucaData = FXCollections.observableArrayList();
-		ucaData = ucadatastore.getUCATableList();
-		ucaData.add(uca);
-		ucaDataList.add(ucaData);
-		ucadatastore.setControllAction(controllAction);
-		ucadatastore.setController(controller);
-		ucaDataStoreList.add(ucadatastore);
-
-		UCADataStore ucadatastore1 = new UCADataStore();
-		controller = "controller2";
-		controllAction = "ControlAciton2";
-		uca = new UCA("2","2","2","3","2",null); // in real should setUCA in initial
-		ObservableList ucaData2 = FXCollections.observableArrayList();
-		ucaData2 = ucadatastore1.getUCATableList();
-		ucaData2.add(uca);
-		ucaDataList.add(ucaData2);
-		ucadatastore1.setControllAction(controllAction);
-		ucadatastore1.setController(controller);
-		ucaDataStoreList.add(ucadatastore1);
+	private void showControllerTable(String controller,int controllerId) {
+		// Make Tab about Controller from UCADataStoreList
+		int i=0;
+		for(UCADataStore u : ucaDataStoreList){
+			if(u.getController() == controller){
+				setUcaTable(i);
+				makeTable(i);
+				i++;
+			}
+		}
 	}
 
-	public void addUcaTable(ObservableList<CTM> ctmData) {
-		// and new UCA Table from CTM data
+	@FXML
+	private void addFromCTM(){
+		String controller = controllerComboBox.getValue();
+		String controlAction = controlActionComboBox.getValue();
 
-		String tabtext = ctmData.get(0).getControllerName() + "-" + ctmData.get(0).getControlAction();
-		System.out.println(tabtext);
-		UCADataStore ucadatastore = new UCADataStore();
-		ObservableList<UCA> ucaData = FXCollections.observableArrayList();
-		ucaData = ucadatastore.getUCATableList();
+		//If there is Controller-ControlAction Tab add Row form CTM
+		for(UCADataStore u : ucaDataStoreList){
+			if(u.getController()==controller){
+				if(u.getControllAction() == controlAction){
+					addUCA(u);
+					return;
+				}
+			}
+		}
 
+		//If there isn't Controller-ControlAction Tab
+		//Add CTM Data to  UCA Data
+		addUcaTable();
+		Tab tab = new Tab(controlAction,ucaTableList.get(ucaTableList.size()-1));
+		setUcaTable(ucaTableList.size()-1);
+		tabPane.getTabs().add(tab);
+		return;
+	}
+
+	private void makeTable(int i) {
+		// Initialize from data store ,Tab -table View
+		ucaDataList.add(ucaDataStoreList.get(i).getUCATableList());
+		TableView tableView = new TableView();
+		tableView.setItems(ucaDataList.get(i));
+		ucaTableList.add(tableView);
+
+		//Column init
+		TableColumn<UCA,String> ca = new TableColumn<>("CA");
+		ca.setPrefWidth(180);
+		ca.setResizable(false);
+		ca.setOnEditCommit(event ->{
+			onEditChange(event);
+		});
+		CAColumn.add(ca);
+		TableColumn<UCA,String> pc = new TableColumn<>("Providing Causes Hazard");
+		pc.setPrefWidth(180);
+		pc.setResizable(false);
+		pc.setOnEditCommit(event ->{
+			onEditChange(event);
+		});
+		providingColumn.add(pc);
+		TableColumn<UCA,String> np = new TableColumn<>("Not Providing Causes Hazard");
+		np.setPrefWidth(180);
+		np.setResizable(false);
+		np.setOnEditCommit(event ->{
+			onEditChange(event);
+		});
+		notProvidingColumn.add(np);
+		TableColumn<UCA,String> it = new TableColumn<>("Incorrect Timing/Order");
+		it.setPrefWidth(180);
+		it.setResizable(false);
+		it.setOnEditCommit(event ->{
+			onEditChange(event);
+		});
+		incorrectColumn.add(it);
+		TableColumn<UCA,String> st = new TableColumn<>("Stopped Too Soon/Applied Too Long");
+		st.setPrefWidth(180);
+		st.setResizable(false);
+		st.setOnEditCommit(event ->{
+			onEditChange(event);
+		});
+		stoppedColumn.add(st);
+		TableColumn<UCA,String> li = new TableColumn<>("Link");
+		li.setPrefWidth(100);
+		li.setResizable(false);
+		li.setOnEditCommit(event ->{
+			onEditChange(event);
+		});
+		linkColumn.add(li);
+	}
+
+	private void addUCA(UCADataStore u) {
+		// add UCA only
+		String controller = controllerComboBox.getValue();
+		String controlAction = controlActionComboBox.getValue();
+
+		ObservableList<CTM> ctmData = FXCollections.observableArrayList() ;
+		for(int i=0;i<ctmDataStoreList.size();i++){
+			if(controller==ctmDataStoreList.get(i).getCTMTableList().get(0).get(0).getControllerName()){
+				if(controlAction==ctmDataStoreList.get(0).getCTMTableList().get(i).get(0).getControlAction()){
+					ctmData = ctmDataStoreList.get(0).getCTMTableList().get(i);
+				}
+			}
+		}
 
 		for(CTM c : ctmData){
 			String ucaColumn = "";
-			if(c.getHazardousList().getValue().equals("O")){
-				switch((String)c.getCasesList().getValue())
+			if(c.getHazardous().getValue().equals("O")){
+				switch((String)c.getCases().getValue())
 				{
 				//case naming corretly -dayun should modify
 				case "CA ":
@@ -307,18 +281,9 @@ public class UtmController {
 
 				UCA uca = new UCA(c.ControlAction,"","","","",null);
 				uca.setUCA(ucaColumn, Context,null);
-				ucaData.add(uca);
-				ucaDataList.add(ucaData);
-			}
-
-			if(!ucaData.isEmpty()){
-				ucadatastore.setControllAction(ctmData.get(0).getControllerName());
-				ucadatastore.setController(ctmData.get(0).getControlAction());
-				ucaDataStoreList.add(ucadatastore);
+				u.getUCATableList().add(uca);
 			}
 		}
-
-
 		return;
 	}
 
@@ -359,9 +324,79 @@ public class UtmController {
 	    ucaTableList.get(i).getColumns().add(stoppedColumn.get(i));
 	    ucaTableList.get(i).getColumns().add(linkColumn.get(i));
 
+
+
 	    return;
 
 	}
+
+	public void addUcaTable() {
+		// and new UCA Table from CTM data
+
+		String controller = controllerComboBox.getValue();
+		String controlAction = controlActionComboBox.getValue();
+		UCADataStore ucadatastore = new UCADataStore();
+		ObservableList<UCA> ucaData = FXCollections.observableArrayList();
+		ucaData = ucadatastore.getUCATableList();
+
+		ObservableList<CTM> ctmData = FXCollections.observableArrayList() ;
+		for(int i=0;i<ctmDataStoreList.size();i++){
+			if(controller==ctmDataStoreList.get(i).getCTMTableList().get(0).get(0).getControllerName()){
+				if(controlAction==ctmDataStoreList.get(0).getCTMTableList().get(i).get(0).getControlAction()){
+					ctmData = ctmDataStoreList.get(0).getCTMTableList().get(i);
+				}
+			}
+		}
+
+
+		for(CTM c : ctmData){
+			String ucaColumn = "";
+			if(c.getHazardous().getValue().equals("O")){
+				switch((String)c.getCases().getValue())
+				{
+				//case naming corretly -dayun should modify
+				case "CA ":
+					ucaColumn = "CA";
+					break;
+				case "providing causes hazard":
+					ucaColumn = "Providing Causes Hazard";
+					break;
+				case "not providing\ncauses hazard" :
+					ucaColumn = "Not Providing Causes Hazard";
+					break;
+				case "too early, too late,\nout of order" :
+					ucaColumn = "Incorrect Timing/Order";
+					break;
+				case "Stopped Too Soon/Applied Too Long" :
+					ucaColumn = "Stopped Too Soon/Applied Too Long";
+					break;
+				default :
+					break;
+				}
+				String Context = "";
+				for(int j =0;j<mainApp.models.getValuelist().size();j++){
+					if(c.getContext(j)!="N/A" || !c.getContext(j).isEmpty()){
+						Context +=mainApp.models.getValuelist().get(j) +" =" +c.getContext(j)+", ";
+					}
+				}
+
+				UCA uca = new UCA(c.ControlAction,"","","","",null);
+				uca.setUCA(ucaColumn, Context,null);
+				ucaData.add(uca);
+				ucaDataList.add(ucaData);
+			}
+		}
+
+		if(!ucaData.isEmpty()){
+			ucadatastore.setControllAction(ctmData.get(0).getControllerName());
+			ucadatastore.setController(ctmData.get(0).getControlAction());
+			ucaDataStoreList.add(ucadatastore);
+		}
+		makeTable(ucaDataStoreList.size()-1);
+		return;
+	}
+
+
 
 	public void onEditChange(TableColumn.CellEditEvent<UCA, String> event) {
 		//dataStore Save
@@ -369,6 +404,7 @@ public class UtmController {
 		UCA uca = ucadata.get(event.getTablePosition().getRow());
 		uca.setUCA(event.getTableColumn().getText(), event.getNewValue(), null);
 	}
+
 
 	private void ucaHazardPopup() {
 		FXMLLoader loader = new FXMLLoader();
@@ -392,6 +428,55 @@ public class UtmController {
 				e.printStackTrace();
 		  }
 
+	}
+
+	private void Test(){
+		// Test input data from dataStore
+
+		//first Tab
+		UCADataStore ucadatastore = new UCADataStore();
+		String controller = "controller1";
+		String controllAction = "ControlAciton1";
+		UCA uca = new UCA("1","1","1","1","1",null); // in real should setUCA in initial
+		ObservableList ucaData = FXCollections.observableArrayList();
+		ucaData = ucadatastore.getUCATableList();
+		ucaData.add(uca);
+		ucaDataList.add(ucaData);
+		ucadatastore.setControllAction(controllAction);
+		ucadatastore.setController(controller);
+		ucaDataStoreList.add(ucadatastore);
+
+		UCADataStore ucadatastore1 = new UCADataStore();
+		controller = "controller2";
+		controllAction = "ControlAciton2";
+		uca = new UCA("2","2","2","3","2",null); // in real should setUCA in initial
+		ObservableList ucaData2 = FXCollections.observableArrayList();
+		ucaData2 = ucadatastore1.getUCATableList();
+		ucaData2.add(uca);
+		ucaDataList.add(ucaData2);
+		ucadatastore1.setControllAction(controllAction);
+		ucadatastore1.setController(controller);
+		ucaDataStoreList.add(ucadatastore1);
+
+		//After CTM_table array -> change
+		//test after input ctm example
+		//input data about ctm in datastore
+		 	String[] context = {"one","two"};
+		 	ObservableList<String> l = FXCollections.observableArrayList();
+		 	l.add("O");
+		 	l.add("X");
+		 	ComboBox<String> comboBox = new ComboBox(l);
+
+
+		 	ObservableList<String> casesCombo = FXCollections.observableArrayList();
+			casesCombo.add("not providing\ncauses hazard");
+			casesCombo.add("too early, too late,\nout of order");
+			casesCombo.add("providing causes hazard");
+			ComboBox<String> casesCombox = new ComboBox(casesCombo);
+
+		 	ObservableList<CTM> ctm = FXCollections.observableArrayList();
+		 	ctm.add(new CTM("controller name","control aciton",casesCombox,0,context,comboBox));
+		 	ctmDataStoreList.get(0).getCTMTableList().add(ctm);
 	}
 
 }
