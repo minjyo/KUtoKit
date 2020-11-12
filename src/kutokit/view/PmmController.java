@@ -38,6 +38,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -214,15 +215,16 @@ public class PmmController{
 		String curCA = CAList.getSelectionModel().getSelectedItem();
 		CANameBar.setText(curCA);
 		
-		if(curIndex == 0 && allCAs.get(curIndex).size() > 1 && tab_1.getText().isEmpty()) {
+		if(curIndex == 0 && allCAs.get(curIndex).size() > 1 && tab_1.getText() == null) {
 			//if this tab is tab for first controller & there are more than one CA in first controller
 			if(curCA.equals(allCAs.get(0).get(0))) {
 				//only for the first controller
-				setTabTitle(tab_1, controllerList.getSelectionModel().getSelectedItem(), curCA);
+				setTabTitle(tab_1, controllerName.get(0), allCAs.get(0).get(0));
 			}
 		}else {
+			setTabTitle(tab_1, controllerName.get(0), allCAs.get(0).get(0));
 			Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
-			if(selectedTab.getText().isEmpty())
+			if(selectedTab.getText() == null)
 			setTabTitle(selectedTab, controllerList.getSelectionModel().getSelectedItem(), curCA);
 		}
 		
@@ -276,42 +278,41 @@ public class PmmController{
         System.out.println("PM CLICK");
         
         //setting tab name
-//      if(curIndex == 0 && allCAs.get(curIndex).size() > 1 && tab_1.getText() == null) {
-//			//if this tab is tab for first controller & there are more than one CA in first controller
-//			if(CAList.getSelectionModel().getSelectedItem().equals(allCAs.get(0).get(0))) {
-//				//only for the first controller
-//				setTabTitle(tab_1, dataStore.getControllerName().get(0), dataStore.getAllCA().get(0).get(0));
-//			}
-//		}else {
-//			Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
-//			if(selectedTab.getText() == null) {
-//				int index1 = dataStore.getControllerName().indexOf(controllerList.getSelectionModel().getSelectedItem());
-//				int index2 = dataStore.getAllCA().get(index1).indexOf(CAList.getSelectionModel().getSelectedItem());
-//				setTabTitle(selectedTab, dataStore.getControllerName().get(index1), dataStore.getAllCA().get(index1).get(index2));
-//			}
-//		}
+      if(curIndex == 0 && allCAs.get(curIndex).size() > 1 && tab_1.getText() == null) {
+			//if this tab is tab for first controller & there are more than one CA in first controller
+			if(CAList.getSelectionModel().getSelectedItem().equals(allCAs.get(0).get(0))) {
+				//only for the first controller
+				setTabTitle(tab_1, dataStore.getControllerName().get(0), dataStore.getAllCA().get(0).get(0));
+			}
+		}else {
+			setTabTitle(tab_1, dataStore.getControllerName().get(0), dataStore.getAllCA().get(0).get(0));
+			Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+			if(selectedTab.getText() == null) {
+				int index1 = dataStore.getControllerName().indexOf(controllerList.getSelectionModel().getSelectedItem());
+				int index2 = dataStore.getAllCA().get(index1).indexOf(CAList.getSelectionModel().getSelectedItem());
+				setTabTitle(selectedTab, dataStore.getControllerName().get(index1), dataStore.getAllCA().get(index1).get(index2));
+			}
+		}
         
         if( selectedOutputs != null) {
-	  		FXMLLoader loader = new FXMLLoader();
-	  		loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
-	  		Parent root;
-	  		
 	  		if(!addFile.isVisible()) {
 		  		try {
-					root = loader.load();
-					Scene s = new Scene(root);
-				
-					valueStage.setScene(s);
-					valueStage.show();
+		  			FXMLLoader loader = new FXMLLoader();
+		    		Parent parent = loader.load(getClass().getResource("popup/VariablePopUpView.fxml"));
+		    		Scene scene = new Scene(parent);
+		            
+		    		valueStage.initModality(Modality.WINDOW_MODAL);
+		    		valueStage.initOwner(mainApp.getPrimaryStage());
+		    		valueStage.setTitle("Add Process Model variable");
+		    		valueStage.setResizable(false);
+		    		valueStage.show();	
 					
-					valueStage.setOnHidden((new EventHandler<WindowEvent>() {
-					    @Override
-					    public void handle(WindowEvent e) {
-					    	VariablePopUpController popup = loader.getController();
-					    	dataStore.addValuelist(popup.value);
-					    }
-					  }));
-					
+			    	VariablePopUpController popup = loader.getController();
+			    	popup.setStage(valueStage);
+			    	dataStore.addValuelist(popup.value);
+			    	if(popup.closeClicked() == true || popup.confirmClicked() == true) {
+			    		valueStage.close();
+			    	}
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -656,30 +657,36 @@ public class PmmController{
 							for(Integer ca : controlActions.keySet()) {
 								System.out.println("if there is related CA");
 								allCA.addAll(components.findControlAction(ca).getCA());
-								System.out.println("add all CA connected to selected CA");
+								System.out.println("add allCA connected to selected controller\n");
 								if(allCAs.isEmpty()) {
 									System.out.println("To add allCA to allCA list");
 									allCAs.add(allCA);
+									System.out.println("allCA : " + allCA);
 								}else {
 									for(int i = 0; i < allCAs.size(); i++) {
-										System.out.println("To add allCA to allCA list__");
+										System.out.println("To add allCA to not Empty allCA list");
 										ArrayList<String> arr = new ArrayList<String>();
 										arr.addAll(allCAs.get(i));
 										if(arr.equals(allCA)) {
 											//if selected allCA is already in list for allCA, don't add to allCA list
-											System.out.println("No need to add new CA into allCA list");
+											System.out.println("No need to add new CA into allCA list\n");
 											continue;
 										}else {
 											System.out.println("Add allCA into AllCA list with index of " + currentIndex);
 											allCAs.add(allCA);
+											System.out.println("AllCAs : " + allCAs + "\n");
 										}
 									}
 								}
 							}
 
 							for(ArrayList<String> arr : allCAs) {
-								if(allCAs.indexOf(allCA) == currentIndex)
+								//for allCA in allCAs
+								if(allCAs.indexOf(arr) == currentIndex && !CAList.getItems().contains(arr)) {
+									//add into CAList when item is not added before
 									CAList.getItems().addAll(allCAs.get(currentIndex));
+								}
+								System.out.println("\nCAList items" + CAList.getItems() + "\n");
 							}
 						}catch(NullPointerException e) {
 							e.getStackTrace();
