@@ -122,7 +122,7 @@ public class UtmController {
 //	 	}
 	   	//new Ctm Table
 	 	if(i==ucaDataStoreList.size()){
-	 		addUcaTable(ctmData.get(0).getCTMTableList());
+	 		addUcaTable(ctmData.get(0).getCTMTableList().get(i));
 	 	}
 		// Initialize from data store ,Tab -table View
 		for(i=0;i<ucaDataStoreList.size();i++){

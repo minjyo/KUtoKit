@@ -26,22 +26,6 @@
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <Pane fx:id="addFile" layoutX="378.0" layoutY="473.0" prefHeight="118.0" prefWidth="200.0" visible="false">
-               <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="38.0" layoutY="-14.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
-                  <Label layoutX="14.0" layoutY="-4.0" text="Add File" textFill="WHITE" />
-                  <AnchorPane layoutX="2.0" layoutY="24.0" minHeight="0.0" minWidth="0.0" prefHeight="101.0" prefWidth="210.0">
-                     <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="100.0" layoutX="-2.0" layoutY="-4.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
-                        <Button layoutX="160.0" layoutY="15.0" mnemonicParsing="false" onAction="#addFile" prefHeight="14.0" prefWidth="28.0" text="..." />
-                        <Button layoutX="46.0" layoutY="51.0" mnemonicParsing="false" onAction="#applyFile" text="열기" />
-                        <Button layoutX="115.0" layoutY="51.0" mnemonicParsing="false" onMouseClicked="#close" text="취소" />
-                        <Label fx:id="fileName" layoutX="14.0" layoutY="20.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </Pane>
             <ImageView fitHeight="50.0" fitWidth="49.0" layoutX="545.0" layoutY="313.0" onMouseClicked="#selectPM" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/newValue.png" />
@@ -84,17 +68,24 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab fx:id="tab_2">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ListView fx:id="PM1" onMouseClicked="#selectValue" prefHeight="414.0" prefWidth="551.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
               </tabs>
             </TabPane>
+            <Pane fx:id="addFile" layoutX="378.0" layoutY="473.0" prefHeight="118.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="38.0" layoutY="-14.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
+                  <Label layoutX="14.0" layoutY="-4.0" text="Add File" textFill="WHITE" />
+                  <AnchorPane layoutX="2.0" layoutY="24.0" minHeight="0.0" minWidth="0.0" prefHeight="101.0" prefWidth="210.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="100.0" layoutX="-2.0" layoutY="-4.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
+                        <Button layoutX="160.0" layoutY="15.0" mnemonicParsing="false" onAction="#addFile" prefHeight="14.0" prefWidth="28.0" text="..." />
+                        <Button layoutX="46.0" layoutY="51.0" mnemonicParsing="false" onAction="#applyFile" text="열기" />
+                        <Button layoutX="115.0" layoutY="51.0" mnemonicParsing="false" onMouseClicked="#close" text="취소" />
+                        <Label fx:id="fileName" layoutX="14.0" layoutY="20.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </Pane>
          </children>
       </Group>
       <Rectangle fill="DARKSEAGREEN" height="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1000.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -103,5 +94,7 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <Button fx:id="toCTMButton" layoutX="786.0" layoutY="685.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="172.0" text="make context table" wrapText="true" />
+      <Button fx:id="newTabButton" layoutX="656.0" layoutY="685.0" mnemonicParsing="false" onAction="#addNewTab" prefHeight="30.0" prefWidth="105.0" text="new tab" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

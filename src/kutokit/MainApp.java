@@ -18,7 +18,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import kutokit.view.CTMController_2;
 import kutokit.view.CseController;
 import kutokit.view.PmmController;
 import kutokit.view.DashboardController;
@@ -363,7 +362,7 @@ public class MainApp extends Application {
 
 			 // --------------------------- PMM --------------------------
 		        models.setControllerName(projectXML.getControllerName());;
-		        models.setControlActionName(projectXML.getControlActionName());
+		        models.setControlActionNames(projectXML.getControlActionNames());
 		        models.setOutputNames(projectXML.getOutputVariableName());
 		        models.setAllCA(projectXML.getAllCA());
 		        models.setAllOutput(projectXML.getAllOutput());
@@ -433,7 +432,7 @@ public class MainApp extends Application {
 
 		 // --------------------------- PMM --------------------------
 	        projectXML.setControllerName(models.getControllerName());
-	        projectXML.setControlActionName(models.getControlActionName());
+	        projectXML.setControlActionNames(models.getControlActionNames());
 	        projectXML.setOutputVariableName(models.getOutputNames());
 	        projectXML.setAllCA(models.getAllCA());
 	        projectXML.setAllOutput(models.getAllOutput());
