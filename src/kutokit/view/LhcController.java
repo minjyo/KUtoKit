@@ -68,6 +68,7 @@ public class LhcController implements Initializable {
 	@FXML private Button addLossButton, addHazardButton, addConstraintButton;
 	@FXML private TableRow<LHC> lossRow, removeHazard, removeConstraint;
 	@FXML private CheckComboBox<String> hazardLinkCB, constraintLinkCB;
+	private ObservableList<CheckComboBox<String>> hazardLinkCBList, constraintLinkCBList;
 	
 	ObservableList<LHC> lossTableList, hazardTableList, constraintTableList;
 	
@@ -124,7 +125,7 @@ public class LhcController implements Initializable {
 				//if text field is empty, warning pop up opens
 				if(lossTextField.getText().isEmpty()) {
 					try {
-						OpenTextFieldPopUp();
+						openTextFieldPopUp();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						System.out.println("no text field input");
@@ -132,11 +133,13 @@ public class LhcController implements Initializable {
 					}
 				}else {
 					lossTableView.getItems().add(lhc);
-//					hazardLinkCB.getItems().addAll(lhc.getIndex());
 					lossTextField.clear();
+//					lossIndexList.add(lhc.getIndex());
+					hazardLinkCB.getItems().add(lhc.getIndex());
 				}
 			}
 		});
+		
 		
 		/*
 		 * delete items from loss table
@@ -160,7 +163,6 @@ public class LhcController implements Initializable {
 					selectedLossItem.forEach(allLossItems::remove);
 					//need to update loss index
 					updateLossIndex();
-//					hazardLinkColumn.get
 				});
 			}
 		});
@@ -188,7 +190,7 @@ public class LhcController implements Initializable {
 		hazardTextColumn.setCellValueFactory(cellData -> cellData.getValue().textProperty());
 		hazardLinkColumn.setCellValueFactory(cellData -> cellData.getValue().linkProperty());
 		
-		hazardTableView.setItems(hazardTableList); 
+		hazardTableView.setItems(hazardTableList);
 		
 		/*
 		 * add items to hazard table
@@ -196,49 +198,59 @@ public class LhcController implements Initializable {
 		addHazardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				LHC lhc = new LHC("H" + (lhcDB.getHazardTableList().size()+1), hazardTextField.getText(), "[L" + hazardLinkTextField.getText() + "]" );
+				LHC lhc = new LHC("H" + (lhcDB.getHazardTableList().size()+1), hazardTextField.getText(), hazardLinkCB.getCheckModel().getCheckedItems().toString());
 //				hazardLinkCB.getCheckModel().getCheckedItems().toString()
-				if(!hazardLinkTextField.getText().contains(",") && Integer.parseInt(hazardLinkTextField.getText()) > lhcDB.getLossTableList().size()) {
-					try {
-						openNoLinkPopUp();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}else if(hazardLinkTextField.getText().contains(",")){
-					String[] hazardLink;
-					StringBuilder sb = new StringBuilder();
-					sb.append("[");
-					for(int i = 0; i < lhcDB.getLossTableList().size(); i++) {
-						hazardLink = hazardLinkTextField.getText().split(",");
-						hazardLink[i] = "L" + hazardLink[i];
-						sb.append(hazardLink[i] + ", ");
-					}
-					sb.delete(sb.length() - 2, sb.length());
-					sb.append("]");
-					lhc.setLink(sb.toString());
-					hazardTableView.getItems().add(lhc);
-					hazardTextField.clear();
-					hazardLinkTextField.clear();
-				}else if(hazardTextField.getText().isEmpty()) {
-				
+//				if(!hazardLinkTextField.getText().contains(",") && Integer.parseInt(hazardLinkTextField.getText()) > lhcDB.getLossTableList().size()) {
+//					try {
+//						openNoLinkPopUp();
+//					} catch (IOException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+//				}
+//				if(hazardLinkTextField.getText().contains(",")){
+//					String[] hazardLink;
+//					StringBuilder sb = new StringBuilder();
+//					sb.append("[");
+//					for(int i = 0; i < lhcDB.getLossTableList().size(); i++) {
+//						hazardLink = hazardLinkTextField.getText().split(",");
+//						hazardLink[i] = "L" + hazardLink[i];
+//						sb.append(hazardLink[i] + ", ");
+//					}
+//					sb.delete(sb.length() - 2, sb.length());
+//					sb.append("]");
+//					lhc.setLink(sb.toString());
+//					hazardTableView.getItems().add(lhc);
+//					hazardTextField.clear();
+//					hazardLinkTextField.clear();
+//				}else 
+				if(hazardTextField.getText().isEmpty()) {
 					//if text field is empty, warning pop up opens
 					try {
-						OpenTextFieldPopUp();
+						openTextFieldPopUp();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						System.out.println("no text field input");
+						e1.printStackTrace();
+					}
+				}else if(hazardLinkCB.getCheckModel().isEmpty()) {
+					//if nothing is selected from checkcombobox
+					try {
+						openNoSelectedLinkPopUp();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.out.println("No selected link");
 						e1.printStackTrace();
 					}
 				}else {
 					//if entered value fits format and text field is not empty, continue on
 					hazardTableView.getItems().add(lhc);
 					constraintLinkCB.getItems().addAll(lhc.getIndex());
-					hazardLinkTextField.clear();
+					hazardIndexList.add(lhc.getIndex());
 					hazardTextField.clear();
+					hazardLinkCB.getCheckModel().clearChecks();
 				}
 			}
-
 		});
 		
 		/*
@@ -286,17 +298,19 @@ public class LhcController implements Initializable {
 		hazardLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		hazardLinkColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) -> {
-				if(t.getNewValue().contains("[") && t.getNewValue().contains("]")) {
-					(t.getTableView().getItems().get(
-							t.getTablePosition().getRow())
-							).setLink(t.getNewValue().toString());
-				} else {
+				if(!t.getNewValue().contains("[") || !t.getNewValue().contains("]") || !t.getNewValue().contains("L")) {
+					//if edited link doesn't fit format [index from loss]
 					try {
 						openLinkFormatPopUp();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					return;
+				}else{
+					(t.getTableView().getItems().get(
+							t.getTablePosition().getRow())
+							).setLink(t.getNewValue().toString());
 				}
 			});
 		
@@ -323,16 +337,26 @@ public class LhcController implements Initializable {
 				if(constraintTextField.getText().isEmpty()) {
 					//if text field is empty, warning pop up opens
 					try {
-						OpenTextFieldPopUp();
+						openTextFieldPopUp();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						System.out.println("no text field input");
+						e1.printStackTrace();
+					}
+				}else if(constraintLinkCB.getCheckModel().isEmpty()) {
+					//if nothing is selected from checkcombobox
+					try {
+						openNoSelectedLinkPopUp();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.out.println("No selected link");
 						e1.printStackTrace();
 					}
 				}else {
 					//if entered value fits format, continue on
 					constraintTableView.getItems().add(lhc);
 					constraintTextField.clear();
+					constraintLinkCB.getCheckModel().clearChecks();
 				}
 			}
 		});
@@ -379,24 +403,25 @@ public class LhcController implements Initializable {
 		constraintLinkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		constraintLinkColumn.setOnEditCommit(
 			(TableColumn.CellEditEvent<LHC, String> t) -> {
-				if(t.getNewValue().contains("[") && t.getNewValue().contains("]")) {
-					(t.getTableView().getItems().get(
-						t.getTablePosition().getRow())
-						).setLink(t.getNewValue().toString());
-				}else {
+				if (!t.getNewValue().contains("[") || !t.getNewValue().contains("]") || !t.getNewValue().contains("H")) {
 					try {
 						openLinkFormatPopUp();
+						t.getOldValue();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}else {
+					(t.getTableView().getItems().get(
+							t.getTablePosition().getRow())
+							).setLink(t.getNewValue().toString());
 				}
 			}
 		);
 	}
 	
 	//if text field is empty, this pop up opens
-	private void OpenTextFieldPopUp() throws IOException {
+	private void openTextFieldPopUp() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		Parent parent = loader.load(getClass().getResource("popup/LhcNoTextInputPopUpView.fxml"));
 		Stage dialogStage = new Stage();
@@ -411,6 +436,22 @@ public class LhcController implements Initializable {
 		dialogStage.show();
 	}
 
+	//if link does not fit format of [index], this pop up opens
+	private void openNoSelectedLinkPopUp() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		Parent parent = loader.load(getClass().getResource("popup/LhcNoSelectedLinkPopUpView.fxml"));
+		Scene scene = new Scene(parent);
+		Stage dialogStage = new Stage();
+		            
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.initOwner(mainApp.getPrimaryStage());
+		dialogStage.setTitle("No link selected");
+		
+		dialogStage.setScene(scene);
+		dialogStage.setResizable(false);
+		dialogStage.show();		
+	}
+	
 	//if link does not fit format of [index], this pop up opens
 	private void openLinkFormatPopUp() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
@@ -428,20 +469,20 @@ public class LhcController implements Initializable {
 	}
 	
 	//if link does not fit format of [index], this pop up opens
-		private void openNoLinkPopUp() throws IOException {
-			FXMLLoader loader = new FXMLLoader();
-			Parent parent = loader.load(getClass().getResource("popup/LhcNoLinkPopUpView.fxml"));
-			Scene scene = new Scene(parent);
-			Stage dialogStage = new Stage();
-			            
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(mainApp.getPrimaryStage());
-			dialogStage.setTitle("No matching index");
-			
-			dialogStage.setScene(scene);
-			dialogStage.setResizable(false);
-			dialogStage.show();		
-		}
+	private void openNoLinkPopUp() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		Parent parent = loader.load(getClass().getResource("popup/LhcNoLinkPopUpView.fxml"));
+		Scene scene = new Scene(parent);
+		Stage dialogStage = new Stage();
+		            
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.initOwner(mainApp.getPrimaryStage());
+		dialogStage.setTitle("No matching index");
+		
+		dialogStage.setScene(scene);
+		dialogStage.setResizable(false);
+		dialogStage.show();		
+	}
 	
 	//if link for hazard to loss does not fit format, this pop up opens
 	private void openHazardLinkPopUp() throws IOException {
@@ -481,7 +522,7 @@ public class LhcController implements Initializable {
 		int total = lossTableList.size();
 		for(int i = 0; i < total + 1; i++) {
 			index.add(lossIndexColumn.getCellData(i));
-			if(i == 0) {
+			if(i == 0 && total != 0) {
 				//always put first item's index as L1 
 				if(index.get(i).equals("L1")) {
 					continue;
@@ -489,8 +530,8 @@ public class LhcController implements Initializable {
 					index.get(i).replace(Integer.toString(i), "1");
 					lossTableList.get(i).setIndex("L1");
 				}
-			}else {
-				//from second item
+			}else if(i > 0 && i < total){
+				//from second item to second-last item
 				if(index.get(i).equals("L" + Integer.toString(i + 1))) {
 					//for example, if second item(i=1)'s index is not L2
 					continue;
@@ -499,6 +540,7 @@ public class LhcController implements Initializable {
 					lossTableList.get(i).setIndex("L" + Integer.toString(i + 1));
 				}
 			}
+			hazardLinkCB.getItems().remove(lossTableList.size());
 			total-- ;
 		}
 	}
@@ -509,7 +551,7 @@ public class LhcController implements Initializable {
 		int total = hazardTableList.size();
 		for(int i = 0; i < total + 1; i++) {
 			index.add(hazardIndexColumn.getCellData(i));
-			if(i == 0) {
+			if(i == 0 && total != 0) {
 				//always put first item's index as H1 
 				if(index.get(i).equals("H1")) {
 					continue;
@@ -517,7 +559,7 @@ public class LhcController implements Initializable {
 					index.get(i).replace(Integer.toString(i), "1");
 					hazardTableList.get(i).setIndex("H1");
 				}
-			}else {
+			}else if(i > 0 && i < total){
 				//from second item
 				if(index.get(i).equals("H" + Integer.toString(i + 1))) {
 					//for example, if second item(i=1)'s index is not H2
@@ -527,6 +569,7 @@ public class LhcController implements Initializable {
 					hazardTableList.get(i).setIndex("H" + Integer.toString(i + 1));
 				}
 			}
+			constraintLinkCB.getItems().remove(hazardTableList.size());
 			total-- ;
 		}
 	}

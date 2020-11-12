@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -36,17 +37,16 @@ public class RootLayoutController {
 	//set MainApp
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-		
 	}
 	
 	@FXML
 	private void handleLHCButton() {
-		this.mainApp.showLhcView();
+    		this.mainApp.showLhcView();
 	}
 	
 	@FXML
 	private void handleCseButton() {
-		this.mainApp.showCseView();
+    	this.mainApp.showCseView();
 	}
 	
 	@FXML
@@ -134,6 +134,4 @@ public class RootLayoutController {
     private void handleDashboard() {
     	this.mainApp.showDashboardView();
     }
-
-
 }

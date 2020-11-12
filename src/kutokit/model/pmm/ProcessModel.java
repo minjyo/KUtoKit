@@ -10,16 +10,18 @@ public class ProcessModel {
 
 	private ArrayList<String> controllerName = new ArrayList<String>();
 
-	private ArrayList<String>[] controlActionNames = new ArrayList[10];
-	private ArrayList<String>[] allCA =  new ArrayList[10];
-	private ArrayList<String>[] outputNames =  new ArrayList[10];
+	private ArrayList<ArrayList<String>> controlActionNames = new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<String>> allCA =  new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<String>> outputNames =  new ArrayList<ArrayList<String>>();
 
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
 	private ObservableList<String> valuelist = FXCollections.observableArrayList();
+	private ArrayList<String> valuelists = new ArrayList<String>();
+	
 	private File filePath;
 
 	public ProcessModel() {
-
+		
 	}
 
 	// File path
@@ -41,20 +43,21 @@ public class ProcessModel {
 	}
 
 	// Control Action
-	public ArrayList<String>[] getControlActionName() {
+	public ArrayList<ArrayList<String>> getControlActionNames() {
 		return controlActionNames;
 	}
 
-	public void setControlActionName(ArrayList<String>[] arrayList) {
+	public void setControlActionNames(ArrayList<ArrayList<String>> arrayList) {
+
 		this.controlActionNames = arrayList;
 	}
 
 	// Selected Output variables
-	public ArrayList<String>[] getOutputNames() {
+	public ArrayList<ArrayList<String>> getOutputNames() {
 		return outputNames;
 	}
 
-	public void setOutputNames(ArrayList<String>[] outputVariables) {
+	public void setOutputNames(ArrayList<ArrayList<String>> outputVariables) {
 		this.outputNames = outputVariables;
 	}
 
@@ -73,7 +76,10 @@ public class ProcessModel {
 	}
 
 	public void setValuelist(ObservableList<String> valuelist) {
-		this.valuelist = valuelist;
+		for(String data : valuelist) {
+			valuelists.add(data);
+		}
+		this.valuelist.addAll(valuelists);
 	}
 
 	public void addValuelist(String value) {
@@ -93,31 +99,35 @@ public class ProcessModel {
 	}
 
 	// All control actions
-	public ArrayList<String>[] getAllCA() {
+	public ArrayList<ArrayList<String>> getAllCA() {
 		return allCA;
 	}
 
-	public void setAllCA(ArrayList<String>[] controlAction) {
+	public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
 		this.allCA = controlAction;
 	}
 	
-	public boolean isAllCAEmpty() {
+	public boolean isEmpty(ArrayList<ArrayList<String>> arraylist) {
 		boolean result = false;
-		for(ArrayList<String> list : allCA) {
-			if(list == null) {
-				result = true;
-			}else break;
+		int cnt = 0;
+		for(ArrayList<String> list : arraylist) {
+			if(list == null || list.isEmpty()) {
+				cnt++;
+			}else {
+				continue;
+			}
+		}
+		if(cnt == arraylist.size()) {
+			result = true;
 		}
 		return result;
 	}
 	
-	public int getAllCAsize() {
-		int i=0;
-		for(ArrayList<String> list : allCA) {
-			if(list != null) {
-				i++;
-			}
+	public int getSize(ArrayList<ArrayList<String>> arraylist) {
+		int cnt=0;
+		if(!isEmpty(arraylist)) {
+			cnt++;
 		}
-		return i;
+		return cnt;
 	}
 }

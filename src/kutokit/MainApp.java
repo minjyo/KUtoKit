@@ -41,6 +41,7 @@ public class MainApp extends Application {
 
 	 private Stage primaryStage;
 	 private BorderPane rootLayout;
+	 private RootLayoutController rootLayoutController;
 
 	 public static Components components;
 	 public static LhcDataStore lhcDataStore;
@@ -122,20 +123,30 @@ public class MainApp extends Application {
      */
     public void showCseView() {
         try {
-            // get maker scene
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/CseView.fxml"));
-            AnchorPane View = (AnchorPane) loader.load();
+        	//Open when LHC data isn't null
+//        	if(lhcDataStore.getLossTableList().isEmpty() || lhcDataStore.getHazardTableList().isEmpty() || lhcDataStore.getConstraintTableList().isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add loss, hazard, constraint data first");
+//    	        alert.show();
+//        		return;
+//        	}
+       		// get maker scene
+       		FXMLLoader loader = new FXMLLoader();
+       		loader.setLocation(MainApp.class.getResource("view/CseView.fxml"));
+       		AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout
-            rootLayout.setCenter(View);
+       		// add scene in center of root layout
+        	rootLayout.setCenter(View);
 
-            //add controller
-            CseController controller = loader.getController();
-            controller.setMainApp(this, primaryStage);
+        	//add controller
+        	CseController controller = loader.getController();
+        	controller.setMainApp(this, primaryStage);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
     }
 
     /**
@@ -143,6 +154,15 @@ public class MainApp extends Application {
      */
     public void showCtmView() {
         try {
+        	//Open when pmm data isn't null
+//        	if(models.getControllerName().isEmpty() || models.getControlActionName().isEmpty() || models.getValuelist().isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add process model data first");
+//    	        alert.show();
+//        		return;
+//        	}
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
@@ -169,7 +189,8 @@ public class MainApp extends Application {
         	if(ctmDataStoreList.isEmpty()){
     	        Alert alert = new Alert(AlertType.INFORMATION);
         		alert.setTitle("Caution");
-    	        alert.setContentText("Please import CTM data before access UTM");
+        		alert.setHeaderText("Condition not satisfied");
+    	        alert.setContentText("Please add context table data first");
     	        alert.show();
         		return;
         	}
@@ -195,6 +216,16 @@ public class MainApp extends Application {
      */
     public void showPmmView() {
         try {
+        	//Open when CSE data isn't null
+        	if(components.getControlActions().isEmpty() || components.getControlActions().isEmpty()){
+    	        Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setTitle("Caution");
+        		alert.setHeaderText("Condition not satisfied");
+    	        alert.setContentText("Please add control structure data first");
+    	        alert.show();
+        		return;
+        	}
+        	
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/PmmView.fxml"));
@@ -239,6 +270,15 @@ public class MainApp extends Application {
 	 */
 	public void showLsView() {
 		try {
+			//Open when UCA data isn't null
+        	if(ucaDataStoreList.isEmpty()){
+    	        Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setTitle("Caution");
+        		alert.setHeaderText("Condition not satisfied");
+    	        alert.setContentText("Please add UCA data first");
+    	        alert.show();
+        		return;
+        	}
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
@@ -322,7 +362,7 @@ public class MainApp extends Application {
 
 			 // --------------------------- PMM --------------------------
 		        models.setControllerName(projectXML.getControllerName());;
-		        models.setControlActionName(projectXML.getControlActionName());
+		        models.setControlActionNames(projectXML.getControlActionNames());
 		        models.setOutputNames(projectXML.getOutputVariableName());
 		        models.setAllCA(projectXML.getAllCA());
 		        models.setAllOutput(projectXML.getAllOutput());
@@ -392,7 +432,7 @@ public class MainApp extends Application {
 
 		 // --------------------------- PMM --------------------------
 	        projectXML.setControllerName(models.getControllerName());
-	        projectXML.setControlActionName(models.getControlActionName());
+	        projectXML.setControlActionNames(models.getControlActionNames());
 	        projectXML.setOutputVariableName(models.getOutputNames());
 	        projectXML.setAllCA(models.getAllCA());
 	        projectXML.setAllOutput(models.getAllOutput());

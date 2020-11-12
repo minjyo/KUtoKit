@@ -170,7 +170,6 @@ public class CseController {
 
 			addText(t, text);
 		}
-		
 
 		// Add through click
 		componentBox.setOnMouseClicked(new EventHandler<MouseEvent>() {

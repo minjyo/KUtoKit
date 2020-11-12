@@ -10,8 +10,10 @@ public class VariablePopUpController {
 	  public String value; 
 	  
 	  public void setData() {
-		  value = text.getText();
-		  close();
+		  if(!text.getText().isEmpty()) {
+			  value = text.getText();
+			  close();
+		  }
 	  }
 	  
 	  public void close() { 
