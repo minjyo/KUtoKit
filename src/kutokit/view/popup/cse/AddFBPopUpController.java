@@ -20,6 +20,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import kutokit.MainApp;
+import kutokit.model.cse.Controller;
  
 public class AddFBPopUpController implements Initializable {
 
@@ -57,8 +58,34 @@ public class AddFBPopUpController implements Initializable {
 			  controlled = text2.getText();
 			  
 			  if(!listItems.isEmpty()) {
-				  OKclose = true;
-				  close();
+				  Controller  controller = mainApp.components.findController(text1.getText());
+				  Controller  controlled = mainApp.components.findController(text2.getText());
+				  if(controller.getFB().isEmpty() || controlled.getFB().isEmpty()) {
+					  OKclose = true;
+    				  close();
+				  }else {
+					  for( int fbId : controller.getFB().keySet() ){
+		            		if(controlled.getFB().containsKey(fbId)) {
+		            			  FXMLLoader loader = new FXMLLoader();
+			          			  loader.setLocation(getClass().getResource("ErrorSameFB.fxml"));
+			          			  Parent popUproot;
+			          			  try {
+			          				  	popUproot = (Parent) loader.load();
+			          					Scene scene = new Scene(popUproot);
+			          					Stage stage = new Stage();
+			          					stage.setScene(scene);
+			          					stage.show();
+			          			  }catch(IOException e) {
+			          				  e.printStackTrace();
+			          			  }
+			          			  break;
+		            		}else {
+		            			 OKclose = true;
+		       				  	 close();
+		            		}	
+		              }
+				  }
+				 
 			  }else {
 				  FXMLLoader loader = new FXMLLoader();
 				  loader.setLocation(getClass().getResource("ErrorNoFB.fxml"));
@@ -98,9 +125,27 @@ public class AddFBPopUpController implements Initializable {
 	  
 	  @FXML
 	  private void addFB(ActionEvent action){
-	    listItems.add(listInput.getText());
-	    FB.add(listInput.getText());
-	    listInput.clear();
+		  if(!listInput.getText().equals("")) {
+			  if(listItems.contains(listInput.getText())) {
+					FXMLLoader loader = new FXMLLoader();
+					  loader.setLocation(getClass().getResource("ErrorSameFBText.fxml"));
+					  Parent popUproot;
+					  try {
+						  	popUproot = (Parent) loader.load();
+							Scene scene = new Scene(popUproot);
+							Stage stage = new Stage();
+							stage.setScene(scene);
+							stage.show();
+					  }catch(IOException e) {
+						  e.printStackTrace();
+					  }  
+				}else {
+					listItems.add(listInput.getText());
+				    FB.add(listInput.getText());
+				    listInput.clear();
+				}
+		  }
+		 
 	  }
 	  
 	  @FXML

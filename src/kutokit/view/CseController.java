@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.shape.*;
@@ -71,8 +72,10 @@ public class CseController {
 	Group root = new Group();
 	@FXML
 	ScrollPane board = new ScrollPane();
+//	@FXML
+//	ImageView component, ca, feedback, text;
 	@FXML
-	ImageView component, ca, feedback, text;
+	VBox componentBox, caBox, feedbackBox, textBox;
 
 	// constructor
 	public CseController() {
@@ -170,7 +173,7 @@ public class CseController {
 		
 
 		// Add through click
-		component.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		componentBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				addPopUp("controller");
 				event.consume();
@@ -178,7 +181,7 @@ public class CseController {
 		});
 
 		// Add through click
-		ca.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		caBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				addPopUp("ca");
 				event.consume();
@@ -186,7 +189,7 @@ public class CseController {
 		});
 
 		// Add through click
-		feedback.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		feedbackBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				addPopUp("feedback");
 				event.consume();
@@ -194,7 +197,7 @@ public class CseController {
 		});
 		
 		// Add through click
-		text.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		textBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				addPopUp("text");
 				event.consume();
@@ -672,7 +675,23 @@ public class CseController {
 			public void handle(ActionEvent event) {
 				RectangleView rect = (RectangleView) itemC1.getParentPopup().getOwnerNode();
 				dataStore.curController = dataStore.findController(rect.id);
-				mainApp.showPmmView();
+				if(dataStore.curController.getCA().size()==0 || dataStore.curController.getFB().size()==0) {
+					  FXMLLoader loader = new FXMLLoader();
+					  loader.setLocation(getClass().getResource("popup/cse/ErrorNoCAFB.fxml"));
+					  Parent popUproot;
+					  try {
+						  	popUproot = (Parent) loader.load();
+							Scene scene = new Scene(popUproot);
+							Stage stage = new Stage();
+							stage.setScene(scene);
+							stage.show();
+					  }catch(IOException e) {
+						  e.printStackTrace();
+					  }  
+				}else {
+					mainApp.showPmmView();
+				}
+				
 			}
 		});
 		ControllerContextMenu.getItems().addAll(itemC1, itemC2, itemC3);

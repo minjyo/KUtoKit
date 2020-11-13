@@ -25,73 +25,89 @@
          <children>
             <VBox prefHeight="800.0" prefWidth="102.0" style="-fx-border-color: #8FBC8F#8FBC8F;">
                <children>
-                  <ImageView fx:id="component" fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../assets/component.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets top="100.0" />
-                     </VBox.margin>
-                  </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Controller" textAlignment="CENTER" wrappingWidth="100.0">
-                     <cursor>
-                        <Cursor fx:constant="MOVE" />
-                     </cursor>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <ImageView fx:id="ca" fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../assets/feedback.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets top="100.0" />
-                     </VBox.margin>
-                  </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Control Action" textAlignment="CENTER" wrappingWidth="100.0">
-                     <cursor>
-                        <Cursor fx:constant="MOVE" />
-                     </cursor>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <ImageView fx:id="feedback" fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../assets/ca.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets top="100.0" />
-                     </VBox.margin>
-                  </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Feedback" textAlignment="CENTER" wrappingWidth="100.0">
-                     <cursor>
-                        <Cursor fx:constant="MOVE" />
-                     </cursor>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <ImageView fx:id="text" fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../assets/text.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets top="100.0" />
-                     </VBox.margin>
-                  </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="90.0">
-                     <cursor>
-                        <Cursor fx:constant="MOVE" />
-                     </cursor>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
+                  <VBox fx:id="componentBox" prefHeight="190.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../assets/component.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets top="50.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Controller" textAlignment="CENTER" wrappingWidth="100.0">
+                           <cursor>
+                              <Cursor fx:constant="MOVE" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="caBox" prefHeight="190.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../assets/feedback.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets top="50.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Control Action" textAlignment="CENTER" wrappingWidth="100.0">
+                           <cursor>
+                              <Cursor fx:constant="MOVE" />
+                           </cursor>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="feedbackBox" prefHeight="190.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../assets/ca.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets top="50.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Feedback" textAlignment="CENTER" wrappingWidth="100.0">
+                           <cursor>
+                              <Cursor fx:constant="MOVE" />
+                           </cursor>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="textBox" prefHeight="190.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../assets/text.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets top="50.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="90.0">
+                           <cursor>
+                              <Cursor fx:constant="MOVE" />
+                           </cursor>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
                </children></VBox>
          </children>
       </VBox>
