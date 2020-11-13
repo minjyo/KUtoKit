@@ -38,6 +38,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -195,7 +196,7 @@ public class PmmController{
 			
 		dataStore.setAllCA(allCAs);
 		
-		controllerList.getItems().addAll(controllerName.get(curIndex));
+		controllerList.getItems().add(controllerName.get(curIndex));
 		CAList.getItems().addAll(allCAs.get(curIndex));
 		
 		if(allCAs.get(curIndex).size() > 1) {
@@ -221,14 +222,16 @@ public class PmmController{
 			//if this tab is tab for first controller & there are more than one CA in first controller
 			if(curCA.equals(allCAs.get(0).get(0))) {
 				//only for the first controller
-				setTabTitle(tab_1, controllerList.getSelectionModel().getSelectedItem(), curCA);
+				setTabTitle(tab_1, controllerName.get(0), allCAs.get(0).get(0));
 			}
 		}else {
+			setTabTitle(tab_1, controllerName.get(0), allCAs.get(0).get(0));
 			Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
 			if(selectedTab.getText() == null)
-				setTabTitle(selectedTab, controllerList.getSelectionModel().getSelectedItem(), curCA);
+			setTabTitle(selectedTab, controllerList.getSelectionModel().getSelectedItem(), curCA);
 		}
 		
+		System.out.println("[datastore]controllerName : " + controllerName);
 		if(!dataStore.isEmpty(dataStore.getControlActionNames())) {
 			//get previously selected CA
 			selectedCAs = dataStore.getControlActionNames();
@@ -275,43 +278,44 @@ public class PmmController{
         System.out.println("PM CLICK");
         
         //setting tab name
-//      if(curIndex == 0 && allCAs.get(curIndex).size() > 1 && tab_1.getText() == null) {
-//			//if this tab is tab for first controller & there are more than one CA in first controller
-//			if(CAList.getSelectionModel().getSelectedItem().equals(allCAs.get(0).get(0))) {
-//				//only for the first controller
-//				setTabTitle(tab_1, dataStore.getControllerName().get(0), dataStore.getAllCA().get(0).get(0));
-//			}
-//		}else {
-//			Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
-//			if(selectedTab.getText() == null) {
-//				int index1 = dataStore.getControllerName().indexOf(controllerList.getSelectionModel().getSelectedItem());
-//				int index2 = dataStore.getAllCA().get(index1).indexOf(CAList.getSelectionModel().getSelectedItem());
-//				setTabTitle(selectedTab, dataStore.getControllerName().get(index1), dataStore.getAllCA().get(index1).get(index2));
-//			}
-//		}
+      if(curIndex == 0 && allCAs.get(curIndex).size() > 1 && tab_1.getText() == null) {
+			//if this tab is tab for first controller & there are more than one CA in first controller
+			if(CAList.getSelectionModel().getSelectedItem().equals(allCAs.get(0).get(0))) {
+				//only for the first controller
+				setTabTitle(tab_1, dataStore.getControllerName().get(0), dataStore.getAllCA().get(0).get(0));
+			}
+		}else {
+			setTabTitle(tab_1, dataStore.getControllerName().get(0), dataStore.getAllCA().get(0).get(0));
+			Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+			if(selectedTab.getText() == null) {
+				int index1 = dataStore.getControllerName().indexOf(controllerList.getSelectionModel().getSelectedItem());
+				int index2 = dataStore.getAllCA().get(index1).indexOf(CAList.getSelectionModel().getSelectedItem());
+				setTabTitle(selectedTab, dataStore.getControllerName().get(index1), dataStore.getAllCA().get(index1).get(index2));
+			}
+		}
         
         if( selectedOutputs != null) {
-	  		FXMLLoader loader = new FXMLLoader();
-	  		loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
-	  		Parent root;
-	  		
 	  		if(!addFile.isVisible()) {
 		  		try {
-					root = loader.load();
-					Scene s = new Scene(root);
+		  			FXMLLoader loader = new FXMLLoader();
+		    		Parent parent = loader.load(getClass().getResource("popup/VariablePopUpView.fxml"));
+		    		Scene scene = new Scene(parent);
+		            
+		    		valueStage.initModality(Modality.WINDOW_MODAL);
+		    		valueStage.initOwner(mainApp.getPrimaryStage());
+		    		valueStage.setTitle("Add Process Model variable");
+		    		valueStage.setResizable(false);
+		    		valueStage.show();	
 				
-					valueStage.setScene(s);
-					valueStage.show();
+					valueStage.setScene(scene);
 					
-					valueStage.setOnHidden((new EventHandler<WindowEvent>() {
-					    @Override
-					    public void handle(WindowEvent e) {
-					    	VariablePopUpController popup = loader.getController();
-					    	list.add(popup.value);
-					    	dataStore.addValuelist(list);
-					    }
-					  }));
-					
+			    	VariablePopUpController popup = loader.getController();
+			    	popup.setStage(valueStage);
+			    	list.add(popup.value);
+			    	dataStore.addValuelist(list);
+			    	if(popup.closeClicked() == true || popup.confirmClicked() == true) {
+			    		valueStage.close();
+			    	}
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -415,19 +419,20 @@ public class PmmController{
 	    // Get selected output
         System.out.println(curIndex + " : index of selected controller");
 	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-	    for(String str : outputList.getSelectionModel().getSelectedItems()) {
-	    	list.add(str);
-	    }
+	    list.addAll(outputList.getSelectionModel().getSelectedItems());
 
 	    if(list.isEmpty()) {
-	    	selectedOutputs.add(selectedOutput);
+	          selectedOutputs.add(selectedOutput);
 	    }else {
-		    for(String data : list) {
-		    	selectedOutput.add(data);
-		    }
-	    	selectedOutputs.set(curIndex,selectedOutput);
+	    	for(String data : list) {
+	    		selectedOutput.add(data);
+	            selectedOutputs.set(curIndex, selectedOutput);
+	        }
 	    }
-	
+//	    for(int i = 0; i < selectedOutputs.size(); i++) {
+//	    	String data = list.get(i);
+//	    	selectedOutput.add(data);
+//	    	selectedOutputs.add(selectedOutput);
 
 		// Make process model
 		if(selectedFile != null && !selectedOutputs.get(curIndex).isEmpty()) { 
@@ -628,10 +633,11 @@ public class PmmController{
 				System.out.println("getting completed control structure's data.");
 				
 				// Move controller from CSE to VIEW
-				int i=0;
+				int i = 0;
 				for(Controller c : components.getControllers()) {
 					controllerList.getItems().add(c.getName());
-					controllerName.add(i,c.getName());
+					System.out.println("add controller to controllerName list with index of " + i);
+					controllerName.add(i, c.getName());
 					i++;
 				}
 				
@@ -644,37 +650,73 @@ public class PmmController{
 							allCAs.clear();
 							CAList.getItems().clear();
 							
-							Controller controller = components.findController(controllerList.getSelectionModel().getSelectedItem());
+							System.out.println("whole controller : " + controllerName);
+							int currentIndex = controllerName.indexOf(controllerList.getSelectionModel().getSelectedItem());
+							for(int i = 0; i < components.getControllers().size(); i++) {
+								System.out.println("controller " + i + " from CSE : " + components.getControllers().get(i).getName());
+							}
+							Controller controller = components.getControllers().get(currentIndex);
+							System.out.println(controller.getName() + " : find selected controller in CSE DB\n");
+							
+//							Controller controller = components.findController(controllerList.getSelectionModel().getSelectedItem());
 							
 							Map<Integer, Integer> controlActions = controller.getCA();
+							System.out.println("get CA : " + controlActions);
 							for(Integer ca : controlActions.keySet()) {
+								System.out.println("if there is related CA");
 								allCA.addAll(components.findControlAction(ca).getCA());
+								System.out.println("add allCA connected to selected controller\n");
+								if(allCAs.isEmpty()) {
+									System.out.println("To add allCA to allCA list");
+									allCAs.add(allCA);
+									System.out.println("allCA : " + allCA);
+								}else {
+									for(int i = 0; i < allCAs.size(); i++) {
+										System.out.println("To add allCA to not Empty allCA list");
+										ArrayList<String> arr = new ArrayList<String>();
+										arr.addAll(allCAs.get(i));
+										if(arr.equals(allCA)) {
+											//if selected allCA is already in list for allCA, don't add to allCA list
+											System.out.println("No need to add new CA into allCA list\n");
+											continue;
+										}else {
+											System.out.println("Add allCA into AllCA list with index of " + currentIndex);
+											allCAs.add(allCA);
+											System.out.println("AllCAs : " + allCAs + "\n");
+										}
+									}
+								}
 							}
-							allCAs.add(allCA);
-							for(ArrayList<String> allCA : allCAs) {
-								CAList.getItems().addAll(allCA);
+
+							for(ArrayList<String> arr : allCAs) {
+								//for allCA in allCAs
+								if(allCAs.indexOf(arr) == currentIndex && !CAList.getItems().contains(arr)) {
+									//add into CAList when item is not added before
+									CAList.getItems().addAll(allCAs.get(currentIndex));
+								}
+								System.out.println("\nCAList items" + CAList.getItems() + "\n");
 							}
 						}catch(NullPointerException e) {
 							e.getStackTrace();
 						}
 					}
 				});
+			}else {
+			// while working data in PMM
+			System.out.println("You have working data.");
 			}
-			else {
-				// while working data in PMM
-				System.out.println("You have working data.");
-			}
-		} else {  
+		} else { 
 			// CSE -> PMM
 			controllerName = dataStore.getControllerName();
 			
 			System.out.println("controllers in list : " + controllerName);
 			System.out.println("*****curController:" + components.curController.getName());
+
 			selectController();
 		}
 
 		// Data
-
+		selectedFile = dataStore.getFilePath();
 		selectedCAs = dataStore.getControlActionNames();
 		selectedOutputs = dataStore.getOutputNames();
 		allOutputs = dataStore.getAllOutput();
