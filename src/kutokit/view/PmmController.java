@@ -71,9 +71,9 @@ public class PmmController{
 	private ArrayList<ArrayList<String>> selectedOutputs = new ArrayList<ArrayList<String>>(); //list for selectedOutput
 	
 	private ObservableList<String> allOutput = FXCollections.observableArrayList(); //parsed output
-	private ObservableList<String> valuelist = FXCollections.observableArrayList(); //parsed value list
-	private ObservableList<String> list = FXCollections.observableArrayList(); 
-	private ArrayList<String> valuelists = new ArrayList<String>(); // valuelist's data store
+	private ObservableList<ArrayList<String>> valuelist = FXCollections.observableArrayList(); //parsed value list
+	private ObservableList<String> castlist = FXCollections.observableArrayList();
+	private ArrayList<String> list = new ArrayList<String>(); 
 
 	private Stage valueStage = new Stage();
 	private ContextMenu contextMenu = new ContextMenu();
@@ -88,9 +88,11 @@ public class PmmController{
 	@FXML private TabPane tabPane;
 	@FXML private Tab tab_1; // default tab
 //	@FXML private AnchorPane newPane;
-	@FXML private Button toCTMButton;
+	@FXML private Button toCTMButton, addTabButton;
 	
 	private ObservableList<Tab> tabs = FXCollections.observableArrayList();
+	private ArrayList<String> tabNames = new ArrayList<String>();
+	
 	PmmTabPopUpController c;
 	
 	public PmmController() {
@@ -104,48 +106,59 @@ public class PmmController{
 		// CSE -> PMM
 		// get data of selected controller
 		Controller controller = components.curController;
-		if(controllerName.size() == 0) {
-			controllerName.add(controller.getName());
-		}
+//		controllerName.add(controller.getName());
+		
+		System.out.println("selected controller : " + controller.getName());
+		System.out.println("total controller : " + controllerName);
 			
 		//for whole controllerName List
-		for(String s : controllerName) {
-			System.out.println("compare with whole controllerName List");
-			s = controller.getName();
-			if(s.equals(controller.getName())) {
-				//already has controller with same name
-				continue;
-			}else {
-				//if there is no controller name matching with controllerNameList, add new controller
-				System.out.println("Add new Controller : " + controller.getName());
-				
-				// Create new tab
-				if(!dataStore.getControllerName().isEmpty()) {
-					//if previously added controller exists, put it in array 
-					controllerName.addAll(dataStore.getControllerName());
-				}
-				//add new controller to list
-				controllerName.add(controller.getName());
-				System.out.println("controller after save: " + controllerName);
-				System.out.println("controllerName size: " + controllerName.size() + ", tabsize: " + tabPane.getTabs().size());
-				
-				if(controllerName.size() > tabPane.getTabs().size()) {
-					//need to create new tab
-					System.out.println("Create new tab for new controller.");
-					addTab(tabPane);
+		if(controllerName.isEmpty()) {
+			controllerName.add(controller.getName());
+		}else {
+			for(int i = 0; i < controllerName.size(); i++) {
+				ArrayList<String> arr = new ArrayList<String>();
+				arr.addAll(controllerName);
+				System.out.println("compare with whole controllerName List");
+				if(arr.get(i).equals(controller.getName())) {
+					//already has controller with same name
+					System.out.println("No need to add new controller to controllerName list\n");
+					continue;
 				}else {
-					//use default tab(tab_1)
-					System.out.println("No need to add new tab.");
+					//if there is no controller name matching with controllerNameList, add new controller
+					System.out.println("Add new Controller : " + controller.getName());
+				
+					// Create new tab
+//					if(!dataStore.getControllerName().isEmpty()) {
+//					//if previously added controller exists, put it in array 
+//					controllerName.addAll(dataStore.getControllerName());
+//					}
+					//add new controller to list
+					System.out.println("No matching controller; add new controller to list");
+					controllerName.add(controller.getName());
+
+					System.out.println("controller after save: " + controllerName);
+					System.out.println("controllerName size: " + controllerName.size() + ", tabsize: " + tabPane.getTabs().size());
+				
+					if(controllerName.size() > tabPane.getTabs().size()) {
+						//need to create new tab
+						System.out.println("Create new tab for new controller.\n");
+						addTab(tabPane);
+					}else {
+						//use default tab(tab_1)
+						System.out.println("No need to add new tab.\n");
+					}
 				}
 			}
 		}
-		
+
 		curIndex = controllerName.indexOf(controller.getName());
+		System.out.println("index of selected controller : " + curIndex + "\n");	
 		
 		//get CA from selected controller
 		Map<Integer, Integer> controlActions = controller.getCA();
 		System.out.println(controlActions);
 
+		//Get all CA from dataStore
 		if(!dataStore.isEmpty(dataStore.getAllCA())) {
 			//if allCA is not empty
 			allCAs = dataStore.getAllCA();
@@ -155,15 +168,42 @@ public class PmmController{
 		}
 		for(Integer ca : controlActions.keySet()) {
 			allCA.addAll(components.findControlAction(ca).getCA());
-			allCAs.add(allCA);
+			if(allCAs.isEmpty()) {
+				allCAs.add(allCA);
+			}else {
+				for(int i = 0; i < allCAs.size(); i++) {
+					ArrayList<String> arr = new ArrayList<String>();
+					arr.addAll(allCAs.get(i));
+					if(arr.equals(allCA)) {
+						//if selected allCA is already in list for allCA, don't add to allCA list
+						System.out.println("No need to add new CA into allCA list");
+						continue;
+					}else {
+						System.out.println("Add allCA into AllCA list with index of " + curIndex);
+						allCAs.add(allCA);
+					}
+				}
+			}
 			System.out.println(allCA + " : all CA");
+			System.out.println(allCAs + " : list of all CA");
+			
+			if(curIndex == 0 && allCAs.get(curIndex).size() == 1) {
+				tab_1.setText(controllerName.get(curIndex) + "-" + allCAs.get(curIndex).get(0));
+			}
 		}
 			
 		dataStore.setAllCA(allCAs);
 		
-		controllerList.getItems().addAll(controllerName);
+		controllerList.getItems().addAll(controllerName.get(curIndex));
 		CAList.getItems().addAll(allCAs.get(curIndex));
-
+		
+		if(allCAs.get(curIndex).size() > 1) {
+			//if this tab is tab for controller with multiple CAs
+			if(CAList.getSelectionModel().getSelectedItem() != allCAs.get(curIndex).get(0)) {
+				//if this is not the first CA for first controller,
+				addTab(tabPane);
+			}
+		}
 	}
 	
 	@FXML
@@ -171,17 +211,28 @@ public class PmmController{
 		// Save selected controller, ca in datastore
 		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡSHOW outputㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 		
-		dataStore.setControllerName(controllerName);
-		System.out.println("[datastore]controllerName:"+controllerName);
+//		dataStore.setControllerName(controllerName);
+		System.out.println("showoutput controllerName: "+controllerName);
 		String curCA = CAList.getSelectionModel().getSelectedItem();
 		CANameBar.setText(curCA);
-		tab_1.setText(controllerList.getSelectionModel().getSelectedItem() + "-" + curCA);
-
+		
+		if(curIndex == 0 && allCAs.get(curIndex).size() > 1 && tab_1.getText() == null) {
+			//if this tab is tab for first controller & there are more than one CA in first controller
+			if(curCA.equals(allCAs.get(0).get(0))) {
+				//only for the first controller
+				setTabTitle(tab_1, controllerList.getSelectionModel().getSelectedItem(), curCA);
+			}
+		}else {
+			Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+			if(selectedTab.getText() == null)
+				setTabTitle(selectedTab, controllerList.getSelectionModel().getSelectedItem(), curCA);
+		}
+		
 		if(!dataStore.isEmpty(dataStore.getControlActionNames())) {
 			//get previously selected CA
 			selectedCAs = dataStore.getControlActionNames();
-			System.out.println(dataStore.getSize(selectedCAs));
-			selectedCAs.get(dataStore.getSize(selectedCAs)).add(curCA);
+			selectedCA.add(curCA);
+			selectedCAs.add(selectedCA);
 		} else {
 			//previously selected CA is empty
 			System.out.println("previously selected CA is empty");
@@ -189,37 +240,16 @@ public class PmmController{
 			selectedCAs.add(selectedCA);
 		}
 		
-		for(ArrayList<String> list : selectedCAs) {
-			System.out.println("selected CA : "+list);
-		}
+		System.out.println("selected CAs : "+selectedCAs);
 		
 		dataStore.setControlActionNames(selectedCAs);
 		addFile.setVisible(true);
 		
 	}
-
-	@FXML
-	public void addNewTab(MouseEvent e) {
-		Tab newTab = new Tab();
-		tabPane.getTabs().add(newTab);
-		AnchorPane newPane = new AnchorPane();
-		ListView newListView = new ListView();
-		
-		newPane.getChildren().add(newListView);
-		
-		newPane.setTopAnchor(newListView, 0.0);
-		newPane.setLeftAnchor(newListView, 0.0);
-		newPane.setBottomAnchor(newListView, 0.0);
-		newPane.setRightAnchor(newListView, 0.0);
-		
-		newTab.setText(controllerList.getSelectionModel().getSelectedItem() + "-" + CAList.getSelectionModel().getSelectedItem());;
-	}
 	
 	public void addTab(TabPane tabpane) {
-		//set new tab's name as controller name - CA name
-		Tab newTab = new Tab(controllerList.getSelectionModel().getSelectedItem() + "-" + CAList.getSelectionModel().getSelectedItem());
-		
 		//add new tab to tabPane
+		Tab newTab = new Tab();
 		tabpane.getTabs().add(newTab);
 		
 		AnchorPane newPane = new AnchorPane();
@@ -241,7 +271,24 @@ public class PmmController{
 	@FXML
 	public void selectPM(MouseEvent e) {
 		// Add new value
-        System.out.println("PM CLICK");		
+        System.out.println("PM CLICK");
+        
+        //setting tab name
+//      if(curIndex == 0 && allCAs.get(curIndex).size() > 1 && tab_1.getText() == null) {
+//			//if this tab is tab for first controller & there are more than one CA in first controller
+//			if(CAList.getSelectionModel().getSelectedItem().equals(allCAs.get(0).get(0))) {
+//				//only for the first controller
+//				setTabTitle(tab_1, dataStore.getControllerName().get(0), dataStore.getAllCA().get(0).get(0));
+//			}
+//		}else {
+//			Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+//			if(selectedTab.getText() == null) {
+//				int index1 = dataStore.getControllerName().indexOf(controllerList.getSelectionModel().getSelectedItem());
+//				int index2 = dataStore.getAllCA().get(index1).indexOf(CAList.getSelectionModel().getSelectedItem());
+//				setTabTitle(selectedTab, dataStore.getControllerName().get(index1), dataStore.getAllCA().get(index1).get(index2));
+//			}
+//		}
+        
         if( selectedOutputs != null) {
 	  		FXMLLoader loader = new FXMLLoader();
 	  		loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
@@ -259,7 +306,8 @@ public class PmmController{
 					    @Override
 					    public void handle(WindowEvent e) {
 					    	VariablePopUpController popup = loader.getController();
-					    	dataStore.addValuelist(popup.value);
+					    	list.add(popup.value);
+					    	dataStore.addValuelist(list);
 					    }
 					  }));
 					
@@ -268,7 +316,8 @@ public class PmmController{
 				}
 		          e.consume();
 	  		}
-        } else 	System.out.println("Error: select output variable.");
+        } else
+        	System.out.println("Error: select output variable.");
 
 	}
 	
@@ -362,26 +411,32 @@ public class PmmController{
 		// Create XmlReader constructor
         reader = new XmlReader(selectedFile.getName());
         
-	     // Get selected output
+	    // Get selected output
         System.out.println(curIndex + " : index of selected controller");
 	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-	    list = outputList.getSelectionModel().getSelectedItems();
+	    for(String str : outputList.getSelectionModel().getSelectedItems()) {
+	    	list.add(str);
+	    }
 
-	    for(String data : list) {
-	    	selectedOutput.add(data);
+	    if(list.isEmpty()) {
 	    	selectedOutputs.add(selectedOutput);
+	    }else {
+		    for(String data : list) {
+		    	selectedOutput.add(data);
+		    	selectedOutputs.add(selectedOutput);
+		    }
 	    }
 
 		// Make process model
-		if(selectedFile != null && !selectedOutputs.isEmpty()) { 
+		if(selectedFile != null && !selectedOutputs.get(curIndex).isEmpty()) { 
 			System.out.println("make process model");
 			System.out.println(selectedFile);
 			this.makeModel(selectedOutputs);
 		}  
 		
 		// Get output variables
-		else if(selectedOutputs.isEmpty()){
-			
+		else if(selectedOutputs.get(curIndex).isEmpty())
+		{	
 			System.out.println("parse output variable");
 
 			// VIEW
@@ -507,7 +562,7 @@ public class PmmController{
 				}
 				checkedl1 = checkValue(valueName, selectedOutput2.get(curIndex));
 				for(Object value : checkedl1) {
-					this.valuelist.add(value.toString());
+					this.list.add(value.toString());
 				}	 
 			}
 			
@@ -517,46 +572,51 @@ public class PmmController{
 			}
 			checkedl2 = checkValue(valueName, selectedOutput2.get(curIndex));
 			for(Object value : checkedl2) {
-				this.valuelist.add(value.toString());
+				this.list.add(value.toString());
 			}
 			
 		}		
 		
 		// Remove redundant variables between l1 and l2
 		TreeSet tree = new TreeSet();
-		for(String value: valuelist) {
+		for(String value: list) {
 			tree.add(value);
 		}       
 		
-		valuelist.clear();
+		list.clear();
 		
 		Iterator it = tree.iterator();
 		while ( it.hasNext() ) {
-			valuelist.add(it.next().toString());
+			list.add(it.next().toString());
 		}
 		
-//		dataStore.setValuelist(valuelist);
-//		PM.setItems(valuelist);		
+		castlist.addAll(list); // for casting
+		System.out.println("castlist:"+castlist);
+		PM.setItems(castlist);		
+		
+		valuelist.add(list);
+		dataStore.setValuelist(valuelist);
 		
 		System.out.println("[dataStore] controller name: "+dataStore.getControllerName());
-		for(ArrayList<String> list: dataStore.getControlActionNames()) {
-			System.out.println("[dataStore] selected ca: "+list);
+		for(ArrayList<String> li: dataStore.getControlActionNames()) {
+			System.out.println("[dataStore] selected ca: "+li);
 
 		}
 		System.out.println();
 		
-		for(ArrayList<String> list: dataStore.getOutputNames()) {
-			System.out.println("[dataStore] selected output: "+list);
+		for(ArrayList<String> li: dataStore.getOutputNames()) {
+			System.out.println("[dataStore] selected output: "+li);
 		}
 		System.out.println();
 		
-		for(String list: dataStore.getValuelist()) {
-			System.out.println("[dataStore] value list: "+list);
+		for(ArrayList<String> li: dataStore.getValuelist()) {
+			System.out.println("[dataStore] value list: "+li);
 		}
 		System.out.println();
 	}
 
 	private void initialize() {
+		System.out.println("\n**********************");
 		System.out.println("initialize!! ");
 		// PMM, CSE Data Store
 		dataStore = this.mainApp.models;
@@ -564,6 +624,7 @@ public class PmmController{
 	
 		//controller's total count
 		int controllerCnt = components.getControllers().size();
+		System.out.println("total controller numbers : " + controllerCnt);
 
 		// From Dashboard to PMM
 		if(components.curController == null) { 
@@ -574,8 +635,11 @@ public class PmmController{
 				System.out.println("getting completed control structure's data.");
 				
 				// Move controller from CSE to VIEW
+				int i=0;
 				for(Controller c : components.getControllers()) {
 					controllerList.getItems().add(c.getName());
+					controllerName.add(i,c.getName());
+					i++;
 				}
 				
 				// Get selected controller from list & Add ca in list
@@ -583,13 +647,11 @@ public class PmmController{
 					@Override
 					public void handle(MouseEvent event) {
 						try{
-							controllerName.clear();
 							allCA.clear();
 							allCAs.clear();
 							CAList.getItems().clear();
 							
 							Controller controller = components.findController(controllerList.getSelectionModel().getSelectedItem());
-							controllerName.add(controller.getName());
 							
 							Map<Integer, Integer> controlActions = controller.getCA();
 							for(Integer ca : controlActions.keySet()) {
@@ -609,23 +671,52 @@ public class PmmController{
 				// while working data in PMM
 				System.out.println("You have working data.");
 			}
-		} else { 
+		} else {  
 			// CSE -> PMM
-			System.out.println("*****curController:"+components.curController.getName());
+			controllerName = dataStore.getControllerName();
+			
+			System.out.println("controllers in list : " + controllerName);
+			System.out.println("*****curController:" + components.curController.getName());
 			selectController();
 		}
 
 		// Data
-				selectedFile = dataStore.getFilePath();
-				selectedCAs = dataStore.getControlActionNames();
-				selectedOutputs = dataStore  .getOutputNames();
-				allOutput = dataStore.getAllOutput();
-				valuelist = dataStore.getValuelist();
 
-				// View 
-				outputList.getItems().addAll(allOutput);
-				PM.setItems(valuelist);
-				
+		selectedCAs = dataStore.getControlActionNames();
+		selectedOutputs = dataStore.getOutputNames();
+		allOutput = dataStore.getAllOutput();
+		valuelist = dataStore.getValuelist();
+
+		// View 
+		outputList.getItems().addAll(allOutput);
+		PM.setItems(castlist);
+
+		
+		//tab data
+//		for(int i = 0; i < tabPane.getTabs().size(); i++) {
+//			tabPane.getTabs().get(i).setText(tabNames.get(i));
+//			System.out.println("current tabs : " + tabPane.getTabs().get(i).getText());
+//		}
+		
+		addTabButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent e) {
+				Tab newTab = new Tab();
+				tabPane.getTabs().add(newTab);
+				AnchorPane newPane = new AnchorPane();
+				ListView newListView = new ListView();
+			
+				newTab.setContent(newPane);
+				newPane.getChildren().add(newListView);
+			
+				newPane.setTopAnchor(newListView, 0.0);
+				newPane.setLeftAnchor(newListView, 0.0);
+				newPane.setBottomAnchor(newListView, 0.0);
+				newPane.setRightAnchor(newListView, 0.0);
+			
+//				newTab.setText(controllerList.getSelectionModel().getSelectedItem() + "-" + CAList.getSelectionModel().getSelectedItem());;
+			}
+		});			
 	}
 
 	
@@ -658,8 +749,20 @@ public class PmmController{
 				}
 	  		} 
         } else 	System.out.println("Error: select output variable.");
-    	PM.setItems(valuelist);
-
+		ObservableList<String> castlist = FXCollections.observableArrayList();
+		castlist.addAll(list);
+		System.out.println("castlist:"+castlist);
+		PM.setItems(castlist);
+		valuelist.add(list);
+		dataStore.setValuelist(valuelist);
+	}
+	
+	//set tab's title
+	public void setTabTitle(Tab selectedTab, String controllerName, String caName) {
+		selectedTab.setText(controllerName + "-" + caName);
+		tabs.add(selectedTab);
+		tabNames.add(selectedTab.getText());
+		System.out.println("selected tab's name is : " + selectedTab.getText());
 	}
 
 	public void savePM(String name, List list) {

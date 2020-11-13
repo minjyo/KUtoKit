@@ -15,8 +15,7 @@ public class ProcessModel {
 
 	private ArrayList<ArrayList<String>> outputNames =  new ArrayList<ArrayList<String>>();
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-	private ObservableList<String> valuelist = FXCollections.observableArrayList();
-	private ArrayList<String> valuelists = new ArrayList<String>();
+	private ObservableList<ArrayList<String>> valuelist = FXCollections.observableArrayList();
 	
 	private File filePath;
 
@@ -71,29 +70,31 @@ public class ProcessModel {
 	}
 
 	// Value list
-	public ObservableList<String> getValuelist() {
+	public ObservableList<ArrayList<String>> getValuelist() {
 		return valuelist;
 	}
 
-	public void setValuelist(ObservableList<String> valuelist) {
-		for(String data : valuelist) {
-			valuelists.add(data);
-		}
-		this.valuelist.addAll(valuelists);
+	public void setValuelist(ObservableList<ArrayList<String>> lists) {
+		this.valuelist = lists;
 	}
 
-	public void addValuelist(String value) {
-		this.valuelist.add(value);
+	// ERROR 수정 중 
+	public void addValuelist(ArrayList<String> list) {
+		this.valuelist.add(list);
 	}
 
+	// ERROR 수정 중 
 	public void modifyValue(String oldValue, String newValue) {
-		for(String value: valuelist) {
-			if( oldValue.equals(value)) {
-				valuelist.set(valuelist.indexOf(value), newValue);
+		for(ArrayList<String> value: valuelist) {
+			for(String data : value) {
+				if( oldValue.equals(data)) {
+					value.set(value.indexOf(data), newValue);
+				}	
 			}
 		}
 	}
-
+	
+	// ERROR 수정 중 
 	public void deleteValue(String value) {
 		valuelist.remove(value);
 	}
