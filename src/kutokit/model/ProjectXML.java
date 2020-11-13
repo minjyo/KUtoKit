@@ -194,7 +194,7 @@ public class ProjectXML {
 		this.controller = controllerName;
 	}
 
-	@XmlElement(name = "PMMControlAction")
+	@XmlElement(name = "PMM-control-action")
 	public ArrayList<ArrayList<String>> getControlActionNames() {
 		return selectedCAs;
 	}

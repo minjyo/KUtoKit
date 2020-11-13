@@ -72,9 +72,9 @@ public class PmmController{
 	private ArrayList<ArrayList<String>> selectedOutputs = new ArrayList<ArrayList<String>>(); //list for selectedOutput
 	
 	private ObservableList<String> allOutput = FXCollections.observableArrayList(); //parsed output
-	private ObservableList<String> valuelist = FXCollections.observableArrayList(); //parsed value list
-	private ObservableList<String> list = FXCollections.observableArrayList(); 
-	private ArrayList<String> valuelists = new ArrayList<String>(); // valuelist's data store
+	private ObservableList<ArrayList<String>> valuelist = FXCollections.observableArrayList(); //parsed value list
+	private ObservableList<String> castlist = FXCollections.observableArrayList();
+	private ArrayList<String> list = new ArrayList<String>(); 
 
 	private Stage valueStage = new Stage();
 	private ContextMenu contextMenu = new ContextMenu();
@@ -159,6 +159,7 @@ public class PmmController{
 		Map<Integer, Integer> controlActions = controller.getCA();
 		System.out.println(controlActions);
 
+		//Get all CA from dataStore
 		if(!dataStore.isEmpty(dataStore.getAllCA())) {
 			//if allCA is not empty
 			allCAs = dataStore.getAllCA();
@@ -212,6 +213,7 @@ public class PmmController{
 		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡSHOW outputㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 		
 //		dataStore.setControllerName(controllerName);
+		System.out.println("showoutput controllerName: "+controllerName);
 		String curCA = CAList.getSelectionModel().getSelectedItem();
 		CANameBar.setText(curCA);
 		
@@ -229,12 +231,11 @@ public class PmmController{
 		}
 		
 		System.out.println("[datastore]controllerName : " + controllerName);
-
 		if(!dataStore.isEmpty(dataStore.getControlActionNames())) {
 			//get previously selected CA
 			selectedCAs = dataStore.getControlActionNames();
-			System.out.println(dataStore.getSize(selectedCAs));
-			selectedCAs.get(dataStore.getSize(selectedCAs)).add(curCA);
+			selectedCA.add(curCA);
+			selectedCAs.add(selectedCA);
 		} else {
 			//previously selected CA is empty
 			System.out.println("previously selected CA is empty");
@@ -242,9 +243,7 @@ public class PmmController{
 			selectedCAs.add(selectedCA);
 		}
 		
-		for(ArrayList<String> list : selectedCAs) {
-			System.out.println("selected CA : "+list);
-		}
+		System.out.println("selected CAs : "+selectedCAs);
 		
 		dataStore.setControlActionNames(selectedCAs);
 		addFile.setVisible(true);
@@ -306,10 +305,13 @@ public class PmmController{
 		    		valueStage.setTitle("Add Process Model variable");
 		    		valueStage.setResizable(false);
 		    		valueStage.show();	
+				
+					valueStage.setScene(scene);
 					
 			    	VariablePopUpController popup = loader.getController();
 			    	popup.setStage(valueStage);
-			    	dataStore.addValuelist(popup.value);
+			    	list.add(popup.value);
+			    	dataStore.addValuelist(list);
 			    	if(popup.closeClicked() == true || popup.confirmClicked() == true) {
 			    		valueStage.close();
 			    	}
@@ -413,28 +415,31 @@ public class PmmController{
 		// Create XmlReader constructor
         reader = new XmlReader(selectedFile.getName());
         
-	     // Get selected output
+	    // Get selected output
         System.out.println(curIndex + " : index of selected controller");
 	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-	    for(String str : outputList.getSelectionModel().getSelectedItems()) {
-	    	list.add(str);
-	    }
+	    list.addAll(outputList.getSelectionModel().getSelectedItems());
 
-	    if(list.isEmpty()) {
-	          selectedOutputs.add(selectedOutput);
-	    }else {
-	    	for(String data : list) {
-	    		selectedOutput.add(data);
-	            selectedOutputs.add(selectedOutput);
-	        }
+//	    if(list.isEmpty()) {
+//	          selectedOutputs.add(selectedOutput);
+//	    }else {
+//	    	for(String data : list) {
+//	    		selectedOutput.add(data);
+//	            selectedOutputs.add(selectedOutput);
+//	        }
+//	    }
+	    for(int i = 0; i < selectedOutputs.size(); i++) {
+	    	String data = list.get(i);
+	    	selectedOutput.add(data);
+	    	selectedOutputs.add(selectedOutput);
 	    }
 
 		// Make process model
-		if(selectedFile != null && !selectedOutputs.get(curIndex).isEmpty()) { 
+		if(selectedFile != null && !selectedOutputs.isEmpty()) { 
 			System.out.println("make process model");
 			System.out.println(selectedFile);
 			this.makeModel(selectedOutputs);
-		}else if(selectedOutputs.get(curIndex).isEmpty()){
+		}else if(selectedOutputs.isEmpty()){
 			// Get output variables
 			System.out.println("parse output variable");
 
@@ -561,7 +566,7 @@ public class PmmController{
 				}
 				checkedl1 = checkValue(valueName, selectedOutput2.get(curIndex));
 				for(Object value : checkedl1) {
-					this.valuelist.add(value.toString());
+					this.list.add(value.toString());
 				}	 
 			}
 			
@@ -571,41 +576,45 @@ public class PmmController{
 			}
 			checkedl2 = checkValue(valueName, selectedOutput2.get(curIndex));
 			for(Object value : checkedl2) {
-				this.valuelist.add(value.toString());
+				this.list.add(value.toString());
 			}
 			
 		}		
 		
 		// Remove redundant variables between l1 and l2
 		TreeSet tree = new TreeSet();
-		for(String value: valuelist) {
+		for(String value: list) {
 			tree.add(value);
 		}       
 		
-		valuelist.clear();
+		list.clear();
 		
 		Iterator it = tree.iterator();
 		while ( it.hasNext() ) {
-			valuelist.add(it.next().toString());
+			list.add(it.next().toString());
 		}
 		
-//		dataStore.setValuelist(valuelist);
-//		PM.setItems(valuelist);		
+		castlist.addAll(list); // for casting
+		System.out.println("castlist:"+castlist);
+		PM.setItems(castlist);		
+		
+		valuelist.add(list);
+		dataStore.setValuelist(valuelist);
 		
 		System.out.println("[dataStore] controller name: "+dataStore.getControllerName());
-		for(ArrayList<String> list: dataStore.getControlActionNames()) {
-			System.out.println("[dataStore] selected ca: "+list);
+		for(ArrayList<String> li: dataStore.getControlActionNames()) {
+			System.out.println("[dataStore] selected ca: "+li);
 
 		}
 		System.out.println();
 		
-		for(ArrayList<String> list: dataStore.getOutputNames()) {
-			System.out.println("[dataStore] selected output: "+list);
+		for(ArrayList<String> li: dataStore.getOutputNames()) {
+			System.out.println("[dataStore] selected output: "+li);
 		}
 		System.out.println();
 		
-		for(String list: dataStore.getValuelist()) {
-			System.out.println("[dataStore] value list: "+list);
+		for(ArrayList<String> li: dataStore.getValuelist()) {
+			System.out.println("[dataStore] value list: "+li);
 		}
 		System.out.println();
 	}
@@ -620,7 +629,7 @@ public class PmmController{
 		//controller's total count
 		int controllerCnt = components.getControllers().size();
 		System.out.println("total controller numbers : " + controllerCnt);
-		
+
 		// From Dashboard to PMM
 		if(components.curController == null) { 
 			// When through file open,
@@ -643,8 +652,8 @@ public class PmmController{
 					@Override
 					public void handle(MouseEvent event) {
 						try{
-//							allCA.clear();
-//							allCAs.clear();
+							allCA.clear();
+							allCAs.clear();
 							CAList.getItems().clear();
 							
 							System.out.println("whole controller : " + controllerName);
@@ -654,6 +663,8 @@ public class PmmController{
 							}
 							Controller controller = components.getControllers().get(currentIndex);
 							System.out.println(controller.getName() + " : find selected controller in CSE DB\n");
+							
+//							Controller controller = components.findController(controllerList.getSelectionModel().getSelectedItem());
 							
 							Map<Integer, Integer> controlActions = controller.getCA();
 							System.out.println("get CA : " + controlActions);
@@ -719,7 +730,8 @@ public class PmmController{
 
 		// View 
 		outputList.getItems().addAll(allOutput);
-		PM.setItems(valuelist);
+		PM.setItems(castlist);
+
 		
 		//tab data
 //		for(int i = 0; i < tabPane.getTabs().size(); i++) {
@@ -778,8 +790,12 @@ public class PmmController{
 				}
 	  		} 
         } else 	System.out.println("Error: select output variable.");
-    	PM.setItems(valuelist);
-
+		ObservableList<String> castlist = FXCollections.observableArrayList();
+		castlist.addAll(list);
+		System.out.println("castlist:"+castlist);
+		PM.setItems(castlist);
+		valuelist.add(list);
+		dataStore.setValuelist(valuelist);
 	}
 	
 	//set tab's title
