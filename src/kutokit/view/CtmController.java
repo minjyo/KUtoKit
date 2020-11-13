@@ -45,16 +45,18 @@ public class CtmController {
 
 	private MainApp mainApp;
 	private File selectedFile;
-
-	private static CTMDataStore ctmDataStore;
 	
 	@FXML private AnchorPane CTMPane;
 	@FXML private Label filename;
 	@FXML private Pane AddFile;
 	private TabPane tabPane = new TabPane();
+
+	private static CTMDataStore ctmDataStore;
+	private static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
+	//ArrayList<ObservableList<CTM>> totalData = new ArrayList<>();
+	ObservableList<CTMDataStore> totalData = FXCollections.observableArrayList();
+	ObservableList<CTM> mcsData = FXCollections.observableArrayList();;
 	
-	ArrayList<ObservableList<CTM>> totalData = new ArrayList<>();
-	ObservableList<CTM> mcsData;
 	private int controllerCount = 0;
 	private int curControllerNum, curCANum;
 	private ObservableList<String> hazardousOX;
@@ -76,16 +78,12 @@ public class CtmController {
 
 	//set MainApp
 	public void setMainApp(MainApp mainApp)  {
-		System.out.println("111@");
-
 		AddFile.setVisible(false);
 		
 		this.mainApp = mainApp;
-		System.out.println("222@");
-		ctmDataStore = mainApp.ctmDataStore;
-		System.out.println("333@");
-		totalData = ctmDataStore.getCTMTableList();
-		System.out.println("444@");
+		//ctmDataStore = mainApp.ctmDataStore;
+		ctmDataStoreList = MainApp.ctmDataStoreList;
+		totalData = ctmDataStoreList;
 		
 		controllerName = mainApp.models.getControllerName();
 		controlActionNames = mainApp.models.getControlActionName();
@@ -140,7 +138,7 @@ public class CtmController {
 	 		controllerCount++;
 		}
 		
-		for(int i=0;i<controlActionNames.size();i++) {
+		for(int i=0;i<controlActionNames.size();i++) { //TODO controller num parsing
 			tabPane.getTabs().add(MakeTab(i,controlActionNames.get(i), contextheader));
 		}
         tabPane.setLayoutY(30.0);
@@ -148,7 +146,6 @@ public class CtmController {
         tabPane.setPrefHeight(800.0);
         tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
         CTMPane.getChildren().addAll(radioGroup,tabPane);
-		System.out.println("@@@@:9");
 	}
 	
 	
@@ -156,9 +153,8 @@ public class CtmController {
 	public Tab MakeTab(int tabNum, String caName, ArrayList<String> contextheader) {
 		//final int row=0; //row= 테이블 길이..파일 파싱이후 데이터 추가했을때를 생각해야
         final TableView<CTM> contextTable = this.MakeTable(contextheader);
-		mcsData = FXCollections.observableArrayList();
         if(totalData.size() >= tabNum+1) { 
-        	mcsData = totalData.get(tabNum);
+        	mcsData = totalData.get(tabNum).getCTMTableList();
 			contextTable.setItems(mcsData);
         }
         contextTable.setPrefHeight(800.0);
@@ -201,10 +197,18 @@ public class CtmController {
         			contexts[t] = addContexts[t].getText();
         			addContexts[t].clear();
         		}
-        		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
+        		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
         		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
         		mcsData.add(new CTM(controllerName.get(tabNum), caName,comboBox1,1+temp,contexts,comboBox2));
-        		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+                CTMDataStore ctm = new CTMDataStore();  
+            	for(CTM c : mcsData) {
+            		ctm.getCTMTableList().add(c);
+            	}
+            	totalData.set(tabNum, ctm);
+    			//totalData.get(tabNum).getCTMTableList().add(
+    			//		new CTM(controllerName.get(curControllerNum),  controlActionNames.get(tabNum),comboBox1,1+temp,contexts,comboBox2)
+    			//);
+        		/*comboBox1.valueProperty().addListener(new ChangeListener<String>() {
     			      @Override
     			      public void changed(ObservableValue observable, String oldValue, String newValue) {
     			    	mcsData.get(temp).setCasesValue(newValue);
@@ -215,8 +219,9 @@ public class CtmController {
   			      public void changed(ObservableValue observable, String oldValue, String newValue) {
   			    	mcsData.get(temp).setHazardousValue(newValue);
   			      }
-  			    });
-    			contextTable.setItems(mcsData);
+  			    });*/
+    			contextTable.setItems(totalData.get(curCANum).getCTMTableList());
+    			//contextTable.setItems(totalData.get(tabNum).getCTMTableList());
             }
         });
         hb.getChildren().addAll(addButton);
@@ -224,12 +229,15 @@ public class CtmController {
         totalhb.getChildren().addAll(hb,contextTable);
         tab.setContent(totalhb);
 
-        if(totalData.size()<= tabNum) { 
-        	totalData.add(mcsData);
+        CTMDataStore ctm = new CTMDataStore();  
+        if(totalData.size()<= tabNum) {
+        	for(CTM c : mcsData) {
+        		ctm.getCTMTableList().add(c);
+        	}
+        	totalData.add(ctm);
         } else {
-        	totalData.set(tabNum, mcsData);
+        	totalData.set(tabNum, ctm);
         }
-
         return tab;
 	}
 	
@@ -388,31 +396,23 @@ public class CtmController {
 			}
 		}
 		
+		int curtableSize = totalData.get(curCANum).getCTMTableList().size();
 		for(int y=0;y<temps.length;y++) {
 	        String[] contexts = new String[contextheader.size()];
 			for(int x=0;x<contextheader.size();x++) {
 				contexts[x] = context[x][y];
 			}
 			
+			final int a=y;
 	   		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
-	   		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
-			      @Override
-			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-			    	 totalData.get(curControllerNum).get(curCANum).setCasesValue(newValue);
-			      }
-			    });
-			
 	   		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
-	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
-			      @Override
-			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
-			      }
-			    });
-			
-			totalData.get(curControllerNum).add(
-					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
+			totalData.get(curCANum).getCTMTableList().add(
+					new CTM(controllerName.get(curControllerNum),  controlActionNames.get(curCANum),comboBox1,curtableSize+a+1,contexts,comboBox2)
 			);
+			/*totalData.get(curCANum).add(
+					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
+			);*/
+			
 		}
 	}
 	
@@ -422,5 +422,3 @@ public class CtmController {
 	}
 	
 }
-
-

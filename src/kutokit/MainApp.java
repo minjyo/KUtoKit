@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -48,7 +49,7 @@ public class MainApp extends Application {
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
-	 public static CTMDataStore ctmDataStore;
+	 public static ObservableList<CTM> ctmDataStore = FXCollections.observableArrayList();
 	 public static LSDataStore lsDataStore;
 
 	@Override
@@ -71,7 +72,7 @@ public class MainApp extends Application {
 		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
-		ctmDataStore = new CTMDataStore();
+		//ctmDataStore = new CTMDataStore();
 	}
 
 	private void initRootLayout() {
@@ -330,14 +331,47 @@ public class MainApp extends Application {
 			 // --------------------------- PMM --------------------------
 
 			 // --------------------------- CTM --------------------------
-		        /*ctmDataStore.remove(0, ctmDataStore.size()-1);
+		        ctmDataStore.remove(0, ctmDataStore.size()-1);
 		        ctmDataStoreList.remove(0, ctmDataStoreList.size()-1);
-
-		        ctmDataStore.addAll(projectXML.getCTM());
+		        //ctmDataStore.addAll(projectXML.getCTM());
 		        ctmDataStoreList.addAll(projectXML.getCtmDataStoreList());
-		        int j = 0;
+		        System.out.println("ctmDataStoreList.getContexts():"+ctmDataStoreList.get(0).getContexts().get(0).length);
+		        System.out.println("ctmDataStoreList.getContexts():"+ctmDataStoreList.get(0).getContexts().get(0));
+				
+
+				/*
+				 * int index = 0;
+				ObservableList<String> hazardousOX = FXCollections.observableArrayList();
+				hazardousOX.add("O");
+				hazardousOX.add("X");
+
+				ObservableList<String> casesCombo = FXCollections.observableArrayList();
+				casesCombo.add("not providing\ncauses hazard");
+				casesCombo.add("too early, too late,\nout of order");
+				casesCombo.add("providing causes hazard");
+		        System.out.println("ctmDataStoreList.size():"+ctmDataStoreList.size());
+		        System.out.println("projectXML.getCTMContext"+projectXML.getCTMContext().size());
+		        
+		        ArrayList<String> test = new ArrayList<String>();
+		        test.addAll(projectXML.getCTMCA());
+		        System.out.println("test.size():"+projectXML.getCTMCA().size());
+				for(int t=0;t<ctmDataStoreList.size();t++){
+			        CTMDataStore ctm = new CTMDataStore();  
+					for(int j=0;j<ctmDataStoreList.get(t).getCTMTableList().size();j++){
+						ObservableList<CTM> mcsData = FXCollections.observableArrayList();
+
+		        		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
+		        		ComboBox<String> comboBox2 = new ComboBox<String> (hazardousOX);
+						mcsData.add(new CTM(ctmDataStoreList.get(t).getController(), ctmDataStoreList.get(t).getControlAction(),comboBox1,1+index,ctmDataStoreList.get(t).getCTMTableList().get(j).Contexts,comboBox2));
+				        index++;
+					}
+					ctmDataStoreList.add(ctm);
+				}*/
+		        
+		        
+				/*int j = 0;
 		        for(CTMDataStore c : ctmDataStoreList){
-		        	for(int k = 0; k < c.tableSize; k++){
+		        	for(int k = 0; k < c.getCTMTableList().size(); k++){
 		        		c.getCTMTableList().add(ctmDataStore.get(j));
 		        		j++;
 		        	}
@@ -400,8 +434,8 @@ public class MainApp extends Application {
     	 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------
-	        //projectXML.setCTM(ctmDataStore);
-	        //projectXML.setCTMList(ctmDataStoreList);
+	        projectXML.setCTM(ctmDataStore);
+	        projectXML.setCTMList(ctmDataStoreList);
 	     // --------------------------- CTM --------------------------
 	        
 	     // --------------------------- LS ---------------------------
@@ -424,3 +458,5 @@ public class MainApp extends Application {
 	}
 
 }
+
+

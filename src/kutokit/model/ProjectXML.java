@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -245,18 +246,69 @@ public class ProjectXML {
 	public ObservableList<CTMDataStore> getCtmDataStoreList() {
 		return this.CTMList;
 	}
+	
+	public void setCTMList(ObservableList<CTMDataStore> CTMList) {
+		this.CTMList = CTMList;
+	}
 
+
+	public ArrayList<String> getCTMControllerName(){
+		ArrayList<String> controllerNames = new ArrayList<String>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				controllerNames.add(CTMList.get(i).getCTMTableList().get(j).getControllerName());
+			}
+		}
+		return controllerNames;
+	}
+	
+	public ArrayList<String> getCTMCA(){
+		ArrayList<String> ca = new ArrayList<String>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				ca.add(CTMList.get(i).getCTMTableList().get(j).getControlAction());
+			}
+		}
+		return ca;
+	}
+	
+	public ArrayList<String[]> getCTMContext(){
+		ArrayList<String[]> contextsArray = new ArrayList<String[]>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				String[] contexts =  new String[CTMList.get(i).getCTMTableList().get(0).getContexts().length];
+				for(int k=0;k<contexts.length;k++) {
+					contexts[k] = CTMList.get(i).getCTMTableList().get(j).getContext(k);
+				}
+				contextsArray.add(contexts);
+			}
+		}
+		return contextsArray;
+	}
+	
+	public ArrayList<String> getCTMHazardous(){
+		ArrayList<String> hazardous = new ArrayList<String>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				hazardous.add(CTMList.get(i).getCTMTableList().get(j).getHazardousValue());
+			}
+		}
+		return hazardous;
+	}
+	/*public ObservableList<CTM> getCTM(){
+		for(CTM c : CTMList.get(0).getCTMTableList()){
+			CTM.addAll(c);
+		}
+		return CTM;
+	}
 	@XmlElement(name = "CTM")
 	public ObservableList<CTM> getCTM(){
 		for(CTMDataStore c : CTMList){
 			CTM.addAll(c.getCTMTableList());
 		}
 		return CTM;
-	}
+	}*/
 
-	public void setCTMList(ObservableList<CTMDataStore> CTMList) {
-		this.CTMList = CTMList;
-	}
 
 	public void setCTM(ObservableList<CTM> CTM) {
 		this.CTM = CTM;
