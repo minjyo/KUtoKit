@@ -416,23 +416,26 @@ public class PmmController{
 	     // Get selected output
         System.out.println(curIndex + " : index of selected controller");
 	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-	    list = outputList.getSelectionModel().getSelectedItems();
+	    for(String str : outputList.getSelectionModel().getSelectedItems()) {
+	    	list.add(str);
+	    }
 
-	    for(String data : list) {
-	    	selectedOutput.add(data);
-	    	selectedOutputs.add(selectedOutput);
+	    if(list.isEmpty()) {
+	          selectedOutputs.add(selectedOutput);
+	    }else {
+	    	for(String data : list) {
+	    		selectedOutput.add(data);
+	            selectedOutputs.add(selectedOutput);
+	        }
 	    }
 
 		// Make process model
-		if(selectedFile != null && !selectedOutputs.isEmpty()) { 
+		if(selectedFile != null && !selectedOutputs.get(curIndex).isEmpty()) { 
 			System.out.println("make process model");
 			System.out.println(selectedFile);
 			this.makeModel(selectedOutputs);
-		}  
-		
-		// Get output variables
-		else if(selectedOutputs.isEmpty()){
-			
+		}else if(selectedOutputs.get(curIndex).isEmpty()){
+			// Get output variables
 			System.out.println("parse output variable");
 
 			// VIEW
