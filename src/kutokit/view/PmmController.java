@@ -70,7 +70,7 @@ public class PmmController{
 	private ArrayList<ArrayList<String>> selectedCAs = new ArrayList<ArrayList<String>>(); //list for selectedCA
 	private ArrayList<ArrayList<String>> selectedOutputs = new ArrayList<ArrayList<String>>(); //list for selectedOutput
 	
-	private ObservableList<String> allOutput = FXCollections.observableArrayList(); //parsed output
+	private ObservableList<String> allOutputs = FXCollections.observableArrayList(); //parsed output
 	private ObservableList<ArrayList<String>> valuelist = FXCollections.observableArrayList(); //parsed value list
 	private ObservableList<String> castlist = FXCollections.observableArrayList();
 	private ArrayList<String> list = new ArrayList<String>(); 
@@ -169,6 +169,7 @@ public class PmmController{
 		for(Integer ca : controlActions.keySet()) {
 			allCA.addAll(components.findControlAction(ca).getCA());
 			if(allCAs.isEmpty()) {
+				System.out.println();
 				allCAs.add(allCA);
 			}else {
 				for(int i = 0; i < allCAs.size(); i++) {
@@ -423,9 +424,10 @@ public class PmmController{
 	    }else {
 		    for(String data : list) {
 		    	selectedOutput.add(data);
-		    	selectedOutputs.add(selectedOutput);
 		    }
+	    	selectedOutputs.set(curIndex,selectedOutput);
 	    }
+	
 
 		// Make process model
 		if(selectedFile != null && !selectedOutputs.get(curIndex).isEmpty()) { 
@@ -433,7 +435,6 @@ public class PmmController{
 			System.out.println(selectedFile);
 			this.makeModel(selectedOutputs);
 		}  
-		
 		// Get output variables
 		else if(selectedOutputs.get(curIndex).isEmpty())
 		{	
@@ -441,13 +442,14 @@ public class PmmController{
 
 			// VIEW
 			List<String> outputs = reader.getOutputs();
+			ObservableList<String> outputlist = FXCollections.observableArrayList();
 			for(String data : outputs) {
-				allOutput.add(data);
+				outputlist.add(data);
 			}	
-			outputList.setItems(allOutput);
-			
+			allOutputs.addAll(outputlist);
+			outputList.setItems(outputlist);
 			dataStore.setOutputNames(selectedOutputs);
-			dataStore.setAllOutput(allOutput);
+			dataStore.setAllOutput(allOutputs);
 
 		}
 		close();
@@ -590,29 +592,20 @@ public class PmmController{
 			list.add(it.next().toString());
 		}
 		
+		castlist.clear();
 		castlist.addAll(list); // for casting
 		System.out.println("castlist:"+castlist);
 		PM.setItems(castlist);		
 		
 		valuelist.add(list);
 		dataStore.setValuelist(valuelist);
-		
-		System.out.println("[dataStore] controller name: "+dataStore.getControllerName());
-		for(ArrayList<String> li: dataStore.getControlActionNames()) {
-			System.out.println("[dataStore] selected ca: "+li);
 
-		}
 		System.out.println();
-		
-		for(ArrayList<String> li: dataStore.getOutputNames()) {
-			System.out.println("[dataStore] selected output: "+li);
-		}
-		System.out.println();
-		
-		for(ArrayList<String> li: dataStore.getValuelist()) {
-			System.out.println("[dataStore] value list: "+li);
-		}
-		System.out.println();
+
+		System.out.println("[dataStore] controller name: "+dataStore.getControllerName());
+		System.out.println("[dataStore] selected ca: "+dataStore.getControlActionNames());
+		System.out.println("[dataStore] selected output: "+dataStore.getOutputNames());
+		System.out.println("[dataStore] value list: "+dataStore.getValuelist());
 	}
 
 	private void initialize() {
@@ -684,11 +677,11 @@ public class PmmController{
 
 		selectedCAs = dataStore.getControlActionNames();
 		selectedOutputs = dataStore.getOutputNames();
-		allOutput = dataStore.getAllOutput();
+		allOutputs = dataStore.getAllOutput();
 		valuelist = dataStore.getValuelist();
 
 		// View 
-		outputList.getItems().addAll(allOutput);
+		outputList.getItems().addAll(allOutputs);
 		PM.setItems(castlist);
 
 		
@@ -723,7 +716,7 @@ public class PmmController{
 	// Show value edit popup
 	public void modifyPopUp(String oldvalue) {
 		
-		if( allOutput != null) {
+		if( allOutputs != null) {
 	  		FXMLLoader loader = new FXMLLoader();
 	  		loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
 	  		Parent root;
