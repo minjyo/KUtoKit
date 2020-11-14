@@ -33,6 +33,7 @@ import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.PmmDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
@@ -45,7 +46,7 @@ public class MainApp extends Application {
 
 	 public static Components components;
 	 public static LhcDataStore lhcDataStore;
-	 public ProcessModel models;
+	 public static PmmDataStore pmmDB;
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
@@ -70,9 +71,9 @@ public class MainApp extends Application {
 	private void initDataStore() {
 		components = new Components();
 		lhcDataStore = new LhcDataStore();
-		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
 		ctmDataStore = new CTMDataStore();
+		pmmDB = new PmmDataStore();
 	}
 
 	private void initRootLayout() {

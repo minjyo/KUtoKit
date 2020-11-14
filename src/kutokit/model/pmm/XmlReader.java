@@ -23,6 +23,8 @@ public class XmlReader {
 	private static Document doc;
 	private static Node rootFod = null;
 
+	private static String prevRootFodExpression = "//FOD[@name='";
+
 	private static String SDT_BASE_EXPRESSION = ".//SDT[@name='";
 	private static String TTS_BASE_EXPRESSION = ".//TTS[@name='";
 	private static String FSM_BASE_EXPRESSION = ".//FSM[@name='";
@@ -45,7 +47,7 @@ public class XmlReader {
 			
 			doc = parseFile(filePath);
 			rootFod = (Node) xPath.compile(rootFodExpression).evaluate(doc, XPathConstants.NODE);
-			// System.out.println("root : " + rootFod.getAttributes().getNamedItem("name").getTextContent());
+			 System.out.println("root : " + rootFod.getAttributes().getNamedItem("name").getTextContent());
 
 		} catch(Exception e){
 			e.printStackTrace();
@@ -129,7 +131,11 @@ public class XmlReader {
 			else { 
 				try {
 					prevNodeName = ".//"+node.getNodeName();
-					findedList = (NodeList)xPath.evaluate(prevNodeName+expression, doc, XPathConstants.NODESET);
+					if(expression.equals(FOD_EXPRESSION)) {
+						findedList = (NodeList)xPath.evaluate(prevNodeName, doc, XPathConstants.NODESET);
+					}else {
+						findedList = (NodeList)xPath.evaluate(prevNodeName+expression, doc, XPathConstants.NODESET);
+					}
 				} catch (XPathExpressionException e) {
 					e.printStackTrace();
 				}
@@ -145,7 +151,8 @@ public class XmlReader {
 		List<String> condNodelist = null;
 		
 		String nodeName = node.getAttributes().getNamedItem("name").getTextContent();
-
+		System.out.println(nodeName);
+		
 		// Way B : transitions
 		try {
 			// 1. Get target node list with refName[nodeName] 
@@ -155,10 +162,16 @@ public class XmlReader {
 		sourceNodelist = getSourceNodeList(targetNodelist, "source");
 				
 		// Way A : transitions in TTS 
-		if( firstLetter.equals("t")) {
+		if( firstLetter.equals("t") || firstLetter.equals("h")) {
+			System.out.println();
+			String expression = nodeName+"']"+"/transitions/transition"+ASSIGN_EXPRESSION;
 			try {
 				// 1. Get assignments node list what contain [nodeName] contents
-				targetNodelist = ((NodeList) xPath.evaluate(TTS_BASE_EXPRESSION+nodeName+"']"+"/transitions/transition"+ASSIGN_EXPRESSION, doc, XPathConstants.NODESET));
+				if(firstLetter.equals("t")) 
+					targetNodelist = ((NodeList) xPath.evaluate(TTS_BASE_EXPRESSION+expression, doc, XPathConstants.NODESET));
+				else if(firstLetter.equals("h")) 
+					targetNodelist = ((NodeList) xPath.evaluate(FSM_BASE_EXPRESSION+expression, doc, XPathConstants.NODESET));
+ 
 			} catch (XPathExpressionException e) { e.printStackTrace(); }
 			
 			// 2. Get conditions node list in transition node list
@@ -167,6 +180,11 @@ public class XmlReader {
 				sourceNodelist.add(cond);
 			}
 		}
+		
+//		for(String str: sourceNodelist) {
+//			System.out.println(str);
+//		}
+		
 		return sourceNodelist;
 	}
 	// To help getTransitionNodes()
@@ -189,6 +207,16 @@ public class XmlReader {
 		return sourceNodelist;
 	}
 	
+	public void setRootFod(String fodName) {
+		String rootFodExpression = prevRootFodExpression + fodName + "']";
+		try {
+			rootFod = (Node) xPath.compile(rootFodExpression).evaluate(doc, XPathConstants.NODE);
+
+			System.out.println("rootFOD name : " + rootFod.getAttributes().getNamedItem("name").getTextContent());
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+	}
 	public static Node getRootFod() {
 		return rootFod;
 	}
@@ -202,15 +230,15 @@ public class XmlReader {
 		NodeList outputNodes = null;
 		List<String> outputList = new ArrayList<String>();
 		try {
-			outputNodes = (NodeList) xPath.compile(OUTPUT_EXPRESSION).evaluate(XmlReader.getRootFod(), XPathConstants.NODESET);
+			outputNodes = ((NodeList) xPath.evaluate(".//nodes/output", doc, XPathConstants.NODESET));
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
 		List<Node> outputs = new ArrayList<Node>();
 
 		for(int i = 0; i < outputNodes.getLength(); i ++) {
-			            //String name = outputNodes.item(i).getAttributes().getNamedItem("name").getTextContent();
-			            //System.out.println("output : " + name);
+//			            String name = outputNodes.item(i).getAttributes().getNamedItem("name").getTextContent();
+//			            System.out.println("output : " + name);
 			outputs.add(outputNodes.item(i));
 
 		}
@@ -234,12 +262,10 @@ public class XmlReader {
 
 		for(int i = 0; i < fodNodes.getLength(); i ++) {
 			String name = fodNodes.item(i).getAttributes().getNamedItem("name").getTextContent();
-
-			if(XmlReader.getNode(fodNodes.item(i), "FOD") == null) {
-				validFods.add(fodNodes.item(i));
+			if(name.equals("Root")) {
 			} else {
+				validFods.add(fodNodes.item(i));
 			}
-
 		}
 
 		return validFods;
@@ -252,18 +278,29 @@ public class XmlReader {
 
 		try {
 			findedNode = (Node) xPath.compile(nodeExpression).evaluate(node, XPathConstants.NODE);
-			//            //system.out.println("findedNode name : " + findedNode.getNodeName());
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
 
 		return findedNode;
 	}
-	
+//	
 //	public static void main(String args[]) {
+//		
+////		XmlReader reader = new XmlReader("CVM_ver4_complete_nographic.xml");
 //		XmlReader reader = new XmlReader("NuSCR_example.xml");
-//		List<String> list = reader.getOutputs();
+////		reader.getNodeList(getNode("f_display_makeable_coffee_1"), "");
+////		reader.getTransitionNodes(getNode("f_display_makeable_coffee_1"));
+//
+//		// Show all FODs
+//		for(Node fod: reader.showValidFods()) {
+//			System.out.println(fod.getAttributes().getNamedItem("name") + ": root");
+//		}
 //		
+//		// Select FODs
+//		reader.setRootFod("g_LO_SG1_LEVEL");
 //		
+//		// Get output variables about Selected FODs
+//		System.out.println(	reader.getOutputs());
 //	}
 }
