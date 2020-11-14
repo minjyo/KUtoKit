@@ -33,16 +33,14 @@ public class ProcessModel {
 		this.controllerName = controller;
 	}
 	
-	public String getCAName() {
+	public String getControlActionName() {
 		return this.controlActionName;
 	}
 	
-	public void setCANAme(String ca) {
+	public void setControlActionName(String ca) {
 		this.controlActionName = ca;
 	}
 
-	
-	// Value list
 	public ObservableList<String> getValuelist() {
 		return this.valueList;
 	}
@@ -50,64 +48,4 @@ public class ProcessModel {
 	public void setValuelist(ObservableList<String> valueList) {
 		this.valueList = valueList;
 	}
-
-	//	public ArrayList<String> modifyValue(int curIndex, String oldValue, String newValue) {
-//
-//		ArrayList<String> curList = valuelist.get(curIndex);
-//				for(String data : curList) {
-//					if( oldValue.equals(data)) {
-//						curList.set(curList.indexOf(data), newValue);
-//						valuelist.set(curIndex, curList);
-//					}
-//				}
-//		return curList;
-//	}
-//	
-//	public ArrayList<String> deleteValue(int curIndex, String oldValue) {
-//		ArrayList<String> curList = valuelist.get(curIndex);
-//			for(String data : curList) {
-//				if(oldValue.equals(data)) {
-//					curList.remove(curList.indexOf(data));
-//					valuelist.set(curIndex, curList);
-//				}
-//			}
-//		return curList;
-//	}
-//
-//	// All control actions
-//	public ArrayList<ArrayList<String>> getAllCA() {
-//		return allCA;
-//	}
-//
-//	public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
-//		this.allCA = controlAction;
-//	}
-//	
-//
-//	public boolean isEmpty(ArrayList<ArrayList<String>> arraylist) {
-//		boolean result = false;
-//		int cnt = 0;
-//		for(ArrayList<String> list : arraylist) {
-//			if(list == null || list.isEmpty()) {
-//				cnt++;
-//			}else {
-//				continue;
-//			}
-//		}
-//
-//		if(cnt == arraylist.size()) {
-//			result = true;
-//		}
-//		return result;
-//	}
-//	
-//	public int getSize(ArrayList<ArrayList<String>> arraylist) {
-//		int cnt=0;
-//		for(ArrayList<String> list: arraylist) {
-//			if(!isEmpty(arraylist)) {
-//				cnt++;
-//			}	
-//		}
-//		return cnt;
-//	}
 }

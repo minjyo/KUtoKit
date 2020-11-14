@@ -23,6 +23,7 @@ import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.ls.LS;
 import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
 
@@ -54,15 +55,9 @@ public class ProjectXML {
 
 
 	// --------------------------- PMM --------------------------
-	private ArrayList<String> controller = new ArrayList<String>();
-
-	private ArrayList<ArrayList<String>> selectedCAs = new ArrayList<ArrayList<String>>();
-	private ArrayList<ArrayList<String>> outputVariables = new ArrayList<ArrayList<String>>();
-	
-	private ArrayList<ArrayList<String>> allCAs = new ArrayList<ArrayList<String>>();
-
-	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-	private ObservableList<ArrayList<String>> valueLists = FXCollections.observableArrayList();
+	private ObservableList<ProcessModel> processModel = FXCollections.observableArrayList();
+	private ArrayList<ArrayList<String>> inputVariables = new ArrayList<ArrayList<String>>();
+	private ObservableList<String> outputVariables = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
 
@@ -187,62 +182,33 @@ public class ProjectXML {
 
 
 	// --------------------------- PMM --------------------------
-	@XmlElement(name = "PMM-controller")
-	public ArrayList<String> getControllerName() {
-		return controller;
+	@XmlElement(name = "PMM")
+	public ObservableList<ProcessModel> getProcessModel(){
+		return processModel;
 	}
-	public void setControllerName(ArrayList<String> controllerName) {
-		this.controller = controllerName;
-	}
-
-	@XmlElement(name = "PMM-control-action")
-	public ArrayList<ArrayList<String>> getControlActionNames() {
-		return selectedCAs;
-	}
-	public void setControlActionNames(ArrayList<ArrayList<String>> controlActionName) {
-		this.selectedCAs = controlActionName;
+	
+	public void setProcessModel(ObservableList<ProcessModel> pm) {
+		this.processModel = pm;
 	}
 
-	@XmlElementWrapper(name="PMM-output-list")
-	@XmlElement(name = "Output")
-	public ArrayList<ArrayList<String>> getOutputVariableName() {
+	@XmlElement(name = "PMM-total-selected-output")
+	public ObservableList<String> getOutputList(){
 		return outputVariables;
 	}
-	public void setOutputVariableName(ArrayList<ArrayList<String>> outputVariables) {
-		this.outputVariables = outputVariables;
+	
+	public void setOutputList(ObservableList<String> outputList) {
+		this.outputVariables = outputList;
 	}
 	
-	@XmlElementWrapper(name="PMM-value-list")
-	@XmlElement(name = "Value")
-	public ObservableList<ArrayList<String>> getValueList() {
-		return valueLists;
-	}
-
-	public void setValueList(ObservableList<ArrayList<String>> valueListName) {
-		valueLists = valueListName;
-		
+	@XmlElementWrapper(name="PMM-input-list")
+	@XmlElement(name = "Input-variables")
+	public ArrayList<ArrayList<String>> getInputList(){
+		return inputVariables;
 	}
 	
-	@XmlElementWrapper(name="PMM-all-CA")
-	@XmlElement(name = "Allca")
-	public ArrayList<ArrayList<String>> getAllCA() {
-		return allCAs;
+	public void setIntputList(ArrayList<ArrayList<String>> inputList) {
+		this.inputVariables = inputList;
 	}
-
-	public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
-		this.allCAs = controlAction;
-	}
-	
-	@XmlElementWrapper(name="PMM-all-output")
-	@XmlElement(name = "Alloutput")
-	public ObservableList<String> getAllOutput() {
-		return allOutput;
-	}
-
-	public void setAllOutput(ObservableList<String> allOutput) {
-		this.allOutput = allOutput;
-	}
-
 
 	// --------------------------- CTM --------------------------
 	@XmlElement(name = "CTM-List")
@@ -269,7 +235,7 @@ public class ProjectXML {
 		ArrayList<String> ca = new ArrayList<String>();
 		for(int i=0;i<CTMList.size();i++){
 			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
-				ca.add(CTMList.get(i).getCTMTableList().get(j).getControlAction());
+				ca.add(CTMList.get(i).getCTMTableList().get(j).getCAName());
 			}
 		}
 		return ca;
@@ -303,7 +269,7 @@ public class ProjectXML {
 		ArrayList<String> hazardous = new ArrayList<String>();
 		for(int i=0;i<CTMList.size();i++){
 			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
-				hazardous.add(CTMList.get(i).getCTMTableList().get(j).getHazardousValue());
+				hazardous.add(CTMList.get(i).getCTMTableList().get(j).getHazardous().toString());
 			}
 		}
 		return hazardous;

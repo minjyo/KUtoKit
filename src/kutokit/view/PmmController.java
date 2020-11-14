@@ -10,8 +10,9 @@ import java.io.BufferedInputStream;
 	import java.util.List;
 	import java.util.Map;
 	import java.util.TreeSet;
-	
-	import org.w3c.dom.NodeList;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 	
 	import javafx.collections.FXCollections;
 	import javafx.collections.ObservableList;
@@ -49,7 +50,8 @@ import java.io.BufferedInputStream;
 	import kutokit.model.pmm.PmmDataStore;
 	import kutokit.model.pmm.ProcessModel;
 	import kutokit.model.pmm.XmlReader;
-	import kutokit.view.popup.VariablePopUpController;
+import kutokit.view.popup.SelectGroupFODController;
+import kutokit.view.popup.VariablePopUpController;
 	
 public class PmmController {
 	// connect controller&control action to new tab
@@ -122,7 +124,7 @@ public class PmmController {
 	public void addTab(ProcessModel p) {
 		// add new tab to tabPane
 		Tab newTab = new Tab();
-		newTab.setText(p.getCAName());
+		newTab.setText(p.getControlActionName());
 		tabPane.getTabs().add(newTab);
 	
 		AnchorPane newPane = new AnchorPane();
@@ -189,6 +191,44 @@ public class PmmController {
 	
 		// Create XmlReader constructor
 		xmlReader = new XmlReader(selectedFile.getName());
+		ArrayList<String> showGroupNodesItems = new ArrayList<String>();
+		
+		//show popup to select group FODs from NuSRS file
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("popup/SelectGroupFODView.fxml"));
+			Parent parent = loader.load();
+			Scene scene = new Scene(parent);
+			Stage selectGroupStage = new Stage();
+
+			selectGroupStage.setTitle("Select output variable groups");
+			selectGroupStage.setResizable(false);
+			selectGroupStage.show();
+			
+			selectGroupStage.setScene(scene);
+			selectGroupStage.setOnHidden((new EventHandler<WindowEvent>() {
+				@Override
+				public void handle(WindowEvent e) {
+					SelectGroupFODController controller = loader.getController();
+					controller.setRootFOD(xmlReader.getRootFod().toString());
+					String rootFodText = xmlReader.getRootFod().toString();
+					for(Node fod: xmlReader.showValidFods()) {
+						showGroupNodesItems.add(fod.getAttributes().getNamedItem("name").toString());
+					}
+					controller.setGroupItems(showGroupNodesItems);
+					if(controller.canceled == true) {
+						selectGroupStage.close();
+					}else if(controller.confirmed == true) {
+						outputList.getItems().addAll(controller.selectedItems());
+					}
+				}
+			}));
+
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		
+		
 		
 		
 		
@@ -204,32 +244,58 @@ public class PmmController {
 		
 		makeModel(outputlist);
 	}
-	
-	@FXML
-	public void addToProcessModel() {
-		//add selected value from output list to value list
-
-		outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		ArrayList<String> selectedOutputs = new ArrayList<String>(outputList.getSelectionModel().getSelectedItems());
-
-		if (selectedFile != null && !selectedOutputs.isEmpty()) {
-			//get input values from pmm DB related to selectedOutputs
-			for(String s : selectedOutputs) {
-				
-			}
-		}else if (selectedOutputs.isEmpty()) {
-			// No selected Outputs, show alert
-			System.out.println("output variable");
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Warning");
-			alert.setHeaderText("No selected outputs");
-			alert.setContentText("You have to select outputs first");
 			
-			alert.showAndWait();
-		}
-		
-		
-	}
+	@FXML
+    public void addToProcessModel() {
+	//add selected value from output list to value list
+    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    ArrayList<String> selectedOutputs = new ArrayList<String>(outputList.getSelectionModel().getSelectedItems());
+    ArrayList<String> newValues = new ArrayList<String>();
+    if (selectedFile != null && !selectedOutputs.isEmpty()) {
+         ListView<String> lv = new ListView<String>();
+         ProcessModel PM = new ProcessModel();
+         for(Tab tab : tabPane.getTabs()){
+            if(tab.getText().equals(CAList.getValue())){
+               lv = listViewList.get(tabPane.getTabs().indexOf(tab));
+            }
+         }
+
+         for(ProcessModel pm : pmmDB.getProcessModel()){
+            if(pm.getControlActionName().equals(CAList.getValue()) && pm.getControllerName().equals(controllerList.getValue())){
+               PM = pm;
+            }
+         }
+	
+	         for(String selectedOutput : selectedOutputs){
+	//		            System.out.println("SelectedOutputs" + selectedOutput);
+	            int index = outputList.getItems().indexOf(selectedOutput);
+	            System.out.println(index);
+	            for(String dbInput : pmmDB.getInputList().get(index)){
+	//		               System.out.println(dbInput);
+	               boolean e = true;
+	               for(String pms : PM.getValuelist()){
+	                  if(pms.equals(dbInput)){
+	                     e = false;
+	                  }
+	               }
+	
+	               if(e){
+	                  PM.getValuelist().add(dbInput);
+	                  lv.getItems().add(dbInput);
+	               }
+	            }
+	         }
+      	}else if (selectedOutputs.isEmpty()) {
+	         // No selected Outputs, show alert
+	         System.out.println("output variable");
+	         Alert alert = new Alert(AlertType.WARNING);
+	         alert.setTitle("Warning");
+	         alert.setHeaderText("No selected outputs");
+	         alert.setContentText("You have to select outputs first");
+	
+	         alert.showAndWait();
+      	}
+    }
 	// ERROR; other controller's show output is not created
 	
 	// Make process model
@@ -258,7 +324,7 @@ public class PmmController {
 				//SDT node
 				for (int i = 0; i < directlyConnectedNode.getLength(); i++) {
 					String str = directlyConnectedNode.item(i).getAttributes().getNamedItem("value").getTextContent();
-					valueName.set(i, str);
+					valueName.add(str);
 				}
 				directlyConnectedNodeList = checkValue(valueName, outputlist);
 				for (Object value : directlyConnectedNodeList) {
@@ -269,7 +335,7 @@ public class PmmController {
 			// Get transition variables from l2
 			//FSM, TTS node
 			for (int i = 0; i < transitionNodes.size(); i++) {
-				valueName.set(i, transitionNodes.get(i));
+				valueName.add(transitionNodes.get(i));
 			}
 			transitionNodeList = checkValue(valueName, outputlist);
 			for (Object value : transitionNodeList) {
@@ -301,51 +367,59 @@ public class PmmController {
 		Tab currentTab = tabPane.getSelectionModel().getSelectedItem();
 		int tabIndex = tabPane.getSelectionModel().getSelectedIndex();
 	
-		if (!addFile.isVisible()) {
-			try {
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
-				Parent parent = loader.load();
-				Scene scene = new Scene(parent);
-
-				valueStage.setTitle("Add Process Model variable");
-				valueStage.setResizable(false);
-				valueStage.show();
-
-				valueStage.setScene(scene);
-				valueStage.setOnHidden((new EventHandler<WindowEvent>() {
-					@Override
-					public void handle(WindowEvent e) {
-						VariablePopUpController popup = loader.getController();
-						popup.setStage(valueStage);
-						if (popup.value != null) {
-							//don't add same value to listview
-							for(int i = 0; i < listViewList.size(); i++) {
-								if(!listViewList.get(tabIndex).getItems().isEmpty()) {
-									String s = listViewList.get(tabIndex).getItems().get(i);
-									if(s.equals(popup.value)) {
-										return;
+		if(currentTab == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning");
+			alert.setHeaderText("No selected tab");
+			alert.setContentText("You have to make tab with new tab button");
+			alert.showAndWait();
+		}else {
+			if (!addFile.isVisible()) {
+				try {
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
+					Parent parent = loader.load();
+					Scene scene = new Scene(parent);
+	
+					valueStage.setTitle("Add Process Model variable");
+					valueStage.setResizable(false);
+					valueStage.show();
+	
+					valueStage.setScene(scene);
+					valueStage.setOnHidden((new EventHandler<WindowEvent>() {
+						@Override
+						public void handle(WindowEvent e) {
+							VariablePopUpController popup = loader.getController();
+							popup.setStage(valueStage);
+							if (popup.value != null) {
+								//don't add same value to listview
+								for(int i = 0; i < listViewList.size(); i++) {
+									if(!listViewList.get(tabIndex).getItems().isEmpty()) {
+										String s = listViewList.get(tabIndex).getItems().get(i);
+										if(s.equals(popup.value)) {
+											return;
+										}
+									}
+								}
+								//add to listView
+								listViewList.get(tabIndex).getItems().add(popup.value);
+								
+								//add to db
+								for(ProcessModel p : pmmDB.getProcessModel()) {
+									System.out.println("add to db");
+									if(p.getControllerName().equals(controllerList.getValue()) && p.getControlActionName().equals(currentTab.getText())){
+										p.getValuelist().add(popup.value);
 									}
 								}
 							}
-							//add to listView
-							listViewList.get(tabIndex).getItems().add(popup.value);
-							
-							//add to db
-							for(ProcessModel p : pmmDB.getProcessModel()) {
-								System.out.println("add to db");
-								if(p.getControllerName().equals(controllerList.getValue()) && p.getCAName().equals(currentTab.getText())){
-									p.getValuelist().add(popup.value);
-								}
-							}
 						}
+					}));
+	
+					} catch (IOException e1) {
+						e1.printStackTrace();
 					}
-				}));
-
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			e.consume();
+				e.consume();
+			}
 		}
 	}
 	
@@ -370,7 +444,7 @@ public class PmmController {
 							public void handle(ActionEvent event) {
 								for(ProcessModel p : pmmDB.getProcessModel()) {
 									if(p.getControllerName().equals(controllerList.getValue()) && 
-											p.getCAName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
+											p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
 										modifyPopUp(p, targetIndex);
 									}
 								}
@@ -382,7 +456,7 @@ public class PmmController {
 								valueList.getItems().remove(targetIndex);
 								for(ProcessModel p : pmmDB.getProcessModel()) {
 									if(p.getControllerName().equals(controllerList.getValue()) && 
-											p.getCAName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
+											p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
 										p.getValuelist().remove(targetIndex);
 									}
 								}
@@ -468,7 +542,7 @@ public class PmmController {
 				if (str.contains(arg)) {
 					// System.out.println("expression : "+arg);
 					next = str.indexOf(arg);
-					innerString.set(0, str.substring(0, next));
+					innerString.add(str.substring(0, next));
 					for (Object checked : checkValue(innerString, outputVariables)) {
 						values.add((String) checked);
 					}
@@ -525,7 +599,9 @@ public class PmmController {
 		// PMM, CSE Data Store
 		pmmDB = this.mainApp.pmmDB;
 		components = this.mainApp.components;
-	
+		
+		controllerList.getItems().clear();
+		
 		// From Dashboard to PMM
 		if (components.curController == null) {
 			// When through file open,
@@ -541,13 +617,18 @@ public class PmmController {
 		       listViewList.clear();
 		       showControllerTab(controllerList.getValue());
 		       
-		       //delete CAList
+		       //clear CAList view
 		       CAList.getItems().clear();
-		       String controller = controllerList.getValue();
-		       for(ControlAction c : components.getControlActions()){
-		          if(c.getController().getName() == controller){
-		             CAList.getItems().addAll(c.getCA());
-		          }
+//		       String controller = controllerList.getValue();
+		       //ERROR! Null pointer exception
+		       for(ControlAction c : components.getControlActions()) {
+		    	   System.out.println(c.getController() + " : controller");
+		    	   System.out.println(c.getCA() + " : control actions");
+		    	   if(c == null) {
+		    		   continue;
+		    	   }else if(c.getController().getName().equals(controllerList.getValue())) {
+		    		   CAList.getItems().addAll(c.getCA());
+		    	   }
 		       }
 		    });
 			// while working data in PMM
@@ -562,7 +643,7 @@ public class PmmController {
 			public void handle(MouseEvent e) {
 				//check if tab for selected controller & control action already exists
 				for(ProcessModel p : pmmDB.getProcessModel()) {
-					if(p.getControllerName().equals(controllerList.getValue()) && p.getCAName().equals(CAList.getValue())) {
+					if(p.getControllerName().equals(controllerList.getValue()) && p.getControlActionName().equals(CAList.getValue())) {
 						return;
 					}
 				}
@@ -577,7 +658,7 @@ public class PmmController {
 				
 				ProcessModel newProcessModel = new ProcessModel();
 				newProcessModel.setControllerName(controllerList.getValue());
-				newProcessModel.setCANAme(CAList.getValue());
+				newProcessModel.setControlActionName(CAList.getValue());
 				pmmDB.getProcessModel().add(newProcessModel);
 	
 				newTab.setContent(newPane);

@@ -363,12 +363,9 @@ public class MainApp extends Application {
 		      //--------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
-		        models.setControllerName(projectXML.getControllerName());;
-		        models.setControlActionNames(projectXML.getControlActionNames());
-		        models.setOutputNames(projectXML.getOutputVariableName());
-		        models.setAllCA(projectXML.getAllCA());
-		        models.setAllOutput(projectXML.getAllOutput());
-		        models.getValuelist().addAll(projectXML.getValueList());
+		        pmmDB.setProcessModel(projectXML.getProcessModel());
+		        pmmDB.setInputList(projectXML.getInputList());
+		        pmmDB.setOutputList(projectXML.getOutputList());
 			 // --------------------------- PMM --------------------------
 
 			 // --------------------------- CTM --------------------------
@@ -423,12 +420,9 @@ public class MainApp extends Application {
 	     // --------------------------- UTM --------------------------
 
 		 // --------------------------- PMM --------------------------
-	        projectXML.setControllerName(models.getControllerName());
-	        projectXML.setControlActionNames(models.getControlActionNames());
-	        projectXML.setOutputVariableName(models.getOutputNames());
-	        projectXML.setAllCA(models.getAllCA());
-	        projectXML.setAllOutput(models.getAllOutput());
-	        projectXML.setValueList(models.getValuelist());
+	        projectXML.setProcessModel(pmmDB.getProcessModel());
+	        projectXML.setOutputList(pmmDB.getOutputList());
+	        projectXML.setIntputList(pmmDB.getInputList());
     	 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------
