@@ -16,12 +16,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 public class CTM {
-	private StringProperty controllerName;
-	private StringProperty controlAction;
-	private ComboBox<String> cases;
+	private StringProperty controllerName, controlActionName;
+	private ComboBox cases, hazardous;
 	private IntegerProperty no;
-	private ComboBox<String> hazardous;
-	private StringProperty[] contexts;
+	private ObservableList<StringProperty> contexts;
 
 	private String ControllerName;
 	private String ControlAction;
@@ -30,10 +28,19 @@ public class CTM {
 	private String Hazardous;
 	private String[] Contexts;
 
-	public CTM(String controllerName, String controlAction, ComboBox<String> cases, int no, String[] contexts, ComboBox<String> hazardous) {
+	/*
+	 * default constructor
+	 */
+	public CTM() {
+	}
+	
+	/*
+	 * initialize constructor
+	 */
+	public CTM(String controllerName, String controlActionName, int no) {
 		this.controllerName = new SimpleStringProperty(controllerName);
-		this.controlAction = new SimpleStringProperty(controlAction);
-		this.cases = cases;
+		this.controlActionName = new SimpleStringProperty(controlActionName);
+		this.cases = new ComboBox(); 
 		this.no = new SimpleIntegerProperty(no);
 		this.hazardous = hazardous;
 		cases.setValue("not providing\ncauses hazard");
@@ -63,17 +70,22 @@ public class CTM {
 		this.Hazardous = hazardous.getValue();
 	}
 	
-	public void setCTMInit(){
-		this.controlAction = new SimpleStringProperty(this.ControlAction);
-		this.no = new SimpleIntegerProperty(this.No);
-		this.contexts = new StringProperty[Contexts.length];
-		for(int i=0;i<Contexts.length;i++) {
-			this.contexts[i] = new SimpleStringProperty(Contexts[i]);
-		}
+	public CTM(String string, ArrayList<String> controlActionNames2, ComboBox<String> comboBox1, int i,
+			ObservableList<StringProperty> contexts2, ComboBox<String> comboBox2) {
+		// TODO Auto-generated constructor stub
+		this.controllerName = new SimpleStringProperty(string);
+		this.controlActionName = new SimpleStringProperty(controlActionNames2.get(i));
+		this.cases = comboBox1;
+		this.no = new SimpleIntegerProperty(i);
+		this.contexts = contexts2;
+	}
+
+	public StringProperty getControllerNameProperty() {
+		return this.controllerName;
 	}
 	
 	public String getControllerName() {
-		return controllerName.get();
+		return this.controllerName.get();
 	}
 	
 	public StringProperty getControllerNameProperty() {
@@ -91,25 +103,25 @@ public class CTM {
 		return contexts[i].get();
 	}
 	
-	public StringProperty getContextProperty(int i) {
-		//System.out.println("property["+i+"]:"+test[i]);
-		return contexts[i];
-	}
-	public void setContext(int i, String val) {
-		this.contexts[i].set(val);
+	public StringProperty getCANameProperty() {
+		return this.controlActionName;
 	}
 	
-	public String getControlAction() {
-		return controlAction.get();
+	public String getCAName() {
+		return this.controlActionName.get();
 	}
 	
-	public StringProperty getControlActionProperty() {
-		return controlAction;
-	}
-	public void setControlAction(String val) {
-		this.controlAction.set(val);
+	public void setCAName(String caName) {
+		this.controlActionName.set(caName);
 	}
 	
+	public ComboBox getCases() {
+		return this.cases;
+	}
+	
+//	public void setCases(ComboBox cases) {
+//		this.cases = cases;
+//	}
 	
 	public int getNo() {
 		return no.get();
@@ -118,13 +130,6 @@ public class CTM {
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
-	
-	
-	
-
-	
-	
-	
 
 	public ComboBox<String> getCases() {
 		return cases;
@@ -147,8 +152,8 @@ public class CTM {
 		return hazardous;
 	}
 	
-	public String getHazardousValue() {
-		return Hazardous;
+	public StringProperty getContextProperty(int i) {
+		return contexts.get(i);
 	}
 
 	public void setHazardous(ComboBox<String>  val) {
@@ -156,14 +161,12 @@ public class CTM {
 		Hazardous = hazardous.getValue();
 	}
 	
-	public void setHazardousValue(String val) {
-		this.hazardous.setValue(val);
-		Hazardous = hazardous.getValue();
+	public ComboBox getHazardousList() {
+		return hazardous;
 	}
+	
 	public CTM get(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 }

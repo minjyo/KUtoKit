@@ -59,7 +59,7 @@
             <Line endY="43.0" layoutX="140.0" layoutY="240.0" startY="-33.0" />
             <Line endY="43.0" layoutX="140.0" layoutY="396.0" startY="-33.0" />
             <Line endY="43.0" layoutX="139.0" layoutY="553.0" startY="-33.0" />
-            <Button layoutX="41.0" layoutY="284.0" mnemonicParsing="false" onAction="#handleCseButton" prefHeight="80.0" prefWidth="200.0" text="2. Model the Control Structure" wrapText="true">
+            <Button fx:id="CSEButton" layoutX="41.0" layoutY="284.0" mnemonicParsing="false" onAction="#handleCseButton" prefHeight="80.0" prefWidth="200.0" text="2. Model the Control Structure" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font>
@@ -89,12 +89,12 @@
                </font>
             </Text>
             <Line endX="-16.0" endY="6.0" layoutX="503.0" layoutY="231.0" startX="-16.0" startY="-26.0" />
-            <Button layoutX="363.0" layoutY="462.0" mnemonicParsing="false" onAction="#handlePmmButton" prefHeight="80.0" prefWidth="250.0" text="Construct the Control Sturcture with Process Model/variable" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="PMMButton" layoutX="363.0" layoutY="462.0" mnemonicParsing="false" onAction="#handlePmmButton" prefHeight="80.0" prefWidth="250.0" text="Construct the Control Sturcture with Process Model/variable" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="363.0" layoutY="578.0" mnemonicParsing="false" onAction="#handleCtmButton" prefHeight="80.0" prefWidth="250.0" text="Generate Context Table from NuSCR" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="CTMButton" layoutX="363.0" layoutY="578.0" mnemonicParsing="false" onAction="#handleCtmButton" prefHeight="80.0" prefWidth="250.0" text="Generate Context Table from NuSCR" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
@@ -115,7 +115,7 @@
             <Polygon layoutX="489.0" layoutY="562.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
             <Polyline fill="#80ff0000" layoutX="115.0" layoutY="278.0" points="246.0, 224.0, 191.0, 224.0, 191.0, 67.0, 125.5, 66.5" strokeDashOffset="10.0" />
             <Polygon layoutX="253.0" layoutY="352.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -17.0" rotate="-90.0" stroke="BLACK" strokeType="INSIDE" />
-            <Button layoutX="40.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleLHCButton" prefHeight="80.0" prefWidth="200.0" text="1. Define Purpose of the Analysis" wrapText="true">
+            <Button fx:id="LHCButton" layoutX="40.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleLHCButton" prefHeight="80.0" prefWidth="200.0" text="1. Define Purpose of the Analysis" wrapText="true">
                <font>
                   <Font size="19.0" />
                </font>
@@ -160,12 +160,12 @@
             <Polygon layoutX="838.0" layoutY="619.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, 17.0" stroke="BLACK" strokeType="INSIDE" />
             <Polygon layoutX="707.0" layoutY="335.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -10.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" />
             <Polygon layoutX="619.0" layoutY="634.0" points="-11.0, 2.0, 5.0, 2.0, -3.0, -10.0" rotate="-90.0" stroke="BLACK" strokeType="INSIDE" />
-            <Button layoutX="40.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleUtmButton" prefHeight="80.0" prefWidth="200.0" text="3. Identify Unsafe Control Actions" wrapText="true">
+            <Button fx:id="UTMButton" layoutX="40.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleUtmButton" prefHeight="80.0" prefWidth="200.0" text="3. Identify Unsafe Control Actions" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="40.0" layoutY="598.0" mnemonicParsing="false" onAction="#handleLSButton" prefHeight="80.0" prefWidth="200.0" text="4. Identify Loss Scenarios" wrapText="true">
+            <Button fx:id="LSButton" layoutX="40.0" layoutY="598.0" mnemonicParsing="false" onAction="#handleLSButton" prefHeight="80.0" prefWidth="200.0" text="4. Identify Loss Scenarios" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font>

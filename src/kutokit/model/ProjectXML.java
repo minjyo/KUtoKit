@@ -23,6 +23,7 @@ import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.ls.LS;
 import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
 
@@ -54,15 +55,9 @@ public class ProjectXML {
 
 
 	// --------------------------- PMM --------------------------
-	private ArrayList<String> controller = new ArrayList<String>();
-
-	private ArrayList<String>[] controlAction = new ArrayList[10];
-	private ArrayList<String>[] outputVariable = new ArrayList[10];
-	
-	private ArrayList<String>[] allCA;
-
-	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-	private ObservableList<String> valueList = FXCollections.observableArrayList();
+	private ObservableList<ProcessModel> processModel = FXCollections.observableArrayList();
+	private ArrayList<ArrayList<String>> inputVariables = new ArrayList<ArrayList<String>>();
+	private ObservableList<String> outputVariables = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
 
@@ -187,60 +182,33 @@ public class ProjectXML {
 
 
 	// --------------------------- PMM --------------------------
-	@XmlElement(name = "PMM-controller")
-	public ArrayList<String> getControllerName() {
-		return controller;
-	}
-	public void setControllerName(ArrayList<String> controllerName) {
-		this.controller = controllerName;
-	}
-
-	@XmlElement(name = "PMMControlAction")
-	public ArrayList<String>[] getControlActionName() {
-		return controlAction;
-	}
-	public void setControlActionName(ArrayList<String>[] controlActionName) {
-		this.controlAction = controlActionName;
-	}
-
-	@XmlElementWrapper(name="PMM-output-list")
-	@XmlElement(name = "Output")
-	public ArrayList<String>[] getOutputVariableName() {
-		return outputVariable;
-	}
-	public void setOutputVariableName(ArrayList<String>[] outputVariables) {
-		this.outputVariable = outputVariables;
+	@XmlElement(name = "PMM")
+	public ObservableList<ProcessModel> getProcessModel(){
+		return processModel;
 	}
 	
-	@XmlElementWrapper(name="PMM-value-list")
-	@XmlElement(name = "Value")
-	public ObservableList<String> getValueList() {
-		return valueList;
+	public void setProcessModel(ObservableList<ProcessModel> pm) {
+		this.processModel = pm;
 	}
-	public void setValueList(ObservableList<String> valueListName) {
-		valueList = valueListName;
+
+	@XmlElement(name = "PMM-total-selected-output")
+	public ObservableList<String> getOutputList(){
+		return outputVariables;
 	}
 	
-	@XmlElementWrapper(name="PMM-all-CA")
-	@XmlElement(name = "Allca")
-	public ArrayList<String>[] getAllCA() {
-		return allCA;
-	}
-
-	public void setAllCA(ArrayList<String>[] controlAction) {
-		this.allCA = controlAction;
+	public void setOutputList(ObservableList<String> outputList) {
+		this.outputVariables = outputList;
 	}
 	
-	@XmlElementWrapper(name="PMM-all-output")
-	@XmlElement(name = "Alloutput")
-	public ObservableList<String> getAllOutput() {
-		return allOutput;
+	@XmlElementWrapper(name="PMM-input-list")
+	@XmlElement(name = "Input-variables")
+	public ArrayList<ArrayList<String>> getInputList(){
+		return inputVariables;
 	}
-
-	public void setAllOutput(ObservableList<String> allOutput) {
-		this.allOutput = allOutput;
+	
+	public void setIntputList(ArrayList<ArrayList<String>> inputList) {
+		this.inputVariables = inputList;
 	}
-
 
 	// --------------------------- CTM --------------------------
 	@XmlElement(name = "CTM-List")
@@ -267,7 +235,7 @@ public class ProjectXML {
 		ArrayList<String> ca = new ArrayList<String>();
 		for(int i=0;i<CTMList.size();i++){
 			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
-				ca.add(CTMList.get(i).getCTMTableList().get(j).getControlAction());
+				ca.add(CTMList.get(i).getCTMTableList().get(j).getCAName());
 			}
 		}
 		return ca;
@@ -301,7 +269,7 @@ public class ProjectXML {
 		ArrayList<String> hazardous = new ArrayList<String>();
 		for(int i=0;i<CTMList.size();i++){
 			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
-				hazardous.add(CTMList.get(i).getCTMTableList().get(j).getHazardousValue());
+				hazardous.add(CTMList.get(i).getCTMTableList().get(j).getHazardous().toString());
 			}
 		}
 		return hazardous;

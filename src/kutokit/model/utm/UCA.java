@@ -25,7 +25,7 @@ public class UCA {
 
 	}
 
-	public UCA(String controlAction,String providing , String notProviding, String incorrect , String stopped,ComboBox<String> linkList)
+	public UCA(String controlAction, String providing, String notProviding, String incorrect, String stopped, ComboBox<String> linkList)
 	{
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.providingCausesHazard = new SimpleStringProperty(providing);

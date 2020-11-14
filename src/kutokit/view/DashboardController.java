@@ -4,17 +4,15 @@ import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import kutokit.MainApp;
 
-public class DashboardController implements Initializable{
+public class DashboardController{
 	private MainApp mainApp;
 	
-	@FXML
-	public Button cseBtn;
-	public Button pmmBtn;
-
 	//constructor
 	public DashboardController() {
 		
@@ -33,7 +31,7 @@ public class DashboardController implements Initializable{
 	//click button 2. Model the Control Structure
 	@FXML
 	private void toCseController() {
-		this.mainApp.showCseView();
+			this.mainApp.showCseView();
 	}
 
 	//click button 'Construct the Control Structure with Process Model/variable'
@@ -59,22 +57,4 @@ public class DashboardController implements Initializable{
 	private void toLsController() {
 		this.mainApp.showLsView();
 	}
-		
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-//		//CSE
-//		if(mainApp.lhcDataStore.getLossTableList().isEmpty() || mainApp.lhcDataStore.getHazardTableList().isEmpty() || mainApp.lhcDataStore.getConstraintTableList().isEmpty()) {
-//			cseBtn.setDisable(true);
-//		}else {
-//			cseBtn.setDisable(false);
-//		}
-
-		//PMM
-//		if(MainApp.components.getControllers().isEmpty() || MainApp.components.getControlActions().isEmpty() ) {
-//			pmmBtn.setDisable(true);
-//		}else {
-//			pmmBtn.setDisable(false);
-//		}
-	}
-	
 }

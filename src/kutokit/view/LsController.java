@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -43,8 +44,10 @@ public class LsController implements Initializable {
 	@FXML private TableColumn<LS, String> linkedUCAColumn, lossFactorColumn, lossScenarioTextColumn;
 	@FXML private TextField lossScenarioTextField;
 	@FXML private Button addLossScenario, addNewTab;
-	@FXML private ComboBox UcaComboBox, lossFactorComboBox;
+	@FXML private ComboBox<UCA> UcaComboBox;
+	@FXML private ComboBox<String> lossFactorComboBox;
 	@FXML private TableRow<LS> lsRow;
+	@FXML private TabPane tabPane;
 	
 	ObservableList<LS> lossScenarioTableList;
 	ObservableList<String> lossFactorCBList = FXCollections.observableArrayList("1) Controller Problems", "2) Feedback Problems", "3) Control Path Problems", "4) Controlled Process Problems");
@@ -64,15 +67,12 @@ public class LsController implements Initializable {
 		this.mainApp = mainApp;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		lsDB = mainApp.lsDataStore;
 		ucaDataStoreList = mainApp.ucaDataStoreList;
 		for(UCADataStore u : ucaDataStoreList) {
-			for(int i=0;i<ucaDataStoreList.size();i++) {
-				ucaDB.getUCATableList().add(u.getUCATableList().get(i));
-			}
+			UcaComboBox.getItems().addAll(u.getUCATableList());
 		}
 		
 		lossScenarioTableList = lsDB.getLossScenarioList();
@@ -83,7 +83,7 @@ public class LsController implements Initializable {
 		
 		lossScenarioTableView.setItems(lossScenarioTableList);
 		
-		UcaComboBox.setItems(ucaDB.getUCATableList());
+
 		lossFactorComboBox.setItems(lossFactorCBList);
 //		UcaComboBox.setItems(ucaCBList);
 		

@@ -34,6 +34,7 @@ import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.PmmDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
@@ -42,10 +43,11 @@ public class MainApp extends Application {
 
 	 private Stage primaryStage;
 	 private BorderPane rootLayout;
+	 private RootLayoutController rootLayoutController;
 
 	 public static Components components;
 	 public static LhcDataStore lhcDataStore;
-	 public ProcessModel models;
+	 public static PmmDataStore pmmDB;
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
@@ -70,9 +72,9 @@ public class MainApp extends Application {
 	private void initDataStore() {
 		components = new Components();
 		lhcDataStore = new LhcDataStore();
-		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
-		//ctmDataStore = new CTMDataStore();
+//		ctmDataStore = new CTMDataStore();
+		pmmDB = new PmmDataStore();
 	}
 
 	private void initRootLayout() {
@@ -123,20 +125,30 @@ public class MainApp extends Application {
      */
     public void showCseView() {
         try {
-            // get maker scene
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/CseView.fxml"));
-            AnchorPane View = (AnchorPane) loader.load();
+        	//Open when LHC data isn't null
+//        	if(lhcDataStore.getLossTableList().isEmpty() || lhcDataStore.getHazardTableList().isEmpty() || lhcDataStore.getConstraintTableList().isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add loss, hazard, constraint data first");
+//    	        alert.show();
+//        		return;
+//        	}
+       		// get maker scene
+       		FXMLLoader loader = new FXMLLoader();
+       		loader.setLocation(MainApp.class.getResource("view/CseView.fxml"));
+       		AnchorPane View = (AnchorPane) loader.load();
 
-            // add scene in center of root layout
-            rootLayout.setCenter(View);
+       		// add scene in center of root layout
+        	rootLayout.setCenter(View);
 
-            //add controller
-            CseController controller = loader.getController();
-            controller.setMainApp(this, primaryStage);
+        	//add controller
+        	CseController controller = loader.getController();
+        	controller.setMainApp(this, primaryStage);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
     }
 
     /**
@@ -144,6 +156,15 @@ public class MainApp extends Application {
      */
     public void showCtmView() {
         try {
+        	//Open when pmm data isn't null
+//        	if(models.getControllerName().isEmpty() || models.getControlActionName().isEmpty() || models.getValuelist().isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add process model data first");
+//    	        alert.show();
+//        		return;
+//        	}
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/CtmView.fxml"));
@@ -167,13 +188,14 @@ public class MainApp extends Application {
     public void showUtmView() {
         try {
         	//Open when CTM data isn't null
-        	if(ctmDataStoreList.isEmpty()){
-    	        Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setTitle("Caution");
-    	        alert.setContentText("Please import CTM data before access UTM");
-    	        alert.show();
-        		return;
-        	}
+//        	if(ctmDataStoreList.isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add context table data first");
+//    	        alert.show();
+//        		return;
+//        	}
 
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
@@ -196,6 +218,16 @@ public class MainApp extends Application {
      */
     public void showPmmView() {
         try {
+        	//Open when CSE data isn't null
+        	if(components.getControlActions().isEmpty() || components.getControlActions().isEmpty()){
+    	        Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setTitle("Caution");
+        		alert.setHeaderText("Condition not satisfied");
+    	        alert.setContentText("Please add control structure data first");
+    	        alert.show();
+        		return;
+        	}
+        	
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/PmmView.fxml"));
@@ -240,6 +272,15 @@ public class MainApp extends Application {
 	 */
 	public void showLsView() {
 		try {
+//			//Open when UCA data isn't null
+//        	if(ucaDataStoreList.isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add UCA data first");
+//    	        alert.show();
+//        		return;
+//        	}
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
@@ -322,12 +363,9 @@ public class MainApp extends Application {
 		      //--------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
-		        models.setControllerName(projectXML.getControllerName());;
-		        models.setControlActionName(projectXML.getControlActionName());
-		        models.setOutputNames(projectXML.getOutputVariableName());
-		        models.setAllCA(projectXML.getAllCA());
-		        models.setAllOutput(projectXML.getAllOutput());
-		        models.getValuelist().addAll(projectXML.getValueList());
+		        pmmDB.setProcessModel(projectXML.getProcessModel());
+		        pmmDB.setInputList(projectXML.getInputList());
+		        pmmDB.setOutputList(projectXML.getOutputList());
 			 // --------------------------- PMM --------------------------
 
 			 // --------------------------- CTM --------------------------
@@ -382,12 +420,9 @@ public class MainApp extends Application {
 	     // --------------------------- UTM --------------------------
 
 		 // --------------------------- PMM --------------------------
-	        projectXML.setControllerName(models.getControllerName());
-	        projectXML.setControlActionName(models.getControlActionName());
-	        projectXML.setOutputVariableName(models.getOutputNames());
-	        projectXML.setAllCA(models.getAllCA());
-	        projectXML.setAllOutput(models.getAllOutput());
-	        projectXML.setValueList(models.getValuelist());
+	        projectXML.setProcessModel(pmmDB.getProcessModel());
+	        projectXML.setOutputList(pmmDB.getOutputList());
+	        projectXML.setIntputList(pmmDB.getInputList());
     	 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------

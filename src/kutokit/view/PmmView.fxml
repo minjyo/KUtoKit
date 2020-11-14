@@ -17,78 +17,78 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.PmmController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.PmmController">
    <children>
-      <Text layoutX="14.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PmmView" />
-      <TabPane fx:id="tabPane" layoutY="48.0" prefHeight="702.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab fx:id="tab_1" text="Controller 1">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Group layoutX="67.0" layoutY="-210.0">
+      <Rectangle fill="DARKSEAGREEN" height="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1000.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Group layoutX="44.0" layoutY="-237.0">
+         <children>
+            <ImageView fitHeight="50.0" fitWidth="49.0" layoutX="545.0" layoutY="313.0" onMouseClicked="#addPMValue" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/newValue.png" />
+               </image>
+            </ImageView>
+            <VBox layoutX="601.0" layoutY="299.0" prefHeight="694.0" prefWidth="336.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Controller" />
+                  <ChoiceBox fx:id="controllerList" prefHeight="34.0" prefWidth="245.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Control Action" />
+                  <ChoiceBox fx:id="CAList" prefHeight="34.0" prefWidth="245.0" />
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#showOutput" text="Show output variables" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="20.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <ListView fx:id="outputList" prefHeight="395.0" prefWidth="296.0">
+                     <VBox.margin>
+                        <Insets right="10.0" />
+                     </VBox.margin>
+                  </ListView>
+                  <Button mnemonicParsing="false" onMouseClicked="#addToProcessModel" text="Create Process model">
+                     <VBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <TabPane fx:id="tabPane" layoutX="-25.0" layoutY="313.0" prefHeight="609.0" prefWidth="551.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab>
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="542.0" layoutX="-45.0" layoutY="271.0" stroke="WHITE" strokeType="INSIDE" width="957.0" />
-                              <Label fx:id="CANameBar" layoutX="133.0" layoutY="750.0" text="Control Action Name">
-                                 <font>
-                                    <Font name="System Bold" size="19.0" />
-                                 </font>
-                              </Label>
-                              <ListView fx:id="PM" layoutX="1.0" layoutY="339.0" onMouseClicked="#selectValue" prefHeight="384.0" prefWidth="477.0" />
-                              <Pane fx:id="addFile" layoutX="378.0" layoutY="473.0" prefHeight="118.0" prefWidth="200.0" visible="false">
-                                 <children>
-                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="38.0" layoutY="-14.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
-                                    <Label layoutX="14.0" layoutY="-4.0" text="Add File" textFill="WHITE" />
-                                    <AnchorPane layoutX="2.0" layoutY="24.0" minHeight="0.0" minWidth="0.0" prefHeight="101.0" prefWidth="210.0">
-                                       <children>
-                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="100.0" layoutX="-2.0" layoutY="-4.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
-                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
-                                          <Button layoutX="160.0" layoutY="15.0" mnemonicParsing="false" onAction="#addFile" prefHeight="14.0" prefWidth="28.0" text="..." />
-                                          <Button layoutX="46.0" layoutY="51.0" mnemonicParsing="false" onAction="#applyFile" text="열기" />
-                                          <Button layoutX="115.0" layoutY="51.0" mnemonicParsing="false" onMouseClicked="#close" text="취소" />
-                                          <Label fx:id="fileName" layoutX="14.0" layoutY="20.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                              </Pane>
-                              <ImageView fitHeight="50.0" fitWidth="49.0" layoutX="510.0" layoutY="350.0" onMouseClicked="#selectPM" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../assets/newValue.png" />
-                                 </image>
-                              </ImageView>
-                              <VBox layoutX="602.0" layoutY="307.0" prefHeight="497.0" prefWidth="262.0" spacing="10.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Controller" />
-                                    <ChoiceBox fx:id="controllerList" prefHeight="34.0" prefWidth="217.0" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Control Action" />
-                                    <ChoiceBox fx:id="CAList" prefHeight="34.0" prefWidth="217.0" />
-                                    <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#showOutput" text="Show output variables" textAlignment="CENTER">
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" left="20.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <ListView fx:id="outputList" prefHeight="192.0" prefWidth="253.0">
-                                       <VBox.margin>
-                                          <Insets right="10.0" />
-                                       </VBox.margin>
-                                    </ListView>
-                                    <Button mnemonicParsing="false" onMouseClicked="#applyFile" text="Create Process model">
-                                       <VBox.margin>
-                                          <Insets left="20.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </VBox>
+                              <ListView prefHeight="384.0" prefWidth="477.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
-                        </Group>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <Pane fx:id="addFile" layoutX="378.0" layoutY="473.0" prefHeight="118.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="38.0" layoutY="-14.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
+                  <Label layoutX="14.0" layoutY="-4.0" text="Add File" textFill="WHITE" />
+                  <AnchorPane layoutX="2.0" layoutY="24.0" minHeight="0.0" minWidth="0.0" prefHeight="101.0" prefWidth="210.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="100.0" layoutX="-2.0" layoutY="-4.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
+                        <Button layoutX="160.0" layoutY="15.0" mnemonicParsing="false" onAction="#addFile" prefHeight="14.0" prefWidth="28.0" text="..." />
+                        <Button layoutX="46.0" layoutY="51.0" mnemonicParsing="false" onAction="#applyFile" text="열기" />
+                        <Button layoutX="115.0" layoutY="51.0" mnemonicParsing="false" onMouseClicked="#close" text="취소" />
+                        <Label fx:id="fileName" layoutX="14.0" layoutY="20.0" />
                      </children>
                   </AnchorPane>
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
+               </children>
+            </Pane>
+            <Button fx:id="addTabButton" layoutX="421.0" layoutY="943.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="105.0" text="new tab" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </Group>
+      <Label layoutX="431.0" layoutY="8.0" text="Process Model" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

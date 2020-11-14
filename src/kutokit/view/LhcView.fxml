@@ -52,7 +52,7 @@
                         </TableView>
                      <TextField fx:id="hazardTextField" layoutX="132.0" layoutY="733.0" prefHeight="29.0" prefWidth="816.0" promptText="Hazard" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="132.0" />
                      <Button fx:id="addHazardButton" layoutX="932.0" layoutY="731.0" mnemonicParsing="false" text="Add" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="1.0" />
-                     <TextField fx:id="hazardLinkTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="Link to Loss" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" />
+                     <CheckComboBox fx:id="hazardLinkCB" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" />
                      </children>
                   </AnchorPane>
             </content>

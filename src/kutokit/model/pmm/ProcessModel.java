@@ -7,117 +7,45 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ProcessModel {
+	//controller & control action related to this process model
+	private String controllerName, controlActionName;
+	
+	//related variables & nodes for selected output
+	private ObservableList<String> valueList = FXCollections.observableArrayList();
 
-	private ArrayList<String> controllerName = new ArrayList<String>();
-
-	private ArrayList<String>[] controlActionNames = new ArrayList[10];
-	private ArrayList<String>[] allCA =  new ArrayList[10];
-	private ArrayList<String>[] outputNames =  new ArrayList[10];
-
-	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-	private ObservableList<String> valuelist = FXCollections.observableArrayList();
-	private File filePath;
-
+	/*
+	 * default constructor
+	 */
 	public ProcessModel() {
-
 	}
 
-	// File path
-	public File getFilePath() {
-		return filePath;
+	public ProcessModel(String controller, String ca, ObservableList<String> valueList) {
+		this.controllerName = controller;
+		this.controlActionName = ca;
+		this.valueList = valueList;
+	}
+	
+	public String getControllerName() {
+		return this.controllerName;
+	}
+	
+	public void setControllerName(String controller) {
+		this.controllerName = controller;
+	}
+	
+	public String getControlActionName() {
+		return this.controlActionName;
+	}
+	
+	public void setControlActionName(String ca) {
+		this.controlActionName = ca;
 	}
 
-	public void setFilePath(File filePath) {
-		this.filePath = filePath;
-	}
-
-	// Controller
-	public ArrayList<String> getControllerName() {
-		return controllerName;
-	}
-
-	public void setControllerName(ArrayList<String> controllerName) {
-		this.controllerName.addAll(controllerName);
-	}
-
-	// Control Action
-	public ArrayList<String>[] getControlActionName() {
-		return controlActionNames;
-	}
-
-	public void setControlActionName(ArrayList<String>[] arrayList) {
-		this.controlActionNames = arrayList;
-	}
-
-	// Selected Output variables
-	public ArrayList<String>[] getOutputNames() {
-		return outputNames;
-	}
-
-	public void setOutputNames(ArrayList<String>[] outputVariables) {
-		this.outputNames = outputVariables;
-	}
-
-	// All output variables
-	public ObservableList<String> getAllOutput() {
-		return allOutput;
-	}
-
-	public void setAllOutput(ObservableList<String> allOutput) {
-		this.allOutput = allOutput;
-	}
-
-	// Value list
 	public ObservableList<String> getValuelist() {
-		return valuelist;
+		return this.valueList;
 	}
 
-	public void setValuelist(ObservableList<String> valuelist) {
-		this.valuelist = valuelist;
-	}
-
-	public void addValuelist(String value) {
-		this.valuelist.add(value);
-	}
-
-	public void modifyValue(String oldValue, String newValue) {
-		for(String value: valuelist) {
-			if( oldValue.equals(value)) {
-				valuelist.set(valuelist.indexOf(value), newValue);
-			}
-		}
-	}
-
-	public void deleteValue(String value) {
-		valuelist.remove(value);
-	}
-
-	// All control actions
-	public ArrayList<String>[] getAllCA() {
-		return allCA;
-	}
-
-	public void setAllCA(ArrayList<String>[] controlAction) {
-		this.allCA = controlAction;
-	}
-	
-	public boolean isAllCAEmpty() {
-		boolean result = false;
-		for(ArrayList<String> list : allCA) {
-			if(list == null) {
-				result = true;
-			}else break;
-		}
-		return result;
-	}
-	
-	public int getAllCAsize() {
-		int i=0;
-		for(ArrayList<String> list : allCA) {
-			if(list != null) {
-				i++;
-			}
-		}
-		return i;
+	public void setValuelist(ObservableList<String> valueList) {
+		this.valueList = valueList;
 	}
 }
