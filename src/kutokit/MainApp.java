@@ -49,7 +49,7 @@ public class MainApp extends Application {
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
-	 public static CTMDataStore ctmDataStore;
+	 public static ObservableList<CTM> ctmDataStore = FXCollections.observableArrayList();
 	 public static LSDataStore lsDataStore;
 
 	@Override
@@ -72,7 +72,6 @@ public class MainApp extends Application {
 		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
-		ctmDataStore = new CTMDataStore();
 	}
 
 	private void initRootLayout() {
@@ -146,7 +145,7 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     /**
@@ -186,14 +185,14 @@ public class MainApp extends Application {
     public void showUtmView() {
         try {
         	//Open when CTM data isn't null
-        	if(ctmDataStoreList.isEmpty()){
-    	        Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setTitle("Caution");
-        		alert.setHeaderText("Condition not satisfied");
-    	        alert.setContentText("Please add context table data first");
-    	        alert.show();
-        		return;
-        	}
+//        	if(ctmDataStoreList.isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add context table data first");
+//    	        alert.show();
+//        		return;
+//        	}
 
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
@@ -225,7 +224,7 @@ public class MainApp extends Application {
     	        alert.show();
         		return;
         	}
-        	
+
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/PmmView.fxml"));
@@ -338,7 +337,7 @@ public class MainApp extends Application {
 		        lhcDataStore.getHazardTableList().addAll(projectXML.getHazardList());
 		        lhcDataStore.getConstraintTableList().addAll(projectXML.getConstraintList());
 			 // --------------------------- LHC --------------------------
-		        
+
 		     // --------------------------- CSE --------------------------
 		        components.getControllers().addAll(projectXML.getControllers());
 		        components.getControlActions().addAll(projectXML.getControlActions());
@@ -370,7 +369,7 @@ public class MainApp extends Application {
 			 // --------------------------- PMM --------------------------
 
 			 // --------------------------- CTM --------------------------
-		        /*ctmDataStore.remove(0, ctmDataStore.size()-1);
+		        ctmDataStore.remove(0, ctmDataStore.size()-1);
 		        ctmDataStoreList.remove(0, ctmDataStoreList.size()-1);
 
 		        ctmDataStore.addAll(projectXML.getCTM());
@@ -381,15 +380,15 @@ public class MainApp extends Application {
 		        		c.getCTMTableList().add(ctmDataStore.get(j));
 		        		j++;
 		        	}
-		        }*/
+		        }
    	         // --------------------------- CTM --------------------------
-		        
+
 		     // --------------------------- LS ---------------------------
 		        lsDataStore.getLsUcaList().addAll(projectXML.getLsUcaList());
 		        lsDataStore.getLossFactorList().addAll(projectXML.getLossFactorList());
 		        lsDataStore.getLossScenarioList().addAll(projectXML.getLossScenarioList());
 		     // --------------------------- LS ---------------------------
-		        
+
 		        setFilePath(file);
 
 		     } catch (Exception e) {
@@ -397,7 +396,7 @@ public class MainApp extends Application {
 		        alert.setTitle("Error");
 		        alert.setHeaderText("Could not load data");
 		        alert.setContentText("Could not load data from file:\n" + file.getPath());
-		        
+
 		        alert.showAndWait();
 		    }
 	}
@@ -440,10 +439,10 @@ public class MainApp extends Application {
     	 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------
-	        //projectXML.setCTM(ctmDataStore);
-	        //projectXML.setCTMList(ctmDataStoreList);
+	        projectXML.setCTM(ctmDataStore);
+	        projectXML.setCTMList(ctmDataStoreList);
 	     // --------------------------- CTM --------------------------
-	        
+
 	     // --------------------------- LS ---------------------------
 	        projectXML.setLsUcaList(lsDataStore.getLsUcaList());
 	        projectXML.setLossFactorList(lsDataStore.getLossFactorList());
@@ -458,7 +457,7 @@ public class MainApp extends Application {
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");
 	        alert.setContentText("Could not save data to file:\n" + file.getPath());
-	        
+
 	        alert.showAndWait();
 	    }
 	}

@@ -4,330 +4,405 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kutokit.Info;
 import kutokit.MainApp;
 import kutokit.model.ctm.CTM;
 import kutokit.model.ctm.CTMDataStore;
-import kutokit.model.utm.UCADataStore;
+import kutokit.model.pmm.ProcessModel;
 
-public class CtmController {
-
+public class CtmController implements Initializable{
 	private MainApp mainApp;
 	private File selectedFile;
+	private ProcessModel pm = new ProcessModel();
 
-	private static CTMDataStore ctmDataStore;
-	private static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
-	
-	@FXML private AnchorPane CTMPane;
-	@FXML private Label filename;
-	@FXML private Pane AddFile;
-	private TabPane tabPane = new TabPane();
-	
-	ArrayList<ObservableList<CTM>> totalData = new ArrayList<>();
-	ObservableList<CTM> mcsData;
-	private int controllerCount = 0;
-	private int curControllerNum, curCANum;
-	private ObservableList<String> hazardousOX;
-	private ObservableList<String> casesCombo;
+	@FXML ComboBox<String> controllerCB,controlActionCB;
+	@FXML Button addFileButton, addTabButton;
+	@FXML Tab firstTab;
+	@FXML TabPane tabPane;
+	@FXML TableView<CTM> ctmTableView;
+	@FXML TableColumn<CTM,String> casesColumn, hazardousColumn;
+	@FXML TableColumn<CTM,Integer> noColumn;
+//	@FXML AnchorPane addCTM;
 
-	private ArrayList<String> controllerName; // Selected controller from CSE
-	private ArrayList<String>[] controlActionNames;
-	private ArrayList<String>[] outputNames;
-	private ObservableList<String> valuelist;
-	private ArrayList<String> selectedCA = new ArrayList<String>();// 선택된 control action 저장 
-	private ArrayList<String> selectedOutput = new ArrayList<String>(); // 선택된 output Variables 저장 
-	
-	private ArrayList<String> contextheader;
-	
-	public CtmController() { }
-	private void initialize(){
-        tabPane.setPrefWidth(1000.0);
+	private ObservableList<String> cases = FXCollections.observableArrayList(
+			"Not providing\ncauses hazard",
+			"Providing causes hazard",
+			"Too early, too late,\nout of order",
+			"Stopped too soon,\napplied too long");
+	private ObservableList<String> hazardous = FXCollections.observableArrayList("O", "X");
+
+	ComboBox<String> casesCB = new ComboBox<String>(cases);
+	ComboBox<String> hazardousCB = new ComboBox<String>(hazardous);
+	private ObservableList<String> contextList = FXCollections.observableArrayList();
+
+	ObservableList<TableView<CTM>> totalTableView = FXCollections.observableArrayList();
+	ObservableList<ComboBox> casesList = FXCollections.observableArrayList();
+	ObservableList<ComboBox> hazardousList = FXCollections.observableArrayList();
+
+	//CTMDataStoreList
+	ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
+
+	/*
+	 * default constructor
+	 */
+	public CtmController() {
 	}
 
 	//set MainApp
 	public void setMainApp(MainApp mainApp)  {
-		System.out.println("111@");
-
-		AddFile.setVisible(false);
-		
 		this.mainApp = mainApp;
-		System.out.println("222@");
-		ctmDataStore = mainApp.ctmDataStore;
-		System.out.println("333@");
-		totalData = ctmDataStore.getCTMTableList();
-		System.out.println("444@");
-		
-		controllerName = mainApp.models.getControllerName();
-		controlActionNames = mainApp.models.getControlActionName();
-		outputNames = mainApp.models.getOutputNames();
-		valuelist = mainApp.models.getValuelist();
-		contextheader = new ArrayList<>();
+		pm = mainApp.models;
+		//Test Data
+		test();
 
-		System.out.println("controllerName:"+controllerName.toString());
-		System.out.println("controlActionNames:"+controlActionNames.toString());
-		System.out.println("outputNames:"+outputNames.toString());
-		System.out.println("valuelist:"+valuelist.toString());
-		
-		hazardousOX = FXCollections.observableArrayList();
-		hazardousOX.add("O");
-		hazardousOX.add("X");
-		
-		casesCombo = FXCollections.observableArrayList();
-		casesCombo.add("not providing\ncauses hazard");
-		casesCombo.add("too early, too late,\nout of order");
-		casesCombo.add("providing causes hazard");
-		
-		int headerlength = 0;
-		if(headerlength==0) {
-			for(int x=0;x<outputNames.length;x++) {
-				contextheader.addAll(outputNames[x]);
+		initialize(null,null);
+	}
+
+	private void test() {
+		// Make ProcessModel Data for CTM test
+		pm = mainApp.models;
+
+		//Controller
+		ArrayList<String> controller = new ArrayList();
+		controller.add("c1");
+		controller.add("c2");
+		pm.setControllerName(controller);
+
+		//ControlAction
+		ArrayList<ArrayList<String>> controlActions = new ArrayList();
+		ArrayList<String> ca1 = new ArrayList();
+		ArrayList<String> ca2 = new ArrayList();
+		ca1.add("ca11");
+		ca2.add("ca21");
+		ca2.add("ca22");
+		controlActions.add(ca1);
+		controlActions.add(ca2);
+		pm.setControlActionNames(controlActions);
+
+		//Output
+		ArrayList<ArrayList<String>> outputs = new ArrayList();
+		ArrayList<String> op1 = new ArrayList();
+		ArrayList<String> op2 = new ArrayList();
+		op1.add("op11");
+		op2.add("op21");
+		op2.add("op22");
+		outputs.add(op1);
+		outputs.add(op2);
+		pm.setOutputNames(outputs);
+
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		//Get from DataStore
+//		pm = mainApp.models;
+		contextList = pm.getValuelist();
+		ctmDataStoreList = mainApp.ctmDataStoreList;
+
+
+		//Setting Controller, ControlAction ComboBox
+		controllerCB.getItems().addAll(pm.getControllerName());
+		controllerCB.setOnAction(event ->{
+			//Remove Before Table, ControlAction ComboBox
+			controlActionCB.setValue(null);
+			controlActionCB.getItems().remove(0,controlActionCB.getItems().size());
+			totalTableView.remove(0,totalTableView.size());
+
+			//Get Controller id
+			for(int i=0;i<pm.getControllerName().size();i++){
+				if(pm.getControllerName().get(i)==controllerCB.getValue()){
+					//Setting ControlAction ComboBox
+					controlActionCB.getItems().addAll(pm.getControlActionNames().get(i));
+
+					//Open Tab about Controller
+					showControllerTabs(controllerCB.getValue(),i);
+				}
+			}
+
+		});
+
+		//set first first Tab name
+		firstTab.setText(pm.getControllerName() + "-" + pm.getControlActionNames());
+
+		//if tab button is clicked, add new tab
+		addTabButton.setOnAction(event -> {
+			if(!controllerCB.getValue().isEmpty() && !controlActionCB.getValue().isEmpty()) {
+				//if user selected controller & control action, add new tab
+				addNewTab();
+			}else {
+				System.out.println("no selected controller & control action");
+			}
+		});
+
+		//if File Button is clicked, add new File with file chooser
+		addFileButton.setOnAction(event -> AddFile());
+
+		//Add new CTM TextField
+		tabPane.getSelectionModel().getSelectedItem().setOnSelectionChanged(event->{
+			String controller = controllerCB.getValue();
+			String controlAction = tabPane.getSelectionModel().getSelectedItem().getId();
+			Tab tab = tabPane.getSelectionModel().getSelectedItem();
+			int id = tabPane.getSelectionModel().getSelectedIndex();
+//			totalTableView.get(id).getColumns().get(0).getText();
+//
+//			for(TableColumn t : totalTableView.get(id).getColumns()){
+////				TextField newTextField = new TextField();
+////				newTextField.setText(t.getText());
+//
+//			}
+
+			TextFieldChange(controller,controlAction);
+		});
+
+	}
+
+	private void TextFieldChange(String controller, String controlAction) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void showControllerTabs(String Controller, int id) {
+		//Remove All tab
+		tabPane.getTabs().remove(0, tabPane.getTabs().size());
+
+		// Add Controller - ControlAction Tab
+		for(CTMDataStore c : ctmDataStoreList){
+			if(c.getController()==Controller){
+				//Add Data to new Tab
+				addData(c,id);
+
 			}
 		}
-		for(int x=0;x<valuelist.size();x++) {
-			contextheader.add(valuelist.get(x));
-		}
-		
-		final ToggleGroup group = new ToggleGroup();
- 		HBox radioGroup = new HBox();
- 		
-		for(int i=0;i<controllerName.size();i++) {
-	 		RadioButton rb = new RadioButton(controllerName.get(i));
-	 		rb.setToggleGroup(group);
-	 		if(i==0) {
-	 			rb.setSelected(true);
-	 		}
-	 		group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
-	 		    public void changed(ObservableValue<? extends Toggle> ov,
-	 		        Toggle old_toggle, Toggle new_toggle) {
-	 		            if (group.getSelectedToggle() != null) {
-	 		            	//TODO link radio
-	 		            	System.out.println(new_toggle.toString());
-	 		            }                
-	 		        }
-	 		});
-	 		
-	 		radioGroup.getChildren().add(rb);
-	 		controllerCount++;
-		}
-	
-		for(int i=0;i<controlActionNames.length;i++) {
-			tabPane.getTabs().add(MakeTab(i,controlActionNames[i], contextheader));
-		}
-        tabPane.setLayoutY(30.0);
-        tabPane.setPrefWidth(1000.0);
-        tabPane.setPrefHeight(800.0);
-        tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-//        CTMPane.getChildren().addAll(radioGroup,tabPane);
-		System.out.println("@@@@:9");
 	}
-	
-	
-	
-	public Tab MakeTab(int tabNum, ArrayList<String> controlActionNames2, ArrayList<String> contextheader) {
-		//final int row=0; //row= 테이블 길이..파일 파싱이후 데이터 추가했을때를 생각해야
-        final TableView<CTM> contextTable = this.MakeTable(contextheader);
-		mcsData = FXCollections.observableArrayList();
-        if(totalData.size() >= tabNum+1) { 
-        	mcsData = totalData.get(tabNum);
-			contextTable.setItems(mcsData);
-        }else {
-        	CTMDataStore c = new CTMDataStore();
-        	ctmDataStoreList.add(c);
-        }
-        contextTable.setPrefHeight(800.0);
 
-        int len = 0;
-        
-		Tab tab = new Tab();
-		tab.setText(controlActionNames2.get(tabNum)); //수정 필요
-		HBox hb = new HBox();
-		VBox totalhb = new VBox();
-		
-		//TODO ==> AddFile modify
-		final Button fileButton = new Button("File PopUp");
-        fileButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-        		curCANum = tabNum;
-        		curControllerNum = 0; //TODO!!!!!!!! link radio
-        		AddFile.setVisible(true);
-        		AddFile.toFront();
-            }
-        });
-        hb.getChildren().addAll(fileButton);
+	private void addData(CTMDataStore c,int id) {
+		//Add Data from DataStroe to Table
+		//Get ContextHeader from PMM Table -> Modify? if PMM output Change
+//		MakeTable(pm.getOutputNames().get(id));
 
-        String[] contexts = new String[contextheader.size()];
-        final TextField[] addContexts = new TextField[contextheader.size()];
-		for(int t=0;t<contextheader.size();t++) {
-	        final TextField addContext = new TextField();
-	        addContext.setPromptText(contextheader.get(t));
-			addContexts[t] = addContext;
-			hb.getChildren().addAll(addContexts[t]);
+		//create new tab
+		Tab newTab = new Tab();
+
+		//create new scroll pane for new tab
+		ScrollPane scrollPane = new ScrollPane();
+
+		//create new tableView for new scroll pane
+		TableView<CTM> newTableView = new TableView<CTM>();
+
+		//create new table column for new table view
+		TableColumn<CTM,String> newCasesColumn = null,newHazardousColumn = null;
+		TableColumn<CTM,Integer> newNoColumn = null;
+		newCasesColumn.setPrefWidth(154);
+		newCasesColumn.setResizable(false);
+		newCasesColumn.setEditable(true);
+		newTableView.getColumns().add(newCasesColumn);
+		newNoColumn.setPrefWidth(42);
+		newNoColumn.setResizable(false);
+		newNoColumn.setEditable(true);
+		newTableView.getColumns().add(newNoColumn);
+		newHazardousColumn.setPrefWidth(107);
+		newHazardousColumn.setResizable(false);
+		newHazardousColumn.setEditable(true);
+		int i=0;
+		for(String s : pm.getOutputNames().get(id)){
+			TableColumn<CTM,String> newContextColumn = new TableColumn<CTM,String>();
+			newContextColumn.setText(s);
+			newContextColumn.setPrefWidth(154);
+			newContextColumn.setResizable(false);
+			newContextColumn.setEditable(true);
+			final int j = i;
+			newContextColumn.setCellValueFactory(cellData -> cellData.getValue().getContextProperty(j));
+			newContextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+			newTableView.getColumns().add(newContextColumn);
+			i++;
+		}
+		newTableView.getColumns().add(newHazardousColumn);
+
+		//Add Data in Table
+		newCasesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("casesList"));
+		newNoColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("NoProperty"));
+		newHazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardousList"));
+
+		newCasesColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		newHazardousColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+		newTableView.setItems(c.getCTMTableList());
+		newTab.setContent(scrollPane);
+		scrollPane.setContent(newTableView);
+
+		totalTableView.add(newTableView);
+	}
+
+	/*
+	 * add new tab
+	 */
+
+//	@FXML
+	public void addNewTab() {
+		String controller = controllerCB.getValue();
+		String controlAction = controlActionCB.getValue();
+
+		//Controller- ControlAction PM exist confirm()
+		int i=0;
+		int j=0;
+		ArrayList<String> contextheader = new ArrayList<String>();
+		for(String c : pm.getControllerName()){
+			if(c==controller){
+				for(String ca : pm.getControlActionNames().get(i)){
+					if(ca == controlAction){
+						//? pmm -> Doesn't each control action have another Output?
+						//contextheader = pm.getOutputNames().get(i).get(j);
+						contextheader = pm.getOutputNames().get(i);
+						i = pm.getControlActionNames().size();
+						break;
+					}
+					j++;
+				}
+			}
+			i++;
 		}
 
-        final Button addButton = new Button("Add");
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-        		int temp = contextTable.getItems().size();
-        		for(int t=0;t<contextheader.size();t++) {
-        			contexts[t] = addContexts[t].getText();
-        			addContexts[t].clear();
-        		}
-        		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
-        		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
-        		mcsData.add(new CTM(controllerName.get(tabNum), controlActionNames2,comboBox1,1+temp,contexts,comboBox2));
-        		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
-    			      @Override
-    			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-    			    	mcsData.get(temp).setCasesValue(newValue);
-    			      }
-    			    });
-        		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
-  			      @Override
-  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-  			    	mcsData.get(temp).setHazardousValue(newValue);
-  			      }
-  			    });
-    			contextTable.setItems(mcsData);
-            }
-        });
-        hb.getChildren().addAll(addButton);
-        hb.setSpacing(3);
-        totalhb.getChildren().addAll(hb,contextTable);
-        tab.setContent(totalhb);
+		if(contextheader.isEmpty()){
+			System.out.println("There is no"+controller+ ","+"controlAction"+"Process Model");
+			return;
+		}
 
-        if(totalData.size()<= tabNum) { 
-        	totalData.add(mcsData);
-        } else {
-        	totalData.set(tabNum, mcsData);
-        }
+		//create new tab
+		Tab newTab = new Tab();
 
-        return tab;
+		//create new scroll pane for new tab
+		ScrollPane scrollPane = new ScrollPane();
+
+		//create new tableView for new scroll pane
+		TableView<CTM> newTableView = new TableView<CTM>();
+
+		//create new table column for new table view
+		TableColumn<CTM,String> newCasesColumn = new TableColumn<>();
+		TableColumn<CTM,String> newHazardousColumn = new TableColumn<>();
+		TableColumn<CTM,Integer> newNoColumn = new TableColumn<>();
+		newCasesColumn.setPrefWidth(154);
+		newCasesColumn.setResizable(false);
+		newCasesColumn.setEditable(true);
+		newCasesColumn.setText("Cases");
+		newTableView.getColumns().add(newCasesColumn);
+		newNoColumn.setPrefWidth(42);
+		newNoColumn.setResizable(false);
+		newNoColumn.setEditable(true);
+		newNoColumn.setText("No");
+		newTableView.getColumns().add(newNoColumn);
+		newHazardousColumn.setPrefWidth(107);
+		newHazardousColumn.setResizable(false);
+		newHazardousColumn.setEditable(true);
+		newHazardousColumn.setText("Hazardous");
+
+		//Make Context Column
+		i=0;
+		for(String s : contextheader){
+			TableColumn<CTM,String> newContextColumn = new TableColumn<CTM,String>();
+			newContextColumn.setText(s);
+			newContextColumn.setPrefWidth(154);
+			newContextColumn.setResizable(false);
+			newContextColumn.setEditable(true);
+			final int f = i;
+			newContextColumn.setCellValueFactory(cellData -> cellData.getValue().getContextProperty(f));
+			newContextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+			newTableView.getColumns().add(newContextColumn);
+			i++;
+		}
+		newTableView.getColumns().add(newHazardousColumn);
+
+		//Set DataStore
+		CTMDataStore newCtmDataStore = new CTMDataStore();
+		newCtmDataStore.setControlAction(controlAction);
+		newCtmDataStore.setController(controller);
+		ctmDataStoreList.add(newCtmDataStore);
+
+		//Set Table Context
+		newCasesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("casesList"));
+		newNoColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("NoProperty"));
+		newHazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardousList"));
+		newCasesColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		newHazardousColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+		//set new tab's name
+		newTab.setText(controllerCB.getValue() + "-" + controlActionCB.getValue());
+		//add new tab into tabPane
+		tabPane.getTabs().add(newTab);
+		//set scrollPane in new tab
+		newTab.setContent(scrollPane);
+		//set new tableView in new scroll pane
+		scrollPane.setContent(newTableView);
+		//Set Table - DataStore
+		newTableView.setItems(newCtmDataStore.getCTMTableList());
+
+
+		//Add totalTableView
+		totalTableView.add(newTableView);
+
 	}
-	
-	public TableView<CTM> MakeTable(ArrayList<String> contextheader) {
-		TableView<CTM> contextTable = new TableView<CTM>();
-		
-		contextTable.prefWidthProperty().bind(tabPane.widthProperty());
-		contextTable.prefWidth(1000.0);
-		contextTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-		TableColumn<CTM, String> CAColumn = new TableColumn<CTM,String>("Control Action");
-		TableColumn casesColumn = new TableColumn("cases");
-		TableColumn<CTM, Integer> noColumn = new TableColumn<CTM,Integer>("No.");
-		TableColumn hazardousColumn = new TableColumn("Hazardous?");
-
-		CAColumn.setPrefWidth(100.0);
-		casesColumn.setPrefWidth(100.0);
-		noColumn.setPrefWidth(30.0);
-		hazardousColumn.setPrefWidth(100.0);
-		
-		contextTable.prefWidthProperty().bind(CTMPane.widthProperty());
-		contextTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        // 4. Set table row 
-		CAColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("controlAction"));
-		casesColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("cases"));
-		noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
-		hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
-
-		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getCANameProperty());
-		noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
-
-		contextTable.setEditable(true);
-	    
-		contextTable.getColumns().addAll(CAColumn, casesColumn, noColumn);
-	    
- 		for(final int[] x= {0,};x[0]<contextheader.size();x[0]++) {
- 			TableColumn<CTM, String> contextColumn = new TableColumn<>(contextheader.get(x[0]));
- 			contextTable.getColumns().add(contextColumn);
- 			contextColumn.setPrefWidth(80.0);
- 			contextColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>(contextheader.get(x[0])));
- 			int temp = x[0];
- 			contextColumn.setCellValueFactory(cellData -> cellData.getValue().getContextProperty(temp));
- 			contextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
- 			contextColumn.setOnEditCommit(
- 	            new EventHandler<CellEditEvent<CTM, String>>() {
- 	                @Override
- 	                public void handle(CellEditEvent<CTM, String> t) {
- 	                    ((CTM) t.getTableView().getItems().get(
- 	                        t.getTablePosition().getRow())
- 	                        ).setContext(temp, t.getNewValue());
- 	                   System.out.println((t.getTableView().getItems().get(t.getTablePosition().getRow()).getContext(temp)));
- 	                }
- 	            }
- 	        );
- 		}
- 		contextTable.getColumns().add(hazardousColumn);
- 		
- 		return contextTable;
-	}
-	
+	//open file chooser to get MCS File
 	@FXML
 	public void AddFile() {
         FileChooser fc = new FileChooser();
-        fc.setTitle("Add File");
+
+        //file chooser setting
+        fc.setTitle("Choose file to Apply");
         fc.setInitialDirectory(new File(Info.directory));
-        ExtensionFilter txtType = new ExtensionFilter("text file", "*.txt", "*.doc");
+
+        //only get .txt file format(MCS File)
+        ExtensionFilter txtType = new ExtensionFilter("MCS file (*.txt)", "*.txt");
         fc.getExtensionFilters().addAll(txtType);
-         
+
 	    selectedFile =  fc.showOpenDialog(null);
         if(selectedFile != null) {
-	        filename.setText(selectedFile.getName());
+	        try {
+				ApplyFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
-	
-	@FXML
+
+	//Apply chosen MCS File
 	public int ApplyFile() throws IOException {
-		
+
 		if(selectedFile != null) {
-			AddFile.setVisible(false);
-	
 	        try {
 	            FileInputStream fis = new FileInputStream(selectedFile);
-	            
+
 	            byte [] buffer = new byte[fis.available()];
 	            String temp="";
 	            while((fis.read(buffer)) != -1) {
 	            	temp = new String(buffer);
-	            }    
+	            }
 	            fis.close();
-	           
+
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
-	            this.ParseMSC(temps);
-	            
+	            this.ParseMCS(temps);
+
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
 	        }
@@ -335,8 +410,9 @@ public class CtmController {
 		return 0;
 	}
 
-	private void ParseMSC(String[] temps) {
-		String[][] context = new String[contextheader.size()][temps.length];
+	private void ParseMCS(String[] temps) {
+		//Get Data form mcs.txt file
+		String[][] context = new String[contextList.size()][temps.length];
 
 		int i=0;
 		while(i < temps.length) {
@@ -347,8 +423,8 @@ public class CtmController {
 			while(j < splits.length) {
 				int index= splits[j].indexOf("=");
 				if(index>=0) {
-					for(int t=0;t<contextheader.size();t++) { //header loof
-						if(splits[j].contains(contextheader.get(t))) {
+					for(int t=0;t<contextList.size();t++) { //header loop
+						if(splits[j].contains(contextList.get(t))) {
 							if(context[t][i]==null) {
 								context[t][i] = splits[j].substring(index+1);
 								if(context[t][i].substring(0,1).contains("=")) {
@@ -359,7 +435,7 @@ public class CtmController {
 									else if(splits[j].contains("true")) context[t][i] = "false";
 								}
 								if(splits[j].contains("<=")){
-									context[t][i] = splits[j].replace(contextheader.get(t), "x");
+									context[t][i] = splits[j].replace(contextList.get(t), "x");
 									context[t][i] = context[t][i].replace("(A)", "");
 								}
 							} else if(!splits[j].contains("true") && !splits[j].contains("false")) {
@@ -378,65 +454,32 @@ public class CtmController {
 						context[temp][i] += (" & \n" +splits[j]);
 					}
 					temp = -1;
-				}		
+				}
 				j++;
 			}
 			i++;
 		}
-		
-		for(int x=0;x<contextheader.size();x++) {
+
+		for(int x=0;x<contextList.size();x++) {
 			for(int y=0;y<temps.length;y++) {
 				if(context[x][y]==null) {
 					context[x][y] = "N/A";
 				}
 			}
 		}
-		
+
 		for(int y=0;y<temps.length;y++) {
-	        String[] contexts = new String[contextheader.size()];
-			for(int x=0;x<contextheader.size();x++) {
+	        String[] contexts = new String[contextList.size()];
+			for(int x=0;x<contextList.size();x++) {
 				contexts[x] = context[x][y];
 			}
-			
-	   		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
-	   		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
-			      @Override
-			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-			    	 totalData.get(curControllerNum).get(curCANum).setCasesValue(newValue);
-			      }
-			    });
-			
-	   		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
-<<<<<<< HEAD
-//	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
-//			      @Override
-//			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-//			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
-//			      }
-//			    });
-//			
-			totalData.get(curControllerNum).getCTMTableList().add(
-					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).tableSize+1,contexts,comboBox2)
-=======
-	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
-			      @Override
-			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
-			      }
-			    });
-			
-			totalData.get(curControllerNum).add(
-					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
->>>>>>> 434ea028e203c05d0c1c5ca62cf20f059e26108e
-			);
+
+	   		ComboBox<String> casesComboBox = new ComboBox(cases);
+	   		ComboBox<String> hazardComboBox = new ComboBox(hazardous);
+
+//			totalData.get(curControllerNum).getCTMTableList().add(
+//					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).tableSize+1,contexts,comboBox2)
+//			);
 		}
 	}
-	
-	@FXML
-	public void closeAddFile(ActionEvent actionEvent) {
-		AddFile.setVisible(false);
-	}
-	
 }
-
-

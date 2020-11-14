@@ -36,7 +36,6 @@ import kutokit.view.popup.UCAHazardPopUpController;
 public class UtmController {
 
 	private MainApp mainApp;
-	private UCADataStore dataStore;
 	private static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 
 	@FXML private ObservableList<TableView<UCA>> ucaTableList= FXCollections.observableArrayList();
@@ -101,8 +100,7 @@ public class UtmController {
 			}
 
 			ObservableList<String> controlActionName = FXCollections.observableArrayList();
-			for(String s : mainApp.models.getControlActionName()[id]){
-				controlActionName.add(s);
+			for(String s : mainApp.models.getAllCA().get(id)){
 			}
 			controlActionComboBox = new ComboBox(controlActionName);
 
@@ -141,6 +139,8 @@ public class UtmController {
 	            }
 	        });
    	 	}
+
+   	 	//Question : tab delete Menu??
         ucaHazardPopup();
 
         return ;
@@ -241,17 +241,17 @@ public class UtmController {
 
 		ObservableList<CTM> ctmData = FXCollections.observableArrayList() ;
 		for(int i=0;i<ctmDataStoreList.size();i++){
-			if(controller==ctmDataStoreList.get(i).getCTMTableList().get(0).get(0).getControllerName()){
-				if(controlAction==ctmDataStoreList.get(0).getCTMTableList().get(i).get(0).getControlAction()){
-					ctmData = ctmDataStoreList.get(0).getCTMTableList().get(i);
+			if(controller==ctmDataStoreList.get(i).getCTMTableList().get(0).getControllerName()){
+				if(controlAction==ctmDataStoreList.get(0).getCTMTableList().get(i).getCAName()){
+					ctmData = ctmDataStoreList.get(i).getCTMTableList();
 				}
 			}
 		}
 
 		for(CTM c : ctmData){
 			String ucaColumn = "";
-			if(c.getHazardous().getValue().equals("O")){
-				switch((String)c.getCases().getValue())
+			if(c.getHazardousList().getValue().equals("O")){
+				switch((String)c.getCasesList().getValue())
 				{
 				//case naming corretly -dayun should modify
 				case "CA ":
@@ -279,7 +279,7 @@ public class UtmController {
 					}
 				}
 
-				UCA uca = new UCA(c.ControlAction,"","","","",null);
+				UCA uca = new UCA(c.getCAName(),"","","","",null);
 				uca.setUCA(ucaColumn, Context,null);
 				u.getUCATableList().add(uca);
 			}
@@ -341,9 +341,9 @@ public class UtmController {
 
 		ObservableList<CTM> ctmData = FXCollections.observableArrayList() ;
 		for(int i=0;i<ctmDataStoreList.size();i++){
-			if(controller==ctmDataStoreList.get(i).getCTMTableList().get(0).get(0).getControllerName()){
-				if(controlAction==ctmDataStoreList.get(0).getCTMTableList().get(i).get(0).getControlAction()){
-					ctmData = ctmDataStoreList.get(0).getCTMTableList().get(i);
+			if(controller==ctmDataStoreList.get(i).getCTMTableList().get(0).getControllerName()){
+				if(controlAction==ctmDataStoreList.get(i).getCTMTableList().get(0).getCAName()){
+					ctmData = ctmDataStoreList.get(i).getCTMTableList();
 				}
 			}
 		}
@@ -351,8 +351,8 @@ public class UtmController {
 
 		for(CTM c : ctmData){
 			String ucaColumn = "";
-			if(c.getHazardous().getValue().equals("O")){
-				switch((String)c.getCases().getValue())
+			if(c.getHazardousList().getValue().equals("O")){
+				switch((String)c.getCasesList().getValue())
 				{
 				//case naming corretly -dayun should modify
 				case "CA ":
@@ -380,7 +380,7 @@ public class UtmController {
 					}
 				}
 
-				UCA uca = new UCA(c.ControlAction,"","","","",null);
+				UCA uca = new UCA(c.getCAName(),"","","","",null);
 				uca.setUCA(ucaColumn, Context,null);
 				ucaData.add(uca);
 				ucaDataList.add(ucaData);
@@ -388,15 +388,13 @@ public class UtmController {
 		}
 
 		if(!ucaData.isEmpty()){
-			ucadatastore.setControllAction(ctmData.get(0).getControllerName());
-			ucadatastore.setController(ctmData.get(0).getControlAction());
+			ucadatastore.setControllAction(ctmData.get(0).getCAName());
+			ucadatastore.setController(ctmData.get(0).getControllerName());
 			ucaDataStoreList.add(ucadatastore);
 		}
 		makeTable(ucaDataStoreList.size()-1);
 		return;
 	}
-
-
 
 	public void onEditChange(TableColumn.CellEditEvent<UCA, String> event) {
 		//dataStore Save
@@ -404,7 +402,6 @@ public class UtmController {
 		UCA uca = ucadata.get(event.getTablePosition().getRow());
 		uca.setUCA(event.getTableColumn().getText(), event.getNewValue(), null);
 	}
-
 
 	private void ucaHazardPopup() {
 		FXMLLoader loader = new FXMLLoader();
@@ -432,6 +429,23 @@ public class UtmController {
 
 	private void Test(){
 		// Test input data from dataStore
+		//check Get Data Store
+		//PMM dataStore
+		System.out.println("Controller strart");
+		for(String s : mainApp.models.getControllerName()){
+			System.out.println("Controller : "+ s);
+		}
+		System.out.println("ControlAction strart");
+		int i=0;
+		for(ArrayList<String> a : mainApp.models.getControlActionNames()){
+			i++;
+			for(String s : a){
+				System.out.println(i + "ControlAction : " + s);
+			}
+		}
+
+
+		//CTM dataStore
 
 		//first Tab
 		UCADataStore ucadatastore = new UCADataStore();
@@ -467,16 +481,9 @@ public class UtmController {
 		 	l.add("X");
 		 	ComboBox<String> comboBox = new ComboBox(l);
 
-
-		 	ObservableList<String> casesCombo = FXCollections.observableArrayList();
-			casesCombo.add("not providing\ncauses hazard");
-			casesCombo.add("too early, too late,\nout of order");
-			casesCombo.add("providing causes hazard");
-			ComboBox<String> casesCombox = new ComboBox(casesCombo);
-
 		 	ObservableList<CTM> ctm = FXCollections.observableArrayList();
-		 	ctm.add(new CTM("controller name","control aciton",casesCombox,0,context,comboBox));
-		 	ctmDataStoreList.get(0).getCTMTableList().add(ctm);
+		 	ctm.add(new CTM("controller name","control aciton",0));
+//		 	ctmDataStoreList.get(0).getCTMTableList().add(ctm);
 	}
 
 }

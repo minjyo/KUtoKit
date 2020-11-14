@@ -1,38 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="CTMPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CtmController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.CtmController">
    <children>
-      <TableView fx:id="contextTable" layoutY="37.0" prefHeight="800.0" prefWidth="1000.0">
-        <columns>
-          <TableColumn fx:id="CAColumn" prefWidth="100.0" text="Control Action" />
-          <TableColumn fx:id="casesColumn" minWidth="6.0" prefWidth="90.0" text="Cases" />
-            <TableColumn fx:id="noColumn" minWidth="6.0" prefWidth="30.0" text="No." />
-            <TableColumn fx:id="hazardousColumn" minWidth="3.0" prefWidth="100.0" text="hazardous?" />
-        </columns>
-      </TableView>
-      <Pane fx:id="AddFile" layoutX="388.0" layoutY="483.0" prefHeight="118.0" prefWidth="200.0" visible="false">
+      <Rectangle fill="DARKSEAGREEN" height="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1000.0" />
+      <ComboBox fx:id="controllerCB" layoutX="14.0" layoutY="48.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="126.0" promptText="controller" />
+      <ComboBox fx:id="controlActionCB" layoutX="149.0" layoutY="48.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="154.0" promptText="control action" />
+      <TabPane fx:id="tabPane" layoutY="127.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="127.0">
+        <tabs>
+          <Tab fx:id="firstTab">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane layoutY="-1.0" prefHeight="663.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <TableView fx:id="ctmTableView" prefHeight="660.0" prefWidth="1000.0">
+                                <columns>
+                                  <TableColumn fx:id="casesColumn" minWidth="6.0" prefWidth="154.0" resizable="false" text="Cases" />
+                                    <TableColumn fx:id="noColumn" minWidth="0.0" prefWidth="42.0" resizable="false" text="No." />
+                                    <TableColumn fx:id="hazardousColumn" minWidth="3.0" prefWidth="107.0" resizable="false" text="hazardous?" />
+                                </columns>
+                              </TableView>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab>
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Label layoutX="432.0" layoutY="8.0" text="Context Table" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="addTabButton" layoutX="783.0" layoutY="48.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addNewTab" prefHeight="30.0" prefWidth="210.0" text="add New Tab for other CA" />
+      <Button fx:id="addFileButton" layoutX="696.0" layoutY="48.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#AddFile" prefHeight="30.0" prefWidth="80.0" text="Add file" />
+      <AnchorPane layoutY="86.0" prefHeight="40.0" prefWidth="1000.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKSEAGREEN" height="38.0" layoutY="-14.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
-            <Label layoutX="14.0" layoutY="-4.0" text="Add File" textFill="WHITE" />
-            <AnchorPane layoutX="2.0" layoutY="24.0" minHeight="0.0" minWidth="0.0" prefHeight="101.0" prefWidth="210.0">
-               <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="100.0" layoutX="-2.0" layoutY="-4.0" stroke="WHITE" strokeType="INSIDE" width="210.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="8.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
-                  <Button layoutX="160.0" layoutY="15.0" mnemonicParsing="false" onAction="#AddFile" prefHeight="14.0" prefWidth="28.0" text="..." />
-                  <Button layoutX="46.0" layoutY="51.0" mnemonicParsing="false" onAction="#ApplyFile" text="열기" />
-                  <Button layoutX="115.0" layoutY="51.0" mnemonicParsing="false" onAction="#closeAddFile" text="취소" />
-                  <Label fx:id="filename" layoutX="14.0" layoutY="20.0" />
-               </children>
-            </AnchorPane>
+            <ScrollPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="1000.0">
+              <content>
+                <AnchorPane fx:id="addCTM" minHeight="0.0" minWidth="0.0" prefHeight="36.0" prefWidth="997.0" />
+              </content>
+            </ScrollPane>
          </children>
-      </Pane>
+      </AnchorPane>
    </children>
 </AnchorPane>
