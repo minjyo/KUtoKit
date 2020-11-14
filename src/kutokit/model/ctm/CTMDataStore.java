@@ -1,3 +1,4 @@
+
 package kutokit.model.ctm;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import javafx.collections.ObservableList;
 public class CTMDataStore {
 
 	public String ctmController, ctmControlAction;
+	public ArrayList<String> ctmCases = new ArrayList<String>();
 	public ArrayList<String[]> ctmContexts = new ArrayList<String[]>();
 	public ArrayList<String> ctmHazardous = new ArrayList<String>();
 	public int rowSize;
@@ -19,12 +21,15 @@ public class CTMDataStore {
 		if(rowSize > 0) {
 			ctmController = this.CTMTableList.get(0).getControllerName();
 			ctmControlAction = this.CTMTableList.get(0).getControlAction();
+			ArrayList<String> tempCases = new ArrayList<String>();
 			ArrayList<String> tempHazardous = new ArrayList<String>();
 			ArrayList<String[]> tempContexts = new ArrayList<String[]>();
 			for(int i=0;i<rowSize;i++) {
+				tempCases.add(this.CTMTableList.get(i).getCasesValue());
 				tempHazardous.add(this.CTMTableList.get(i).getHazardousValue());
 				tempContexts.add(this.CTMTableList.get(i).getContexts());
 			}
+			ctmCases = tempCases;
 			ctmHazardous = tempHazardous;
 			ctmContexts = tempContexts;
 		}
@@ -49,6 +54,14 @@ public class CTMDataStore {
 		this.ctmControlAction = controlAction;
 	}
 	
+	public ArrayList<String> getCases() {
+		return this.ctmCases;
+	}
+
+	public void setCases(ArrayList<String> cases) {
+		this.ctmCases = cases;
+	}
+	
 	public ArrayList<String[]> getContexts() {
 		return this.ctmContexts;
 	}
@@ -67,5 +80,3 @@ public class CTMDataStore {
 	
 	
 } 
-
-

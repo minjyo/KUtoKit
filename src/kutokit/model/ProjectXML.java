@@ -273,6 +273,16 @@ public class ProjectXML {
 		return ca;
 	}
 	
+	public ArrayList<String> getCTMCases(){
+		ArrayList<String> cases = new ArrayList<String>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				cases.add(CTMList.get(i).getCTMTableList().get(j).getCasesValue());
+			}
+		}
+		return cases;
+	}
+	
 	public ArrayList<String[]> getCTMContext(){
 		ArrayList<String[]> contextsArray = new ArrayList<String[]>();
 		for(int i=0;i<CTMList.size();i++){
@@ -296,20 +306,6 @@ public class ProjectXML {
 		}
 		return hazardous;
 	}
-	/*public ObservableList<CTM> getCTM(){
-		for(CTM c : CTMList.get(0).getCTMTableList()){
-			CTM.addAll(c);
-		}
-		return CTM;
-	}
-	@XmlElement(name = "CTM")
-	public ObservableList<CTM> getCTM(){
-		for(CTMDataStore c : CTMList){
-			//CTM.addAll(c.getCTMTableList());
-		}
-		return CTM;
-	}*/
-
 
 	public void setCTM(ObservableList<CTM> CTM) {
 		this.CTM = CTM;
