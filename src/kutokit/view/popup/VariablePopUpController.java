@@ -16,25 +16,26 @@ public class VariablePopUpController {
 		  this.stage = stage;
 	  }
 	  
-	  
 	  public void setData() {
 		  if(!text.getText().isEmpty()) {
 			  value = text.getText();
-//			  close();
-			  confirmClicked = true;
+			  close();
+//			  confirmClicked = true;
 		  }
 	  }
 	  
 	  public void close() { 
-	       closeClicked = true;
+		  Stage pop = (Stage)text.getScene().getWindow(); 
+	       pop.close();
+//	       closeClicked = true;
 	  }
 	  
-	  public boolean closeClicked() {
-		  return closeClicked;
-	  }
-	  
-	  public boolean confirmClicked() {
-		  return confirmClicked;
-	  }
+//	  public boolean closeClicked() {
+//		  return closeClicked;
+//	  }
+//	  
+//	  public boolean confirmClicked() {
+//		  return confirmClicked;
+//	  }
 
 }
