@@ -61,7 +61,7 @@ public class ProjectXML {
 	private ArrayList<ArrayList<String>> allCAs = new ArrayList<ArrayList<String>>();
 
 	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-	private ObservableList<String> valueList = FXCollections.observableArrayList();
+	private ObservableList<ArrayList<String>> valueLists = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
 
@@ -213,11 +213,13 @@ public class ProjectXML {
 	
 	@XmlElementWrapper(name="PMM-value-list")
 	@XmlElement(name = "Value")
-	public ObservableList<String> getValueList() {
-		return valueList;
+	public ObservableList<ArrayList<String>> getValueList() {
+		return valueLists;
 	}
-	public void setValueList(ObservableList<String> valueListName) {
-		valueList = valueListName;
+
+	public void setValueList(ObservableList<ArrayList<String>> valueListName) {
+		valueLists = valueListName;
+		
 	}
 	
 	@XmlElementWrapper(name="PMM-all-CA")
@@ -293,4 +295,5 @@ public class ProjectXML {
 		this.lsDB.getLossScenarioList().setAll(lossScenarioList);
 	}
 	// --------------------------- LS ---------------------------
+
 }
