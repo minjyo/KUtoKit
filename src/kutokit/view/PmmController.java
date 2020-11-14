@@ -438,7 +438,7 @@ public class PmmController {
 		
 		if (selectedFile != null && !selectedOutputs.get(curIndex).isEmpty()) {
 			System.out.println("make process model");
-			this.makeModel(selectedOutputs);
+			this.makeModel(selectedOutput);
 		}
 		// Get output variables
 		else if (selectedOutputs.get(curIndex).isEmpty()) {
@@ -523,12 +523,23 @@ public class PmmController {
 			cnt++;
 		}
 
+		System.out.println(values);
 		// 2. Check conditions in values
 		for (String str : values) {
 			int close = 0;
+			boolean isNumber = true;
 			str = str.trim();
-
+			try{
+				Integer.parseInt(str);
+			} catch(NumberFormatException e) {
+				isNumber = false;
+			} catch(NullPointerException e) {
+				isNumber = false;
+			} 
+			
 			if ("".equals(str))
+				continue;
+			else if(isNumber)
 				continue;
 			else if ((conditions[0].equals(str)) || ((conditions[1]).equals(str)) || (conditions[4].equals(str)))
 				continue;
@@ -551,7 +562,7 @@ public class PmmController {
 	}
 
 	// Make process model
-	public void makeModel(ArrayList<ArrayList<String>> selectedOutput2) {
+	public void makeModel(ArrayList<String> selectedOutput2) {
 
 		String[] valueName = new String[50];
 		NodeList l1;
@@ -560,21 +571,24 @@ public class PmmController {
 		List<String> checkedl1 = new ArrayList<String>();
 		List<String> checkedl2 = new ArrayList<String>();
 
-		for (String output : selectedOutput2.get(curIndex)) {
+		for (String output : selectedOutput2) {
 			curOutput = output;
 			String nodeType = curOutput.substring(0, 1);
 
 			l1 = reader.getNodeList(reader.getNode(curOutput), "");
 			l2 = reader.getTransitionNodes(reader.getNode(curOutput));
 
+			System.out.println();
 			// SDT : L1+L2, TTS : L2
 			// Get input variables from l1
 			if (nodeType.equals("f")) {
 				for (int i = 0; i < l1.getLength(); i++) {
 					String str = l1.item(i).getAttributes().getNamedItem("value").getTextContent();
+					System.out.println(str);
 					valueName[i] = str;
 				}
-				checkedl1 = checkValue(valueName, selectedOutput2.get(curIndex));
+				checkedl1 = checkValue(valueName, selectedOutput2);
+				
 				for (Object value : checkedl1) {
 					this.curlist.add(value.toString());
 				}
@@ -584,8 +598,9 @@ public class PmmController {
 			for (int i = 0; i < l2.size(); i++) {
 				valueName[i] = l2.get(i);
 			}
-			checkedl2 = checkValue(valueName, selectedOutput2.get(curIndex));
+			checkedl2 = checkValue(valueName, selectedOutput2);
 			for (Object value : checkedl2) {
+				System.out.println("l2.str:"+value);
 				this.curlist.add(value.toString());
 			}
 
@@ -603,7 +618,6 @@ public class PmmController {
 		while (it.hasNext()) {
 			curlist.add(it.next().toString());
 		}
-
 		castlist.clear();
 		castlist.addAll(curlist); // for casting
 		PM.setItems(castlist);
