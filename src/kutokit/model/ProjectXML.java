@@ -22,6 +22,7 @@ import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.ls.LS;
 import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
 
@@ -53,15 +54,9 @@ public class ProjectXML {
 
 
 	// --------------------------- PMM --------------------------
-	private ArrayList<String> controller = new ArrayList<String>();
-
-	private ArrayList<ArrayList<String>> selectedCAs = new ArrayList<ArrayList<String>>();
-	private ArrayList<ArrayList<String>> outputVariables = new ArrayList<ArrayList<String>>();
-
-	private ArrayList<ArrayList<String>> allCAs = new ArrayList<ArrayList<String>>();
-
-	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-	private ObservableList<String> valueList = FXCollections.observableArrayList();
+	private ObservableList<ProcessModel> processModel = FXCollections.observableArrayList();
+	private ArrayList<ArrayList<String>> inputList = new ArrayList<ArrayList<String>>();
+	private ObservableList<String> outputList = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
 
@@ -158,58 +153,30 @@ public class ProjectXML {
 	// --------------------------- CSE --------------------------
 
 	// --------------------------- PMM --------------------------
-	@XmlElement(name = "PMM-controller")
-	public ArrayList<String> getControllerName() {
-		return controller;
+	@XmlElement(name = "PMM")
+	public ObservableList<ProcessModel> getProcessModel() {
+		return processModel;
 	}
-	public void setControllerName(ArrayList<String> controllerName) {
-		this.controller = controllerName;
+	public void setProcessModel(ObservableList<ProcessModel> processModel) {
+		this.processModel = processModel;
 	}
 
-	@XmlElement(name = "PMM-control-action")
-	public ArrayList<ArrayList<String>> getControlActionNames() {
-		return selectedCAs;
-	}
-	public void setControlActionNames(ArrayList<ArrayList<String>> controlActionName) {
-		this.selectedCAs = controlActionName;
-	}
 
 	@XmlElementWrapper(name="PMM-output-list")
 	@XmlElement(name = "Output")
-	public ArrayList<ArrayList<String>> getOutputVariableName() {
-		return outputVariables;
+	public ObservableList<String> getOutputList() {
+		return outputList;
 	}
-	public void setOutputVariableName(ArrayList<ArrayList<String>> outputVariables) {
-		this.outputVariables = outputVariables;
-	}
-
-	@XmlElementWrapper(name="PMM-value-list")
-	@XmlElement(name = "Value")
-	public ObservableList<String> getValueList() {
-		return valueList;
-	}
-	public void setValueList(ObservableList<String> valueListName) {
-		valueList = valueListName;
+	public void setOutputList(ObservableList<String> outputList) {
+		this.outputList = outputList;
 	}
 
-	@XmlElementWrapper(name="PMM-all-CA")
-	@XmlElement(name = "Allca")
-	public ArrayList<ArrayList<String>> getAllCA() {
-		return allCAs;
+	@XmlElement(name = "intput")
+	public ArrayList<ArrayList<String>> getInputList() {
+		return inputList;
 	}
-
-	public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
-		this.allCAs = controlAction;
-	}
-
-	@XmlElementWrapper(name="PMM-all-output")
-	@XmlElement(name = "Alloutput")
-	public ObservableList<String> getAllOutput() {
-		return allOutput;
-	}
-
-	public void setAllOutput(ObservableList<String> allOutput) {
-		this.allOutput = allOutput;
+	public void setInputList(ArrayList<ArrayList<String>> inputList) {
+		this.inputList = inputList;
 	}
 	// --------------------------- PMM --------------------------
 

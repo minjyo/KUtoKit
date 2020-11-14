@@ -31,7 +31,7 @@ import kutokit.model.ctm.CTM;
 import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.pmm.ProcessModel;
 
-public class CtmController implements Initializable{
+public class CtmController2 implements Initializable{
 	private MainApp mainApp;
 	private File selectedFile;
 	private ProcessModel pm = new ProcessModel();
@@ -66,7 +66,7 @@ public class CtmController implements Initializable{
 	/*
 	 * default constructor
 	 */
-	public CtmController() {
+	public CtmController2() {
 	}
 
 	//set MainApp

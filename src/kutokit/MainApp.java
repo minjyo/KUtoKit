@@ -33,6 +33,7 @@ import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.PmmDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
@@ -51,6 +52,7 @@ public class MainApp extends Application {
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<CTM> ctmDataStore = FXCollections.observableArrayList();
 	 public static LSDataStore lsDataStore;
+	 public static PmmDataStore pmmDB;
 
 	@Override
 	//auto execute after main execute
@@ -72,6 +74,7 @@ public class MainApp extends Application {
 		lhcDataStore = new LhcDataStore();
 		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
+		pmmDB = new PmmDataStore();
 	}
 
 	private void initRootLayout() {
@@ -360,12 +363,15 @@ public class MainApp extends Application {
 		      //--------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
-		        models.setControllerName(projectXML.getControllerName());;
-		        models.setControlActionNames(projectXML.getControlActionNames());
-		        models.setOutputNames(projectXML.getOutputVariableName());
-		        models.setAllCA(projectXML.getAllCA());
-		        models.setAllOutput(projectXML.getAllOutput());
-		        models.getValuelist().addAll(projectXML.getValueList());
+		        pmmDB.setInputList(projectXML.getInputList());
+		        pmmDB.setOutputList(projectXML.getOutputList());
+		        pmmDB.
+//		        models.setControllerName(projectXML.getControllerName());;
+//		        models.setControlActionNames(projectXML.getControlActionNames());
+//		        models.setOutputNames(projectXML.getOutputVariableName());
+//		        models.setAllCA(projectXML.getAllCA());
+//		        models.setAllOutput(projectXML.getAllOutput());
+//		        models.getValuelist().addAll(projectXML.getValueList());
 			 // --------------------------- PMM --------------------------
 
 			 // --------------------------- CTM --------------------------
@@ -430,12 +436,9 @@ public class MainApp extends Application {
 	     // --------------------------- UTM --------------------------
 
 		 // --------------------------- PMM --------------------------
-	        projectXML.setControllerName(models.getControllerName());
-	        projectXML.setControlActionNames(models.getControlActionNames());
-	        projectXML.setOutputVariableName(models.getOutputNames());
-	        projectXML.setAllCA(models.getAllCA());
-	        projectXML.setAllOutput(models.getAllOutput());
-	        projectXML.setValueList(models.getValuelist());
+	        projectXML.setProcessModel(pmmDB.getProcessModel());
+	        projectXML.setInputList(pmmDB.getInputList());
+	        projectXML.setOutputList(pmmDB.getOutputList());
     	 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------

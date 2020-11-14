@@ -196,7 +196,7 @@ public class UtmController {
 		ca.setOnEditCommit(event ->{
 			onEditChange(event);
 		});
-		CAColumn.add(ca);
+		CAColumn.add();
 		TableColumn<UCA,String> pc = new TableColumn<>("Providing Causes Hazard");
 		pc.setPrefWidth(180);
 		pc.setResizable(false);
