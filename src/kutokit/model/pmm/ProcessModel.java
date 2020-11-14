@@ -78,25 +78,31 @@ public class ProcessModel {
 		this.valuelist = lists;
 	}
 
-	// ERROR 수정 중 
 	public void addValuelist(ArrayList<String> list) {
 		this.valuelist.add(list);
 	}
 
-	// ERROR 수정 중 
-	public void modifyValue(String oldValue, String newValue) {
-		for(ArrayList<String> value: valuelist) {
-			for(String data : value) {
-				if( oldValue.equals(data)) {
-					value.set(value.indexOf(data), newValue);
-				}	
-			}
-		}
+	public ArrayList<String> modifyValue(int curIndex, String oldValue, String newValue) {
+
+		ArrayList<String> curList = valuelist.get(curIndex);
+				for(String data : curList) {
+					if( oldValue.equals(data)) {
+						curList.set(curList.indexOf(data), newValue);
+						valuelist.set(curIndex, curList);
+					}
+				}
+		return curList;
 	}
 	
-	// ERROR 수정 중 
-	public void deleteValue(String value) {
-		valuelist.remove(value);
+	public ArrayList<String> deleteValue(int curIndex, String oldValue) {
+		ArrayList<String> curList = valuelist.get(curIndex);
+			for(String data : curList) {
+				if(oldValue.equals(data)) {
+					curList.remove(curList.indexOf(data));
+					valuelist.set(curIndex, curList);
+				}
+			}
+		return curList;
 	}
 
 	// All control actions
