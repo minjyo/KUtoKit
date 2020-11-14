@@ -8,126 +8,137 @@ import javafx.collections.ObservableList;
 
 public class ProcessModel {
 
-	private ArrayList<String> controllerName = new ArrayList<String>();
+   private ArrayList<String> controllerName = new ArrayList<String>();
 
-	private ArrayList<ArrayList<String>> controlActionNames = new ArrayList<ArrayList<String>>();
-	private ArrayList<ArrayList<String>> allCA =  new ArrayList<ArrayList<String>>();
-	private ArrayList<ArrayList<String>> outputNames =  new ArrayList<ArrayList<String>>();
+   private ArrayList<ArrayList<String>> controlActionNames = new ArrayList<ArrayList<String>>();
+   private ArrayList<ArrayList<String>> allCA =  new ArrayList<ArrayList<String>>();
 
-	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-	private ObservableList<String> valuelist = FXCollections.observableArrayList();
-	private ArrayList<String> valuelists = new ArrayList<String>();
-	
-	private File filePath;
+   private ArrayList<ArrayList<String>> outputNames =  new ArrayList<ArrayList<String>>();
+   private ObservableList<String> allOutput =  FXCollections.observableArrayList();
+   private ObservableList<ArrayList<String>> valuelist = FXCollections.observableArrayList();
 
-	public ProcessModel() {
-		
-	}
+   private File filePath;
 
-	// File path
-	public File getFilePath() {
-		return filePath;
-	}
+   public ProcessModel() {
 
-	public void setFilePath(File filePath) {
-		this.filePath = filePath;
-	}
+   }
 
-	// Controller
-	public ArrayList<String> getControllerName() {
-		return controllerName;
-	}
+   // File path
+   public File getFilePath() {
+      return filePath;
+   }
 
-	public void setControllerName(ArrayList<String> controllerName) {
-		this.controllerName.addAll(controllerName);
-	}
+   public void setFilePath(File filePath) {
+      this.filePath = filePath;
+   }
 
-	// Control Action
-	public ArrayList<ArrayList<String>> getControlActionNames() {
-		return controlActionNames;
-	}
+   // Controller
+   public ArrayList<String> getControllerName() {
+      return controllerName;
+   }
 
-	public void setControlActionNames(ArrayList<ArrayList<String>> arrayList) {
+   public void setControllerName(ArrayList<String> controllerName) {
+      this.controllerName.addAll(controllerName);
+   }
 
-		this.controlActionNames = arrayList;
-	}
+   // Control Action
 
-	// Selected Output variables
-	public ArrayList<ArrayList<String>> getOutputNames() {
-		return outputNames;
-	}
+   public ArrayList<ArrayList<String>> getControlActionNames() {
+      return controlActionNames;
+   }
 
-	public void setOutputNames(ArrayList<ArrayList<String>> outputVariables) {
-		this.outputNames = outputVariables;
-	}
+   public void setControlActionNames(ArrayList<ArrayList<String>> arrayList) {
+      this.controlActionNames = arrayList;
+   }
 
-	// All output variables
-	public ObservableList<String> getAllOutput() {
-		return allOutput;
-	}
+   // Selected Output variables
+   public ArrayList<ArrayList<String>> getOutputNames() {
+      return outputNames;
+   }
 
-	public void setAllOutput(ObservableList<String> allOutput) {
-		this.allOutput = allOutput;
-	}
+   public void setOutputNames(ArrayList<ArrayList<String>> outputVariables) {
+      this.outputNames = outputVariables;
+   }
 
-	// Value list
-	public ObservableList<String> getValuelist() {
-		return valuelist;
-	}
+   // All output variables
+   public ObservableList<String> getAllOutput() {
+      return allOutput;
+   }
 
-	public void setValuelist(ObservableList<String> valuelist) {
-		for(String data : valuelist) {
-			valuelists.add(data);
-		}
-		this.valuelist.addAll(valuelists);
-	}
+   public void setAllOutput(ObservableList<String> allOutput) {
+      this.allOutput = allOutput;
+   }
 
-	public void addValuelist(String value) {
-		this.valuelist.add(value);
-	}
+   // Value list
+   public ObservableList<ArrayList<String>> getValuelist() {
+      return valuelist;
+   }
 
-	public void modifyValue(String oldValue, String newValue) {
-		for(String value: valuelist) {
-			if( oldValue.equals(value)) {
-				valuelist.set(valuelist.indexOf(value), newValue);
-			}
-		}
-	}
+   public void setValuelist(ObservableList<ArrayList<String>> lists) {
+      this.valuelist = lists;
+   }
 
-	public void deleteValue(String value) {
-		valuelist.remove(value);
-	}
+   public void addValuelist(ArrayList<String> list) {
+      this.valuelist.add(list);
+   }
 
-	// All control actions
-	public ArrayList<ArrayList<String>> getAllCA() {
-		return allCA;
-	}
+   public ArrayList<String> modifyValue(int curIndex, String oldValue, String newValue) {
 
-	public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
-		this.allCA = controlAction;
-	}
-	
-	public boolean isEmpty(ArrayList<ArrayList<String>> arraylist) {
-		boolean result = false;
-		int cnt = 0;
-		for(ArrayList<String> list : arraylist) {
-			if(list == null || list.isEmpty()) {
-				cnt++;
-			}else {
-				continue;
-			}
-		}
-		if(cnt == arraylist.size()) {
-			result = true;
-		}
-		return result;
-	}
-	
-	public int getSize(ArrayList<ArrayList<String>> arraylist) {
-		int cnt=0;
-		if(!isEmpty(arraylist)) {
-			cnt++;
-		}
-		return cnt;
-	}
+      ArrayList<String> curList = valuelist.get(curIndex);
+            for(String data : curList) {
+               if( oldValue.equals(data)) {
+                  curList.set(curList.indexOf(data), newValue);
+                  valuelist.set(curIndex, curList);
+               }
+            }
+      return curList;
+   }
+
+   public ArrayList<String> deleteValue(int curIndex, String oldValue) {
+      ArrayList<String> curList = valuelist.get(curIndex);
+         for(String data : curList) {
+            if(oldValue.equals(data)) {
+               curList.remove(curList.indexOf(data));
+               valuelist.set(curIndex, curList);
+            }
+         }
+      return curList;
+   }
+
+   // All control actions
+   public ArrayList<ArrayList<String>> getAllCA() {
+      return allCA;
+   }
+
+   public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
+      this.allCA = controlAction;
+   }
+
+
+   public boolean isEmpty(ArrayList<ArrayList<String>> arraylist) {
+      boolean result = false;
+      int cnt = 0;
+      for(ArrayList<String> list : arraylist) {
+         if(list == null || list.isEmpty()) {
+            cnt++;
+         }else {
+            continue;
+         }
+      }
+
+      if(cnt == arraylist.size()) {
+         result = true;
+      }
+      return result;
+   }
+
+   public int getSize(ArrayList<ArrayList<String>> arraylist) {
+      int cnt=0;
+      for(ArrayList<String> list: arraylist) {
+         if(!isEmpty(arraylist)) {
+            cnt++;
+         }
+      }
+      return cnt;
+   }
 }
