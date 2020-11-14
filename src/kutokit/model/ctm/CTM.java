@@ -1,3 +1,4 @@
+
 package kutokit.model.ctm;
 
 import java.util.ArrayList;
@@ -20,7 +21,11 @@ public class CTM {
 	private IntegerProperty no;
 	private ObservableList<StringProperty> contexts;
 
+	private String ControllerName;
+	private String ControlAction;
+	private String Cases;
 	private int No;
+	private String Hazardous;
 	private String[] Contexts;
 
 	/*
@@ -37,23 +42,32 @@ public class CTM {
 		this.controlActionName = new SimpleStringProperty(controlActionName);
 		this.cases = new ComboBox(); 
 		this.no = new SimpleIntegerProperty(no);
-		this.hazardous = new ComboBox();
-		this.contexts = FXCollections.observableArrayList();
-//		this.hazardous = hazardous;
-//		cases.setValue("not providing\ncauses hazard");
-//		hazardous.setValue("X");
-//		this.contexts = new StringProperty[contexts.length];
-//
-//		for(int i=0;i<contexts.length;i++) {
-//			this.contexts[i] = new SimpleStringProperty(contexts[i]);
-//		}
-//
-//		this.ControllerName = controllerName;
-//		this.ControlAction = controlAction;
-//		this.Cases = cases.getValue();
-//		this.No = no;
-//		this.Contexts = contexts;
-//		this.Hazardous = hazardous.getValue();
+		this.hazardous = hazardous;
+		cases.setValue("not providing\ncauses hazard");
+		hazardous.setValue("X");
+		this.contexts = new StringProperty[contexts.length];
+		
+		cases.setOnAction(event -> {
+			System.out.println("cases.getValue():"+cases.getValue());
+			this.Cases = cases.getValue();
+		});
+
+		hazardous.setOnAction(event -> {
+			System.out.println("hazardous.getValue():"+hazardous.getValue());
+			this.Hazardous = hazardous.getValue();
+		});
+
+
+		for(int i=0;i<contexts.length;i++) {
+			this.contexts[i] = new SimpleStringProperty(contexts[i]);
+		}
+
+		this.ControllerName = controllerName;
+		this.ControlAction = controlAction;
+		this.Cases = cases.getValue();
+		this.No = no;
+		this.Contexts = contexts;
+		this.Hazardous = hazardous.getValue();
 	}
 	
 	public CTM(String string, ArrayList<String> controlActionNames2, ComboBox<String> comboBox1, int i,
@@ -74,8 +88,19 @@ public class CTM {
 		return this.controllerName.get();
 	}
 	
-	public void setControllerName(String controllerName) {
-		this.controllerName.set(controllerName);
+	public StringProperty getControllerNameProperty() {
+		return controllerName;
+	}
+	public void setControllerName(String val) {
+		this.controllerName.set(val);
+	}
+
+	public String[] getContexts() {
+		return Contexts;
+	}
+	
+	public String getContext(int i) {
+		return contexts[i].get();
 	}
 	
 	public StringProperty getCANameProperty() {
@@ -105,37 +130,43 @@ public class CTM {
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
-	
-	public void setNo(int num) {
-		this.no.set(num);
+
+	public ComboBox<String> getCases() {
+		return cases;
 	}
-//
-//	public String getCasesValue() {
-//		return Cases;
-//	}
-//
-//	public void setCases(ComboBox val) {
-//		this.cases = val;
-//		Cases = cases.getValue();
-//	}
+	public String getCasesValue() {
+		return Cases;
+	}
+
+	public void setCases(ComboBox<String> val) {
+		this.cases = val;
+		Cases = cases.getValue();
+	}
 	
-	public String getContext(int i) {
-		return contexts.get(i).get();
+	public void setCasesValue(String val) {
+		this.cases.setValue(val);
+		Cases = cases.getValue();
+	}
+
+	public ComboBox<String> getHazardous() {
+		return hazardous;
 	}
 	
 	public StringProperty getContextProperty(int i) {
 		return contexts.get(i);
 	}
-	
-	public void setContext(int i, StringProperty val) {
-		this.contexts.set(i, val);
+
+	public void setHazardous(ComboBox<String>  val) {
+		this.hazardous = val;
+		Hazardous = hazardous.getValue();
 	}
 	
 	public ComboBox getHazardousList() {
 		return hazardous;
 	}
 	
-//	public void setHazardous(ComboBox hazardous) {
-//		this.hazardous = hazardous;
-//	}
+	public CTM get(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -50,7 +51,7 @@ public class MainApp extends Application {
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
-	 public static CTMDataStore ctmDataStore;
+	 public static ObservableList<CTM> ctmDataStore = FXCollections.observableArrayList();
 	 public static LSDataStore lsDataStore;
 
 	@Override
@@ -72,7 +73,7 @@ public class MainApp extends Application {
 		components = new Components();
 		lhcDataStore = new LhcDataStore();
 		lsDataStore = new LSDataStore();
-		ctmDataStore = new CTMDataStore();
+//		ctmDataStore = new CTMDataStore();
 		pmmDB = new PmmDataStore();
 	}
 
@@ -371,18 +372,8 @@ public class MainApp extends Application {
 			 // --------------------------- PMM --------------------------
 
 			 // --------------------------- CTM --------------------------
-		        /*ctmDataStore.remove(0, ctmDataStore.size()-1);
+		        ctmDataStore.remove(0, ctmDataStore.size()-1);
 		        ctmDataStoreList.remove(0, ctmDataStoreList.size()-1);
-
-		        ctmDataStore.addAll(projectXML.getCTM());
-		        ctmDataStoreList.addAll(projectXML.getCtmDataStoreList());
-		        int j = 0;
-		        for(CTMDataStore c : ctmDataStoreList){
-		        	for(int k = 0; k < c.tableSize; k++){
-		        		c.getCTMTableList().add(ctmDataStore.get(j));
-		        		j++;
-		        	}
-		        }*/
    	         // --------------------------- CTM --------------------------
 		        
 		     // --------------------------- LS ---------------------------
@@ -441,8 +432,8 @@ public class MainApp extends Application {
     	 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------
-	        //projectXML.setCTM(ctmDataStore);
-	        //projectXML.setCTMList(ctmDataStoreList);
+	        projectXML.setCTM(ctmDataStore);
+	        projectXML.setCTMList(ctmDataStoreList);
 	     // --------------------------- CTM --------------------------
 	        
 	     // --------------------------- LS ---------------------------
@@ -465,3 +456,5 @@ public class MainApp extends Application {
 	}
 
 }
+
+
