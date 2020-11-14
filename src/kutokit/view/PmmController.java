@@ -155,7 +155,11 @@ public class PmmController{
 		dataStore.setControllerName(controllerName);
 		String curCA = CAList.getSelectionModel().getSelectedItem();
 		CANameBar.setText(curCA);
-		
+
+		System.out.println("@@@@@@@@@@@");
+		System.out.println("selectedCA.length : "+selectedCA.length);
+		System.out.println("curIndex : "+curIndex);
+		System.out.println("curCA : "+curCA);
 		selectedCA[curIndex].add(curCA);
 		System.out.println("before dataStore.ca : "+dataStore.getControlActionName());
 		System.out.println("selectedCA: "+selectedCA);

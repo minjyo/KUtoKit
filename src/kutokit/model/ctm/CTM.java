@@ -1,3 +1,4 @@
+
 package kutokit.model.ctm;
 
 import java.util.ArrayList;
@@ -22,12 +23,12 @@ public class CTM {
 	private ComboBox<String> hazardous;
 	private StringProperty[] contexts;
 
-	public String ControllerName;
-	public String ControlAction;
-	public String Cases;
-	public int No;
-	public String Hazardous;
-	public String[] Contexts;
+	private String ControllerName;
+	private String ControlAction;
+	private String Cases;
+	private int No;
+	private String Hazardous;
+	private String[] Contexts;
 
 	public CTM(String controllerName, String controlAction, ComboBox<String> cases, int no, String[] contexts, ComboBox<String> hazardous) {
 		this.controllerName = new SimpleStringProperty(controllerName);
@@ -38,6 +39,17 @@ public class CTM {
 		cases.setValue("not providing\ncauses hazard");
 		hazardous.setValue("X");
 		this.contexts = new StringProperty[contexts.length];
+		
+		cases.setOnAction(event -> {
+			System.out.println("cases.getValue():"+cases.getValue());
+			this.Cases = cases.getValue();
+		});
+
+		hazardous.setOnAction(event -> {
+			System.out.println("hazardous.getValue():"+hazardous.getValue());
+			this.Hazardous = hazardous.getValue();
+		});
+
 
 		for(int i=0;i<contexts.length;i++) {
 			this.contexts[i] = new SimpleStringProperty(contexts[i]);
@@ -71,6 +83,10 @@ public class CTM {
 		this.controllerName.set(val);
 	}
 
+	public String[] getContexts() {
+		return Contexts;
+	}
+	
 	public String getContext(int i) {
 		return contexts[i].get();
 	}
@@ -102,15 +118,22 @@ public class CTM {
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
+	
+	
+	
 
-	public ComboBox getCases() {
+	
+	
+	
+
+	public ComboBox<String> getCases() {
 		return cases;
 	}
 	public String getCasesValue() {
 		return Cases;
 	}
 
-	public void setCases(ComboBox val) {
+	public void setCases(ComboBox<String> val) {
 		this.cases = val;
 		Cases = cases.getValue();
 	}
@@ -120,7 +143,7 @@ public class CTM {
 		Cases = cases.getValue();
 	}
 
-	public ComboBox getHazardous() {
+	public ComboBox<String> getHazardous() {
 		return hazardous;
 	}
 	
@@ -128,7 +151,7 @@ public class CTM {
 		return Hazardous;
 	}
 
-	public void setHazardous(ComboBox val) {
+	public void setHazardous(ComboBox<String>  val) {
 		this.hazardous = val;
 		Hazardous = hazardous.getValue();
 	}
@@ -137,7 +160,10 @@ public class CTM {
 		this.hazardous.setValue(val);
 		Hazardous = hazardous.getValue();
 	}
-
+	public CTM get(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }
