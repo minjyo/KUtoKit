@@ -95,6 +95,6 @@
          </font>
       </Label>
       <Button fx:id="toCTMButton" layoutX="786.0" layoutY="685.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="172.0" text="make context table" wrapText="true" />
-      <Button fx:id="newTabButton" layoutX="656.0" layoutY="685.0" mnemonicParsing="false" onAction="#addNewTab" prefHeight="30.0" prefWidth="105.0" text="new tab" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="addTabButton" layoutX="656.0" layoutY="685.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="new tab" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

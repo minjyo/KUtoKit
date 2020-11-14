@@ -107,7 +107,7 @@ public class PmmController {
 
 	// Get Controller, all of CA from CSE DataStore
 	public void selectController() {
-		System.out.println("�ѤѤѤѤѤѤѤѤ�Select Controller�ѤѤѤѤѤѤѤѤѤ�");
+		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡSelect Controllerㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 
 		// CSE -> PMM
 		// get data of selected controller
@@ -197,7 +197,7 @@ public class PmmController {
 	@FXML
 	public void showOutput() {
 		// Save selected controller, ca in datastore
-		System.out.println("�ѤѤѤѤѤѤѤѤѤѤѤ�SHOW output�ѤѤѤѤѤѤѤѤѤѤ�");
+		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡSHOW outputㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 
 //		dataStore.setControllerName(controllerName);
 		System.out.println("showoutput controllerName: " + controllerName);
@@ -430,7 +430,7 @@ public class PmmController {
 		// Make process model
 		System.out.println("selected OUTPUT :"+selectedOutput);
 		System.out.println("selected OUTPUTS : "+selectedOutputs);
-
+		
 		if (selectedFile != null && !selectedOutputs.get(curIndex).isEmpty()) {
 			System.out.println("make process model");
 			this.makeModel(selectedOutputs);
@@ -447,7 +447,7 @@ public class PmmController {
 			}
 			allOutputs.addAll(outputlist);
 			outputList.setItems(outputlist);
-
+			
 			dataStore.setOutputNames(selectedOutputs);
 			dataStore.setAllOutput(allOutputs);
 
@@ -708,7 +708,7 @@ public class PmmController {
 				// while working data in PMM
 				System.out.println("You have working data.");
 
-				// �ǿ� ���� ���� �ؾ���
+				// 탭에 따라 저장 해야함
 				// Data
 				selectedFile = dataStore.getFilePath();
 				controllerName = dataStore.getControllerName(); // controller
@@ -721,7 +721,7 @@ public class PmmController {
 				// View
 				outputList.getItems().clear();
 				outputList.getItems().addAll(allOutputs);
-
+				
 
 			}
 		} else {
@@ -734,7 +734,7 @@ public class PmmController {
 			selectController();
 		}
 
-
+	
 		// tab data
 //		for(int i = 0; i < tabPane.getTabs().size(); i++) {
 //			tabPane.getTabs().get(i).setText(tabNames.get(i));

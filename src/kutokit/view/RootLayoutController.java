@@ -133,5 +133,6 @@ public class RootLayoutController {
     @FXML
     private void handleDashboard() {
     	this.mainApp.showDashboardView();
+    	this.mainApp.components.curController = null;
     }
 }
