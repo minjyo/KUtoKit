@@ -407,7 +407,8 @@ public class PmmController {
 		addFile.getChildren().clear();
 		PM.getItems().clear();
 
-		curIndex = controllerName.indexOf(controllerList.getSelectionModel().getSelectedItem());
+		// ERROR : 탭으로 관리되어야함
+		curIndex = controllerName.size()-1;
 
 		// Create XmlReader constructor
 		reader = new XmlReader(selectedFile.getName());
@@ -415,15 +416,19 @@ public class PmmController {
 		// Get selected output
 		System.out.println(curIndex + " : index of selected controller");
 		outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		selectedOutput.clear();
-		selectedOutput.addAll(outputList.getSelectionModel().getSelectedItems());
-
+		
 		if(!dataStore.isEmpty(dataStore.getOutputNames())){
 			selectedOutputs = dataStore.getOutputNames();
 		}
-		if (selectedOutput.isEmpty()) {
+		if(outputList.getSelectionModel().getSelectedItems().isEmpty()) {
+			// -> To parse output variables
+			System.out.println("선택한 output이 없습니다.");
 			selectedOutputs.add(selectedOutput);
 		} else {
+			// -> To make process model
+			System.out.println("프로세스 모델 생성");
+			selectedOutput.clear();
+			selectedOutput.addAll(outputList.getSelectionModel().getSelectedItems());
 			selectedOutputs.set(curIndex, selectedOutput);
 		}
 
@@ -637,7 +642,6 @@ public class PmmController {
 				for (Controller c : components.getControllers()) {
 					controllerList.getItems().add(c.getName());
 					System.out.println("add controller to controllerName list with index of " + i);
-					controllerName.add(i, c.getName());
 					i++;
 				}
 
@@ -650,55 +654,56 @@ public class PmmController {
 							allCAs.clear();
 							CAList.getItems().clear();
 
-							System.out.println("whole controller : " + controllerName);
-							int currentIndex = controllerName
-									.indexOf(controllerList.getSelectionModel().getSelectedItem());
-							for (int i = 0; i < components.getControllers().size(); i++) {
-								System.out.println("controller " + i + " from CSE : "
-										+ components.getControllers().get(i).getName());
+							//							int currentIndex = controllerName
+//									.indexOf(controllerList.getSelectionModel().getSelectedItem());
+//							for (int i = 0; i < components.getControllers().size(); i++) {
+//								System.out.println("controller " + i + " from CSE : "
+//										+ components.getControllers().get(i).getName());
+//							}
+//							Controller controller = components.getControllers().get(currentIndex);
+//							System.out.println(controller.getName() + " : find selected controller in CSE DB\n");
+
+							Controller controller = components.findController(controllerList.getSelectionModel().getSelectedItem());
+							if(!controllerName.contains(controller.getName())) {
+								controllerName.add(controller.getName());
+								dataStore.setControllerName(controllerName);
 							}
-							Controller controller = components.getControllers().get(currentIndex);
-							System.out.println(controller.getName() + " : find selected controller in CSE DB\n");
-
-//							Controller controller = components.findController(controllerList.getSelectionModel().getSelectedItem());
-
+							System.out.println("whole controller : " + controllerName);
+							System.out.println(controller.getCA());
 							Map<Integer, Integer> controlActions = controller.getCA();
 							System.out.println("get CA : " + controlActions);
 							for (Integer ca : controlActions.keySet()) {
 								System.out.println("if there is related CA");
 								allCA.addAll(components.findControlAction(ca).getCA());
 								System.out.println("add allCA connected to selected controller\n");
-								if (allCAs.isEmpty()) {
-									System.out.println("To add allCA to allCA list");
-									allCAs.add(allCA);
-									System.out.println("allCA : " + allCA);
-								} else {
-									for (int i = 0; i < allCAs.size(); i++) {
-										System.out.println("To add allCA to not Empty allCA list");
-										ArrayList<String> arr = new ArrayList<String>();
-										arr.addAll(allCAs.get(i));
-										if (arr.equals(allCA)) {
-											// if selected allCA is already in list for allCA, don't add to allCA list
-											System.out.println("No need to add new CA into allCA list\n");
-											continue;
-										} else {
-											System.out
-													.println("Add allCA into AllCA list with index of " + currentIndex);
-											allCAs.add(allCA);
-											System.out.println("AllCAs : " + allCAs + "\n");
-										}
-									}
-								}
+//								} else {
+////									for (int i = 0; i < allCAs.size(); i++) {
+////										ArrayList<String> arr = new ArrayList<String>();
+////										arr.addAll(allCAs.get(i));
+////										if (arr.equals(allCA)) {
+////											// if selected allCA is already in list for allCA, don't add to allCA list
+////											System.out.println("No need to add new CA into allCA list\n");
+////											continue;
+////										} else {
+//											allCAs = dataStore.getAllCA();
+//											allCAs.add(allCA);
+//									}
 							}
+							if (allCAs.isEmpty()) {
+								allCAs.add(allCA);
+								dataStore.setAllCA(allCAs);
+							}
+							CAList.getItems().addAll(allCAs.get(0));
+							System.out.println("AllCAs : " + allCAs + "\n");
 
-							for (ArrayList<String> arr : allCAs) {
-								// for allCA in allCAs
-								if (allCAs.indexOf(arr) == currentIndex && !CAList.getItems().contains(arr)) {
-									// add into CAList when item is not added before
-									CAList.getItems().addAll(allCAs.get(currentIndex));
-								}
-								System.out.println("\nCAList items" + CAList.getItems() + "\n");
-							}
+//							for (ArrayList<String> arr : allCAs) {
+//								// for allCA in allCAs
+//								if (allCAs.indexOf(arr) == currentIndex && !CAList.getItems().contains(arr)) {
+//									// add into CAList when item is not added before
+//									CAList.getItems().addAll(allCAs.get(currentIndex));
+//								}
+//								System.out.println("\nCAList items" + CAList.getItems() + "\n");
+//								
 						} catch (NullPointerException e) {
 							e.getStackTrace();
 						}

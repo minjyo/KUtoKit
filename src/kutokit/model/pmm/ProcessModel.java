@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 
 public class ProcessModel {
 
+	private ArrayList<Tab> tablist = new ArrayList<Tab>();
 	private ArrayList<String> controllerName = new ArrayList<String>();
 
 	private ArrayList<ArrayList<String>> controlActionNames = new ArrayList<ArrayList<String>>();
