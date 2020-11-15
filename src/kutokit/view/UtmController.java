@@ -35,6 +35,7 @@ import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
 import kutokit.view.popup.UCAHazardPopUpController;
+import kutokit.view.popup.ucaHazardController;
 
 public class UtmController {
 
@@ -430,25 +431,35 @@ public class UtmController {
 
 	private void ucaHazardPopup() {
 
+
+
 		try{
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("popup/UCAHazardPopUpView.fxml"));
-			ucaPopUp = loader.getController();
+			loader.setLocation(getClass().getResource("popup/ucaHazardView.fxml"));
+			ucaHazardController u  = loader.getController();
+			TableView<LHC> t = loader.load();
+//			t.setItems(mainApp.lhcDataStore.getHazardTableList());
+//			TableColumn<LHC,String> indexColumn = (TableColumn<LHC, String>) t.getColumns().get(0);
+//			TableColumn<LHC,String> textColumn = (TableColumn<LHC, String>) t.getColumns().get(1);
+//			TableColumn<LHC,String> linkColumn = (TableColumn<LHC, String>) t.getColumns().get(2);
+//			indexColumn.setCellValueFactory(cellData ->cellData.getValue().indexProperty());
+//			textColumn.setCellValueFactory(cellData ->cellData.getValue().textProperty());
+//			linkColumn.setCellValueFactory(cellData ->cellData.getValue().linkProperty());
+//			u  = new ucaHazardController();
 
-			Parent parent = loader.load();
-			Scene scene = new Scene(parent);
-
-			Stage stage = new Stage();
-
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.setTitle("Hazard List");
-			stage.setResizable(false);
-			stage.show();
-
-			stage.setScene(scene);
+//			Parent parent = loader.load();
+//			Scene scene = new Scene(parent);
+//
+//			Stage stage = new Stage();
+//			stage.initModality(Modality.WINDOW_MODAL);
+//			stage.setTitle("Hazard List");
+//			stage.setResizable(false);
+//			stage.show();
+//			stage.setScene(scene);
 		}catch (Exception e){
 			System.out.println("Hazard Pop Up Error");
 		}
+
 	}
 }
 
