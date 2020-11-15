@@ -49,7 +49,7 @@ public class CTMDataStore {
 			casesCombo.add("Providing causes hazard");
 			casesCombo.add("Not providing causes hazard");
 			casesCombo.add("Too early, too late, out of order");
-			casesCombo.add("Applied too long, stopped to soon");
+			casesCombo.add("Stopped too soon, applied too long");
 
     		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
     		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);

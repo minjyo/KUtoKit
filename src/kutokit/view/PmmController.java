@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeSet;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-<<<<<<< HEAD
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,51 +53,6 @@ import kutokit.model.pmm.XmlReader;
 import kutokit.view.popup.SelectGroupFODController;
 import kutokit.view.popup.VariablePopUpController;
 
-=======
-
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-	import javafx.collections.ObservableList;
-	import javafx.event.ActionEvent;
-	import javafx.event.EventHandler;
-	import javafx.fxml.FXML;
-	import javafx.fxml.FXMLLoader;
-	import javafx.scene.Parent;
-	import javafx.scene.Scene;
-	import javafx.scene.control.Button;
-	import javafx.scene.control.ChoiceBox;
-	import javafx.scene.control.ContextMenu;
-	import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-	import javafx.scene.control.MenuItem;
-	import javafx.scene.control.SelectionMode;
-	import javafx.scene.control.Tab;
-	import javafx.scene.control.TabPane;
-	import javafx.scene.control.Alert;
-	import javafx.scene.control.Alert.AlertType;
-	import javafx.scene.input.ContextMenuEvent;
-	import javafx.scene.input.MouseButton;
-	import javafx.scene.input.MouseEvent;
-	import javafx.scene.layout.AnchorPane;
-	import javafx.scene.layout.Pane;
-	import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.FileChooser.ExtensionFilter;
-	import javafx.stage.Stage;
-	import javafx.stage.WindowEvent;
-	import kutokit.Info;
-	import kutokit.MainApp;
-	import kutokit.model.cse.Components;
-	import kutokit.model.cse.ControlAction;
-	import kutokit.model.cse.Controller;
-	import kutokit.model.pmm.PmmDataStore;
-	import kutokit.model.pmm.ProcessModel;
-	import kutokit.model.pmm.XmlReader;
-import kutokit.view.popup.SelectGroupFODController;
-import kutokit.view.popup.VariablePopUpController;
-	
->>>>>>> 398882aeddb927912c2d5b1dcf104810d06aa004
 public class PmmController {
 	// connect controller&control action to new tab
 	private XmlReader xmlReader;
@@ -176,6 +129,7 @@ public class PmmController {
 	
 		AnchorPane newPane = new AnchorPane();
 		ListView newListView = new ListView();
+		valueListControl(newListView);
 	
 		// add new anchorPane in newTab
 		newTab.setContent(newPane);
@@ -296,18 +250,12 @@ public class PmmController {
     public void addToProcessModel() {
 		//add selected value from output list to value list
 	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-<<<<<<< HEAD
-=======
-	    
-	    
->>>>>>> 398882aeddb927912c2d5b1dcf104810d06aa004
 	    ProcessModel PM = new ProcessModel();
 	    for(ProcessModel pm : pmmDB.getProcessModel()){
 	        if(pm.getControlActionName().equals(CAList.getValue()) && pm.getControllerName().equals(controllerList.getValue())){
 	           PM = pm;
 	        }
 	     }
-<<<<<<< HEAD
 
 	    ArrayList<String> selectedOutputs = new ArrayList<String>();
 	//    ArrayList<String> newValues = new ArrayList<String>();
@@ -315,15 +263,6 @@ public class PmmController {
 	    if (selectedFile != null && !selectedOutputs.isEmpty()) {
 	         ListView<String> lv = new ListView<String>();
 	         valueListControl(lv);
-=======
-	    
-	    ArrayList<String> selectedOutputs = new ArrayList<String>();
-	//    ArrayList<String> newValues = new ArrayList<String>();
-	    
-	    if (selectedFile != null && !selectedOutputs.isEmpty()) {
-	         ListView<String> lv = new ListView<String>();
-	        
->>>>>>> 398882aeddb927912c2d5b1dcf104810d06aa004
 	         for(Tab tab : tabPane.getTabs()){
 	            if(tab.getText().equals(CAList.getValue())){
 	               lv = listViewList.get(tabPane.getTabs().indexOf(tab));
@@ -525,11 +464,7 @@ public class PmmController {
 					loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
 					Parent parent = loader.load();
 					Scene scene = new Scene(parent);
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> 398882aeddb927912c2d5b1dcf104810d06aa004
+					
 					valueStage.setTitle("Add Process Model variable");
 					valueStage.setResizable(false);
 					valueStage.show();
@@ -569,16 +504,14 @@ public class PmmController {
 			}
 		}
 	}
-<<<<<<< HEAD
 
 	public void valueListControl(ListView<String> valueList) {
 		ContextMenu rightClickMenu = new ContextMenu();
 		int listIndex = listViewList.indexOf(valueList);
+		
 		modifyMenu = new MenuItem("Modify");
 		deleteMenu = new MenuItem("Delete");
-
-		rightClickMenu.getItems().add(modifyMenu);
-		rightClickMenu.getItems().add(deleteMenu);
+		rightClickMenu.getItems().addAll(modifyMenu, deleteMenu);
 
 		int targetListIndex = valueList.getSelectionModel().getSelectedIndex();
 
@@ -587,15 +520,14 @@ public class PmmController {
 	         public void handle(ActionEvent event) {
 	    		 int targetIndex = valueList.getSelectionModel().getSelectedIndex();
 		    	 try{
-		    		 		valueList.getItems().remove(targetIndex);
-		    		 		for(ProcessModel p : pmmDB.getProcessModel()) {
-								if(p.getControllerName().equals(controllerList.getValue()) &&
-									p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
-									p.getValuelist().remove(targetIndex);
-								}
-							}
-		    		 }
-		    	 catch(Exception e){
+					valueList.getItems().remove(targetIndex);
+					for(ProcessModel p : pmmDB.getProcessModel()) {
+						if(p.getControllerName().equals(controllerList.getValue()) &&
+							p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
+							p.getValuelist().remove(targetIndex);
+						}
+					}
+		    	 }catch(Exception e){
 		    		 System.out.println("Select empty data");
 		    	 }
 	         }
@@ -613,70 +545,23 @@ public class PmmController {
 							modifyPopUp(p, targetIndex,valueList);
 						}
 					}
-				}
-				catch(Exception e){
-					System.out.println("Select empty data");
+				}catch(Exception e){
+						System.out.println("Select empty data");
 				}
 			}
 		});
 
 		valueList.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
-            @Override
-            public void handle(ContextMenuEvent event) {
-            	rightClickMenu.show(valueList, event.getScreenX(), event.getScreenY());
-            }
-        });
+			@Override
+	        public void handle(ContextMenuEvent event) {
+				rightClickMenu.show(valueList, event.getScreenX(), event.getScreenY());
+	        }
+	    });
 //		rightClickMenu.hide();
-=======
-	
-	public void valueListControl() {
-		modifyMenu = new MenuItem();
-		modifyMenu.textProperty().set("Modify");
-		deleteMenu = new MenuItem();
-		deleteMenu.textProperty().set("Delete");
-		rightClickMenu.getItems().addAll(modifyMenu, deleteMenu);
-		
-		for(ListView<String> valueList : listViewList) {
-			String target = valueList.getSelectionModel().getSelectedItem();
-			int targetIndex = valueList.getSelectionModel().getSelectedIndex();
-			valueList.setOnMouseClicked(event ->{
-				if(event.getButton() == MouseButton.SECONDARY) {
-					rightClickMenu.show(valueList, event.getScreenX(), event.getScreenY());
-					
-					modifyMenu.setOnAction(new EventHandler<ActionEvent>() {
-						@Override
-						public void handle(ActionEvent event) {
-							for(ProcessModel p : pmmDB.getProcessModel()) {
-								if(p.getControllerName().equals(controllerList.getValue()) && 
-										p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
-									modifyPopUp(p, targetIndex);
-								}
-							}
-						}
-					});
-					
-					deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
-						@Override
-						public void handle(ActionEvent event) {
-							valueList.getItems().remove(targetIndex);
-							for(ProcessModel p : pmmDB.getProcessModel()) {
-								if(p.getControllerName().equals(controllerList.getValue()) && 
-										p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
-									p.getValuelist().remove(targetIndex);
-								}
-							}
-						}
-					});
-				}
-				event.consume();
-				rightClickMenu.hide();
-			});
-		}
->>>>>>> 398882aeddb927912c2d5b1dcf104810d06aa004
 	}
 	
 	// Show value edit popup
-	public void modifyPopUp(ProcessModel p, int oldvalueIndex) {
+	public void modifyPopUp(ProcessModel p, int oldvalueIndex,ListView<String> curList) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
 		Parent root;
@@ -696,11 +581,14 @@ public class PmmController {
 						VariablePopUpController popup = loader.getController();
 						if (popup.value != null) {
 							//modify data in listView
-							int currentTabIndex = tabPane.getSelectionModel().getSelectedIndex();
-							listViewList.get(currentTabIndex).getItems().set(oldvalueIndex, popup.value);
-							
-							//modify data in db
-							p.getValuelist().set(oldvalueIndex, popup.value);
+							try{
+								int currentTabIndex = listViewList.indexOf(curList);
+								listViewList.get(currentTabIndex).getItems().set(oldvalueIndex, popup.value);
+								//modify data in db
+								p.getValuelist().set(oldvalueIndex, popup.value);
+							} catch(Exception ex){
+								System.out.println("Modify ValueList Error");
+							}
 						} else
 							System.out.println("Please enter a new value.");
 					}
@@ -711,10 +599,6 @@ public class PmmController {
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
-	
->>>>>>> 398882aeddb927912c2d5b1dcf104810d06aa004
 	
 	private void initialize() {
 		System.out.println("\n**********************");
@@ -774,7 +658,8 @@ public class PmmController {
 				Tab newTab = new Tab();
 				tabPane.getTabs().add(newTab);
 				AnchorPane newPane = new AnchorPane();
-				ListView newListView = new ListView();
+				ListView<String> newListView = new ListView<String>();
+				valueListControl(newListView);
 				listViewList.add(newListView);
 				
 				newTab.setText(CAList.getValue());

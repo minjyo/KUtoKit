@@ -23,7 +23,7 @@
          <font>
             <Font size="18.0" />
          </font></Text>
-      <Text layoutX="37.0" layoutY="65.298828125" text="There is same Controller!" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="47.896484375">
+      <Text layoutX="21.0" layoutY="62.0" text="There is same Controller!" AnchorPane.bottomAnchor="23.1591796875" AnchorPane.topAnchor="44.896484375">
          <font>
             <Font size="18.0" />
          </font></Text>
