@@ -23,7 +23,7 @@
          <font>
             <Font size="18.0" />
          </font></Text>
-      <Text layoutX="29.0" layoutY="68.0" text="There is Any Control Action or Feedbcak in Controller!" wrappingWidth="423.0" AnchorPane.bottomAnchor="47.0" AnchorPane.topAnchor="50.0">
+      <Text layoutX="76.0" layoutY="68.0" text="There is Any Control Action in Controller!" wrappingWidth="318.0" AnchorPane.bottomAnchor="47.0" AnchorPane.topAnchor="50.0">
          <font>
             <Font size="18.0" />
          </font></Text>

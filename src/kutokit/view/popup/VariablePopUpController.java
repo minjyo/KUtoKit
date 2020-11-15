@@ -9,33 +9,22 @@ public class VariablePopUpController {
 	  private TextField text; 
 	  public String value;
 	  private Stage stage;
-	  private boolean confirmClicked = false;
-	  private boolean closeClicked = false;
 	  
 	  public void setStage(Stage stage) {
 		  this.stage = stage;
 	  }
 	  
+	  @FXML
 	  public void setData() {
 		  if(!text.getText().isEmpty()) {
 			  value = text.getText();
 			  close();
-//			  confirmClicked = true;
 		  }
 	  }
 	  
+	  @FXML
 	  public void close() { 
 		  Stage pop = (Stage)text.getScene().getWindow(); 
 	       pop.close();
-//	       closeClicked = true;
 	  }
-	  
-//	  public boolean closeClicked() {
-//		  return closeClicked;
-//	  }
-//	  
-//	  public boolean confirmClicked() {
-//		  return confirmClicked;
-//	  }
-
 }
