@@ -352,15 +352,8 @@ public class MainApp extends Application {
 		        ucadatastore.remove(0, ucadatastore.size()-1);
 		        ucaDataStoreList.remove(0, ucaDataStoreList.size()-1);
 
-		        ucadatastore.addAll(projectXML.getUCA());
 		        ucaDataStoreList.addAll(projectXML.getUCADataStoreList());
-		        int i=0;
-		        for(UCADataStore u : ucaDataStoreList){
-		        	for(int j=0;j<u.size;j++){
-		        		u.getUCATableList().add(ucadatastore.get(i));
-		        		i++;
-		        	}
-		        }
+		        ucadatastore.addAll(projectXML.getUCA());
 		      //--------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
