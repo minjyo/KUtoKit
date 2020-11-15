@@ -25,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kutokit.MainApp;
 import kutokit.model.ctm.CTM;
@@ -58,7 +59,7 @@ public class UtmController {
 	private ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
 	private ObservableList<String> hazardList = FXCollections.observableArrayList();
 
-	UCAHazardPopUpController ucaPopUp;
+	UCAHazardPopUpController ucaPopUp = new UCAHazardPopUpController();
 
 	//constructor
 	public UtmController() {
@@ -78,7 +79,6 @@ public class UtmController {
 		hazardData = MainApp.lhcDataStore.getHazardTableList();
 		ctmDataStoreList = MainApp.ctmDataStoreList;
 
-//		PrintData();
 		tabPane.getTabs().remove(0);
 
 //		controllerComboBox
@@ -322,6 +322,7 @@ public class UtmController {
 	}
 
 	private void addUCA(UCADataStore u) {
+
 		// add UCA only
 		String controller = controllerComboBox.getValue();
 		String controlAction = controlActionComboBox.getValue();
@@ -428,46 +429,26 @@ public class UtmController {
 	}
 
 	private void ucaHazardPopup() {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("popup/UCAHazardPopUpView.fxml"));
-		ucaPopUp = loader.getController();
 
-		Parent popUproot;
-		try {
-		  	popUproot = (Parent) loader.load();
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("popup/UCAHazardPopUpView.fxml"));
+			ucaPopUp = loader.getController();
 
-			Scene scene = new Scene(popUproot);
+			Parent parent = loader.load();
+			Scene scene = new Scene(parent);
 
 			Stage stage = new Stage();
-			ObservableList<LHC> hazardList = FXCollections.observableArrayList();
-			hazardList = MainApp.lhcDataStore.getHazardTableList();
 
-			stage.setScene(scene);
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.setTitle("Hazard List");
+			stage.setResizable(false);
 			stage.show();
 
-		  } catch (IOException e) {
-				e.printStackTrace();
-		  }
-
-	}
-
-	private void PrintData() {
-		//Print Data
-		//CTM Controller
-		for(CTMDataStore ctmdatastore : ctmDataStoreList ){
-			System.out.println("Controller : " + ctmdatastore.getController());
-			System.out.println("ControlAction  : " + ctmdatastore.getControlAction());
-			System.out.println("Hazardous :"  + ctmdatastore.getCTMTableList().get(0).getHazardousValue());
-			System.out.println("Cases : "+ ctmdatastore.getCTMTableList().get(0).getCasesValue());
+			stage.setScene(scene);
+		}catch (Exception e){
+			System.out.println("Hazard Pop Up Error");
 		}
-
-		for(UCADataStore utmdatastore : ucaDataStoreList){
-			System.out.println("uca Controller " + utmdatastore.getController() );
-			System.out.println("uca ControlAction" + utmdatastore.getControllAction());
-//			System.out.println("uca ca" + utmdatastore.getUCATableList().get(0).getControlAction());
-		}
-
 	}
-
 }
 
