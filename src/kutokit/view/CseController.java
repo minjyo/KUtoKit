@@ -103,6 +103,9 @@ public class CseController {
 			Controller controller = dataStore.findController(ca.getControllerID());
 			Controller controlled = dataStore.findController(ca.getControlledID());
 			
+			ca.setController(controller.getName());
+			ca.setControlled(controlled.getName());
+			
 			int[] startNum = controller.getNum();
 			int[] endNum = controlled.getNum();
 			
@@ -133,6 +136,9 @@ public class CseController {
 		for (Feedback fb : feedbacks) {
 			Controller controller = dataStore.findController(fb.getControllerID());
 			Controller controlled = dataStore.findController(fb.getControlledID());
+			
+			fb.setController(controller.getName());
+			fb.setControlled(controlled.getName());
 			
 			int[] startNum = controller.getNum();
 			int[] endNum = controlled.getNum();
