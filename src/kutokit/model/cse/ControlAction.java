@@ -49,12 +49,12 @@ public class ControlAction {
 		return CA;
 	}
 	
-	public void setController(String controller) {
-		this.controller = dataStore.findController(controller);
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 	
-	public void setControlled(String controlled) {
-		this.controlled = dataStore.findController(controlled);
+	public void setControlled(Controller controlled) {
+		this.controlled = controlled;
 	}
 	
 	public void setId(int id) {
