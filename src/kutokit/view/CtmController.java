@@ -64,14 +64,14 @@ public class CtmController {
 	private int curTabNum = 0;
 	private ObservableList<String> hazardousOX;
 	private ObservableList<String> casesCombo;
-	private ArrayList<String> controllerNames; // Selected controller from CSE
-	private ArrayList<ArrayList<String>> controlActionNames;
-	private ArrayList<ArrayList<String>> outputNames;
-	private ObservableList<ArrayList<String>> valuelist;
+	private ArrayList<String> controllerNames = new ArrayList<String>(); // Selected controller from CSE
+	private ArrayList<String> controlActionNames = new ArrayList<String>();
+	//private ArrayList<ArrayList<String>> outputNames = new ArrayList<>();
+	private ArrayList<ObservableList<String>> valuelist = new ArrayList<>();
 	private ArrayList<String> selectedCA = new ArrayList<String>();// 선택된 control action 저장 
 	private ArrayList<String> selectedOutput = new ArrayList<String>(); // 선택된 output Variables 저장 
 	
-	private ArrayList<ArrayList<String>> contextheader;
+	private ArrayList<ObservableList<String>> contextheader = new ArrayList<>();
 	
 	public CtmController() { }
 	
@@ -87,21 +87,20 @@ public class CtmController {
 		ctmDataStoreList = mainApp.ctmDataStoreList;
 		this.pmmDB = mainApp.pmmDB;
 		totalData = ctmDataStoreList;
-		
+
+		contextheader = new ArrayList<>();
+		int index=0;
 		for(ProcessModel p : pmmDB.getProcessModel()) {
-			
+			controllerNames.add(p.getControllerName());
+			controlActionNames.add(p.getControlActionName());
+			valuelist.add(p.getValuelist());
+			//contextheader.add(e)
+			System.out.println("controllerName:"+controllerNames.get(index));
+			System.out.println("controlActionNames:"+controlActionNames.get(index));
+			System.out.println("valuelist:"+valuelist.get(index));
+			index++;
 		}
 		
-		controllerNames = mainApp.pmmDB.getProcessModel();
-		controlActionNames = mainApp.models.getControlActionNames();
-		outputNames = mainApp.models.getOutputNames();
-		valuelist = mainApp.models.getValuelist();
-		contextheader = new ArrayList<>();
-
-		System.out.println("controllerName:"+controllerNames.toString());
-		System.out.println("controlActionNames:"+controlActionNames.toString());
-		System.out.println("outputNames:"+outputNames.toString());
-		System.out.println("valuelist:"+valuelist.toString());
 		
 		hazardousOX = FXCollections.observableArrayList();
 		hazardousOX.add("O");
@@ -115,42 +114,19 @@ public class CtmController {
 		controllerCount = controllerNames.size();
 		contextheader = new ArrayList<>(controllerCount);
 		for(int x=0;x<controllerCount;x++) {
-			ArrayList<String> temp = new ArrayList<String>();
-			for(int y=0;y<outputNames.get(x).size();y++) {
+			ObservableList<String> temp = FXCollections.observableArrayList();
+			/*for(int y=0;y<outputNames.get(x).size();y++) {
 				temp.add(outputNames.get(x).get(y));
-			}
+			}*/
 			for(int y=0;y<valuelist.get(x).size();y++) {
 				temp.add(valuelist.get(x).get(y));
 			}
-			System.out.println("contextheader:"+temp.toString());
 			contextheader.add(temp);
 			
 		}
 		
-		/*final ToggleGroup group = new ToggleGroup();
- 		HBox radioGroup = new HBox();
-
-		for(int i=0;i<controllerNames.size();i++) {
-	 		RadioButton rb = new RadioButton(controllerNames.get(i));
-	 		rb.setToggleGroup(group);
-	 		if(i==0) {
-	 			rb.setSelected(true);
-	 		}
-	 		group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
-	 		    public void changed(ObservableValue<? extends Toggle> ov,
-	 		        Toggle old_toggle, Toggle new_toggle) {
-	 		            if (group.getSelectedToggle() != null) {
-	 		            	//TODO link radio
-	 		            	System.out.println(new_toggle.toString());
-	 		            }                
-	 		        }
-	 		});
-	 		
-	 		radioGroup.getChildren().add(rb);
-		}*/
-		
 		for(int i=0;i< controllerNames.size();i++) {
-				tabPane.getTabs().add(MakeTab(i,controllerNames.get(i),controlActionNames.get(i).get(0), contextheader.get(i)));
+				tabPane.getTabs().add(MakeTab(i,controllerNames.get(i),controlActionNames.get(i), contextheader.get(i)));
 	
 		}
         tabPane.setPrefWidth(1000.0);
@@ -160,12 +136,12 @@ public class CtmController {
         //CTMPane.getChildren().addAll(radioGroup,tabPane);
 	}
 	
-	public Tab MakeTab(int tabNum, String controllerName, String caName, ArrayList<String> contextheader) {
+	public Tab MakeTab(int tabNum, String controllerName, String caName, ObservableList<String> contextheader) {
 		//final int row=0; //row= 테이블 길이..파일 파싱이후 데이터 추가했을때를 생각해야
         final TableView<CTM> contextTable = this.MakeTable(contextheader);
         if(totalData.size() >= tabNum+1) { 
         	mcsData = totalData.get(tabNum).getCTMTableList();
-			contextTable.setItems(mcsData);
+        	contextTable.setItems(totalData.get(tabNum).getCTMTableList());
         }else {
         	CTMDataStore c = new CTMDataStore();
         	ctmDataStoreList.add(c);
@@ -247,12 +223,13 @@ public class CtmController {
         	}
         	totalData.add(ctm);
         } else {
+        	ctm = totalData.get(tabNum);
         	totalData.set(tabNum, ctm);
         }
         return tab;
 	}
 	
-	public TableView<CTM> MakeTable(ArrayList<String> contextheader) {
+	public TableView<CTM> MakeTable(ObservableList<String> contextheader) {
 		TableView<CTM> contextTable = new TableView<CTM>();
 		
 		contextTable.prefWidthProperty().bind(tabPane.widthProperty());
@@ -277,7 +254,7 @@ public class CtmController {
 		noColumn.setCellValueFactory(new PropertyValueFactory<CTM, Integer>("no"));
 		hazardousColumn.setCellValueFactory(new PropertyValueFactory<CTM, String>("hazardous"));
 
-		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getCANameProperty());
+		CAColumn.setCellValueFactory(cellData -> cellData.getValue().getControlActionProperty());
 		noColumn.setCellValueFactory(cellData -> cellData.getValue().getNoProperty().asObject());
 
 		contextTable.setEditable(true);
@@ -419,7 +396,7 @@ public class CtmController {
 	   		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
 	   		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
 			totalData.get(curTabNum).getCTMTableList().add(
-					new CTM(controllerNames.get(curTabNum), controlActionNames.get(curTabNum).get(0),comboBox1,curtableSize+a+1,contexts,comboBox2)
+					new CTM(controllerNames.get(curTabNum), controlActionNames.get(curTabNum),comboBox1,curtableSize+a+1,contexts,comboBox2)
 			);
 			mcsData = totalData.get(curTabNum).getCTMTableList();
     		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
@@ -429,39 +406,13 @@ public class CtmController {
 			    	System.out.println(totalData.get(curTabNum).getCTMTableList().get(curtableSize+a).getCasesValue());
 			      }
 			    });
-<<<<<<< HEAD
-			
-	   		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
-<<<<<<< HEAD
-//	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
-//			      @Override
-//			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-//			    	 totalData.get(curControllerNum).get(curCANum).setHazardousValue(newValue);
-//			      }
-//			    });
-//			
-			totalData.get(curControllerNum).getCTMTableList().add(
-					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).tableSize+1,contexts,comboBox2)
-=======
-	   		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
-=======
-      		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
->>>>>>> 377ebed12ae63342e667d019f2001dcb21d0551b
+    		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
 			      @Override
 			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 			    	totalData.get(curTabNum).getCTMTableList().get(curtableSize+a).setHazardousValue(newValue);
 			    	System.out.println(totalData.get(curTabNum).getCTMTableList().get(curtableSize+a).getHazardousValue());
 			      }
 			    });
-			/*totalData.get(curCANum).add(
-					new CTM(controllerName.get(curControllerNum), controlActionNames.get(curCANum),comboBox1,totalData.get(curControllerNum).size()+1,contexts,comboBox2)
-<<<<<<< HEAD
->>>>>>> 434ea028e203c05d0c1c5ca62cf20f059e26108e
-			);
-=======
-			);*/
-			
->>>>>>> 377ebed12ae63342e667d019f2001dcb21d0551b
 		}
 	}
 	

@@ -235,7 +235,7 @@ public class ProjectXML {
 		ArrayList<String> ca = new ArrayList<String>();
 		for(int i=0;i<CTMList.size();i++){
 			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
-				ca.add(CTMList.get(i).getCTMTableList().get(j).getCAName());
+				ca.add(CTMList.get(i).getCTMTableList().get(j).getControlAction());
 			}
 		}
 		return ca;
