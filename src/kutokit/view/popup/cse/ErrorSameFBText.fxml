@@ -23,7 +23,7 @@
          <font>
             <Font size="18.0" />
          </font></Text>
-      <Text layoutX="29.0" layoutY="71.40234375" text="There is already same Feedback Text!" wrappingWidth="334.294921875" AnchorPane.bottomAnchor="34.0" AnchorPane.topAnchor="54.0">
+      <Text layoutX="15.0" layoutY="73.0" text="There is already same Feedback Text!" wrappingWidth="334.294921875" AnchorPane.bottomAnchor="21.1591796875" AnchorPane.topAnchor="55.896484375">
          <font>
             <Font size="18.0" />
          </font></Text>

@@ -99,6 +99,14 @@ public class LsController {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}else if(UcaComboBox.getValue().isEmpty() || lossFactorComboBox.getValue().isEmpty()) {
+					try {
+						OpenNoValueChoicePopUp();
+						System.out.println("combo box value not selected");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}else {
 					lsTableViewList.get(tabIndex).getItems().add(ls);
 					lossScenarioTextField.clear();
@@ -206,6 +214,27 @@ public class LsController {
 		dialogStage.show();
 	}
 	
+	/*
+	 * if text field is empty, this pop up opens
+	 */
+	private void OpenNoValueChoicePopUp() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		Parent parent = loader.load(getClass().getResource("popup/LsNoValueChoicePopUpView.fxml"));
+		Stage dialogStage = new Stage();
+		Scene scene = new Scene(parent);
+			
+		//set dialog setting
+		dialogStage.setTitle("Item not chosen");            
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.initOwner(mainApp.getPrimaryStage());
+		dialogStage.setScene(scene);
+		dialogStage.setResizable(false);
+		dialogStage.show();
+	}
+	
+	/*
+	 * add new tab
+	 */
 	private void addNewTab(int index) {
 		Tab newTab = new Tab();
 		newTab.setText("LS" + Integer.toString(index));
