@@ -43,7 +43,7 @@ public class SelectGroupFODController{
 			groupCheckList.setVisible(true);
 		}
 		
-		confirmButton.setOnMouseClicked(MouseEvent -> {
+		confirmButton.setOnAction(Event -> {
 			confirmed = true;
 		});
 		

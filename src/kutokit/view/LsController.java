@@ -44,7 +44,7 @@ public class LsController implements Initializable {
 	@FXML private TableColumn<LS, String> linkedUCAColumn, lossFactorColumn, lossScenarioTextColumn;
 	@FXML private TextField lossScenarioTextField;
 	@FXML private Button addLossScenario, addNewTab;
-	@FXML private ComboBox<UCA> UcaComboBox;
+	@FXML private ComboBox<String> UcaComboBox;
 	@FXML private ComboBox<String> lossFactorComboBox;
 	@FXML private TableRow<LS> lsRow;
 	@FXML private TabPane tabPane;
@@ -72,10 +72,20 @@ public class LsController implements Initializable {
 		lsDB = mainApp.lsDataStore;
 		ucaDataStoreList = mainApp.ucaDataStoreList;
 		
-		ObservableList<UCA> ucaDatas = FXCollections.observableArrayList();
-		for(UCADataStore u : ucaDataStoreList) {
-			ucaDatas.addAll(u.getUCATableList());
-		}
+		ObservableList<String> ucaDatas = FXCollections.observableArrayList();
+		
+	    for(UCA u : ucaDataStoreList.get(0).getUCATableList()){
+	    	String ucaType1 = u.getIncorrectTimingOrOrder().getValue();
+	        String ucaType2 = u.getNotProvidingCausesHazard().getValue();
+	        String ucaType3 = u.getIncorrectTimingOrOrder().getValue();
+	        String ucaType4 = u.getStoppedTooSoonOrAppliedTooLong().getValue();
+	        ucaDatas.add(ucaType1);
+	        ucaDatas.add(ucaType2);
+	        ucaDatas.add(ucaType3);
+	        ucaDatas.add(ucaType4);
+	    }
+	    
+	    UcaComboBox.setItems(ucaDatas);
 		
 		lossScenarioTableList = lsDB.getLossScenarioList();
 		
@@ -87,7 +97,6 @@ public class LsController implements Initializable {
 		
 
 		lossFactorComboBox.setItems(lossFactorCBList);
-//		UcaComboBox.setItems(ucaCBList);
 		
 		/*
 		 * add items to loss scenario table
@@ -96,7 +105,7 @@ public class LsController implements Initializable {
 			@Override
 			public void handle(MouseEvent e) {
 				//여기 코드 깨짐.
-				LS ls = new LS(UcaComboBox.getValue().toString(), lossFactorComboBox.getValue(), lossScenarioTextField.getText());
+				LS ls = new LS(UcaComboBox.getValue(), lossFactorComboBox.getValue(), lossScenarioTextField.getText());
 				//if text field is empty, warning pop up opens
 				if(lossScenarioTextField.getText().isEmpty()) {
 					try {
@@ -180,9 +189,25 @@ public class LsController implements Initializable {
 			TableView<LS> newTable = new TableView<LS>();
 			newTab.setContent(newTable);
 			
-			TableColumn
+			TableColumn<LS, String> ucaCol = new TableColumn<LS, String>();
+			TableColumn<LS, String> lossFactorCol = new TableColumn<LS, String>();
+			TableColumn<LS, String> lossScenarioCol = new TableColumn<LS, String>();
 			
-			newTable.getColumns().add(new )
+			ucaCol.setPrefWidth(160.0);
+			lossFactorCol.setPrefWidth(210.0);
+			lossScenarioCol.setPrefWidth(630.0);
+			
+			ucaCol.setResizable(false);
+			lossFactorCol.setResizable(false);
+			lossScenarioCol.setResizable(false);
+			
+			ucaCol.setText("UCA");
+			lossFactorCol.setText("Loss Factor");
+			lossScenarioCol.setText("Loss Scenario");
+			
+			newTable.getColumns().add(ucaCol);
+			newTable.getColumns().add(lossFactorCol);
+			newTable.getColumns().add(lossScenarioCol);
 		});
 	}
 }
