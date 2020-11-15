@@ -12,13 +12,13 @@ import javafx.scene.layout.AnchorPane;
 
 public class SelectGroupFODController{
 	@FXML
-	AnchorPane rootFODPane, selectGroupPane;
+	AnchorPane rootFODPane = new AnchorPane(), selectGroupPane = new AnchorPane();
 	@FXML
-	Button nextButton, confirmButton, cancelButton;
+	Button nextButton = new Button(), confirmButton = new Button(), cancelButton = new Button();
 	@FXML
-	CheckListView<String> groupCheckList;
+	CheckListView<String> groupCheckList = new CheckListView<String>();
 	@FXML
-	RadioButton rootFOD;
+	RadioButton rootFOD = new RadioButton();
 	
 	public boolean confirmed = false, canceled = false;
 	
@@ -43,7 +43,7 @@ public class SelectGroupFODController{
 			groupCheckList.setVisible(true);
 		}
 		
-		confirmButton.setOnMouseClicked(MouseEvent -> {
+		confirmButton.setOnAction(Event -> {
 			confirmed = true;
 		});
 		

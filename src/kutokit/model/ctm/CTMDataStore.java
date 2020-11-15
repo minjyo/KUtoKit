@@ -46,9 +46,10 @@ public class CTMDataStore {
 			hazardousOX.add("X");
 			
 			ObservableList<String>casesCombo = FXCollections.observableArrayList();
-			casesCombo.add("not providing\ncauses hazard");
-			casesCombo.add("too early, too late,\nout of order");
-			casesCombo.add("providing causes hazard");
+			casesCombo.add("Providing causes hazard");
+			casesCombo.add("Not providing causes hazard");
+			casesCombo.add("Too early, too late, out of order");
+			casesCombo.add("Applied too long, stopped to soon");
 
     		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
     		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);

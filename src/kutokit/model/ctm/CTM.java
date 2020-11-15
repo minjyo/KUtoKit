@@ -33,8 +33,10 @@ public class CTM {
 		this.controllerName = new SimpleStringProperty(controllerName);
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.cases = cases;
+		cases.getSelectionModel().select(0);
 		this.no = new SimpleIntegerProperty(no);
 		this.hazardous = hazardous;
+		hazardous.getSelectionModel().select("X");
 		this.contexts = new StringProperty[contexts.length];
 		
 		cases.setOnAction(event -> {
