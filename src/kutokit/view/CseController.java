@@ -680,7 +680,7 @@ public class CseController {
 			public void handle(ActionEvent event) {
 				RectangleView rect = (RectangleView) itemC1.getParentPopup().getOwnerNode();
 				dataStore.curController = dataStore.findController(rect.id);
-				if(dataStore.curController.getCA().size()==0 || dataStore.curController.getFB().size()==0) {
+				if(dataStore.curController.getCA().size()==0) {
 					  FXMLLoader loader = new FXMLLoader();
 					  loader.setLocation(getClass().getResource("popup/cse/ErrorNoCAFB.fxml"));
 					  Parent popUproot;
