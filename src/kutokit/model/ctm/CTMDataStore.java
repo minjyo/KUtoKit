@@ -3,42 +3,14 @@ package kutokit.model.ctm;
 
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 
 public class CTMDataStore {
 
-<<<<<<< HEAD
-	private String controller, controlAction;
-	public int tableSize;
-
-	ObservableList<CTM> CTMTableList = FXCollections.observableArrayList();
-
-	public ObservableList<CTM> getCTMTableList() {
-		tableSize = CTMTableList.size();
-		return this.CTMTableList;
-	}
-
-	public String getController() {
-		return this.controller;
-	}
-
-	public void setController(String controller) {
-		this.controller = controller;
-	}
-
-	public String getControlAction() {
-		return this.controlAction;
-	}
-
-	public void setControlAction(String controlAction) {
-		this.controlAction = controlAction;
-	}
-}
-=======
 	public String ctmController, ctmControlAction;
 	public ArrayList<String> ctmCases = new ArrayList<String>();
 	public ArrayList<String[]> ctmContexts = new ArrayList<String[]>();
@@ -63,6 +35,43 @@ public class CTMDataStore {
 			ctmCases = tempCases;
 			ctmHazardous = tempHazardous;
 			ctmContexts = tempContexts;
+			
+		}
+		
+		if(this.CTMTableList.size()==0 && ctmCases.size()>0) {
+			rowSize = ctmCases.size();
+			
+			ObservableList<String>hazardousOX = FXCollections.observableArrayList();
+			hazardousOX.add("O");
+			hazardousOX.add("X");
+			
+			ObservableList<String>casesCombo = FXCollections.observableArrayList();
+			casesCombo.add("not providing\ncauses hazard");
+			casesCombo.add("too early, too late,\nout of order");
+			casesCombo.add("providing causes hazard");
+
+    		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
+    		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
+			for(int i=0;i<rowSize;i++) {
+				this.CTMTableList.add(new CTM(ctmController,ctmControlAction,comboBox1,i+1,ctmContexts.get(i),comboBox2));
+				CTMTableList.get(i).setCasesValue(this.ctmCases.get(i));
+				CTMTableList.get(i).setHazardousValue(this.ctmHazardous.get(i));
+				final int temp = i;
+	      		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+	  			      @Override
+	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+	  			    	CTMTableList.get(temp).setCasesValue(newValue);
+	  			    	System.out.println(CTMTableList.get(temp).getCasesValue());
+	  			      }
+  			    });
+        		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
+  			      @Override
+  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+	  			    	CTMTableList.get(temp).setHazardousValue(newValue);
+	  			    	System.out.println(CTMTableList.get(temp).getHazardousValue());
+  			      }
+  			    });
+			}
 		}
 		return this.CTMTableList;
 	}
@@ -111,4 +120,3 @@ public class CTMDataStore {
 	
 	
 } 
->>>>>>> master

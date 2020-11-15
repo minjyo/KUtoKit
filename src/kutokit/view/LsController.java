@@ -44,8 +44,8 @@ public class LsController implements Initializable {
 	@FXML private TableColumn<LS, String> linkedUCAColumn, lossFactorColumn, lossScenarioTextColumn;
 	@FXML private TextField lossScenarioTextField;
 	@FXML private Button addLossScenario, addNewTab;
-	@FXML private ComboBox lossFactorComboBox;
 	@FXML private ComboBox<UCA> UcaComboBox;
+	@FXML private ComboBox<String> lossFactorComboBox;
 	@FXML private TableRow<LS> lsRow;
 	@FXML private TabPane tabPane;
 	
@@ -83,7 +83,7 @@ public class LsController implements Initializable {
 		
 		lossScenarioTableView.setItems(lossScenarioTableList);
 		
-		UcaComboBox.setItems(ucaDB.getUCATableList());
+
 		lossFactorComboBox.setItems(lossFactorCBList);
 //		UcaComboBox.setItems(ucaCBList);
 		
@@ -93,7 +93,7 @@ public class LsController implements Initializable {
 		addLossScenario.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				//�뿬湲� 肄붾뱶 源⑥쭚.
+				//여기 코드 깨짐.
 				LS ls = new LS(UcaComboBox.getSelectionModel().selectedItemProperty().toString(), lossFactorComboBox.getValue().toString(), lossScenarioTextField.getText());
 				//if text field is empty, warning pop up opens
 				if(lossScenarioTextField.getText().isEmpty()) {

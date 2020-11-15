@@ -1,4 +1,3 @@
-
 package kutokit.model.ctm;
 
 import java.util.ArrayList;
@@ -16,40 +15,25 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 public class CTM {
-	private StringProperty controllerName, controlActionName;
-	private ComboBox cases, hazardous;
+	private StringProperty controllerName;
+	private StringProperty controlAction;
+	private ComboBox<String> cases;
 	private IntegerProperty no;
-	private ObservableList<StringProperty> contexts;
+	private ComboBox<String> hazardous;
+	private StringProperty[] contexts;
 
-<<<<<<< HEAD
-	private int No;
-=======
 	private String ControllerName;
 	private String ControlAction;
 	private String Cases;
 	private int No;
 	private String Hazardous;
->>>>>>> master
 	private String[] Contexts;
 
-	/*
-	 * default constructor
-	 */
-	public CTM() {
-	}
-
-	/*
-	 * initialize constructor
-	 */
-	public CTM(String controllerName, String controlActionName, int no) {
+	public CTM(String controllerName, String controlAction, ComboBox<String> cases, int no, String[] contexts, ComboBox<String> hazardous) {
 		this.controllerName = new SimpleStringProperty(controllerName);
-		this.controlActionName = new SimpleStringProperty(controlActionName);
-		this.cases = new ComboBox();
+		this.controlAction = new SimpleStringProperty(controlAction);
+		this.cases = cases;
 		this.no = new SimpleIntegerProperty(no);
-<<<<<<< HEAD
-		this.hazardous = new ComboBox();
-		this.contexts = FXCollections.observableArrayList();
-=======
 		this.hazardous = hazardous;
 		cases.setValue("not providing\ncauses hazard");
 		hazardous.setValue("X");
@@ -89,54 +73,47 @@ public class CTM {
 	
 	public String getControllerName() {
 		return controllerName.get();
->>>>>>> master
 	}
-
+	
 	public StringProperty getControllerNameProperty() {
-		return this.controllerName;
+		return controllerName;
+	}
+	public void setControllerName(String val) {
+		this.controllerName.set(val);
 	}
 
-	public String getControllerName() {
-		return this.controllerName.get();
-	}
-
-<<<<<<< HEAD
-	public void setControllerName(String controllerName) {
-		this.controllerName.set(controllerName);
-=======
 	public String[] getContexts() {
 		return Contexts;
 	}
 	
 	public String getContext(int i) {
 		return contexts[i].get();
->>>>>>> master
 	}
-
-	public StringProperty getCANameProperty() {
-		return this.controlActionName;
+	
+	public StringProperty getContextProperty(int i) {
+		//System.out.println("property["+i+"]:"+test[i]);
+		return contexts[i];
 	}
-
-	public String getCAName() {
-		return this.controlActionName.get();
+	public void setContext(int i, String val) {
+		this.contexts[i].set(val);
 	}
-
-	public void setCAName(String caName) {
-		this.controlActionName.set(caName);
+	
+	public String getControlAction() {
+		return controlAction.get();
 	}
-
-	public ComboBox getCasesList() {
-		return this.cases;
+	
+	public StringProperty getControlActionProperty() {
+		return controlAction;
 	}
-
-	public void setCases(ComboBox cases) {
-		this.cases = cases;
+	public void setControlAction(String val) {
+		this.controlAction.set(val);
 	}
-
+	
+	
 	public int getNo() {
 		return no.get();
 	}
-
+	
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
@@ -144,51 +121,35 @@ public class CTM {
 	
 	
 
-<<<<<<< HEAD
-	public void setNo(int num) {
-		this.no.set(num);
-=======
 	
 	
 	
 
 	public ComboBox<String> getCases() {
 		return cases;
->>>>>>> master
+	}
+	public String getCasesValue() {
+		return Cases;
 	}
 
-	public String getContext(int i) {
-		return contexts.get(i).get();
-	}
-
-<<<<<<< HEAD
-	public StringProperty getContextProperty(int i) {
-		return contexts.get(i);
-=======
 	public void setCases(ComboBox<String> val) {
 		this.cases = val;
 		Cases = cases.getValue();
->>>>>>> master
+	}
+	
+	public void setCasesValue(String val) {
+		this.cases.setValue(val);
+		Cases = cases.getValue();
 	}
 
-	public void setContext(int i, StringProperty val) {
-		this.contexts.set(i, val);
-	}
-
-<<<<<<< HEAD
-	public ComboBox getHazardousList() {
-=======
 	public ComboBox<String> getHazardous() {
->>>>>>> master
 		return hazardous;
 	}
-
-<<<<<<< HEAD
-	public void setHazardous(ComboBox hazardous) {
-		this.hazardous = hazardous;
+	
+	public String getHazardousValue() {
+		return Hazardous;
 	}
-}
-=======
+
 	public void setHazardous(ComboBox<String>  val) {
 		this.hazardous = val;
 		Hazardous = hazardous.getValue();
@@ -205,4 +166,3 @@ public class CTM {
 
 
 }
->>>>>>> master
