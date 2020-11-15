@@ -674,7 +674,23 @@ public class CseController {
 			public void handle(ActionEvent event) {
 				RectangleView rect = (RectangleView) itemC1.getParentPopup().getOwnerNode();
 				dataStore.curController = dataStore.findController(rect.id);
-				mainApp.showPmmView();
+				if(dataStore.curController.getCA().size()==0 || dataStore.curController.getFB().size()==0) {
+					  FXMLLoader loader = new FXMLLoader();
+					  loader.setLocation(getClass().getResource("popup/cse/ErrorNoCAFB.fxml"));
+					  Parent popUproot;
+					  try {
+						  	popUproot = (Parent) loader.load();
+							Scene scene = new Scene(popUproot);
+							Stage stage = new Stage();
+							stage.setScene(scene);
+							stage.show();
+					  }catch(IOException e) {
+						  e.printStackTrace();
+					  }  
+				}else {
+					mainApp.showPmmView();
+				}
+				
 			}
 		});
 		ControllerContextMenu.getItems().addAll(itemC1, itemC2, itemC3);

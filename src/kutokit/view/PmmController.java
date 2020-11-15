@@ -93,6 +93,7 @@ public class PmmController {
 		// CSE -> PMM
 		// get data of selected controller & fix
 		Controller controller = components.curController;
+<<<<<<< HEAD
 		controllerList.getItems().add(controller.getName());
 		controllerList.setValue(controller.getName());
 		controllerList.setDisable(true);
@@ -109,6 +110,87 @@ public class PmmController {
 	    showControllerTab(controller.getName());
 
 		System.out.println("selected controller : " + controller.getName());
+=======
+			System.out.println("controllerame: "+controllerName);
+			
+			if( controllerName.contains(controller.getName())) {
+				// 이미 같은 이름의 controller tab이 존재할 때, 
+				System.out.println("이미 같은 controller가 존재하네요.");
+			} 
+			
+			else {
+				// 새로운 controller 추가
+				System.out.println("Add new Controller");
+				
+				// Create new tab
+				if(!dataStore.getControllerName().isEmpty()) {
+					// 이전에 추가해둔 controller가 존재할때, 배열에 가져오기 
+					System.out.println("이전에 추가한 controller가 있네요. : "+dataStore.getControllerName());
+					controllerName.addAll(dataStore.getControllerName());
+				}
+				// 이후 새로운 controller 배열에 추가
+				controllerName.add(controller.getName());
+				System.out.println("저장된 controller: "+controllerName);
+				System.out.println("controllerName size: "+controllerName.size()+", tabsize: "+tabPane.getTabs().size());
+				
+				if(controllerName.size() != tabPane.getTabs().size()) {
+					System.out.println("Create new tab for new controller.");
+					addTab(tabPane);
+				}
+			}
+			
+			curIndex = controllerName.indexOf(controller.getName());
+			System.out.println("현재 controller index (curIndex) : "+curIndex);
+			Map<Integer, Integer> controlActions = controller.getCA();
+			controlAction = new ArrayList[controlActions.size()];
+			selectedCA = new ArrayList[controlAction.length];
+			selectedOutput = new ArrayList[controlActions.size()];
+				
+			int i=0;
+			for(Integer ca : controlActions.keySet()) {
+				
+				if(i > controlAction.length-1) break;
+				if(!dataStore.isAllCAEmpty()) {
+					controlAction = dataStore.getAllCA();
+					i = dataStore.getAllCAsize();
+				}
+				controlAction[i] = components.findControlAction(ca).getCA();
+				i++;
+			}
+			
+			for(ArrayList<String> list : controlAction) {
+				System.out.println("After->list: "+list);
+			}
+			
+			dataStore.setAllCA(controlAction);
+			
+			controllerList.getItems().addAll(controllerName);
+			CAList.getItems().addAll(controlAction[curIndex]);
+	}
+	
+	@FXML
+	public void showOutput() {
+		// Save selected controller, ca in datastore
+		dataStore.setControllerName(controllerName);
+		String curCA = CAList.getSelectionModel().getSelectedItem();
+		CANameBar.setText(curCA);
+
+		System.out.println("@@@@@@@@@@@");
+		System.out.println("selectedCA.length : "+selectedCA.length);
+		System.out.println("curIndex : "+curIndex);
+		System.out.println("curCA : "+curCA);
+		selectedCA[curIndex].add(curCA);
+		System.out.println("before dataStore.ca : "+dataStore.getControlActionName());
+		System.out.println("selectedCA: "+selectedCA);
+		dataStore.setControlActionName(selectedCA);
+		
+		System.out.println("after dataStore.ca: "+dataStore.getControlActionName());
+		for(ArrayList<String> list : dataStore.getAllCA()) {
+			System.out.println("All input: "+list);
+		}
+		addFile.setVisible(true);
+	
+>>>>>>> master
 	}
 
 	private void showControllerTab(String controller) {

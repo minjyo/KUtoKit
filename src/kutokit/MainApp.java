@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -75,6 +76,7 @@ public class MainApp extends Application {
 		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
 		pmmDB = new PmmDataStore();
+		//ctmDataStore = new CTMDataStore();
 	}
 
 	private void initRootLayout() {
@@ -377,7 +379,6 @@ public class MainApp extends Application {
 			 // --------------------------- CTM --------------------------
 		        ctmDataStore.remove(0, ctmDataStore.size()-1);
 		        ctmDataStoreList.remove(0, ctmDataStoreList.size()-1);
-
 		        ctmDataStore.addAll(projectXML.getCTM());
 		        ctmDataStoreList.addAll(projectXML.getCtmDataStoreList());
 		        int j = 0;
@@ -466,3 +467,5 @@ public class MainApp extends Application {
 	}
 
 }
+
+
