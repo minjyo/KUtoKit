@@ -122,7 +122,7 @@ public class UtmController {
 //	 	}
 	   	//new Ctm Table
 	 	if(i==ucaDataStoreList.size()){
-	 		addUcaTable(ctmData.get(0).getCTMTableList().get(i));
+	 		//addUcaTable(ctmData.get(0).getCTMTableList().get(i));
 	 	}
 		// Initialize from data store ,Tab -table View
 		for(i=0;i<ucaDataStoreList.size();i++){
@@ -258,55 +258,55 @@ public class UtmController {
 
 	public void addUcaTable(ObservableList<CTM> ctmData) {
 		// and new UCA Table from CTM data
-		String tabtext = ctmData.get(0).getControllerName()+ "-" + ctmData.get(0).getCAName();
+		//String tabtext = ctmData.get(0).getControllerName()+ "-" + ctmData.get(0).getCAName();
 		UCADataStore ucadatastore = new UCADataStore();
 		ObservableList<UCA> ucaData = FXCollections.observableArrayList();
 		ucaData = ucadatastore.getUCATableList();
 
 
-		for(CTM c : ctmData){
-			String ucaColumn = "";
-			if(c.getHazardousList().getValue().equals("O")){
-				switch((String)c.getCases().getValue())
-				{
-				//case naming correctly -dayun should modify
-				case "CA ":
-					ucaColumn = "CA";
-					break;
-				case "providing causes hazard":
-					ucaColumn = "Providing Causes Hazard";
-					break;
-				case "not providing\ncauses hazard" :
-					ucaColumn = "Not Providing Causes Hazard";
-					break;
-				case "too early, too late,\nout of order" :
-					ucaColumn = "Incorrect Timing/Order";
-					break;
-				case "Stopped Too Soon/Applied Too Long" :
-					ucaColumn = "Stopped Too Soon/Applied Too Long";
-					break;
-				default :
-					break;
-				}
-				String Context = "";
-				for(int j =0;j<mainApp.models.getValuelist().size();j++){
-					if(c.getContext(j)!="N/A" || !c.getContext(j).isEmpty()){
-						Context +=mainApp.models.getValuelist().get(j) +" =" +c.getContext(j)+", ";
-					}
-				}
-
-				UCA uca = new UCA(c.getCAName(),"","","","",null);
-				uca.setUCA(ucaColumn, Context,null);
-				ucaData.add(uca);
-				ucaDataList.add(ucaData);
-			}
-
-			if(!ucaData.isEmpty()){
-				ucadatastore.setControllAction(ctmData.get(0).getControllerName());
-				ucadatastore.setController(ctmData.get(0).getCAName());
-				ucaDataStoreList.add(ucadatastore);
-			}
-		}
+//		for(CTM c : ctmData){
+//			String ucaColumn = "";
+//			if(c.getHazardousList().getValue().equals("O")){
+//				switch((String)c.getCases().getValue())
+//				{
+//				//case naming correctly -dayun should modify
+//				case "CA ":
+//					ucaColumn = "CA";
+//					break;
+//				case "providing causes hazard":
+//					ucaColumn = "Providing Causes Hazard";
+//					break;
+//				case "not providing\ncauses hazard" :
+//					ucaColumn = "Not Providing Causes Hazard";
+//					break;
+//				case "too early, too late,\nout of order" :
+//					ucaColumn = "Incorrect Timing/Order";
+//					break;
+//				case "Stopped Too Soon/Applied Too Long" :
+//					ucaColumn = "Stopped Too Soon/Applied Too Long";
+//					break;
+//				default :
+//					break;
+//				}
+//				String Context = "";
+//				for(int j =0;j<mainApp.models.getValuelist().size();j++){
+//					if(c.getContext(j)!="N/A" || !c.getContext(j).isEmpty()){
+//						Context +=mainApp.models.getValuelist().get(j) +" =" +c.getContext(j)+", ";
+//					}
+//				}
+//
+//				UCA uca = new UCA(c.getCAName(),"","","","",null);
+//				uca.setUCA(ucaColumn, Context,null);
+//				ucaData.add(uca);
+//				ucaDataList.add(ucaData);
+//			}
+//
+//			if(!ucaData.isEmpty()){
+//				ucadatastore.setControllAction(ctmData.get(0).getControllerName());
+//				ucadatastore.setController(ctmData.get(0).getCAName());
+//				ucaDataStoreList.add(ucadatastore);
+//			}
+//		}
 
 
 		return;
