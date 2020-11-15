@@ -107,9 +107,10 @@ public class CtmController {
 		hazardousOX.add("X");
 		
 		casesCombo = FXCollections.observableArrayList();
-		casesCombo.add("not providing\ncauses hazard");
-		casesCombo.add("too early, too late,\nout of order");
-		casesCombo.add("providing causes hazard");
+		casesCombo.add("Providing causes hazard");
+		casesCombo.add("Not providing causes hazard");
+		casesCombo.add("Too early, too late, out of order");
+		casesCombo.add("Applied too long, stopped to soon");
 		
 		controllerCount = controllerNames.size();
 		contextheader = new ArrayList<>(controllerCount);
@@ -318,7 +319,7 @@ public class CtmController {
 	           
 	            String[] temps = new String[1000];
 	            temps = temp.split("\n");
-	            this.ParseMSC(temps);
+	            this.ParseMCS(temps);
 	            
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
@@ -327,7 +328,7 @@ public class CtmController {
 		return 0;
 	}
 
-	private void ParseMSC(String[] temps) {
+	private void ParseMCS(String[] temps) {
 		String[][] context = new String[contextheader.get(curTabNum).size()][temps.length];
 
 		System.out.println("contextheader.get(curTabNum).size():"+contextheader.get(curTabNum).size());

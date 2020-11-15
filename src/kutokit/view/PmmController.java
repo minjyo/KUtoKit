@@ -395,12 +395,10 @@ public class PmmController {
 						@Override
 						public void handle(WindowEvent e) {
 							VariablePopUpController popup = loader.getController();
-							//when user inputed text for process model & clicked confirm
-							if (popup.value != null && popup.confirmClicked == true) {
+							if (popup.value != null) {
 								//don't add same value to listview
-								for(int i = 0; i < listViewList.size(); i++) {
-									if(!listViewList.get(tabIndex).getItems().isEmpty()) {
-										String s = listViewList.get(tabIndex).getItems().get(i);
+								if(!listViewList.get(tabIndex).getItems().isEmpty()) {
+									for(String s : listViewList.get(tabIndex).getItems()) {
 										if(s.equals(popup.value)) {
 											return;
 										}
@@ -416,8 +414,6 @@ public class PmmController {
 										p.getValuelist().add(popup.value);
 									}
 								}
-							}else if(popup.closeClicked == true) {
-								valueStage.close();
 							}
 						}
 					}));

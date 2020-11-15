@@ -1,29 +1,30 @@
 package kutokit.view.popup;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class VariablePopUpController {
 	 @FXML 
-	 private TextField textField;
-	 public String value;
-	 @FXML
-	 private Button confirmButton, cancelButton;
-	 
-	 public boolean confirmClicked = false, closeClicked = false;
+	  private TextField text; 
+	  public String value;
+	  private Stage stage;
 	  
-	 public VariablePopUpController() {
-		 if(textField.getText() != null) { 
-			 confirmButton.setOnMouseClicked(MouseEvent ->{
-				 value = textField.getText();
-				 confirmClicked = true;
-			 });
-		 }
-		 
-		 cancelButton.setOnMouseClicked(MouseEvent -> {
-			 closeClicked = true;
-		 });
-	 }
+	  public void setStage(Stage stage) {
+		  this.stage = stage;
+	  }
+	  
+	  @FXML
+	  public void setData() {
+		  if(!text.getText().isEmpty()) {
+			  value = text.getText();
+			  close();
+		  }
+	  }
+	  
+	  @FXML
+	  public void close() { 
+		  Stage pop = (Stage)text.getScene().getWindow(); 
+	       pop.close();
+	  }
 }
