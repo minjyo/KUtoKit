@@ -16,7 +16,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kutokit.view.LsController">
    <children>
       <Rectangle fill="DARKSEAGREEN" height="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1000.0" AnchorPane.bottomAnchor="761.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Button fx:id="addNewTab" layoutX="768.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="230.0" text="Add new tab for other UCA" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0" />
+      <Button fx:id="addNewTab" layoutX="768.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#newTabButtonClicked" prefHeight="30.0" prefWidth="230.0" text="Add new tab for other UCA" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0" />
       <TabPane prefHeight="733.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="40.0">
           <Tab closable="false" text="LS1">
             <content>

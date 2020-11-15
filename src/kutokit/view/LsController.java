@@ -40,15 +40,15 @@ public class LsController implements Initializable {
 	private LSDataStore lsDB;
 	private UCADataStore ucaDB;
 
-	@FXML private TableView<LS> lossScenarioTableView;
-	@FXML private TableColumn<LS, String> linkedUCAColumn, lossFactorColumn, lossScenarioTextColumn;
-	@FXML private TextField lossScenarioTextField;
+ 	@FXML private TextField lossScenarioTextField;
 	@FXML private Button addLossScenario, addNewTab;
-	@FXML private ComboBox<String> UcaComboBox;
-	@FXML private ComboBox<String> lossFactorComboBox;
-	@FXML private TableRow<LS> lsRow;
-	@FXML private TabPane tabPane;
+	@FXML private ComboBox<String> UcaComboBox, lossFactorComboBox;
+	@FXML private TabPane tabPane = new TabPane();
 	
+	ObservableList<TableView<LS>> lsTableViewList = FXCollections.observableArrayList();
+	ObservableList<TableColumn<LS, String>> ucaColList = FXCollections.observableArrayList();
+	ObservableList<TableColumn<LS, String>> lossFactorColList = FXCollections.observableArrayList();
+	ObservableList<TableColumn<LS, String>> lossScenarioColList = FXCollections.observableArrayList();
 	ObservableList<LS> lossScenarioTableList;
 	ObservableList<String> lossFactorCBList = FXCollections.observableArrayList("1) Controller Problems", "2) Feedback Problems", "3) Control Path Problems", "4) Controlled Process Problems");
 	ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
@@ -72,6 +72,8 @@ public class LsController implements Initializable {
 		lsDB = mainApp.lsDataStore;
 		ucaDataStoreList = mainApp.ucaDataStoreList;
 		
+		int tabIndex = tabPane.getSelectionModel().getSelectedIndex();
+		
 		ObservableList<String> ucaDatas = FXCollections.observableArrayList();
 		
 	    for(UCA u : ucaDataStoreList.get(0).getUCATableList()){
@@ -86,15 +88,15 @@ public class LsController implements Initializable {
 	    }
 	    
 	    UcaComboBox.setItems(ucaDatas);
+	    System.out.println(ucaDatas + " : uca datas");
 		
 		lossScenarioTableList = lsDB.getLossScenarioList();
 		
-		linkedUCAColumn.setCellValueFactory(cellData -> cellData.getValue().getUCAProperty());
-		lossFactorColumn.setCellValueFactory(cellData -> cellData.getValue().getLossFactorProperty());
-		lossScenarioTextColumn.setCellValueFactory(cellData -> cellData.getValue().getLossScenarioProperty());
+		ucaColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getUCAProperty());
+		lossFactorColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossFactorProperty());
+		lossScenarioColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossScenarioProperty());
 		
-		lossScenarioTableView.setItems(lossScenarioTableList);
-		
+		lsTableViewList.get(tabIndex).setItems(lossScenarioTableList);
 
 		lossFactorComboBox.setItems(lossFactorCBList);
 		
@@ -116,7 +118,7 @@ public class LsController implements Initializable {
 						e1.printStackTrace();
 					}
 				}else {
-					lossScenarioTableView.getItems().add(ls);
+					lsTableViewList.get(tabIndex).getItems().add(ls);
 					lossScenarioTextField.clear();
 				}
 			}
@@ -130,16 +132,16 @@ public class LsController implements Initializable {
 		lossScenarioRightClickMenu.getItems().add(removeLossScenarioMenu);
 		
 		ObservableList<LS> allLossScenarioItems, selectedLossScenarioItem;
-		allLossScenarioItems = lossScenarioTableView.getItems();
-		selectedLossScenarioItem = lossScenarioTableView.getSelectionModel().getSelectedItems();
+		allLossScenarioItems = lsTableViewList.get(tabIndex).getItems();
+		selectedLossScenarioItem = lsTableViewList.get(tabIndex).getSelectionModel().getSelectedItems();
 		
 		/*
 		 * when right-clicked, show pop up
 		 */
-		lossScenarioTableView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+		lsTableViewList.get(tabIndex).setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 			@Override
 			public void handle(ContextMenuEvent e) {
-				lossScenarioRightClickMenu.show(lossScenarioTableView, e.getScreenX(), e.getScreenY());
+				lossScenarioRightClickMenu.show(lsTableViewList.get(tabIndex), e.getScreenX(), e.getScreenY());
 				removeLossScenarioMenu.setOnAction(event -> {
 					selectedLossScenarioItem.forEach(allLossScenarioItems::remove);
 					//no indexing here
@@ -151,8 +153,8 @@ public class LsController implements Initializable {
 		/*
 		 * modify text in loss scenario table
 		 */
-		lossScenarioTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		lossScenarioTextColumn.setOnEditCommit(
+		lossScenarioColList.get(tabIndex).setCellFactory(TextFieldTableCell.forTableColumn());
+		lossScenarioColList.get(tabIndex).setOnEditCommit(
 			(TableColumn.CellEditEvent<LS, String> t) ->
                 (t.getTableView().getItems().get(
                	t.getTablePosition().getRow())
@@ -183,31 +185,30 @@ public class LsController implements Initializable {
 	 */
 	@FXML
 	private void newTabButtonClicked() {
-		addNewTab.setOnMouseClicked(event -> {
-			Tab newTab = new Tab();
-			tabPane.getTabs().add(newTab);
-			TableView<LS> newTable = new TableView<LS>();
-			newTab.setContent(newTable);
-			
-			TableColumn<LS, String> ucaCol = new TableColumn<LS, String>();
-			TableColumn<LS, String> lossFactorCol = new TableColumn<LS, String>();
-			TableColumn<LS, String> lossScenarioCol = new TableColumn<LS, String>();
-			
-			ucaCol.setPrefWidth(160.0);
-			lossFactorCol.setPrefWidth(210.0);
-			lossScenarioCol.setPrefWidth(630.0);
-			
-			ucaCol.setResizable(false);
-			lossFactorCol.setResizable(false);
-			lossScenarioCol.setResizable(false);
-			
-			ucaCol.setText("UCA");
-			lossFactorCol.setText("Loss Factor");
-			lossScenarioCol.setText("Loss Scenario");
-			
-			newTable.getColumns().add(ucaCol);
-			newTable.getColumns().add(lossFactorCol);
-			newTable.getColumns().add(lossScenarioCol);
-		});
+		System.out.println("add tab button clicked");
+		Tab newTab = new Tab();
+		tabPane.getTabs().add(newTab);
+		TableView<LS> newTable = new TableView<LS>();
+		newTab.setContent(newTable);
+		
+		TableColumn<LS, String> ucaCol = new TableColumn<LS, String>();
+		TableColumn<LS, String> lossFactorCol = new TableColumn<LS, String>();
+		TableColumn<LS, String> lossScenarioCol = new TableColumn<LS, String>();
+		
+		ucaCol.setPrefWidth(160.0);
+		lossFactorCol.setPrefWidth(210.0);
+		lossScenarioCol.setPrefWidth(630.0);
+		
+		ucaCol.setResizable(false);
+		lossFactorCol.setResizable(false);
+		lossScenarioCol.setResizable(false);
+		
+		ucaCol.setText("UCA");
+		lossFactorCol.setText("Loss Factor");
+		lossScenarioCol.setText("Loss Scenario");
+		
+		newTable.getColumns().add(ucaCol);
+		newTable.getColumns().add(lossFactorCol);
+		newTable.getColumns().add(lossScenarioCol);
 	}
 }
