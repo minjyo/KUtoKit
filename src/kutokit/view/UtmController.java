@@ -237,6 +237,9 @@ public class UtmController {
 				case 2:
 					ucaColumn = "Providing Causes Hazard";
 					break;
+				case 3:
+					ucaColumn = "Stopped Too Soon/Applied Too Long";
+					break;
 				default :
 					break;
 				}
@@ -355,6 +358,9 @@ public class UtmController {
 				case 2:
 					ucaColumn = "Providing Causes Hazard";
 					break;
+				case 3:
+					ucaColumn = "Stopped Too Soon/Applied Too Long";
+					break;
 				default :
 					break;
 				}
@@ -434,10 +440,10 @@ public class UtmController {
 
 
 		try{
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("popup/ucaHazardView.fxml"));
-			ucaHazardController u  = loader.getController();
-			TableView<LHC> t = loader.load();
+//			FXMLLoader loader = new FXMLLoader();
+//			loader.setLocation(getClass().getResource("popup/ucaHazardView.fxml"));
+//			ucaHazardController u  = loader.getController();
+//			TableView<LHC> t = loader.load();
 //			t.setItems(mainApp.lhcDataStore.getHazardTableList());
 //			TableColumn<LHC,String> indexColumn = (TableColumn<LHC, String>) t.getColumns().get(0);
 //			TableColumn<LHC,String> textColumn = (TableColumn<LHC, String>) t.getColumns().get(1);
