@@ -1,19 +1,10 @@
 package kutokit.view;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.swing.text.TabableView;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -25,8 +16,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import kutokit.MainApp;
 import kutokit.model.ctm.CTM;
 import kutokit.model.ctm.CTMDataStore;
@@ -34,7 +23,6 @@ import kutokit.model.lhc.LHC;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
-import kutokit.view.popup.UCAHazardPopUpController;
 
 public class UtmController {
 
@@ -52,14 +40,10 @@ public class UtmController {
 	@FXML private Button addCtmButton;
 	@FXML private TabPane tabPane;
 
-	private ContextMenu menu;
-	private MenuItem delete_menu;
 	private ObservableList<LHC> hazardData = FXCollections.observableArrayList();
 //	private static ObservableList<ObservableList<UCA>> ucaDataList =FXCollections.observableArrayList();
 	private ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
 	private ObservableList<String> hazardList = FXCollections.observableArrayList();
-
-	UCAHazardPopUpController ucaPopUp = new UCAHazardPopUpController();
 
 	//constructor
 	public UtmController() {
@@ -113,22 +97,19 @@ public class UtmController {
 			showControllerTable(controllerComboBox.getValue(),id);
 		});
 
-		for(TableView t : ucaTableList){
+		for(TableView<UCA> t : ucaTableList){
 			contextMenu(t);
 		}
-
-   	 	//Question : tab delete Menu??
-        ucaHazardPopup();
 
         return ;
 	}
 
-	private void contextMenu(TableView t) {
+	private void contextMenu(TableView<UCA> t) {
 		//RigthtClick "delete Menu"
 		//Mouse Right Click for delete
 		ContextMenu menu = new ContextMenu();
 
-		delete_menu = new MenuItem("Delete");
+		MenuItem delete_menu = new MenuItem("Delete");
 
         delete_menu.setOnAction(new EventHandler<ActionEvent>() {
 	     @Override
@@ -415,8 +396,6 @@ public class UtmController {
 	    ucaTableList.get(i).getColumns().add(stoppedColumn.get(i));
 	    ucaTableList.get(i).getColumns().add(linkColumn.get(i));
 
-
-
 	    return;
 
 	}
@@ -426,29 +405,6 @@ public class UtmController {
 		ObservableList<UCA> ucadata = event.getTableView().getItems();
 		UCA uca = ucadata.get(event.getTablePosition().getRow());
 		uca.setUCA(event.getTableColumn().getText(), event.getNewValue(), null);
-	}
-
-	private void ucaHazardPopup() {
-
-		try{
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("popup/UCAHazardPopUpView.fxml"));
-			ucaPopUp = loader.getController();
-
-			Parent parent = loader.load();
-			Scene scene = new Scene(parent);
-
-			Stage stage = new Stage();
-
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.setTitle("Hazard List");
-			stage.setResizable(false);
-			stage.show();
-
-			stage.setScene(scene);
-		}catch (Exception e){
-			System.out.println("Hazard Pop Up Error");
-		}
 	}
 }
 
