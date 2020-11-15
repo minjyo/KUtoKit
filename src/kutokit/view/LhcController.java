@@ -163,6 +163,12 @@ public class LhcController implements Initializable {
 					selectedLossItem.forEach(allLossItems::remove);
 					//need to update loss index
 					updateLossIndex();
+					try {
+						openLinkUpdateNoticePopUp();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				});
 			}
 		});
@@ -252,6 +258,12 @@ public class LhcController implements Initializable {
 					selectedHazardItem.forEach(allHazardItems::remove);
 					//need to update hazard index
 					updateHazardIndex();
+					try {
+						openLinkUpdateNoticePopUp();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				});
 				
 				EditHazardLinkMenu.setOnAction(event -> {
@@ -449,9 +461,9 @@ public class LhcController implements Initializable {
 	}
 	
 		//if link for hazard to loss does not fit format, this pop up opens
-	private void openHazardLinkPopUp() throws IOException {
+	private void openLinkModifyPopUp() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		Parent parent = loader.load(getClass().getResource("popup/LhcHazardLinkPopUpView.fxml"));
+		Parent parent = loader.load(getClass().getResource("popup/LhcLinkModifyPopUpView.fxml"));
 		Scene scene = new Scene(parent);
 		Stage dialogStage = new Stage();
 		            
@@ -465,15 +477,15 @@ public class LhcController implements Initializable {
 	}
 		
 	//if link for constraint to hazard does not fit format, this pop up opens
-	private void openConstraintLinkPopUp() throws IOException {
+	private void openLinkUpdateNoticePopUp() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		Parent parent = loader.load(getClass().getResource("popup/LhcConstraintLinkPopUpView.fxml"));
+		Parent parent = loader.load(getClass().getResource("popup/LhcLinkModificationNotice.fxml"));
 		Scene scene = new Scene(parent);
 		Stage dialogStage = new Stage();
 			            
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		dialogStage.initOwner(mainApp.getPrimaryStage());
-		dialogStage.setTitle("Wrong link format");
+		dialogStage.setTitle("Need update");
 		
 		dialogStage.setScene(scene);
 		dialogStage.setResizable(false);
@@ -482,87 +494,60 @@ public class LhcController implements Initializable {
 	
 	//function to update loss index when one is deleted.
 	private void updateLossIndex() {
-		ArrayList<String> index = new ArrayList<>();
+		ArrayList<String> index = new ArrayList<String>();
 		int total = lossTableList.size();
-		for(int i = 0; i < total + 1; i++) {
+
+		for(int i = 0; i < total; i++) {
 			index.add(lossIndexColumn.getCellData(i));
-			if(i == 0 && total != 0) {
-				//always put first item's index as L1 
-				if(index.get(i).equals("L1")) {
-					continue;
-				}else {
-					index.get(i).replace(Integer.toString(i), "1");
-					lossTableList.get(i).setIndex("L1");
-				}
-			}else if(i > 0 && i < total){
-				//from second item to second-last item
-				if(index.get(i).equals("L" + Integer.toString(i + 1))) {
-					//for example, if second item(i=1)'s index is not L2
-					continue;
-				}else {
+		}
+
+		for(int i = 0; i < total; i++) {
+			if(!index.get(i).equals("L" + Integer.toString(i + 1))){
+				for(; i < total; i++){
 					lossTableList.get(i).setIndex("");
 					lossTableList.get(i).setIndex("L" + Integer.toString(i + 1));
 				}
 			}
-			hazardLinkCB.getItems().remove(lossTableList.size());
-			total-- ;
 		}
+        hazardLinkCB.getItems().remove(lossTableList.size());
 	}
-	
+
 	//function to update hazard index when one is deleted.
 	private void updateHazardIndex() {
-		ArrayList<String> index = new ArrayList<>();
+		ArrayList<String> index = new ArrayList<String>();
 		int total = hazardTableList.size();
-		for(int i = 0; i < total + 1; i++) {
+
+		for(int i = 0; i < total; i++) {
 			index.add(hazardIndexColumn.getCellData(i));
-			if(i == 0 && total != 0) {
-				//always put first item's index as H1 
-				if(index.get(i).equals("H1")) {
-					continue;
-				}else {
-					index.get(i).replace(Integer.toString(i), "1");
-					hazardTableList.get(i).setIndex("H1");
-				}
-			}else if(i > 0 && i < total){
-				//from second item
-				if(index.get(i).equals("H" + Integer.toString(i + 1))) {
-					//for example, if second item(i=1)'s index is not H2
-					continue;
-				}else {
+		}
+
+		for(int i = 0; i < total; i++) {
+			if(!index.get(i).equals("H" + Integer.toString(i + 1))){
+				for(; i < total; i++){
 					hazardTableList.get(i).setIndex("");
 					hazardTableList.get(i).setIndex("H" + Integer.toString(i + 1));
 				}
 			}
-			constraintLinkCB.getItems().remove(hazardTableList.size());
-			total-- ;
 		}
+        constraintLinkCB.getItems().remove(hazardTableList.size());
 	}
 	
 	//function to update constraint index when one is deleted.
 	private void updateConstraintIndex() {
-		ArrayList<String> index = new ArrayList<>();
+		ArrayList<String> index = new ArrayList<String>();
 		int total = constraintTableList.size();
-		for(int i = 0; i < total + 2; i++) {
+
+		for(int i = 0; i < total; i++) {
 			index.add(constraintIndexColumn.getCellData(i));
-			if(i == 0) {
-				//always put first item's index as C1 
-				if(index.get(i).equals("C1")) {
-					continue;
-				}else {
-					index.get(i).replace(Integer.toString(i), "1");
-					constraintTableList.get(i).setIndex("C1");
-				}
-			}else {
-				//from second item
-				if(index.get(i).equals("C" + Integer.toString(i + 1))) {
-					//for example, if second item(i=1)'s index is not C2
-					continue;
-				}else {
+		}
+
+		for(int i = 0; i < total; i++) {
+			if(!index.get(i).equals("C" + Integer.toString(i + 1))){
+				for(; i < total; i++){
 					constraintTableList.get(i).setIndex("");
 					constraintTableList.get(i).setIndex("C" + Integer.toString(i + 1));
 				}
 			}
-			total-- ;
 		}
 	}
 }

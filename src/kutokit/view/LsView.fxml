@@ -45,11 +45,6 @@
                </AnchorPane>
             </content>
           </Tab>
-          <Tab closable="false" text="LS2">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
       </TabPane>
       <Label layoutX="434.0" layoutY="8.0" text="Loss Scenario" textFill="WHITE">
          <font>

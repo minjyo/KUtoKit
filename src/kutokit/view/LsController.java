@@ -71,8 +71,10 @@ public class LsController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		lsDB = mainApp.lsDataStore;
 		ucaDataStoreList = mainApp.ucaDataStoreList;
+		
+		ObservableList<UCA> ucaDatas = FXCollections.observableArrayList();
 		for(UCADataStore u : ucaDataStoreList) {
-			UcaComboBox.getItems().addAll(u.getUCATableList());
+			ucaDatas.addAll(u.getUCATableList());
 		}
 		
 		lossScenarioTableList = lsDB.getLossScenarioList();
@@ -94,7 +96,7 @@ public class LsController implements Initializable {
 			@Override
 			public void handle(MouseEvent e) {
 				//여기 코드 깨짐.
-				LS ls = new LS(UcaComboBox.getSelectionModel().selectedItemProperty().toString(), lossFactorComboBox.getValue().toString(), lossScenarioTextField.getText());
+				LS ls = new LS(UcaComboBox.getValue().toString(), lossFactorComboBox.getValue(), lossScenarioTextField.getText());
 				//if text field is empty, warning pop up opens
 				if(lossScenarioTextField.getText().isEmpty()) {
 					try {
@@ -174,6 +176,13 @@ public class LsController implements Initializable {
 	private void newTabButtonClicked() {
 		addNewTab.setOnMouseClicked(event -> {
 			Tab newTab = new Tab();
+			tabPane.getTabs().add(newTab);
+			TableView<LS> newTable = new TableView<LS>();
+			newTab.setContent(newTable);
+			
+			TableColumn
+			
+			newTable.getColumns().add(new )
 		});
 	}
 }
