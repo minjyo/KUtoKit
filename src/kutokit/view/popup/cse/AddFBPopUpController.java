@@ -64,6 +64,7 @@ public class AddFBPopUpController implements Initializable {
 					  OKclose = true;
     				  close();
 				  }else {
+					  int i=0;
 					  for( int fbId : controller.getFB().keySet() ){
 		            		if(controlled.getFB().containsKey(fbId)) {
 		            			  FXMLLoader loader = new FXMLLoader();
@@ -80,10 +81,13 @@ public class AddFBPopUpController implements Initializable {
 			          			  }
 			          			  break;
 		            		}else {
-		            			 OKclose = true;
-		       				  	 close();
+		            			i++;
 		            		}	
 		              }
+					  if(i==controller.getCA().size()) {
+						  OKclose = true;
+	       				  close();
+					  }
 				  }
 				 
 			  }else {
