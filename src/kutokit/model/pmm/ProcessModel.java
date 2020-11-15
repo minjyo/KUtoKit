@@ -1,145 +1,62 @@
 package kutokit.model.pmm;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ProcessModel {
-
-	private ArrayList<Tab> tablist = new ArrayList<Tab>();
-	private ArrayList<String> controllerName = new ArrayList<String>();
-
-	private ArrayList<ArrayList<String>> controlActionNames = new ArrayList<ArrayList<String>>();
-	private ArrayList<ArrayList<String>> allCA =  new ArrayList<ArrayList<String>>();
-
-	private ArrayList<ArrayList<String>> outputNames =  new ArrayList<ArrayList<String>>();
-	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-	private ObservableList<ArrayList<String>> valuelist = FXCollections.observableArrayList();
+	//controller & control action related to this process model
+	private String controllerName, controlActionName;
 	
-	private File filePath;
+	//selected output variables
+	private ArrayList<String> selectedOutputs = new ArrayList<String>();
 
+	//related variables & nodes for selected output
+	private ObservableList<String> valueList = FXCollections.observableArrayList();
+
+	/*
+	 * default constructor
+	 */
 	public ProcessModel() {
-
 	}
 
-	// File path
-	public File getFilePath() {
-		return filePath;
+	public ProcessModel(String controller, String ca, ArrayList<String> selectedOutputs, ObservableList<String> valueList) {
+		this.controllerName = controller;
+		this.controlActionName = ca;
+		this.selectedOutputs = selectedOutputs;
+		this.valueList = valueList;
 	}
 
-	public void setFilePath(File filePath) {
-		this.filePath = filePath;
+	public String getControllerName() {
+		return this.controllerName;
 	}
 
-	// Controller
-	public ArrayList<String> getControllerName() {
-		return controllerName;
+	public void setControllerName(String controller) {
+		this.controllerName = controller;
 	}
 
-	public void setControllerName(ArrayList<String> controllerName) {
-		this.controllerName.addAll(controllerName);
+	public String getControlActionName() {
+		return this.controlActionName;
 	}
 
-	// Control Action
-
-	public ArrayList<ArrayList<String>> getControlActionNames() {
-		return controlActionNames;
-	}
-
-	public void setControlActionNames(ArrayList<ArrayList<String>> arrayList) {
-		this.controlActionNames = arrayList;
-	}
-
-	// Selected Output variables
-	public ArrayList<ArrayList<String>> getOutputNames() {
-		return outputNames;
-	}
-
-	public void setOutputNames(ArrayList<ArrayList<String>> outputVariables) {
-		this.outputNames = outputVariables;
-	}
-
-	// All output variables
-	public ObservableList<String> getAllOutput() {
-		return allOutput;
-	}
-
-	public void setAllOutput(ObservableList<String> allOutput) {
-		this.allOutput = allOutput;
-	}
-
-	// Value list
-	public ObservableList<ArrayList<String>> getValuelist() {
-		return valuelist;
-	}
-
-	public void setValuelist(ObservableList<ArrayList<String>> lists) {
-		this.valuelist = lists;
-	}
-
-	public void addValuelist(ArrayList<String> list) {
-		this.valuelist.add(list);
-	}
-
-	public ArrayList<String> modifyValue(int curIndex, String oldValue, String newValue) {
-
-		ArrayList<String> curList = valuelist.get(curIndex);
-				for(String data : curList) {
-					if( oldValue.equals(data)) {
-						curList.set(curList.indexOf(data), newValue);
-						valuelist.set(curIndex, curList);
-					}
-				}
-		return curList;
+	public void setControlActionName(String ca) {
+		this.controlActionName = ca;
 	}
 	
-	public ArrayList<String> deleteValue(int curIndex, String oldValue) {
-		ArrayList<String> curList = valuelist.get(curIndex);
-			for(String data : curList) {
-				if(oldValue.equals(data)) {
-					curList.remove(curList.indexOf(data));
-					valuelist.set(curIndex, curList);
-				}
-			}
-		return curList;
-	}
-
-	// All control actions
-	public ArrayList<ArrayList<String>> getAllCA() {
-		return allCA;
-	}
-
-	public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
-		this.allCA = controlAction;
+	public ArrayList<String> getSelectedOutputs(){
+		return this.selectedOutputs;
 	}
 	
-
-	public boolean isEmpty(ArrayList<ArrayList<String>> arraylist) {
-		boolean result = false;
-		int cnt = 0;
-		for(ArrayList<String> list : arraylist) {
-			if(list == null || list.isEmpty()) {
-				cnt++;
-			}else {
-				continue;
-			}
-		}
-
-		if(cnt == arraylist.size()) {
-			result = true;
-		}
-		return result;
+	public void setSelectedOutputs(ArrayList<String> selectedOutputs) {
+		this.selectedOutputs = selectedOutputs;
 	}
-	
-	public int getSize(ArrayList<ArrayList<String>> arraylist) {
-		int cnt=0;
-		for(ArrayList<String> list: arraylist) {
-			if(!isEmpty(arraylist)) {
-				cnt++;
-			}	
-		}
-		return cnt;
+
+	public ObservableList<String> getValuelist() {
+		return this.valueList;
+	}
+
+	public void setValuelist(ObservableList<String> valueList) {
+		this.valueList = valueList;
 	}
 }

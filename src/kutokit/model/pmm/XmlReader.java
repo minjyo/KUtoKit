@@ -284,23 +284,23 @@ public class XmlReader {
 
 		return findedNode;
 	}
-	
-	public static void main(String args[]) {
-		
-//		XmlReader reader = new XmlReader("CVM_ver4_complete_nographic.xml");
-		XmlReader reader = new XmlReader("NuSCR_example.xml");
-//		reader.getNodeList(getNode("f_display_makeable_coffee_1"), "");
-//		reader.getTransitionNodes(getNode("f_display_makeable_coffee_1"));
-
-		// Show all FODs
-		for(Node fod: reader.showValidFods()) {
-			System.out.println(fod.getAttributes().getNamedItem("name"));
-		}
-		
-		// Select FODs
-		reader.setRootFod("g_LO_SG1_LEVEL");
-		
-		// Get output variables about Selected FODs
-		System.out.println(	reader.getOutputs());
-	}
+//	
+//	public static void main(String args[]) {
+//		
+////		XmlReader reader = new XmlReader("CVM_ver4_complete_nographic.xml");
+//		XmlReader reader = new XmlReader("NuSCR_example.xml");
+////		reader.getNodeList(getNode("f_display_makeable_coffee_1"), "");
+////		reader.getTransitionNodes(getNode("f_display_makeable_coffee_1"));
+//
+//		// Show all FODs
+//		for(Node fod: reader.showValidFods()) {
+//			System.out.println(fod.getAttributes().getNamedItem("name") + ": root");
+//		}
+//		
+//		// Select FODs
+//		reader.setRootFod("g_LO_SG1_LEVEL");
+//		
+//		// Get output variables about Selected FODs
+//		System.out.println(	reader.getOutputs());
+//	}
 }

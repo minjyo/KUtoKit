@@ -103,6 +103,9 @@ public class CseController {
 			Controller controller = dataStore.findController(ca.getControllerID());
 			Controller controlled = dataStore.findController(ca.getControlledID());
 			
+			ca.setController(controller);
+			ca.setControlled(controlled);
+			
 			int[] startNum = controller.getNum();
 			int[] endNum = controlled.getNum();
 			
@@ -133,6 +136,9 @@ public class CseController {
 		for (Feedback fb : feedbacks) {
 			Controller controller = dataStore.findController(fb.getControllerID());
 			Controller controlled = dataStore.findController(fb.getControlledID());
+			
+			fb.setController(controller);
+			fb.setControlled(controlled);
 			
 			int[] startNum = controller.getNum();
 			int[] endNum = controlled.getNum();
@@ -674,7 +680,23 @@ public class CseController {
 			public void handle(ActionEvent event) {
 				RectangleView rect = (RectangleView) itemC1.getParentPopup().getOwnerNode();
 				dataStore.curController = dataStore.findController(rect.id);
-				mainApp.showPmmView();
+				if(dataStore.curController.getCA().size()==0) {
+					  FXMLLoader loader = new FXMLLoader();
+					  loader.setLocation(getClass().getResource("popup/cse/ErrorNoCAFB.fxml"));
+					  Parent popUproot;
+					  try {
+						  	popUproot = (Parent) loader.load();
+							Scene scene = new Scene(popUproot);
+							Stage stage = new Stage();
+							stage.setScene(scene);
+							stage.show();
+					  }catch(IOException e) {
+						  e.printStackTrace();
+					  }  
+				}else {
+					mainApp.showPmmView();
+				}
+				
 			}
 		});
 		ControllerContextMenu.getItems().addAll(itemC1, itemC2, itemC3);

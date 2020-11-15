@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -33,6 +34,7 @@ import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.PmmDataStore;
 import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
@@ -45,11 +47,11 @@ public class MainApp extends Application {
 
 	 public static Components components;
 	 public static LhcDataStore lhcDataStore;
-	 public ProcessModel models;
+	 public static PmmDataStore pmmDB;
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
-	 public static CTMDataStore ctmDataStore;
+	 public static ObservableList<CTM> ctmDataStore = FXCollections.observableArrayList();
 	 public static LSDataStore lsDataStore;
 
 	@Override
@@ -70,9 +72,9 @@ public class MainApp extends Application {
 	private void initDataStore() {
 		components = new Components();
 		lhcDataStore = new LhcDataStore();
-		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
-		ctmDataStore = new CTMDataStore();
+//		ctmDataStore = new CTMDataStore();
+		pmmDB = new PmmDataStore();
 	}
 
 	private void initRootLayout() {
@@ -186,14 +188,14 @@ public class MainApp extends Application {
     public void showUtmView() {
         try {
         	//Open when CTM data isn't null
-        	if(ctmDataStoreList.isEmpty()){
-    	        Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setTitle("Caution");
-        		alert.setHeaderText("Condition not satisfied");
-    	        alert.setContentText("Please add context table data first");
-    	        alert.show();
-        		return;
-        	}
+//        	if(ctmDataStoreList.isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add context table data first");
+//    	        alert.show();
+//        		return;
+//        	}
 
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
@@ -270,15 +272,15 @@ public class MainApp extends Application {
 	 */
 	public void showLsView() {
 		try {
-			//Open when UCA data isn't null
-        	if(ucaDataStoreList.isEmpty()){
-    	        Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setTitle("Caution");
-        		alert.setHeaderText("Condition not satisfied");
-    	        alert.setContentText("Please add UCA data first");
-    	        alert.show();
-        		return;
-        	}
+//			//Open when UCA data isn't null
+//        	if(ucaDataStoreList.isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add UCA data first");
+//    	        alert.show();
+//        		return;
+//        	}
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
@@ -361,27 +363,15 @@ public class MainApp extends Application {
 		      //--------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
-		        models.setControllerName(projectXML.getControllerName());;
-		        models.setControlActionNames(projectXML.getControlActionNames());
-		        models.setOutputNames(projectXML.getOutputVariableName());
-		        models.setAllCA(projectXML.getAllCA());
-		        models.setAllOutput(projectXML.getAllOutput());
-		        models.getValuelist().addAll(projectXML.getValueList());
+		        pmmDB.setProcessModel(projectXML.getProcessModel());
+		        pmmDB.setInputList(projectXML.getInputList());
+		        pmmDB.setOutputList(projectXML.getOutputList());
 			 // --------------------------- PMM --------------------------
 
 			 // --------------------------- CTM --------------------------
-		        /*ctmDataStore.remove(0, ctmDataStore.size()-1);
+		        ctmDataStore.remove(0, ctmDataStore.size()-1);
 		        ctmDataStoreList.remove(0, ctmDataStoreList.size()-1);
-
-		        ctmDataStore.addAll(projectXML.getCTM());
 		        ctmDataStoreList.addAll(projectXML.getCtmDataStoreList());
-		        int j = 0;
-		        for(CTMDataStore c : ctmDataStoreList){
-		        	for(int k = 0; k < c.tableSize; k++){
-		        		c.getCTMTableList().add(ctmDataStore.get(j));
-		        		j++;
-		        	}
-		        }*/
    	         // --------------------------- CTM --------------------------
 		        
 		     // --------------------------- LS ---------------------------
@@ -431,17 +421,14 @@ public class MainApp extends Application {
 	     // --------------------------- UTM --------------------------
 
 		 // --------------------------- PMM --------------------------
-	        projectXML.setControllerName(models.getControllerName());
-	        projectXML.setControlActionNames(models.getControlActionNames());
-	        projectXML.setOutputVariableName(models.getOutputNames());
-	        projectXML.setAllCA(models.getAllCA());
-	        projectXML.setAllOutput(models.getAllOutput());
-	        projectXML.setValueList(models.getValuelist());
+	        projectXML.setProcessModel(pmmDB.getProcessModel());
+	        projectXML.setOutputList(pmmDB.getOutputList());
+	        projectXML.setIntputList(pmmDB.getInputList());
     	 // --------------------------- PMM --------------------------
 
 		 // --------------------------- CTM --------------------------
-	        //projectXML.setCTM(ctmDataStore);
-	        //projectXML.setCTMList(ctmDataStoreList);
+	        projectXML.setCTM(ctmDataStore);
+	        projectXML.setCTMList(ctmDataStoreList);
 	     // --------------------------- CTM --------------------------
 	        
 	     // --------------------------- LS ---------------------------
@@ -464,3 +451,5 @@ public class MainApp extends Application {
 	}
 
 }
+
+

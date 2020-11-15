@@ -64,6 +64,7 @@ public class AddCAPopUpController implements Initializable {
 					  OKclose = true;
     				  close();
 				  }else {
+					  int i=0;
 					  for( int caId : controller.getCA().keySet() ){
 		            		if(controlled.getCA().containsKey(caId)) {
 		            			  FXMLLoader loader = new FXMLLoader();
@@ -75,15 +76,19 @@ public class AddCAPopUpController implements Initializable {
 			          					Stage stage = new Stage();
 			          					stage.setScene(scene);
 			          					stage.show();
+			          					
 			          			  }catch(IOException e) {
 			          				  e.printStackTrace();
 			          			  }
-			          			  break;
+			          			break;
 		            		}else {
-		            			 OKclose = true;
-		       				  	 close();
+		            			 i++;
 		            		}	
 		              }
+					  if(i==controller.getCA().size()) {
+						  OKclose = true;
+	       				  close();
+					  }
 				  }
 				  
 			  }else {
@@ -125,24 +130,27 @@ public class AddCAPopUpController implements Initializable {
 	  
 	  @FXML
 	  private void addCA(ActionEvent action){
-		if(listItems.contains(listInput.getText())) {
-			FXMLLoader loader = new FXMLLoader();
-			  loader.setLocation(getClass().getResource("ErrorSameCAText.fxml"));
-			  Parent popUproot;
-			  try {
-				  	popUproot = (Parent) loader.load();
-					Scene scene = new Scene(popUproot);
-					Stage stage = new Stage();
-					stage.setScene(scene);
-					stage.show();
-			  }catch(IOException e) {
-				  e.printStackTrace();
-			  }  
-		}else {
-			listItems.add(listInput.getText());
-		    CA.add(listInput.getText());
-		    listInput.clear();
+		if(!listInput.getText().equals("")) {
+			if(listItems.contains(listInput.getText())) {
+				FXMLLoader loader = new FXMLLoader();
+				  loader.setLocation(getClass().getResource("ErrorSameCAText.fxml"));
+				  Parent popUproot;
+				  try {
+					  	popUproot = (Parent) loader.load();
+						Scene scene = new Scene(popUproot);
+						Stage stage = new Stage();
+						stage.setScene(scene);
+						stage.show();
+				  }catch(IOException e) {
+					  e.printStackTrace();
+				  }  
+			}else {
+				listItems.add(listInput.getText());
+			    CA.add(listInput.getText());
+			    listInput.clear();
+			}
 		}
+		
 	  }
 	  
 	  @FXML

@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -22,6 +23,7 @@ import kutokit.model.lhc.LHC;
 import kutokit.model.lhc.LhcDataStore;
 import kutokit.model.ls.LS;
 import kutokit.model.ls.LSDataStore;
+import kutokit.model.pmm.ProcessModel;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
 
@@ -53,15 +55,9 @@ public class ProjectXML {
 
 
 	// --------------------------- PMM --------------------------
-	private ArrayList<String> controller = new ArrayList<String>();
-
-	private ArrayList<ArrayList<String>> selectedCAs = new ArrayList<ArrayList<String>>();
-	private ArrayList<ArrayList<String>> outputVariables = new ArrayList<ArrayList<String>>();
-	
-	private ArrayList<ArrayList<String>> allCAs = new ArrayList<ArrayList<String>>();
-
-	private ObservableList<String> allOutput =  FXCollections.observableArrayList();
-	private ObservableList<String> valueList = FXCollections.observableArrayList();
+	private ObservableList<ProcessModel> processModel = FXCollections.observableArrayList();
+	private ArrayList<ArrayList<String>> inputVariables = new ArrayList<ArrayList<String>>();
+	private ObservableList<String> outputVariables = FXCollections.observableArrayList();
 	// --------------------------- PMM --------------------------
 
 
@@ -186,77 +182,97 @@ public class ProjectXML {
 
 
 	// --------------------------- PMM --------------------------
-	@XmlElement(name = "PMM-controller")
-	public ArrayList<String> getControllerName() {
-		return controller;
+	@XmlElement(name = "PMM-process-model")
+	public ObservableList<ProcessModel> getProcessModel(){
+		return processModel;
 	}
-	public void setControllerName(ArrayList<String> controllerName) {
-		this.controller = controllerName;
-	}
-
-	@XmlElement(name = "PMM-control-action")
-	public ArrayList<ArrayList<String>> getControlActionNames() {
-		return selectedCAs;
-	}
-	public void setControlActionNames(ArrayList<ArrayList<String>> controlActionName) {
-		this.selectedCAs = controlActionName;
+	
+	public void setProcessModel(ObservableList<ProcessModel> pm) {
+		this.processModel = pm;
 	}
 
-	@XmlElementWrapper(name="PMM-output-list")
-	@XmlElement(name = "Output")
-	public ArrayList<ArrayList<String>> getOutputVariableName() {
+	@XmlElement(name = "PMM-total-selected-output")
+	public ObservableList<String> getOutputList(){
 		return outputVariables;
 	}
-	public void setOutputVariableName(ArrayList<ArrayList<String>> outputVariables) {
-		this.outputVariables = outputVariables;
+	
+	public void setOutputList(ObservableList<String> outputList) {
+		this.outputVariables = outputList;
 	}
 	
-	@XmlElementWrapper(name="PMM-value-list")
-	@XmlElement(name = "Value")
-	public ObservableList<String> getValueList() {
-		return valueList;
-	}
-	public void setValueList(ObservableList<String> valueListName) {
-		valueList = valueListName;
+	@XmlElementWrapper(name="PMM-input-list")
+	@XmlElement(name = "Input-variables")
+	public ArrayList<ArrayList<String>> getInputList(){
+		return inputVariables;
 	}
 	
-	@XmlElementWrapper(name="PMM-all-CA")
-	@XmlElement(name = "Allca")
-	public ArrayList<ArrayList<String>> getAllCA() {
-		return allCAs;
+	public void setIntputList(ArrayList<ArrayList<String>> inputList) {
+		this.inputVariables = inputList;
 	}
-
-	public void setAllCA(ArrayList<ArrayList<String>> controlAction) {
-		this.allCAs = controlAction;
-	}
-	
-	@XmlElementWrapper(name="PMM-all-output")
-	@XmlElement(name = "Alloutput")
-	public ObservableList<String> getAllOutput() {
-		return allOutput;
-	}
-
-	public void setAllOutput(ObservableList<String> allOutput) {
-		this.allOutput = allOutput;
-	}
-
 
 	// --------------------------- CTM --------------------------
 	@XmlElement(name = "CTM-List")
 	public ObservableList<CTMDataStore> getCtmDataStoreList() {
 		return this.CTMList;
 	}
-
-	@XmlElement(name = "CTM")
-	public ObservableList<CTM> getCTM(){
-		for(CTMDataStore c : CTMList){
-			//CTM.addAll(c.getCTMTableList());
-		}
-		return CTM;
-	}
-
+	
 	public void setCTMList(ObservableList<CTMDataStore> CTMList) {
 		this.CTMList = CTMList;
+	}
+
+
+	public ArrayList<String> getCTMControllerName(){
+		ArrayList<String> controllerNames = new ArrayList<String>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				controllerNames.add(CTMList.get(i).getCTMTableList().get(j).getControllerName());
+			}
+		}
+		return controllerNames;
+	}
+	
+	public ArrayList<String> getCTMCA(){
+		ArrayList<String> ca = new ArrayList<String>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				ca.add(CTMList.get(i).getCTMTableList().get(j).getControlAction());
+			}
+		}
+		return ca;
+	}
+	
+	public ArrayList<String> getCTMCases(){
+		ArrayList<String> cases = new ArrayList<String>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				cases.add(CTMList.get(i).getCTMTableList().get(j).getCasesValue());
+			}
+		}
+		return cases;
+	}
+	
+	public ArrayList<String[]> getCTMContext(){
+		ArrayList<String[]> contextsArray = new ArrayList<String[]>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				String[] contexts =  new String[CTMList.get(i).getCTMTableList().get(0).getContexts().length];
+				for(int k=0;k<contexts.length;k++) {
+					contexts[k] = CTMList.get(i).getCTMTableList().get(j).getContext(k);
+				}
+				contextsArray.add(contexts);
+			}
+		}
+		return contextsArray;
+	}
+	
+	public ArrayList<String> getCTMHazardous(){
+		ArrayList<String> hazardous = new ArrayList<String>();
+		for(int i=0;i<CTMList.size();i++){
+			for(int j=0;j<CTMList.get(i).getCTMTableList().size();j++){
+				hazardous.add(CTMList.get(i).getCTMTableList().get(j).getHazardous().toString());
+			}
+		}
+		return hazardous;
 	}
 
 	public void setCTM(ObservableList<CTM> CTM) {
