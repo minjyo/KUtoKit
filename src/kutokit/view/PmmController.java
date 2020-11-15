@@ -175,6 +175,7 @@ public class PmmController {
 				e.printStackTrace();
 			}
 		}
+		System.out.println(selectedFile);
 	}
 
 	@FXML
@@ -188,13 +189,15 @@ public class PmmController {
 		// clear all items
 		addFile.getChildren().clear();
 		outputList.getItems().clear();
+	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		// Create XmlReader constructor
-		xmlReader = new XmlReader(selectedFile.getName());
+		xmlReader = new XmlReader(selectedFile.toString());
 		ArrayList<String> showGroupNodesItems = new ArrayList<String>();
 
 		//show popup to select group FODs from NuSRS file
 		try {
+			System.out.println("Please select group FODs.");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("popup/SelectGroupFODView.fxml"));
 			Parent parent = loader.load();
@@ -206,20 +209,38 @@ public class PmmController {
 			selectGroupStage.show();
 
 			selectGroupStage.setScene(scene);
+
+			SelectGroupFODController FODcontroller = loader.getController();
+			FODcontroller.setRootFOD(XmlReader.getRootFod().getNodeName());
+			for(Node fod: XmlReader.showValidFods()) {
+				showGroupNodesItems.add(fod.getAttributes().getNamedItem("name").getNodeValue());
+			}
+			
+			FODcontroller.setGroupItems(showGroupNodesItems);
+			
 			selectGroupStage.setOnHidden((new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent e) {
-					SelectGroupFODController controller = loader.getController();
-					controller.setRootFOD(xmlReader.getRootFod().toString());
-					String rootFodText = xmlReader.getRootFod().toString();
-					for(Node fod: xmlReader.showValidFods()) {
-						showGroupNodesItems.add(fod.getAttributes().getNamedItem("name").toString());
-					}
-					controller.setGroupItems(showGroupNodesItems);
-					if(controller.canceled == true) {
+					if(FODcontroller.canceled == true) {
 						selectGroupStage.close();
-					}else if(controller.confirmed == true) {
-						outputList.getItems().addAll(controller.selectedItems());
+					}else if(FODcontroller.confirmed == true) {
+						// outputList.getItems().addAll(FODcontroller.selectedItems());
+						
+						// if you select FOD, get outputs about selected FOD
+						ObservableList<String> outputlist = FXCollections.observableArrayList();
+						for(String fod : FODcontroller.selectedItems()) {
+							XmlReader.setRootFod(fod);
+
+							// VIEW
+							List<String> outputs = XmlReader.getOutputs();
+							// System.out.println("outputs: "+outputs);
+							for (String data : outputs) {
+								outputlist.add(data);
+							}
+							
+						}
+						outputList.setItems(outputlist);
+						pmmDB.setOutputList(outputlist);
 					}
 				}
 			}));
@@ -228,23 +249,15 @@ public class PmmController {
 				e1.printStackTrace();
 			}
 
-		ObservableList<String> outputlist = FXCollections.observableArrayList();
-		// VIEW
-		List<String> outputs = xmlReader.getOutputs();
-
-		for (String data : outputs) {
-			outputlist.add(data);
-		}
-		outputList.setItems(outputlist);
-		pmmDB.setOutputList(outputlist);
-
-		makeModel(outputlist);
 	}
 
 	@FXML
     public void addToProcessModel() {
+
+		//makeModel(outputList.getSelectionModel().getSelectedItems());
+
 		//add selected value from output list to value list
-	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		makeModel(outputList.getSelectionModel().getSelectedItems());
 	    ProcessModel PM = new ProcessModel();
 	    for(ProcessModel pm : pmmDB.getProcessModel()){
 	        if(pm.getControlActionName().equals(CAList.getValue()) && pm.getControllerName().equals(controllerList.getValue())){
@@ -253,6 +266,7 @@ public class PmmController {
 	     }
 
 	    ArrayList<String> selectedOutputs = new ArrayList<String>();
+	    selectedOutputs.addAll(outputList.getSelectionModel().getSelectedItems());
 	//    ArrayList<String> newValues = new ArrayList<String>();
 
 	    if (selectedFile != null && !selectedOutputs.isEmpty()) {
@@ -266,7 +280,7 @@ public class PmmController {
 	         //for selectedOutputs, add related input datas in db
 	         for(String selectedOutput : selectedOutputs){
 	            int index = outputList.getItems().indexOf(selectedOutput);
-	            System.out.println(index);
+	            System.out.println("index:"+index);
 	            for(String dbInput : pmmDB.getInputList().get(index)){
 	               boolean e = true;
 	               for(String pms : PM.getValuelist()){
@@ -289,7 +303,6 @@ public class PmmController {
 	         alert.setTitle("Warning");
 	         alert.setHeaderText("No selected outputs");
 	         alert.setContentText("You have to select outputs first");
-
 	         alert.showAndWait();
       	}
     }
@@ -306,35 +319,44 @@ public class PmmController {
 
 		ArrayList<String> curList = new ArrayList<String>();
 
-		for (String output : outputlist) {
-			String nodeType = output.substring(0, 1);
-	
-			//directly connected nodes
-			directlyConnectedNode = xmlReader.getNodeList(xmlReader.getNode(output), "");
-			//other connected nodes connected to directly connected nodes
-			transitionNodes = xmlReader.getTransitionNodes(xmlReader.getNode(output));
-	
-			// Get related variables from SDT/FSM/TTS nodes
-			if (nodeType.equals("f") || nodeType.equals("t") || nodeType.equals("h")) {
-				//SDT node
-				for (int i = 0; i < directlyConnectedNode.getLength(); i++) {
-					String str = directlyConnectedNode.item(i).getAttributes().getNamedItem("value").getTextContent();
-					connectedValues.add(str);
+		for(int i=0; i<outputlist.size(); i++) {
+			String nodeType = outputlist.get(i).substring(0, 1);
+			try {
+				//directly connected nodes
+				directlyConnectedNode = XmlReader.getNodeList(XmlReader.getNode(outputlist.get(i)), "");
+				
+				// Get related variables from SDT/FSM/TTS nodes
+				if (nodeType.equals("f") || nodeType.equals("t") || nodeType.equals("h")) {
+					//SDT node
+					for (int j = 0; j < directlyConnectedNode.getLength(); j++) {
+						String str = directlyConnectedNode.item(j).getAttributes().getNamedItem("value").getTextContent();
+						connectedValues.add(str);
+					}
+					directlyConnectedNodeList = checkValue(connectedValues, outputlist);
+					for (Object value : directlyConnectedNodeList) {
+						curList.add(value.toString());
+					}
 				}
-				directlyConnectedNodeList = checkValue(connectedValues, outputlist);
-				for (Object value : directlyConnectedNodeList) {
-					curList.add(value.toString());
-				}
+			} catch(NullPointerException e) {
+				e.printStackTrace();
 			}
+			finally {
+				try {
+					//other connected nodes connected to directly connected nodes
+					transitionNodes = xmlReader.getTransitionNodes(xmlReader.getNode(outputlist.get(i)));
 			
-			// Get transition variables from l2
-			//FSM, TTS node
-			for (int i = 0; i < transitionNodes.size(); i++) {
-				connectedValues.add(transitionNodes.get(i));
-			}
-			transitionNodeList = checkValue(connectedValues, outputlist);
-			for (Object value : transitionNodeList) {
-				curList.add(value.toString());
+					// Get transition variables from l2
+					//FSM, TTS node
+					for(String value : transitionNodes) {
+						connectedValues.add(value);
+					}
+					transitionNodeList = checkValue(connectedValues, outputlist);
+					for (Object value : transitionNodeList) {
+						curList.add(value.toString());
+					}
+				} catch(NullPointerException e) {
+					e.printStackTrace();
+				}
 			}
 
 			// Remove redundant variables between l1 and l2
@@ -414,12 +436,24 @@ public class PmmController {
 	
 		// 2. Check conditions in values
 		for (String str : values) {
+			boolean isNumber = true;
 			int close = 0;
 			str = str.trim();
 	
+			try{
+		        Integer.parseInt(str);
+		    } catch(NumberFormatException e) {
+		    	isNumber = false;
+		    } catch(NullPointerException e) {
+		    	isNumber = false;
+		    } 
+			 
 			if ("".equals(str))
 				continue;
-			else if ((conditions[0].equals(str)) || ((conditions[1]).equals(str)) || (conditions[4].equals(str)))
+			else if(isNumber)
+				continue;
+// || (conditions[4].equals(str))
+			else if ((conditions[0].equals(str)) || ((conditions[1]).equals(str)))
 				continue;
 			else if (conditions[2].equals(str.substring(0, 2)) || conditions[3].equals(str.substring(0, 2)))
 				continue;
