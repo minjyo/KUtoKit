@@ -25,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kutokit.MainApp;
 import kutokit.model.ctm.CTM;
@@ -56,9 +57,9 @@ public class UtmController {
 	private ObservableList<LHC> hazardData = FXCollections.observableArrayList();
 //	private static ObservableList<ObservableList<UCA>> ucaDataList =FXCollections.observableArrayList();
 	private ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
-	private ObservableList<String> hazardousList = FXCollections.observableArrayList();
+	private ObservableList<String> hazardList = FXCollections.observableArrayList();
 
-	UCAHazardPopUpController ucaPopUp;
+	UCAHazardPopUpController ucaPopUp = new UCAHazardPopUpController();
 
 	//constructor
 	public UtmController() {
@@ -72,12 +73,12 @@ public class UtmController {
 
 	private void initialize()
 	{
+
+
 		ucaDataStoreList = MainApp.ucaDataStoreList;
 		hazardData = MainApp.lhcDataStore.getHazardTableList();
 		ctmDataStoreList = MainApp.ctmDataStoreList;
 
-		PrintData();
-//		Test();
 		tabPane.getTabs().remove(0);
 
 //		controllerComboBox
@@ -91,24 +92,24 @@ public class UtmController {
 				}
 			}
 			if(!duplicate){
-				System.out.println("ControllerComboBox : " + ctmData.ctmController);
 				controllerComboBox.getItems().add(ctmData.ctmController);
 				controllerName.add(ctmData.ctmController);
 			}
 		}
 
 		controllerComboBox.setOnAction(event->{
-
 			//Set ControlAction ComboBox about Clicked Controller
 			controlActionComboBox.getItems().clear();
 			for(CTMDataStore ctmData : ctmDataStoreList){
 				if(ctmData.getController().equals(controllerComboBox.getValue())){
-					System.out.println("ControlActionComboBox :" +ctmData.getControlAction());
 					controlActionComboBox.getItems().add(ctmData.getControlAction());
 				}
 			}
-			int id = controllerComboBox.getItems().indexOf(controlActionComboBox.getValue());
+
 			//Show Controller Table
+			tabPane.getTabs().clear();
+			ucaTableList.clear();
+			int id = controllerComboBox.getItems().indexOf(controlActionComboBox.getValue());
 			showControllerTable(controllerComboBox.getValue(),id);
 		});
 
@@ -155,10 +156,9 @@ public class UtmController {
 		// Make Tab about Controller from UCADataStoreList
 		tabPane.getTabs().clear();
 
+
 		for(UCADataStore u : ucaDataStoreList){
-			System.out.println("controller :" + controller + " "+ u.getController());
 			if(u.getController().equals(controller)){
-				System.out.println(controller+" - " + u.getControllAction());
 				makeTable(u);
 				Tab tab = new Tab(u.getControllAction(),ucaTableList.get(ucaTableList.size()-1));
 				setUcaTable(u);
@@ -170,20 +170,26 @@ public class UtmController {
 
 	@FXML
 	private void addFromCTM(){
-		System.out.println("Add From CTM button Click");
+
 		String controller = controllerComboBox.getValue();
 		String controlAction = controlActionComboBox.getValue();
 
+		if(controlAction == null){
+			System.out.println("Please Select ControlAction");
+			return;
+		}else if(controller ==null){
+			System.out.println("Please Select Controller");
+			return;
+		}
+
+
 		//If there is Controller-ControlAction Tab add Row form CTM
 		for(UCADataStore u : ucaDataStoreList){
-			if(u.getController()==controller){
-				if(u.getControllAction() == controlAction){
-					System.out.println("duplicate return ");
+			if(u.getController().equals(controller)&& u.getControllAction().equals(controlAction)){
 					addUCA(u);
 					return;
 				}
 			}
-		}
 
 		//If there isn't Controller-ControlAction Tab
 		//Add CTM Data to  UCA Data
@@ -196,7 +202,6 @@ public class UtmController {
 
 	public UCADataStore addUcaTable() {
 		// and new UCA Table from CTM data
-		System.out.println("Add ucaTable Start");
 		String controller = controllerComboBox.getValue();
 		String controlAction = controlActionComboBox.getValue();
 		UCADataStore ucadatastore = new UCADataStore();
@@ -208,14 +213,18 @@ public class UtmController {
 			if(controller.equals(ctmdata.getController()) && controlAction.equals(ctmdata.getControlAction())){
 				curCtmData = ctmdata.getCTMTableList();
 				break;
+
 			}
 		}
 
 
 		for(CTM c : curCtmData){
+
+			if(c.getHazardousValue()==""){
+				break;
+			}
 			String ucaColumn = "";
 			if(c.getHazardous().getValue().equals("O")){
-				System.out.println(c.getCases().getItems().indexOf(c.getCasesValue()));
 				switch(c.getCases().getItems().indexOf(c.getCasesValue()))
 				{
 				case 0 :
@@ -241,11 +250,9 @@ public class UtmController {
 					}
 				}
 
-				UCA uca = new UCA(c.getControlAction(),"","","","",null);
+				UCA uca = new UCA(c.getControlAction(),"","","","",new ComboBox(hazardList));
 				uca.setUCA(ucaColumn, Context,null);
 				ucaData.add(uca);
-				System.out.println(uca.getNotProvidingCausesHazard());
-//				ucaDataList.add(ucaData);
 			}
 		}
 
@@ -262,8 +269,6 @@ public class UtmController {
 
 	private void makeTable(UCADataStore ucadatastore) {
 		// Initialize from data store ,Tab -table View
-//		System.out.println("TableView number" + i);
-//		ucaDataList.add(ucaDataStoreList.get(i).getUCATableList());
 		TableView newTableView = new TableView();
 		newTableView.setItems(ucadatastore.getUCATableList());
 
@@ -317,6 +322,7 @@ public class UtmController {
 	}
 
 	private void addUCA(UCADataStore u) {
+
 		// add UCA only
 		String controller = controllerComboBox.getValue();
 		String controlAction = controlActionComboBox.getValue();
@@ -325,42 +331,44 @@ public class UtmController {
 		for(CTMDataStore ctmdata : ctmDataStoreList){
 			if(controller.equals(ctmdata.getController()) && controlAction.equals(ctmdata.getControlAction())){
 				curCtmData = ctmdata.getCTMTableList();
-				return;
+				break;
 			}
 		}
 
 		for(CTM c : curCtmData){
 			String ucaColumn = "";
-			if(c.getHazardousValue().equals("O")){
-				switch((String)c.getCases().getValue())
+
+			if(c.getHazardousValue()==""){
+				break;
+			}
+
+			if(c.getHazardous().getValue().equals("O")){
+				switch(c.getCases().getItems().indexOf(c.getCasesValue()))
 				{
-				//case naming corretly -dayun should modify
-				case "CA ":
-					ucaColumn = "CA";
-					break;
-				case "providing causes hazard":
-					ucaColumn = "Providing Causes Hazard";
-					break;
-				case "not providing\ncauses hazard" :
+				case 0 :
 					ucaColumn = "Not Providing Causes Hazard";
 					break;
-				case "too early, too late,\nout of order" :
+				case 1 :
 					ucaColumn = "Incorrect Timing/Order";
 					break;
-				case "Stopped Too Soon/Applied Too Long" :
-					ucaColumn = "Stopped Too Soon/Applied Too Long";
+				case 2:
+					ucaColumn = "Providing Causes Hazard";
 					break;
 				default :
 					break;
 				}
 				String Context = "";
-				for(int j =0;j<mainApp.models.getValuelist().size();j++){
-					if(c.getContext(j)!="N/A" || !c.getContext(j).isEmpty()){
-						Context +=mainApp.models.getValuelist().get(j) +" =" +c.getContext(j)+", ";
+				for(ProcessModel pm : mainApp.pmmDB.getProcessModel()){
+					if(pm.getControllerName().equals(c.getControllerName()) && pm.getControlActionName().equals(c.getControlAction())){
+						for(int j=0;j<pm.getValuelist().size();j++){
+							if(c.getContext(j)!="N/A" || !c.getContext(j).isEmpty()){
+								Context +=pm.getValuelist().get(j) +" =" +c.getContext(j)+", ";
+							}
+						}
 					}
 				}
 
-				UCA uca = new UCA(c.getControlAction(),"","","","",null);
+				UCA uca = new UCA(c.getControlAction(),"","","","",new ComboBox(hazardList));
 				uca.setUCA(ucaColumn, Context,null);
 				u.getUCATableList().add(uca);
 			}
@@ -368,23 +376,22 @@ public class UtmController {
 		return;
 	}
 
-	public void setUcaTable(UCADataStore newUCADataStpre) {
+	public void setUcaTable(UCADataStore newUTMDataStore) {
 		// Setting Link ComboBox considering hazardList(from LHC table) update
-		hazardousList.removeAll(hazardousList);
-		hazardousList.add("None");
+		hazardList.removeAll(hazardList);
 		for(LHC l : hazardData){
-			hazardousList.add(l.getIndex());
+			hazardList.add(l.getIndex());
 		}
 
-		for(UCA u : newUCADataStpre.getUCATableList()){
+		for(UCA u : newUTMDataStore.getUCATableList()){
 			u.setUCAInit();
-			u.setLinkList(new ComboBox<String>(hazardousList));
+			u.setLinkList(new ComboBox<String>(hazardList));
 		}
 
 		//index
 		int i = ucaTableList.size()-1;
 
-		ucaTableList.get(i).setItems(newUCADataStpre.getUCATableList());
+		ucaTableList.get(i).setItems(newUTMDataStore.getUCATableList());
 		ucaTableList.get(i).setVisible(true);
 		ucaTableList.get(i).setEditable(true);
 
@@ -422,43 +429,26 @@ public class UtmController {
 	}
 
 	private void ucaHazardPopup() {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("popup/UCAHazardPopUpView.fxml"));
-		ucaPopUp = loader.getController();
 
-		Parent popUproot;
-		try {
-		  	popUproot = (Parent) loader.load();
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("popup/UCAHazardPopUpView.fxml"));
+			ucaPopUp = loader.getController();
 
-			Scene scene = new Scene(popUproot);
+			Parent parent = loader.load();
+			Scene scene = new Scene(parent);
 
 			Stage stage = new Stage();
-			ObservableList<LHC> hazardList = FXCollections.observableArrayList();
-			hazardList = MainApp.lhcDataStore.getHazardTableList();
 
-			stage.setScene(scene);
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.setTitle("Hazard List");
+			stage.setResizable(false);
 			stage.show();
 
-		  } catch (IOException e) {
-				e.printStackTrace();
-		  }
-
-	}
-
-	private void PrintData() {
-		//Print Data
-		//CTM Controller
-		for(CTMDataStore ctmdatastore : ctmDataStoreList ){
-			System.out.println("Controller : " + ctmdatastore.getController());
-			System.out.println("ControlAction  : " + ctmdatastore.getControlAction());
+			stage.setScene(scene);
+		}catch (Exception e){
+			System.out.println("Hazard Pop Up Error");
 		}
-
-		for(UCADataStore utmdatastore : ucaDataStoreList){
-			System.out.println("uca Controller " + utmdatastore.getController() );
-			System.out.println("uca ControlAction" + utmdatastore.getControllAction());
-		}
-
 	}
-
 }
 
