@@ -35,8 +35,6 @@ public class CTM {
 		this.cases = cases;
 		this.no = new SimpleIntegerProperty(no);
 		this.hazardous = hazardous;
-		cases.setValue("not providing\ncauses hazard");
-		hazardous.setValue("X");
 		this.contexts = new StringProperty[contexts.length];
 		
 		cases.setOnAction(event -> {

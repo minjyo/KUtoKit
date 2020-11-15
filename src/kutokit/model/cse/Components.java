@@ -15,7 +15,6 @@ public class Components {
 	public Controller curController;
 	
 	public Components() {
-	//	curId = 6;
 		
 		//===================temp========================
 //		controllers.add(new Controller(150,30, "c1", 1));
