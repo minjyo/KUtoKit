@@ -11,20 +11,21 @@ import kutokit.model.lhc.LHC;
 
 public class UCAHazardPopUpController {
 
-	@FXML private TableView<LHC> hazardTableView;
-	@FXML private TableColumn<LHC,String> indexColumn,textColumn,linkColumn;
+	@FXML private TableView<LHC> hazardTableView = new TableView<LHC>();
+	@FXML private TableColumn<LHC,String> indexColumn = new TableColumn<LHC,String>();
+	@FXML private TableColumn<LHC,String> textColumn = new TableColumn<LHC,String>();
+	@FXML private TableColumn<LHC,String> linkColumn = new TableColumn<LHC,String>();
 
 	public UCAHazardPopUpController(){
 		ObservableList<LHC> hazardList = FXCollections.observableArrayList();
 		hazardList = MainApp.lhcDataStore.getHazardTableList();
 
-//		System.out.println(hazardList.get(0).indexProperty().getValue());
-
+		hazardTableView.setItems(hazardList);
 		indexColumn.setCellValueFactory(cellData ->cellData.getValue().indexProperty());
 		textColumn.setCellValueFactory(cellData ->cellData.getValue().textProperty());
 		linkColumn.setCellValueFactory(cellData ->cellData.getValue().linkProperty());
 
-		hazardTableView.setItems(hazardList);
+
 	}
 
 }

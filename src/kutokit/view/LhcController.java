@@ -199,31 +199,6 @@ public class LhcController implements Initializable {
 			@Override
 			public void handle(MouseEvent e) {
 				LHC lhc = new LHC("H" + (lhcDB.getHazardTableList().size()+1), hazardTextField.getText(), hazardLinkCB.getCheckModel().getCheckedItems().toString());
-//				hazardLinkCB.getCheckModel().getCheckedItems().toString()
-//				if(!hazardLinkTextField.getText().contains(",") && Integer.parseInt(hazardLinkTextField.getText()) > lhcDB.getLossTableList().size()) {
-//					try {
-//						openNoLinkPopUp();
-//					} catch (IOException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//				}
-//				if(hazardLinkTextField.getText().contains(",")){
-//					String[] hazardLink;
-//					StringBuilder sb = new StringBuilder();
-//					sb.append("[");
-//					for(int i = 0; i < lhcDB.getLossTableList().size(); i++) {
-//						hazardLink = hazardLinkTextField.getText().split(",");
-//						hazardLink[i] = "L" + hazardLink[i];
-//						sb.append(hazardLink[i] + ", ");
-//					}
-//					sb.delete(sb.length() - 2, sb.length());
-//					sb.append("]");
-//					lhc.setLink(sb.toString());
-//					hazardTableView.getItems().add(lhc);
-//					hazardTextField.clear();
-//					hazardLinkTextField.clear();
-//				}else 
 				if(hazardTextField.getText().isEmpty()) {
 					//if text field is empty, warning pop up opens
 					try {
@@ -258,8 +233,9 @@ public class LhcController implements Initializable {
 		 */
 		ContextMenu hazardRightClickMenu = new ContextMenu();
 		MenuItem removeHazardMenu = new MenuItem("Delete");
+		MenuItem EditHazardLinkMenu = new MenuItem("Modify");
 		hazardRightClickMenu.getItems().add(removeHazardMenu);
-		
+		hazardRightClickMenu.getItems().add(EditHazardLinkMenu);		
 		
 		ObservableList<LHC> allHazardItems, selectedHazardItem;
 		allHazardItems = hazardTableView.getItems();
@@ -276,6 +252,10 @@ public class LhcController implements Initializable {
 					selectedHazardItem.forEach(allHazardItems::remove);
 					//need to update hazard index
 					updateHazardIndex();
+				});
+				
+				EditHazardLinkMenu.setOnAction(event -> {
+					
 				});
 			}
 		});
@@ -468,23 +448,7 @@ public class LhcController implements Initializable {
 		dialogStage.show();		
 	}
 	
-	//if link does not fit format of [index], this pop up opens
-	private void openNoLinkPopUp() throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		Parent parent = loader.load(getClass().getResource("popup/LhcNoLinkPopUpView.fxml"));
-		Scene scene = new Scene(parent);
-		Stage dialogStage = new Stage();
-		            
-		dialogStage.initModality(Modality.WINDOW_MODAL);
-		dialogStage.initOwner(mainApp.getPrimaryStage());
-		dialogStage.setTitle("No matching index");
-		
-		dialogStage.setScene(scene);
-		dialogStage.setResizable(false);
-		dialogStage.show();		
-	}
-	
-	//if link for hazard to loss does not fit format, this pop up opens
+		//if link for hazard to loss does not fit format, this pop up opens
 	private void openHazardLinkPopUp() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		Parent parent = loader.load(getClass().getResource("popup/LhcHazardLinkPopUpView.fxml"));
