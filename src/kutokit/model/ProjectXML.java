@@ -65,8 +65,8 @@ public class ProjectXML {
 	ObservableList<CTM> CTM = FXCollections.observableArrayList();
 	ObservableList<CTMDataStore> CTMList = FXCollections.observableArrayList();
 	// --------------------------- CTM --------------------------
-	
-	
+
+
 	// --------------------------- LS ---------------------------
 	LSDataStore lsDB = new LSDataStore();
 	List<LS> lsUcaList = new ArrayList<LS>();
@@ -133,7 +133,7 @@ public class ProjectXML {
 	public void setFeedbacks(ArrayList<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
 	}
-	
+
 	@XmlElement(name = "CSE-texts")
 	public ArrayList<Text> getTexts() {
 		return texts;
@@ -142,7 +142,7 @@ public class ProjectXML {
 	public void setTexts(ArrayList<Text> texts) {
 		this.texts = texts;
 	}
-	
+
 	@XmlElement(name = "cur-Id")
 	public int getCurId() {
 		return curId;
@@ -186,7 +186,7 @@ public class ProjectXML {
 	public ObservableList<ProcessModel> getProcessModel(){
 		return processModel;
 	}
-	
+
 	public void setProcessModel(ObservableList<ProcessModel> pm) {
 		this.processModel = pm;
 	}
@@ -195,17 +195,17 @@ public class ProjectXML {
 	public ObservableList<String> getOutputList(){
 		return outputVariables;
 	}
-	
+
 	public void setOutputList(ObservableList<String> outputList) {
 		this.outputVariables = outputList;
 	}
-	
+
 	@XmlElementWrapper(name="PMM-input-list")
 	@XmlElement(name = "Input-variables")
 	public ArrayList<ArrayList<String>> getInputList(){
 		return inputVariables;
 	}
-	
+
 	public void setIntputList(ArrayList<ArrayList<String>> inputList) {
 		this.inputVariables = inputList;
 	}
@@ -215,7 +215,7 @@ public class ProjectXML {
 	public ObservableList<CTMDataStore> getCtmDataStoreList() {
 		return this.CTMList;
 	}
-	
+
 	public void setCTMList(ObservableList<CTMDataStore> CTMList) {
 		this.CTMList = CTMList;
 	}
@@ -230,7 +230,7 @@ public class ProjectXML {
 		}
 		return controllerNames;
 	}
-	
+
 	public ArrayList<String> getCTMCA(){
 		ArrayList<String> ca = new ArrayList<String>();
 		for(int i=0;i<CTMList.size();i++){
@@ -240,7 +240,7 @@ public class ProjectXML {
 		}
 		return ca;
 	}
-	
+
 	public ArrayList<String> getCTMCases(){
 		ArrayList<String> cases = new ArrayList<String>();
 		for(int i=0;i<CTMList.size();i++){
@@ -250,7 +250,7 @@ public class ProjectXML {
 		}
 		return cases;
 	}
-	
+
 	public ArrayList<String[]> getCTMContext(){
 		ArrayList<String[]> contextsArray = new ArrayList<String[]>();
 		for(int i=0;i<CTMList.size();i++){
@@ -264,7 +264,7 @@ public class ProjectXML {
 		}
 		return contextsArray;
 	}
-	
+
 	public ArrayList<String> getCTMHazardous(){
 		ArrayList<String> hazardous = new ArrayList<String>();
 		for(int i=0;i<CTMList.size();i++){
@@ -279,32 +279,32 @@ public class ProjectXML {
 		this.CTM = CTM;
 	}
 	// --------------------------- CTM --------------------------
-	
-	
+
+
 	// --------------------------- LS ---------------------------
 	@XmlElement(name = "LS-UCA")
 	public List<LS> getLsUcaList(){
 		return this.lsDB.getLsUcaList();
 	}
-	
+
 	public void setLsUcaList(List<LS> lsUcaList) {
 		this.lsDB.getLsUcaList().setAll(lsUcaList);
 	}
-	
+
 	@XmlElement(name = "LS-loss-factor")
 	public List<LS> getLossFactorList(){
 		return this.lsDB.getLossFactorList();
 	}
-	
+
 	public void setLossFactorList(List<LS> lossFactorList) {
 		this.lsDB.getLossFactorList().setAll(lossFactorList);
 	}
-	
+
 	@XmlElement(name = "LS-loss-scenario")
 	public List<LS> getLossScenarioList(){
 		return this.lsDB.getLossScenarioList();
 	}
-	
+
 	public void setLossScenarioList(List<LS> lossScenarioList) {
 		this.lsDB.getLossScenarioList().setAll(lossScenarioList);
 	}

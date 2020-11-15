@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 public class ProcessModel {
 	//controller & control action related to this process model
 	private String controllerName, controlActionName;
-	
+
 	//related variables & nodes for selected output
 	private ObservableList<String> valueList = FXCollections.observableArrayList();
 
@@ -24,19 +24,19 @@ public class ProcessModel {
 		this.controlActionName = ca;
 		this.valueList = valueList;
 	}
-	
+
 	public String getControllerName() {
 		return this.controllerName;
 	}
-	
+
 	public void setControllerName(String controller) {
 		this.controllerName = controller;
 	}
-	
+
 	public String getControlActionName() {
 		return this.controlActionName;
 	}
-	
+
 	public void setControlActionName(String ca) {
 		this.controlActionName = ca;
 	}

@@ -117,13 +117,6 @@ public class CTM {
 	public IntegerProperty getNoProperty() {
 		return no;
 	}
-	
-	
-	
-
-	
-	
-	
 
 	public ComboBox<String> getCases() {
 		return cases;
