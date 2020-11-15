@@ -306,7 +306,7 @@ public class PmmController {
 	// Make process model
 	public void makeModel(ObservableList<String> outputlist) {
 	
-		ArrayList<String> valueName = new ArrayList<String>();
+		ArrayList<String> connectedValues = new ArrayList<String>();
 		NodeList directlyConnectedNode;
 		List<String> transitionNodes = new ArrayList<String>();
 	
@@ -318,31 +318,30 @@ public class PmmController {
 		for (String output : outputlist) {
 			String nodeType = output.substring(0, 1);
 	
-			//each node
+			//directly connected nodes
 			directlyConnectedNode = xmlReader.getNodeList(xmlReader.getNode(output), "");
-			//related node
+			//other connected nodes connected to directly connected nodes
 			transitionNodes = xmlReader.getTransitionNodes(xmlReader.getNode(output));
 	
-			// SDT : L1+L2, TTS : L2
-			// Get input variables from 
-			if (nodeType.equals("f")) {
+			// Get related variables from SDT/FSM/TTS nodes
+			if (nodeType.equals("f") || nodeType.equals("t") || nodeType.equals("h")) {
 				//SDT node
 				for (int i = 0; i < directlyConnectedNode.getLength(); i++) {
 					String str = directlyConnectedNode.item(i).getAttributes().getNamedItem("value").getTextContent();
-					valueName.add(str);
+					connectedValues.add(str);
 				}
-				directlyConnectedNodeList = checkValue(valueName, outputlist);
+				directlyConnectedNodeList = checkValue(connectedValues, outputlist);
 				for (Object value : directlyConnectedNodeList) {
 					curList.add(value.toString());
 				}
 			}
-	
+			
 			// Get transition variables from l2
 			//FSM, TTS node
 			for (int i = 0; i < transitionNodes.size(); i++) {
-				valueName.add(transitionNodes.get(i));
+				connectedValues.add(transitionNodes.get(i));
 			}
-			transitionNodeList = checkValue(valueName, outputlist);
+			transitionNodeList = checkValue(connectedValues, outputlist);
 			for (Object value : transitionNodeList) {
 				curList.add(value.toString());
 			}
@@ -365,6 +364,90 @@ public class PmmController {
 		}
 	}
 	
+	// Search & remove expressions from value
+	public List<String> checkValue(ArrayList<String> valueName, ObservableList<String> outputVariables) {
+		//need to be fixed
+		String[] expressions = { "<", ">", "=", ":=", "&", "|", "\\+", ">=", "<=", ":" };
+		String[] conditions = {"true", "false", "k_", "g_"};
+		List<String> values = new ArrayList<String>();
+		List<String> result = new ArrayList<String>();
+	
+		ArrayList<String> innerString = new ArrayList<String>();
+		String arg; // plus
+		int cnt = 0;
+		int next = 0;
+		int temp = 0;
+	
+		// 1. Check expressions in values
+		while (cnt < valueName.size()) {
+			String str = String.valueOf(valueName.get(cnt));
+			if ("null".equals(str))
+				break;
+			str = str.replace("\n", "");
+			str = str.trim();
+	
+			// Iteration for finding if string has expressions
+			for (int j = 0; j < expressions.length;) {
+				arg = expressions[j];
+				// System.out.println("current string: "+str);
+				if (expressions[j].equals("\\+"))
+					arg = "+";
+	
+				// Expression O
+				if (str.contains(arg)) {
+					// System.out.println("expression : "+arg);
+					next = str.indexOf(arg);
+					innerString.add(str.substring(0, next));
+					for (Object checked : checkValue(innerString, outputVariables)) {
+						values.add((String) checked);
+					}
+					str = str.substring(next + 1);
+					j = 0;
+					temp = 0;
+					continue;
+				}
+				// Expression X
+				else {
+					if (temp == 9) {
+						// System.out.println("break");
+						values.add(str);
+						temp = 0;
+						break;
+					}
+					temp++;
+					j++;
+				}
+			}
+			cnt++;
+		}
+	
+		// 2. Check conditions in values
+		for (String str : values) {
+			int close = 0;
+			str = str.trim();
+	
+			if ("".equals(str))
+				continue;
+			else if ((conditions[0].equals(str)) || ((conditions[1]).equals(str)) || (conditions[4].equals(str)))
+				continue;
+			else if (conditions[2].equals(str.substring(0, 2)) || conditions[3].equals(str.substring(0, 2)))
+				continue;
+			else {
+				for (String output : outputVariables) {
+					if (str.equals(output)) {
+						close = 1;
+						break;
+					}
+				}
+				if (close == 1)
+					continue;
+				else
+					result.add(str);
+			}
+		}
+		return result;
+	}
+
 	@FXML
 	public void addPMValue(MouseEvent e) {
 		// Add new value
@@ -508,90 +591,6 @@ public class PmmController {
 		}
 	}
 	
-	
-	// Search & remove expressions from value
-	public List<String> checkValue(ArrayList<String> valueName, ObservableList<String> outputVariables) {
-		//need to be fixed
-		String[] expressions = { "<", ">", "=", ":=", "&", "|", "\\+", ">=", "<=", ":" };
-		String[] conditions = {"true", "false", "k_", "g_"};
-		List<String> values = new ArrayList<String>();
-		List<String> result = new ArrayList<String>();
-	
-		ArrayList<String> innerString = new ArrayList<String>();
-		String arg; // plus
-		int cnt = 0;
-		int next = 0;
-		int temp = 0;
-	
-		// 1. Check expressions in values
-		while (cnt < valueName.size()) {
-			String str = String.valueOf(valueName.get(cnt));
-			if ("null".equals(str))
-				break;
-			str = str.replace("\n", "");
-			str = str.trim();
-	
-			// Iteration for finding if string has expressions
-			for (int j = 0; j < expressions.length;) {
-				arg = expressions[j];
-				// System.out.println("current string: "+str);
-				if (expressions[j].equals("\\+"))
-					arg = "+";
-	
-				// Expression O
-				if (str.contains(arg)) {
-					// System.out.println("expression : "+arg);
-					next = str.indexOf(arg);
-					innerString.add(str.substring(0, next));
-					for (Object checked : checkValue(innerString, outputVariables)) {
-						values.add((String) checked);
-					}
-					str = str.substring(next + 1);
-					j = 0;
-					temp = 0;
-					continue;
-				}
-				// Expression X
-				else {
-					if (temp == 9) {
-						// System.out.println("break");
-						values.add(str);
-						temp = 0;
-						break;
-					}
-					temp++;
-					j++;
-				}
-			}
-			cnt++;
-		}
-	
-		// 2. Check conditions in values
-		for (String str : values) {
-			int close = 0;
-			str = str.trim();
-	
-			if ("".equals(str))
-				continue;
-			else if ((conditions[0].equals(str)) || ((conditions[1]).equals(str)) || (conditions[4].equals(str)))
-				continue;
-			else if (conditions[2].equals(str.substring(0, 2)) || conditions[3].equals(str.substring(0, 2)))
-				continue;
-			else {
-				for (String output : outputVariables) {
-					if (str.equals(output)) {
-						close = 1;
-						break;
-					}
-				}
-				if (close == 1)
-					continue;
-				else
-					result.add(str);
-			}
-		}
-		return result;
-	}
 	
 	private void initialize() {
 		System.out.println("\n**********************");
