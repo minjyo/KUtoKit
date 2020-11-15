@@ -12,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -34,16 +36,17 @@ import kutokit.model.ls.LSDataStore;
 import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
 
-public class LsController implements Initializable {
+public class LsController {
 	
 	private MainApp mainApp;
 	private LSDataStore lsDB;
 	private UCADataStore ucaDB;
 
+	@FXML private Tab firstTab;
  	@FXML private TextField lossScenarioTextField;
 	@FXML private Button addLossScenario, addNewTab;
 	@FXML private ComboBox<String> UcaComboBox, lossFactorComboBox;
-	@FXML private TabPane tabPane = new TabPane();
+	@FXML private TabPane tabPane;
 	
 	ObservableList<TableView<LS>> lsTableViewList = FXCollections.observableArrayList();
 	ObservableList<TableColumn<LS, String>> ucaColList = FXCollections.observableArrayList();
@@ -65,30 +68,11 @@ public class LsController implements Initializable {
 	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
+		initialize();
 	}
 	
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-		lsDB = mainApp.lsDataStore;
-		ucaDataStoreList = mainApp.ucaDataStoreList;
-		
+	public void addLossScenario() {
 		int tabIndex = tabPane.getSelectionModel().getSelectedIndex();
-		
-		ObservableList<String> ucaDatas = FXCollections.observableArrayList();
-		
-	    for(UCA u : ucaDataStoreList.get(0).getUCATableList()){
-	    	String ucaType1 = u.getIncorrectTimingOrOrder().getValue();
-	        String ucaType2 = u.getNotProvidingCausesHazard().getValue();
-	        String ucaType3 = u.getIncorrectTimingOrOrder().getValue();
-	        String ucaType4 = u.getStoppedTooSoonOrAppliedTooLong().getValue();
-	        ucaDatas.add(ucaType1);
-	        ucaDatas.add(ucaType2);
-	        ucaDatas.add(ucaType3);
-	        ucaDatas.add(ucaType4);
-	    }
-	    
-	    UcaComboBox.setItems(ucaDatas);
-	    System.out.println(ucaDatas + " : uca datas");
 		
 		lossScenarioTableList = lsDB.getLossScenarioList();
 		
@@ -97,8 +81,6 @@ public class LsController implements Initializable {
 		lossScenarioColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossScenarioProperty());
 		
 		lsTableViewList.get(tabIndex).setItems(lossScenarioTableList);
-
-		lossFactorComboBox.setItems(lossFactorCBList);
 		
 		/*
 		 * add items to loss scenario table
@@ -112,9 +94,9 @@ public class LsController implements Initializable {
 				if(lossScenarioTextField.getText().isEmpty()) {
 					try {
 						OpenTextFieldPopUp();
+						System.out.println("no text field input");
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
-						System.out.println("no text field input");
 						e1.printStackTrace();
 					}
 				}else {
@@ -162,6 +144,50 @@ public class LsController implements Initializable {
 		);
 	}
 	
+	public void initialize() {
+		lsDB = mainApp.lsDataStore;
+		ucaDataStoreList = mainApp.ucaDataStoreList;
+		
+//		tabPane.getTabs().remove(0);
+		
+		//set uca combobox
+		ObservableList<String> ucaDatas = FXCollections.observableArrayList();
+		
+		for(int i = 0; i < ucaDataStoreList.size(); i++) {
+		    for(UCA u : ucaDataStoreList.get(i).getUCATableList()){
+		    	String ucaType1 = u.getIncorrectTimingOrOrder().getValue();
+		        String ucaType2 = u.getNotProvidingCausesHazard().getValue();
+		        String ucaType3 = u.getIncorrectTimingOrOrder().getValue();
+		        String ucaType4 = u.getStoppedTooSoonOrAppliedTooLong().getValue();
+		        if(!ucaType1.isEmpty()) ucaDatas.add(ucaType1);
+		        if(!ucaType2.isEmpty()) ucaDatas.add(ucaType2);
+		        if(!ucaType3.isEmpty()) ucaDatas.add(ucaType3);
+		        if(!ucaType4.isEmpty()) ucaDatas.add(ucaType4);
+		    }
+		}
+	    
+	    UcaComboBox.setItems(ucaDatas);
+	    System.out.println(ucaDatas + " : uca datas");
+	    
+	    //add loss factor combobox
+		lossFactorComboBox.setItems(lossFactorCBList);
+		
+		addNewTab.setOnAction(Event ->{
+			addNewTab(lsTableViewList.size());
+		});
+		
+		if(tabPane.getTabs().isEmpty()) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning");
+			alert.setHeaderText("No tab to work");
+			alert.setContentText("You have to add tab first");
+		}else {
+			tabPane.getTabs().remove(0);
+			addNewTab(lsTableViewList.size());
+			addLossScenario();
+		}
+	}
+	
 	/*
 	 * if text field is empty, this pop up opens
 	 */
@@ -180,20 +206,23 @@ public class LsController implements Initializable {
 		dialogStage.show();
 	}
 	
-	/*
-	 * if new tab button clicked, make new tab
-	 */
-	@FXML
-	private void newTabButtonClicked() {
-		System.out.println("add tab button clicked");
+	private void addNewTab(int index) {
 		Tab newTab = new Tab();
+		newTab.setText("LS" + Integer.toString(index));
 		tabPane.getTabs().add(newTab);
+
 		TableView<LS> newTable = new TableView<LS>();
+		lsTableViewList.add(newTable);
+		
 		newTab.setContent(newTable);
 		
 		TableColumn<LS, String> ucaCol = new TableColumn<LS, String>();
 		TableColumn<LS, String> lossFactorCol = new TableColumn<LS, String>();
 		TableColumn<LS, String> lossScenarioCol = new TableColumn<LS, String>();
+		
+		ucaColList.add(ucaCol);
+		lossFactorColList.add(lossFactorCol);
+		lossScenarioColList.add(lossScenarioCol);
 		
 		ucaCol.setPrefWidth(160.0);
 		lossFactorCol.setPrefWidth(210.0);
