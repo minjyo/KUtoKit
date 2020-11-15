@@ -12,12 +12,14 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kutokit.view.CseController;
 import kutokit.view.PmmController;
@@ -189,14 +191,14 @@ public class MainApp extends Application {
     public void showUtmView() {
         try {
         	//Open when CTM data isn't null
-//        	if(ctmDataStoreList.isEmpty()){
-//    	        Alert alert = new Alert(AlertType.INFORMATION);
-//        		alert.setTitle("Caution");
-//        		alert.setHeaderText("Condition not satisfied");
-//    	        alert.setContentText("Please add context table data first");
-//    	        alert.show();
-//        		return;
-//        	}
+        	if(ctmDataStoreList.isEmpty()){
+    	        Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setTitle("Caution");
+        		alert.setHeaderText("Condition not satisfied");
+    	        alert.setContentText("Please add context table data first");
+    	        alert.show();
+        		return;
+        	}
 
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
@@ -210,6 +212,20 @@ public class MainApp extends Application {
             controller.setMainApp(this);
 
         } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+        try{
+            Parent parent = FXMLLoader.load(getClass().getResource("view/popup/UCAHazardPopUpView.fxml"));
+			Scene scene = new Scene(parent);
+			Stage stage = new Stage();
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.setTitle("Hazard List");
+			stage.setResizable(false);
+			stage.show();
+			stage.setScene(scene);
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
