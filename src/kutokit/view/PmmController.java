@@ -13,8 +13,9 @@ import java.io.BufferedInputStream;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-	
-	import javafx.collections.FXCollections;
+
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 	import javafx.collections.ObservableList;
 	import javafx.event.ActionEvent;
 	import javafx.event.EventHandler;
@@ -26,7 +27,8 @@ import org.w3c.dom.NodeList;
 	import javafx.scene.control.ChoiceBox;
 	import javafx.scene.control.ContextMenu;
 	import javafx.scene.control.Label;
-	import javafx.scene.control.ListView;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 	import javafx.scene.control.MenuItem;
 	import javafx.scene.control.SelectionMode;
 	import javafx.scene.control.Tab;
@@ -384,8 +386,6 @@ public class PmmController {
 					Parent parent = loader.load();
 					Scene scene = new Scene(parent);
 	
-					valueStage.initModality(Modality.WINDOW_MODAL);
-					valueStage.initOwner(mainApp.getPrimaryStage());
 					valueStage.setTitle("Add Process Model variable");
 					valueStage.setResizable(false);
 					valueStage.show();
@@ -395,8 +395,8 @@ public class PmmController {
 						@Override
 						public void handle(WindowEvent e) {
 							VariablePopUpController popup = loader.getController();
-							popup.setStage(valueStage);
-							if (popup.value != null) {
+							//when user inputed text for process model & clicked confirm
+							if (popup.value != null && popup.confirmClicked == true) {
 								//don't add same value to listview
 								for(int i = 0; i < listViewList.size(); i++) {
 									if(!listViewList.get(tabIndex).getItems().isEmpty()) {
@@ -416,6 +416,8 @@ public class PmmController {
 										p.getValuelist().add(popup.value);
 									}
 								}
+							}else if(popup.closeClicked == true) {
+								valueStage.close();
 							}
 						}
 					}));
@@ -429,51 +431,47 @@ public class PmmController {
 	}
 	
 	public void valueListControl() {
-		modifyMenu = new MenuItem("Modify");
-		deleteMenu = new MenuItem("Delete");
-		
-		rightClickMenu.getItems().add(modifyMenu);
-		rightClickMenu.getItems().add(deleteMenu);
+		modifyMenu = new MenuItem();
+		modifyMenu.textProperty().set("Modify");
+		deleteMenu = new MenuItem();
+		deleteMenu.textProperty().set("Delete");
+		rightClickMenu.getItems().addAll(modifyMenu, deleteMenu);
 		
 		for(ListView<String> valueList : listViewList) {
 			String target = valueList.getSelectionModel().getSelectedItem();
 			int targetIndex = valueList.getSelectionModel().getSelectedIndex();
-			
-			valueList.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
-				@Override
-				public void handle(ContextMenuEvent event) {
-					if (target != null) {
-						rightClickMenu.show(valueList, event.getScreenX(), event.getScreenY());
-						modifyMenu.setOnAction(new EventHandler<ActionEvent>() {
-							@Override
-							public void handle(ActionEvent event) {
-								for(ProcessModel p : pmmDB.getProcessModel()) {
-									if(p.getControllerName().equals(controllerList.getValue()) && 
-											p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
-										modifyPopUp(p, targetIndex);
-									}
+			valueList.setOnMouseClicked(event ->{
+				if(event.getButton() == MouseButton.SECONDARY) {
+					rightClickMenu.show(valueList, event.getScreenX(), event.getScreenY());
+					
+					modifyMenu.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+							for(ProcessModel p : pmmDB.getProcessModel()) {
+								if(p.getControllerName().equals(controllerList.getValue()) && 
+										p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
+									modifyPopUp(p, targetIndex);
 								}
 							}
-						});
-						deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
-							@Override
-							public void handle(ActionEvent event) {
-								valueList.getItems().remove(targetIndex);
-								for(ProcessModel p : pmmDB.getProcessModel()) {
-									if(p.getControllerName().equals(controllerList.getValue()) && 
-											p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
-										p.getValuelist().remove(targetIndex);
-									}
+						}
+					});
+					
+					deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+							valueList.getItems().remove(targetIndex);
+							for(ProcessModel p : pmmDB.getProcessModel()) {
+								if(p.getControllerName().equals(controllerList.getValue()) && 
+										p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
+									p.getValuelist().remove(targetIndex);
 								}
 							}
-						});
-					} else {
-						rightClickMenu.hide();
-					}
-					event.consume();
+						}
+					});
 				}
+				event.consume();
+				rightClickMenu.hide();
 			});
-			rightClickMenu.hide();
 		}
 	}
 	
@@ -489,9 +487,7 @@ public class PmmController {
 				Scene s = new Scene(root);
 
 				valueStage.setScene(s);
-				valueStage.initModality(Modality.WINDOW_MODAL);
 				valueStage.setTitle("Modify Process Model variable");
-				valueStage.initOwner(mainApp.getPrimaryStage());
 				valueStage.show();
 
 				valueStage.setOnHidden((new EventHandler<WindowEvent>() {

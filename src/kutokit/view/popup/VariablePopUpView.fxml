@@ -12,11 +12,11 @@
 	<children>
       <Rectangle fill="DARKSEAGREEN" height="32.0" layoutY="-1.0" strokeWidth="0.0" width="263.0" />
       <Text fill="WHITE" layoutX="15.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit variable" />
-	  <TextField fx:id="text" layoutX="40.0" layoutY="56.0" prefHeight="29.0" prefWidth="184.0" promptText="variable name" />
+	  <TextField fx:id="textField" layoutX="40.0" layoutY="56.0" prefHeight="29.0" prefWidth="184.0" promptText="variable name" />
       <HBox alignment="BOTTOM_CENTER" layoutX="40.0" layoutY="95.0" prefHeight="41.0" prefWidth="184.0" spacing="10.0">
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#setData" prefWidth="79.0" text="Confirm" />
-            <Button alignment="TOP_RIGHT" mnemonicParsing="false" onMouseClicked="#close" text="Cancel" />
+            <Button fx:id="confirmButton" alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="79.0" text="Confirm" />
+            <Button fx:id="cancelButton" alignment="TOP_RIGHT" mnemonicParsing="false" text="Cancel" />
          </children>
          <padding>
             <Insets bottom="5.0" />
