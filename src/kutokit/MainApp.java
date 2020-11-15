@@ -371,6 +371,7 @@ public class MainApp extends Application {
 			 // --------------------------- CTM --------------------------
 		        ctmDataStore.remove(0, ctmDataStore.size()-1);
 		        ctmDataStoreList.remove(0, ctmDataStoreList.size()-1);
+		        ctmDataStoreList.addAll(projectXML.getCtmDataStoreList());
    	         // --------------------------- CTM --------------------------
 		        
 		     // --------------------------- LS ---------------------------

@@ -3,8 +3,11 @@ package kutokit.model.ctm;
 
 import java.util.ArrayList;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 
 public class CTMDataStore {
 
@@ -32,6 +35,43 @@ public class CTMDataStore {
 			ctmCases = tempCases;
 			ctmHazardous = tempHazardous;
 			ctmContexts = tempContexts;
+			
+		}
+		
+		if(this.CTMTableList.size()==0 && ctmCases.size()>0) {
+			rowSize = ctmCases.size();
+			
+			ObservableList<String>hazardousOX = FXCollections.observableArrayList();
+			hazardousOX.add("O");
+			hazardousOX.add("X");
+			
+			ObservableList<String>casesCombo = FXCollections.observableArrayList();
+			casesCombo.add("not providing\ncauses hazard");
+			casesCombo.add("too early, too late,\nout of order");
+			casesCombo.add("providing causes hazard");
+
+    		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
+    		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
+			for(int i=0;i<rowSize;i++) {
+				this.CTMTableList.add(new CTM(ctmController,ctmControlAction,comboBox1,i+1,ctmContexts.get(i),comboBox2));
+				CTMTableList.get(i).setCasesValue(this.ctmCases.get(i));
+				CTMTableList.get(i).setHazardousValue(this.ctmHazardous.get(i));
+				final int temp = i;
+	      		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+	  			      @Override
+	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+	  			    	CTMTableList.get(temp).setCasesValue(newValue);
+	  			    	System.out.println(CTMTableList.get(temp).getCasesValue());
+	  			      }
+  			    });
+        		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
+  			      @Override
+  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+	  			    	CTMTableList.get(temp).setHazardousValue(newValue);
+	  			    	System.out.println(CTMTableList.get(temp).getHazardousValue());
+  			      }
+  			    });
+			}
 		}
 		return this.CTMTableList;
 	}
