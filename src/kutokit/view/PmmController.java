@@ -39,7 +39,8 @@ import org.w3c.dom.NodeList;
 	import javafx.scene.layout.AnchorPane;
 	import javafx.scene.layout.Pane;
 	import javafx.stage.FileChooser;
-	import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
+import javafx.stage.FileChooser.ExtensionFilter;
 	import javafx.stage.Stage;
 	import javafx.stage.WindowEvent;
 	import kutokit.Info;
@@ -247,44 +248,47 @@ public class PmmController {
 			
 	@FXML
     public void addToProcessModel() {
-	//add selected value from output list to value list
-    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-    ArrayList<String> selectedOutputs = new ArrayList<String>(outputList.getSelectionModel().getSelectedItems());
-    ArrayList<String> newValues = new ArrayList<String>();
-    if (selectedFile != null && !selectedOutputs.isEmpty()) {
-         ListView<String> lv = new ListView<String>();
-         ProcessModel PM = new ProcessModel();
-         for(Tab tab : tabPane.getTabs()){
-            if(tab.getText().equals(CAList.getValue())){
-               lv = listViewList.get(tabPane.getTabs().indexOf(tab));
-            }
-         }
-
-         for(ProcessModel pm : pmmDB.getProcessModel()){
-            if(pm.getControlActionName().equals(CAList.getValue()) && pm.getControllerName().equals(controllerList.getValue())){
-               PM = pm;
-            }
-         }
-	
+		//add selected value from output list to value list
+	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	    
+	    
+	    ProcessModel PM = new ProcessModel();
+	    for(ProcessModel pm : pmmDB.getProcessModel()){
+	        if(pm.getControlActionName().equals(CAList.getValue()) && pm.getControllerName().equals(controllerList.getValue())){
+	           PM = pm;
+	        }
+	     }
+	    
+	    ArrayList<String> selectedOutputs = new ArrayList<String>();
+	//    ArrayList<String> newValues = new ArrayList<String>();
+	    
+	    if (selectedFile != null && !selectedOutputs.isEmpty()) {
+	         ListView<String> lv = new ListView<String>();
+	        
+	         for(Tab tab : tabPane.getTabs()){
+	            if(tab.getText().equals(CAList.getValue())){
+	               lv = listViewList.get(tabPane.getTabs().indexOf(tab));
+	            }
+	         }
+	         //for selectedOutputs, add related input datas in db
 	         for(String selectedOutput : selectedOutputs){
-	//		            System.out.println("SelectedOutputs" + selectedOutput);
 	            int index = outputList.getItems().indexOf(selectedOutput);
 	            System.out.println(index);
 	            for(String dbInput : pmmDB.getInputList().get(index)){
-	//		               System.out.println(dbInput);
 	               boolean e = true;
 	               for(String pms : PM.getValuelist()){
 	                  if(pms.equals(dbInput)){
 	                     e = false;
 	                  }
 	               }
-	
 	               if(e){
 	                  PM.getValuelist().add(dbInput);
 	                  lv.getItems().add(dbInput);
 	               }
 	            }
 	         }
+	         //add selected outputs in db
+	         PM.setSelectedOutputs(selectedOutputs);
       	}else if (selectedOutputs.isEmpty()) {
 	         // No selected Outputs, show alert
 	         System.out.println("output variable");
@@ -296,7 +300,6 @@ public class PmmController {
 	         alert.showAndWait();
       	}
     }
-	// ERROR; other controller's show output is not created
 	
 	// Make process model
 	public void makeModel(ObservableList<String> outputlist) {
@@ -381,6 +384,8 @@ public class PmmController {
 					Parent parent = loader.load();
 					Scene scene = new Scene(parent);
 	
+					valueStage.initModality(Modality.WINDOW_MODAL);
+					valueStage.initOwner(mainApp.getPrimaryStage());
 					valueStage.setTitle("Add Process Model variable");
 					valueStage.setResizable(false);
 					valueStage.show();
@@ -484,6 +489,9 @@ public class PmmController {
 				Scene s = new Scene(root);
 
 				valueStage.setScene(s);
+				valueStage.initModality(Modality.WINDOW_MODAL);
+				valueStage.setTitle("Modify Process Model variable");
+				valueStage.initOwner(mainApp.getPrimaryStage());
 				valueStage.show();
 
 				valueStage.setOnHidden((new EventHandler<WindowEvent>() {
@@ -620,11 +628,11 @@ public class PmmController {
 		       //clear CAList view
 		       CAList.getItems().clear();
 //		       String controller = controllerList.getValue();
-		       //ERROR! Null pointer exception
+		       //ERROR! Null pointer exception -> don't bring controller name from CSE
 		       for(ControlAction c : components.getControlActions()) {
 		    	   System.out.println(c.getController() + " : controller");
 		    	   System.out.println(c.getCA() + " : control actions");
-		    	   if(c == null) {
+		    	   if(c.getController() == null) {
 		    		   continue;
 		    	   }else if(c.getController().getName().equals(controllerList.getValue())) {
 		    		   CAList.getItems().addAll(c.getCA());

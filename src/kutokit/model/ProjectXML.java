@@ -182,7 +182,7 @@ public class ProjectXML {
 
 
 	// --------------------------- PMM --------------------------
-	@XmlElement(name = "PMM")
+	@XmlElement(name = "PMM-process-model")
 	public ObservableList<ProcessModel> getProcessModel(){
 		return processModel;
 	}
