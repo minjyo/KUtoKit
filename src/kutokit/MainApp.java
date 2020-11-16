@@ -12,12 +12,14 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kutokit.view.CseController;
 import kutokit.view.PmmController;
@@ -47,12 +49,13 @@ public class MainApp extends Application {
 
 	 public static Components components;
 	 public static LhcDataStore lhcDataStore;
-	 public static PmmDataStore pmmDB;
+	 public ProcessModel models;
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<CTM> ctmDataStore = FXCollections.observableArrayList();
 	 public static LSDataStore lsDataStore;
+	 public static PmmDataStore pmmDB;
 
 	@Override
 	//auto execute after main execute
@@ -72,8 +75,8 @@ public class MainApp extends Application {
 	private void initDataStore() {
 		components = new Components();
 		lhcDataStore = new LhcDataStore();
+		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
-//		ctmDataStore = new CTMDataStore();
 		pmmDB = new PmmDataStore();
 	}
 
@@ -148,7 +151,7 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     /**
@@ -188,14 +191,14 @@ public class MainApp extends Application {
     public void showUtmView() {
         try {
         	//Open when CTM data isn't null
-//        	if(ctmDataStoreList.isEmpty()){
-//    	        Alert alert = new Alert(AlertType.INFORMATION);
-//        		alert.setTitle("Caution");
-//        		alert.setHeaderText("Condition not satisfied");
-//    	        alert.setContentText("Please add context table data first");
-//    	        alert.show();
-//        		return;
-//        	}
+        	if(ctmDataStoreList.isEmpty()){
+    	        Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setTitle("Caution");
+        		alert.setHeaderText("Condition not satisfied");
+    	        alert.setContentText("Please add context table data first");
+    	        alert.show();
+        		return;
+        	}
 
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
@@ -209,6 +212,20 @@ public class MainApp extends Application {
             controller.setMainApp(this);
 
         } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+        try{
+            Parent parent = FXMLLoader.load(getClass().getResource("view/popup/UCAHazardPopUpView.fxml"));
+			Scene scene = new Scene(parent);
+			Stage stage = new Stage();
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.setTitle("Hazard List");
+			stage.setResizable(false);
+			stage.show();
+			stage.setScene(scene);
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -227,7 +244,7 @@ public class MainApp extends Application {
     	        alert.show();
         		return;
         	}
-        	
+
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/PmmView.fxml"));
@@ -272,15 +289,15 @@ public class MainApp extends Application {
 	 */
 	public void showLsView() {
 		try {
-//			//Open when UCA data isn't null
-//        	if(ucaDataStoreList.isEmpty()){
-//    	        Alert alert = new Alert(AlertType.INFORMATION);
-//        		alert.setTitle("Caution");
-//        		alert.setHeaderText("Condition not satisfied");
-//    	        alert.setContentText("Please add UCA data first");
-//    	        alert.show();
-//        		return;
-//        	}
+			//Open when UCA data isn't null
+        	if(ucaDataStoreList.isEmpty()){
+    	        Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setTitle("Caution");
+        		alert.setHeaderText("Condition not satisfied");
+    	        alert.setContentText("Please add UCA data first");
+    	        alert.show();
+        		return;
+        	}
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
@@ -340,7 +357,7 @@ public class MainApp extends Application {
 		        lhcDataStore.getHazardTableList().addAll(projectXML.getHazardList());
 		        lhcDataStore.getConstraintTableList().addAll(projectXML.getConstraintList());
 			 // --------------------------- LHC --------------------------
-		        
+
 		     // --------------------------- CSE --------------------------
 		        components.getControllers().addAll(projectXML.getControllers());
 		        components.getControlActions().addAll(projectXML.getControlActions());
@@ -351,15 +368,8 @@ public class MainApp extends Application {
 		        ucadatastore.remove(0, ucadatastore.size()-1);
 		        ucaDataStoreList.remove(0, ucaDataStoreList.size()-1);
 
-		        ucadatastore.addAll(projectXML.getUCA());
 		        ucaDataStoreList.addAll(projectXML.getUCADataStoreList());
-		        int i=0;
-		        for(UCADataStore u : ucaDataStoreList){
-		        	for(int j=0;j<u.size;j++){
-		        		u.getUCATableList().add(ucadatastore.get(i));
-		        		i++;
-		        	}
-		        }
+		        ucadatastore.addAll(projectXML.getUCA());
 		      //--------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
@@ -373,13 +383,13 @@ public class MainApp extends Application {
 		        ctmDataStoreList.remove(0, ctmDataStoreList.size()-1);
 		        ctmDataStoreList.addAll(projectXML.getCtmDataStoreList());
    	         // --------------------------- CTM --------------------------
-		        
+
 		     // --------------------------- LS ---------------------------
 		        lsDataStore.getLsUcaList().addAll(projectXML.getLsUcaList());
 		        lsDataStore.getLossFactorList().addAll(projectXML.getLossFactorList());
 		        lsDataStore.getLossScenarioList().addAll(projectXML.getLossScenarioList());
 		     // --------------------------- LS ---------------------------
-		        
+
 		        setFilePath(file);
 
 		     } catch (Exception e) {
@@ -387,7 +397,7 @@ public class MainApp extends Application {
 		        alert.setTitle("Error");
 		        alert.setHeaderText("Could not load data");
 		        alert.setContentText("Could not load data from file:\n" + file.getPath());
-		        
+
 		        alert.showAndWait();
 		    }
 	}
@@ -430,7 +440,7 @@ public class MainApp extends Application {
 	        projectXML.setCTM(ctmDataStore);
 	        projectXML.setCTMList(ctmDataStoreList);
 	     // --------------------------- CTM --------------------------
-	        
+
 	     // --------------------------- LS ---------------------------
 	        projectXML.setLsUcaList(lsDataStore.getLsUcaList());
 	        projectXML.setLossFactorList(lsDataStore.getLossFactorList());
@@ -445,7 +455,7 @@ public class MainApp extends Application {
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");
 	        alert.setContentText("Could not save data to file:\n" + file.getPath());
-	        
+
 	        alert.showAndWait();
 	    }
 	}

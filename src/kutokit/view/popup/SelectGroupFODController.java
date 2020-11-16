@@ -17,6 +17,7 @@ public class SelectGroupFODController{
 	@FXML
 	Button confirmButton = new Button();
 	Button cancelButton = new Button();
+
 	@FXML
 	CheckListView<String> groupCheckList = new CheckListView<String>();
 	@FXML
@@ -31,6 +32,7 @@ public class SelectGroupFODController{
 		if(!groupCheckList.getItems().isEmpty()) {
 			groupCheckList.setVisible(true);
 		}
+
 	}
 	
 	public void confirmClick() {

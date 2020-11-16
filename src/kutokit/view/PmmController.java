@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeSet;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -257,7 +256,7 @@ public class PmmController {
 		//makeModel(outputList.getSelectionModel().getSelectedItems());
 
 		//add selected value from output list to value list
-		makeModel(outputList.getSelectionModel().getSelectedItems());
+	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	    ProcessModel PM = new ProcessModel();
 	    for(ProcessModel pm : pmmDB.getProcessModel()){
 	        if(pm.getControlActionName().equals(CAList.getValue()) && pm.getControllerName().equals(controllerList.getValue())){
@@ -496,6 +495,7 @@ public class PmmController {
 
 					valueStage.initModality(Modality.WINDOW_MODAL);
 					valueStage.initOwner(mainApp.getPrimaryStage());
+
 					valueStage.setTitle("Add Process Model variable");
 					valueStage.setResizable(false);
 					valueStage.show();
@@ -538,11 +538,10 @@ public class PmmController {
 	public void valueListControl(ListView<String> valueList) {
 		ContextMenu rightClickMenu = new ContextMenu();
 		int listIndex = listViewList.indexOf(valueList);
+		
 		modifyMenu = new MenuItem("Modify");
 		deleteMenu = new MenuItem("Delete");
-
-		rightClickMenu.getItems().add(modifyMenu);
-		rightClickMenu.getItems().add(deleteMenu);
+		rightClickMenu.getItems().addAll(modifyMenu, deleteMenu);
 
 		int targetListIndex = valueList.getSelectionModel().getSelectedIndex();
 
@@ -551,15 +550,14 @@ public class PmmController {
 	         public void handle(ActionEvent event) {
 	    		 int targetIndex = valueList.getSelectionModel().getSelectedIndex();
 		    	 try{
-		    		 		valueList.getItems().remove(targetIndex);
-		    		 		for(ProcessModel p : pmmDB.getProcessModel()) {
-								if(p.getControllerName().equals(controllerList.getValue()) &&
-									p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
-									p.getValuelist().remove(targetIndex);
-								}
-							}
-		    		 }
-		    	 catch(Exception e){
+					valueList.getItems().remove(targetIndex);
+					for(ProcessModel p : pmmDB.getProcessModel()) {
+						if(p.getControllerName().equals(controllerList.getValue()) &&
+							p.getControlActionName().equals(tabPane.getTabs().get(listViewList.indexOf(valueList)).getText())) {
+							p.getValuelist().remove(targetIndex);
+						}
+					}
+		    	 }catch(Exception e){
 		    		 System.out.println("Select empty data");
 		    	 }
 	         }
@@ -577,19 +575,18 @@ public class PmmController {
 							modifyPopUp(p, targetIndex,valueList);
 						}
 					}
-				}
-				catch(Exception e){
-					System.out.println("Select empty data");
+				}catch(Exception e){
+						System.out.println("Select empty data");
 				}
 			}
 		});
 
 		valueList.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
-            @Override
-            public void handle(ContextMenuEvent event) {
-            	rightClickMenu.show(valueList, event.getScreenX(), event.getScreenY());
-            }
-        });
+			@Override
+	        public void handle(ContextMenuEvent event) {
+				rightClickMenu.show(valueList, event.getScreenX(), event.getScreenY());
+	        }
+	    });
 //		rightClickMenu.hide();
 	}
 
@@ -622,9 +619,6 @@ public class PmmController {
 							} catch(Exception ex){
 								System.out.println("Modify ValueList Error");
 							}
-
-
-
 						} else
 							System.out.println("Please enter a new value.");
 					}
