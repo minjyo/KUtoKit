@@ -290,14 +290,14 @@ public class MainApp extends Application {
 	public void showLsView() {
 		try {
 			//Open when UCA data isn't null
-        	if(ucaDataStoreList.isEmpty()){
-    	        Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setTitle("Caution");
-        		alert.setHeaderText("Condition not satisfied");
-    	        alert.setContentText("Please add UCA data first");
-    	        alert.show();
-        		return;
-        	}
+//        	if(ucaDataStoreList.isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add UCA data first");
+//    	        alert.show();
+//        		return;
+//        	}
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
@@ -385,9 +385,7 @@ public class MainApp extends Application {
    	         // --------------------------- CTM --------------------------
 
 		     // --------------------------- LS ---------------------------
-		        lsDataStore.getLsUcaList().addAll(projectXML.getLsUcaList());
-		        lsDataStore.getLossFactorList().addAll(projectXML.getLossFactorList());
-		        lsDataStore.getLossScenarioList().addAll(projectXML.getLossScenarioList());
+		        lsDataStore.getLsList().addAll(projectXML.getLsList());
 		     // --------------------------- LS ---------------------------
 
 		        setFilePath(file);
@@ -442,9 +440,7 @@ public class MainApp extends Application {
 	     // --------------------------- CTM --------------------------
 
 	     // --------------------------- LS ---------------------------
-	        projectXML.setLsUcaList(lsDataStore.getLsUcaList());
-	        projectXML.setLossFactorList(lsDataStore.getLossFactorList());
-	        projectXML.setLossScenarioList(lsDataStore.getLossScenarioList());
+	        projectXML.setLsList(lsDataStore.getLsList());
 	     // --------------------------- LS ---------------------------
 
 	        m.marshal(projectXML, file);

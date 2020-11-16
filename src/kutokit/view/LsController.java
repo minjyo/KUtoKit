@@ -42,7 +42,6 @@ public class LsController {
 	private LSDataStore lsDB;
 	private UCADataStore ucaDB;
 
-	@FXML private Tab firstTab;
  	@FXML private TextField lossScenarioTextField;
 	@FXML private Button addLossScenario, addNewTab;
 	@FXML private ComboBox<String> UcaComboBox, lossFactorComboBox;
@@ -68,13 +67,13 @@ public class LsController {
 	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-		initialize();
+		this.lsDB = mainApp.lsDataStore;
 	}
 	
 	public void addLossScenario() {
 		int tabIndex = tabPane.getSelectionModel().getSelectedIndex();
 		
-		lossScenarioTableList = lsDB.getLossScenarioList();
+		lossScenarioTableList = lsDB.getLsList();
 		
 		ucaColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getUCAProperty());
 		lossFactorColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossFactorProperty());
@@ -85,7 +84,7 @@ public class LsController {
 		/*
 		 * add items to loss scenario table
 		 */
-		addLossScenario.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+		addLossScenario.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
 				//여기 코드 깨짐.
@@ -111,6 +110,7 @@ public class LsController {
 					lsTableViewList.get(tabIndex).getItems().add(ls);
 					lossScenarioTextField.clear();
 				}
+				e.consume();
 			}
 		});
 		
@@ -161,19 +161,23 @@ public class LsController {
 		//set uca combobox
 		ObservableList<String> ucaDatas = FXCollections.observableArrayList();
 		
-		for(int i = 0; i < ucaDataStoreList.size(); i++) {
-		    for(UCA u : ucaDataStoreList.get(i).getUCATableList()){
-		    	String ucaType1 = u.getIncorrectTimingOrOrder().getValue();
-		        String ucaType2 = u.getNotProvidingCausesHazard().getValue();
-		        String ucaType3 = u.getIncorrectTimingOrOrder().getValue();
-		        String ucaType4 = u.getStoppedTooSoonOrAppliedTooLong().getValue();
-		        if(!ucaType1.isEmpty()) ucaDatas.add(ucaType1);
-		        if(!ucaType2.isEmpty()) ucaDatas.add(ucaType2);
-		        if(!ucaType3.isEmpty()) ucaDatas.add(ucaType3);
-		        if(!ucaType4.isEmpty()) ucaDatas.add(ucaType4);
-		    }
-		}
+//		for(int i = 0; i < ucaDataStoreList.size(); i++) {
+//		    for(UCA u : ucaDataStoreList.get(i).getUCATableList()){
+//		    	String ucaType1 = u.getIncorrectTimingOrOrder().getValue();
+//		        String ucaType2 = u.getNotProvidingCausesHazard().getValue();
+//		        String ucaType3 = u.getIncorrectTimingOrOrder().getValue();
+//		        String ucaType4 = u.getStoppedTooSoonOrAppliedTooLong().getValue();
+//		        if(!ucaType1.isEmpty()) ucaDatas.add(ucaType1);
+//		        if(!ucaType2.isEmpty()) ucaDatas.add(ucaType2);
+//		        if(!ucaType3.isEmpty()) ucaDatas.add(ucaType3);
+//		        if(!ucaType4.isEmpty()) ucaDatas.add(ucaType4);
+//		    }
+//		}
 	    
+		ucaDatas.add("A");
+		ucaDatas.add("B");
+		ucaDatas.add("C");
+		
 	    UcaComboBox.setItems(ucaDatas);
 	    System.out.println(ucaDatas + " : uca datas");
 	    
@@ -190,8 +194,7 @@ public class LsController {
 			alert.setHeaderText("No tab to work");
 			alert.setContentText("You have to add tab first");
 		}else {
-			tabPane.getTabs().remove(0);
-			addNewTab(lsTableViewList.size());
+			addNewTab(lsTableViewList.size() + 1);
 			addLossScenario();
 		}
 	}
