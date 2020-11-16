@@ -11,7 +11,7 @@ public class lsListAdapter extends XmlAdapter<ProjectXML, ObservableList<LS>> {
 	@Override
 	public ObservableList<LS> unmarshal(ProjectXML v) throws Exception {
 		// TODO Auto-generated method stub
-		ObservableList<LS> lossScenarioList = FXCollections.observableArrayList(v.getLossScenarioList());
+		ObservableList<LS> lossScenarioList = FXCollections.observableArrayList(v.getLsList());
 		return lossScenarioList;
 	}
 
@@ -20,7 +20,7 @@ public class lsListAdapter extends XmlAdapter<ProjectXML, ObservableList<LS>> {
 		// TODO Auto-generated method stub
 		ProjectXML lsXml = new ProjectXML();
 		v.stream().forEach((ls) -> {
-			lsXml.getLossScenarioList().add(ls);
+			lsXml.getLsList().add(ls);
 		});
 		return lsXml;
 	}

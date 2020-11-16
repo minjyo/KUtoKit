@@ -18,7 +18,13 @@
          </font>
       </Label>
       <Button fx:id="addNewTab" layoutX="768.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="230.0" text="Add new tab for other UCA" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0" />
+<<<<<<< HEAD
       <TabPane fx:id="tabPane" prefHeight="694.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="36.0" AnchorPane.topAnchor="40.0" />
+=======
+      <TabPane fx:id="tabPane" prefHeight="694.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="36.0" AnchorPane.topAnchor="40.0">
+         
+      </TabPane>
+>>>>>>> 98a3d3f36767d9e5da6d10323aacf7b62c81502c
       <TextField fx:id="lossScenarioTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="569.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="370.0" />
       <ComboBox fx:id="lossFactorComboBox" prefHeight="29.0" prefWidth="207.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="161.0" />
       <Button fx:id="addLossScenario" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="56.0" text="Add" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0" />
