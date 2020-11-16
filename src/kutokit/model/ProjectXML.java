@@ -159,21 +159,11 @@ public class ProjectXML {
 	// --------------------------- UTM --------------------------
 	@XmlElement(name = "UCA-List")
 	public ObservableList<UCADataStore> getUCADataStoreList() {
-		int i=0;
-        for(UCADataStore u : UCAList){
-        	for(int j=0;j<u.size;j++){
-        		u.getUCATableList().add(UCA.get(i));
-        		i++;
-        	}
-        }
 		return this.UCAList;
 	}
 
 	@XmlElement(name = "UCA")
 	public ObservableList<UCA> getUCA(){
-		for(UCADataStore u : UCAList){
-			UCA.addAll(u.getUCATableList());
-		}
 		return UCA;
 	}
 
