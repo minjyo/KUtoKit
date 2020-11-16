@@ -60,20 +60,6 @@ public class CTMDataStore {
 				CTMTableList.get(i).setCasesValue(this.ctmCases.get(i));
 				CTMTableList.get(i).setHazardousValue(this.ctmHazardous.get(i));
 				final int temp = i;
-	      		/*comboBox1.valueProperty().addListener(new ChangeListener<String>() {
-	  			      @Override
-	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-	  			    	CTMTableList.get(temp).setCasesValue(newValue);
-	  			    	System.out.println("CTMTableList.get("+temp+").getCasesValue():"+CTMTableList.get(temp).getCasesValue());
-	  			      }
-  			    });
-        		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
-  			      @Override
-  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
-	  			    	CTMTableList.get(temp).setHazardousValue(newValue);
-	  			    	System.out.println("CTMTableList.get("+temp+").getHazardousValue():"+CTMTableList.get(temp).getHazardousValue());
-  			      }
-  			    });*/
 			}
 		}
 		return this.CTMTableList;

@@ -197,7 +197,23 @@ public class CtmController {
     			contextTable.setItems(totalData.get(tabNum).getCTMTableList());
             }
         });
-        hb.getChildren().addAll(addButton);
+        final Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+            	mcsData = totalData.get(tabNum).getCTMTableList();
+        		mcsData.remove(contextTable.getSelectionModel().getSelectedItem().getNo()-1);
+                CTMDataStore ctm = new CTMDataStore();  
+            	for(CTM c : mcsData) {
+            		ctm.getCTMTableList().add(c);
+            	}
+            	totalData.set(tabNum, ctm);
+    			contextTable.setItems(totalData.get(tabNum).getCTMTableList());
+            	System.out.println("delete:"+contextTable.getSelectionModel().getSelectedItem().getNo());
+            	
+            }
+        });
+        hb.getChildren().addAll(addButton, deleteButton);
         hb.setSpacing(3);
         totalhb.getChildren().addAll(hb,contextTable);
         tab.setContent(totalhb);
