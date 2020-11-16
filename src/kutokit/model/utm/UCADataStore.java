@@ -7,7 +7,7 @@ public class UCADataStore {
 
 	private String controller;
 	private String controllAction;
-	public int size;
+	public int size=0;
 
 	ObservableList<UCA> UCATableList = FXCollections.observableArrayList();
 
@@ -30,4 +30,10 @@ public class UCADataStore {
 	public void setControllAction(String controllAction) {
 		this.controllAction = controllAction;
 	}
+
+	public int settingSize(){
+		this.size = UCATableList.size();
+		return size;
+	}
 }
+

@@ -2,7 +2,6 @@ package kutokit;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 import javax.xml.bind.JAXBContext;
@@ -369,8 +368,16 @@ public class MainApp extends Application {
 		        ucadatastore.remove(0, ucadatastore.size()-1);
 		        ucaDataStoreList.remove(0, ucaDataStoreList.size()-1);
 
-		        ucaDataStoreList.addAll(projectXML.getUCADataStoreList());
 		        ucadatastore.addAll(projectXML.getUCA());
+		        ucaDataStoreList.addAll(projectXML.getUCADataStoreList());
+		        int i=0;
+		        for(UCADataStore udb : ucaDataStoreList){
+		        	int size = udb.size;
+		        	for(int j=0;j<size;j++){
+		        		udb.getUCATableList().add(ucadatastore.get(i));
+		        		i++;
+		        	}
+		        }
 		      //--------------------------- UTM --------------------------
 
 			 // --------------------------- PMM --------------------------
@@ -425,8 +432,13 @@ public class MainApp extends Application {
 
 
 	     // --------------------------- UTM --------------------------
-	        projectXML.setUCA(ucadatastore);
+	        ucadatastore.clear();
+	        for(UCADataStore u :ucaDataStoreList ){
+	        	u.settingSize();
+	        	ucadatastore.addAll(u.getUCATableList());
+	        }
 	        projectXML.setUCAList(ucaDataStoreList);
+	        projectXML.setUCA(ucadatastore);
 	     // --------------------------- UTM --------------------------
 
 		 // --------------------------- PMM --------------------------
