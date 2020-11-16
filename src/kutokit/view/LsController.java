@@ -47,6 +47,7 @@ public class LsController {
 	@FXML private Button addLossScenario, addNewTab;
 	@FXML private ComboBox<String> UcaComboBox, lossFactorComboBox;
 	@FXML private TabPane tabPane;
+	@FXML private TableView tableView;
 	
 	ObservableList<TableView<LS>> lsTableViewList = FXCollections.observableArrayList();
 	ObservableList<TableColumn<LS, String>> ucaColList = FXCollections.observableArrayList();
@@ -68,7 +69,7 @@ public class LsController {
 	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-		initialize();
+		//initialize();
 	}
 	
 	public void addLossScenario() {
@@ -76,20 +77,17 @@ public class LsController {
 		
 		lossScenarioTableList = lsDB.getLossScenarioList();
 		
-		ucaColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getUCAProperty());
-		lossFactorColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossFactorProperty());
-		lossScenarioColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossScenarioProperty());
+		ucaColList.get(tabIndex+1).setCellValueFactory(cellData -> cellData.getValue().getUCAProperty());
+		lossFactorColList.get(tabIndex+1).setCellValueFactory(cellData -> cellData.getValue().getLossFactorProperty());
+		lossScenarioColList.get(tabIndex+1).setCellValueFactory(cellData -> cellData.getValue().getLossScenarioProperty());
 		
-		lsTableViewList.get(tabIndex).setItems(lossScenarioTableList);
+		lsTableViewList.get(tabIndex+1).setItems(lossScenarioTableList);
 		
 		/*
 		 * add items to loss scenario table
 		 */
-		addLossScenario.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				//여기 코드 깨짐.
-				LS ls = new LS(UcaComboBox.getValue(), lossFactorComboBox.getValue(), lossScenarioTextField.getText());
+		addLossScenario.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent event) {
 				//if text field is empty, warning pop up opens
 				if(lossScenarioTextField.getText().isEmpty()) {
 					try {
@@ -108,9 +106,12 @@ public class LsController {
 						e1.printStackTrace();
 					}
 				}else {
-					lsTableViewList.get(tabIndex).getItems().add(ls);
+					LS ls = new LS(UcaComboBox.getValue(), lossFactorComboBox.getValue(), lossScenarioTextField.getText());
+					lsTableViewList.get(tabIndex+1).getItems().add(ls);
 					lossScenarioTextField.clear();
+					
 				}
+				event.consume();
 			}
 		});
 		
@@ -161,18 +162,21 @@ public class LsController {
 		//set uca combobox
 		ObservableList<String> ucaDatas = FXCollections.observableArrayList();
 		
-		for(int i = 0; i < ucaDataStoreList.size(); i++) {
-		    for(UCA u : ucaDataStoreList.get(i).getUCATableList()){
-		    	String ucaType1 = u.getIncorrectTimingOrOrder().getValue();
-		        String ucaType2 = u.getNotProvidingCausesHazard().getValue();
-		        String ucaType3 = u.getIncorrectTimingOrOrder().getValue();
-		        String ucaType4 = u.getStoppedTooSoonOrAppliedTooLong().getValue();
-		        if(!ucaType1.isEmpty()) ucaDatas.add(ucaType1);
-		        if(!ucaType2.isEmpty()) ucaDatas.add(ucaType2);
-		        if(!ucaType3.isEmpty()) ucaDatas.add(ucaType3);
-		        if(!ucaType4.isEmpty()) ucaDatas.add(ucaType4);
-		    }
-		}
+//		for(int i = 0; i < ucaDataStoreList.size(); i++) {
+//		    for(UCA u : ucaDataStoreList.get(i).getUCATableList()){
+//		    	String ucaType1 = u.getIncorrectTimingOrOrder().getValue();
+//		        String ucaType2 = u.getNotProvidingCausesHazard().getValue();
+//		        String ucaType3 = u.getIncorrectTimingOrOrder().getValue();
+//		        String ucaType4 = u.getStoppedTooSoonOrAppliedTooLong().getValue();
+//		        if(!ucaType1.isEmpty()) ucaDatas.add(ucaType1);
+//		        if(!ucaType2.isEmpty()) ucaDatas.add(ucaType2);
+//		        if(!ucaType3.isEmpty()) ucaDatas.add(ucaType3);
+//		        if(!ucaType4.isEmpty()) ucaDatas.add(ucaType4);
+//		    }
+//		}
+		
+		ucaDatas.add("A");
+		ucaDatas.add("B");
 	    
 	    UcaComboBox.setItems(ucaDatas);
 	    System.out.println(ucaDatas + " : uca datas");
@@ -180,9 +184,17 @@ public class LsController {
 	    //add loss factor combobox
 		lossFactorComboBox.setItems(lossFactorCBList);
 		
-		addNewTab.setOnAction(Event ->{
-			addNewTab(lsTableViewList.size());
+		addNewTab(0);
+		
+		addNewTab.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent event) {
+				System.out.println("add");
+				addNewTab(lsTableViewList.size());
+				event.consume();
+			}
 		});
+		
+	
 		
 		if(tabPane.getTabs().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -236,6 +248,7 @@ public class LsController {
 	 * add new tab
 	 */
 	private void addNewTab(int index) {
+		System.out.println("index: " + index);
 		Tab newTab = new Tab();
 		newTab.setText("LS" + Integer.toString(index));
 		tabPane.getTabs().add(newTab);
