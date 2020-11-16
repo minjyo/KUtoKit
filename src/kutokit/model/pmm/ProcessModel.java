@@ -11,7 +11,7 @@ public class ProcessModel {
 	
 	//selected output variables
 	private ArrayList<String> selectedOutputs = new ArrayList<String>();
-	
+
 	//related variables & nodes for selected output
 	private ObservableList<String> valueList = FXCollections.observableArrayList();
 
@@ -27,19 +27,19 @@ public class ProcessModel {
 		this.selectedOutputs = selectedOutputs;
 		this.valueList = valueList;
 	}
-	
+
 	public String getControllerName() {
 		return this.controllerName;
 	}
-	
+
 	public void setControllerName(String controller) {
 		this.controllerName = controller;
 	}
-	
+
 	public String getControlActionName() {
 		return this.controlActionName;
 	}
-	
+
 	public void setControlActionName(String ca) {
 		this.controlActionName = ca;
 	}

@@ -9,12 +9,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class SelectGroupFODController{
 	@FXML
-	AnchorPane rootFODPane = new AnchorPane(), selectGroupPane = new AnchorPane();
+	AnchorPane selectGroupPane = new AnchorPane();
 	@FXML
-	Button nextButton = new Button(), confirmButton = new Button(), cancelButton = new Button();
+	Button confirmButton = new Button();
+	Button cancelButton = new Button();
+
 	@FXML
 	CheckListView<String> groupCheckList = new CheckListView<String>();
 	@FXML
@@ -24,35 +27,27 @@ public class SelectGroupFODController{
 	
 	public SelectGroupFODController() {
 		//first, only set rootFODPane visible
-		rootFODPane.setVisible(true);
-		selectGroupPane.setVisible(false);
-		//if you don't click rootFOD, can't move to next scene
-		nextButton.setDisable(true);
-		
-		if(rootFOD.isSelected()) {
-			nextButton.setDisable(false);
-		}
-		
-		//if next button is clicked, show group items view
-		nextButton.setOnAction(Event ->{
-			rootFODPane.setVisible(false);
-			selectGroupPane.setVisible(true);
-		});
-		
+		selectGroupPane.setVisible(true);
+
 		if(!groupCheckList.getItems().isEmpty()) {
 			groupCheckList.setVisible(true);
 		}
-		
-		confirmButton.setOnAction(Event -> {
-			confirmed = true;
-		});
-		
-		cancelButton.setOnMouseClicked(MouseEvent -> {
-			canceled = true;
-		});
-		
+
 	}
 	
+	public void confirmClick() {
+		confirmed = true;
+		Stage pop = (Stage)selectGroupPane.getScene().getWindow();
+		pop.close();
+	}
+	
+	public void cancelClick(){
+		canceled = true;
+		Stage pop = (Stage)selectGroupPane.getScene().getWindow();
+		pop.close();
+	}
+	
+
 	//setRootFOD text from selected NuSRS file
 	public void setRootFOD(String rootFOD) {
 		this.rootFOD.setText(rootFOD);
@@ -64,6 +59,6 @@ public class SelectGroupFODController{
 	}
 	
 	public ObservableList<String> selectedItems(){
-		return groupCheckList.getSelectionModel().getSelectedItems();
+		return groupCheckList.getCheckModel().getCheckedItems();
 	}
 }
