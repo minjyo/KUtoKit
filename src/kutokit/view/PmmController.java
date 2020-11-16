@@ -497,9 +497,6 @@ public class PmmController {
 					Parent parent = loader.load();
 					Scene scene = new Scene(parent);
 
-					valueStage.initModality(Modality.WINDOW_MODAL);
-					valueStage.initOwner(mainApp.getPrimaryStage());
-
 					valueStage.setTitle("Add Process Model variable");
 					valueStage.setResizable(false);
 					valueStage.show();

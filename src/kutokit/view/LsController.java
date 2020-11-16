@@ -180,12 +180,12 @@ public class LsController {
 	    //add loss factor combobox
 		lossFactorComboBox.setItems(lossFactorCBList);
 		
-		addNewTab(0);
+//		addNewTab(0);
 		
 		addNewTab.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				System.out.println("add");
-				addNewTab(lsTableViewList.size());
+				addNewTab(lsTableViewList.size() + 1);
 				event.consume();
 			}
 		});
