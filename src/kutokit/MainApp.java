@@ -386,9 +386,7 @@ public class MainApp extends Application {
    	         // --------------------------- CTM --------------------------
 
 		     // --------------------------- LS ---------------------------
-		        lsDataStore.getLsUcaList().addAll(projectXML.getLsUcaList());
-		        lsDataStore.getLossFactorList().addAll(projectXML.getLossFactorList());
-		        lsDataStore.getLossScenarioList().addAll(projectXML.getLossScenarioList());
+		        lsDataStore.getLsList().addAll(projectXML.getLsList());
 		     // --------------------------- LS ---------------------------
 
 		        setFilePath(file);
@@ -443,9 +441,7 @@ public class MainApp extends Application {
 	     // --------------------------- CTM --------------------------
 
 	     // --------------------------- LS ---------------------------
-	        projectXML.setLsUcaList(lsDataStore.getLsUcaList());
-	        projectXML.setLossFactorList(lsDataStore.getLossFactorList());
-	        projectXML.setLossScenarioList(lsDataStore.getLossScenarioList());
+	        projectXML.setLsList(lsDataStore.getLsList());
 	     // --------------------------- LS ---------------------------
 
 	        m.marshal(projectXML, file);

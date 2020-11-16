@@ -69,9 +69,7 @@ public class ProjectXML {
 
 	// --------------------------- LS ---------------------------
 	LSDataStore lsDB = new LSDataStore();
-	List<LS> lsUcaList = new ArrayList<LS>();
-	List<LS> lossFactorList = new ArrayList<LS>();
-	List<LS> lossScenarioList = new ArrayList<LS>();
+	List<LS> lsList = new ArrayList<LS>();
 	// --------------------------- LS ---------------------------
 
 
@@ -289,31 +287,13 @@ public class ProjectXML {
 
 
 	// --------------------------- LS ---------------------------
-	@XmlElement(name = "LS-UCA")
-	public List<LS> getLsUcaList(){
-		return this.lsDB.getLsUcaList();
-	}
-
-	public void setLsUcaList(List<LS> lsUcaList) {
-		this.lsDB.getLsUcaList().setAll(lsUcaList);
-	}
-
-	@XmlElement(name = "LS-loss-factor")
-	public List<LS> getLossFactorList(){
-		return this.lsDB.getLossFactorList();
-	}
-
-	public void setLossFactorList(List<LS> lossFactorList) {
-		this.lsDB.getLossFactorList().setAll(lossFactorList);
-	}
-
 	@XmlElement(name = "LS-loss-scenario")
-	public List<LS> getLossScenarioList(){
-		return this.lsDB.getLossScenarioList();
+	public List<LS> getLsList(){
+		return this.lsDB.getLsList();
 	}
 
-	public void setLossScenarioList(List<LS> lossScenarioList) {
-		this.lsDB.getLossScenarioList().setAll(lossScenarioList);
+	public void setLsList(List<LS> lsList) {
+		this.lsDB.getLsList().setAll(lsList);
 	}
 	// --------------------------- LS ---------------------------
 }

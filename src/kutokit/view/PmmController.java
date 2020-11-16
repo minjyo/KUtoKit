@@ -240,6 +240,7 @@ public class PmmController {
 						}
 						outputList.setItems(outputlist);
 						pmmDB.setOutputList(outputlist);
+						makeModel(outputlist);
 					}
 				}
 			}));
@@ -247,7 +248,6 @@ public class PmmController {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-
 	}
 
 	@FXML
@@ -264,7 +264,7 @@ public class PmmController {
 	        }
 	     }
 
-	    ArrayList<String> selectedOutputs = new ArrayList<String>();
+	    ObservableList<String> selectedOutputs = FXCollections.observableArrayList();
 	    selectedOutputs.addAll(outputList.getSelectionModel().getSelectedItems());
 	//    ArrayList<String> newValues = new ArrayList<String>();
 
@@ -280,17 +280,21 @@ public class PmmController {
 	         for(String selectedOutput : selectedOutputs){
 	            int index = outputList.getItems().indexOf(selectedOutput);
 	            System.out.println("index:"+index);
-	            for(String dbInput : pmmDB.getInputList().get(index)){
-	               boolean e = true;
-	               for(String pms : PM.getValuelist()){
-	                  if(pms.equals(dbInput)){
-	                     e = false;
-	                  }
-	               }
-	               if(e){
-	                  PM.getValuelist().add(dbInput);
-	                  lv.getItems().add(dbInput);
-	               }
+	            if(!pmmDB.getInputList().isEmpty()) {
+		            for(String dbInput : pmmDB.getInputList().get(index)){
+		               boolean e = true;
+		               for(String pms : PM.getValuelist()){
+		                  if(pms.equals(dbInput)){
+		                     e = false;
+		                  }
+		               }
+		               if(e){
+		                  PM.getValuelist().add(dbInput);
+		                  lv.getItems().add(dbInput);
+		               }
+		            }
+	            }else {
+	            	System.out.println("no input list data in db");
 	            }
 	         }
 	         //add selected outputs in db
