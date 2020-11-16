@@ -191,14 +191,14 @@ public class MainApp extends Application {
     public void showUtmView() {
         try {
         	//Open when CTM data isn't null
-        	if(ctmDataStoreList.isEmpty()){
-    	        Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setTitle("Caution");
-        		alert.setHeaderText("Condition not satisfied");
-    	        alert.setContentText("Please add context table data first");
-    	        alert.show();
-        		return;
-        	}
+//        	if(ctmDataStoreList.isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add context table data first");
+//    	        alert.show();
+//        		return;
+//        	}
 
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
@@ -236,14 +236,14 @@ public class MainApp extends Application {
     public void showPmmView() {
         try {
         	//Open when CSE data isn't null
-        	if(components.getControlActions().isEmpty() || components.getControlActions().isEmpty()){
-    	        Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setTitle("Caution");
-        		alert.setHeaderText("Condition not satisfied");
-    	        alert.setContentText("Please add control structure data first");
-    	        alert.show();
-        		return;
-        	}
+//        	if(components.getControlActions().isEmpty() || components.getControlActions().isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add control structure data first");
+//    	        alert.show();
+//        		return;
+//        	}
 
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
@@ -290,14 +290,14 @@ public class MainApp extends Application {
 	public void showLsView() {
 		try {
 			//Open when UCA data isn't null
-        	if(ucaDataStoreList.isEmpty()){
-    	        Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setTitle("Caution");
-        		alert.setHeaderText("Condition not satisfied");
-    	        alert.setContentText("Please add UCA data first");
-    	        alert.show();
-        		return;
-        	}
+//        	if(ucaDataStoreList.isEmpty()){
+//    	        Alert alert = new Alert(AlertType.INFORMATION);
+//        		alert.setTitle("Caution");
+//        		alert.setHeaderText("Condition not satisfied");
+//    	        alert.setContentText("Please add UCA data first");
+//    	        alert.show();
+//        		return;
+//        	}
             // get maker scene
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/LsView.fxml"));
@@ -305,7 +305,8 @@ public class MainApp extends Application {
 
             // add scene in center of root layout
             rootLayout.setCenter(View);
-
+            
+            System.out.println("ls");
             //add controller
             LsController controller = loader.getController();
             controller.setMainApp(this);

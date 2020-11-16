@@ -22,20 +22,7 @@
       </Label>
       <Button fx:id="addNewTab" layoutX="768.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="230.0" text="Add new tab for other UCA" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0" />
       <TabPane fx:id="tabPane" prefHeight="694.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="36.0" AnchorPane.topAnchor="40.0">
-          <Tab fx:id="firstTab" closable="false" text="LS1">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                  <children>
-                     <TableView prefHeight="655.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                       <columns>
-                         <TableColumn prefWidth="75.0" text="C1" />
-                         <TableColumn prefWidth="75.0" text="C2" />
-                       </columns>
-                     </TableView>
-                  </children>
-               </AnchorPane>
-            </content>
-          </Tab>
+         
       </TabPane>
       <TextField fx:id="lossScenarioTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="569.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="370.0" />
       <ComboBox fx:id="lossFactorComboBox" prefHeight="29.0" prefWidth="207.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="161.0" />
