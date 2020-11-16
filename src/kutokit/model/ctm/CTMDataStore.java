@@ -42,36 +42,38 @@ public class CTMDataStore {
 			rowSize = ctmCases.size();
 			
 			ObservableList<String>hazardousOX = FXCollections.observableArrayList();
-			hazardousOX.add("O");
 			hazardousOX.add("X");
+			hazardousOX.add("O");
 			
 			ObservableList<String>casesCombo = FXCollections.observableArrayList();
+			casesCombo.add("Not Providing\nCauses Hazard");
 			casesCombo.add("Providing causes hazard");
-			casesCombo.add("Not providing causes hazard");
-			casesCombo.add("Too early, too late, out of order");
-			casesCombo.add("Stopped too soon, applied too long");
+			casesCombo.add("Too early, too late,\nout of order");
+			casesCombo.add("Stopped too soon,\napplied too long");
 
-    		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
-    		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
 			for(int i=0;i<rowSize;i++) {
+	    		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
+	    		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
+				comboBox1.setValue(this.ctmCases.get(i));
+				comboBox2.setValue(this.ctmHazardous.get(i));
 				this.CTMTableList.add(new CTM(ctmController,ctmControlAction,comboBox1,i+1,ctmContexts.get(i),comboBox2));
 				CTMTableList.get(i).setCasesValue(this.ctmCases.get(i));
 				CTMTableList.get(i).setHazardousValue(this.ctmHazardous.get(i));
 				final int temp = i;
-	      		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+	      		/*comboBox1.valueProperty().addListener(new ChangeListener<String>() {
 	  			      @Override
 	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 	  			    	CTMTableList.get(temp).setCasesValue(newValue);
-	  			    	System.out.println(CTMTableList.get(temp).getCasesValue());
+	  			    	System.out.println("CTMTableList.get("+temp+").getCasesValue():"+CTMTableList.get(temp).getCasesValue());
 	  			      }
   			    });
         		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
   			      @Override
   			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 	  			    	CTMTableList.get(temp).setHazardousValue(newValue);
-	  			    	System.out.println(CTMTableList.get(temp).getHazardousValue());
+	  			    	System.out.println("CTMTableList.get("+temp+").getHazardousValue():"+CTMTableList.get(temp).getHazardousValue());
   			      }
-  			    });
+  			    });*/
 			}
 		}
 		return this.CTMTableList;

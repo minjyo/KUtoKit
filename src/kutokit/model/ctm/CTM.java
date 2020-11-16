@@ -33,19 +33,16 @@ public class CTM {
 		this.controllerName = new SimpleStringProperty(controllerName);
 		this.controlAction = new SimpleStringProperty(controlAction);
 		this.cases = cases;
-		cases.getSelectionModel().select(0);
 		this.no = new SimpleIntegerProperty(no);
 		this.hazardous = hazardous;
-		hazardous.getSelectionModel().select("X");
+		//System.out.println( no +">>cases.getValue():"+cases.getValue()+ " "+cases+"@");
 		this.contexts = new StringProperty[contexts.length];
 		
 		cases.setOnAction(event -> {
-			System.out.println("cases.getValue():"+cases.getValue());
 			this.Cases = cases.getValue();
 		});
 
 		hazardous.setOnAction(event -> {
-			System.out.println("hazardous.getValue():"+hazardous.getValue());
 			this.Hazardous = hazardous.getValue();
 		});
 
