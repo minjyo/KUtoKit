@@ -44,6 +44,7 @@ public class CTM {
 
 		hazardous.setOnAction(event -> {
 			this.Hazardous = hazardous.getValue();
+			System.out.println("222");
 		});
 
 
