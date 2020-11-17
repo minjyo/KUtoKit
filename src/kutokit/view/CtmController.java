@@ -106,10 +106,9 @@ public class CtmController {
 			controllerNames.add(p.getControllerName());
 			controlActionNames.add(p.getControlActionName());
 			valuelist.add(p.getValuelist());
-			//contextheader.add(e)
-			System.out.println("controllerName:"+controllerNames.get(index));
-			System.out.println("controlActionNames:"+controlActionNames.get(index));
-			System.out.println("valuelist:"+valuelist.get(index));
+			//System.out.println("controllerName:"+controllerNames.get(index));
+			//System.out.println("controlActionNames:"+controlActionNames.get(index));
+			//System.out.println("valuelist:"+valuelist.get(index));
 			index++;
 		}
 		
@@ -193,14 +192,12 @@ public class CtmController {
     			      @Override
       			      public void changed(ObservableValue observable, String oldValue, String newValue) {
       			    	totalData.get(tabNum).getCTMTableList().get(temp).setCasesValue(newValue);
-      			    	System.out.println(totalData.get(tabNum).getCTMTableList().get(temp).getCasesValue());
       			      }
       			    });
             		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
       			      @Override
       			      public void changed(ObservableValue observable, String oldValue, String newValue) {
       			    	totalData.get(tabNum).getCTMTableList().get(temp).setHazardousValue(newValue);
-      			    	System.out.println(totalData.get(tabNum).getCTMTableList().get(temp).getHazardousValue());
       			      }
       			    });
                 CTMDataStore ctm = new CTMDataStore();  
@@ -223,7 +220,6 @@ public class CtmController {
             	}
             	totalData.set(tabNum, ctm);
     			contextTable.setItems(totalData.get(tabNum).getCTMTableList());
-            	System.out.println("delete:"+contextTable.getSelectionModel().getSelectedItem().getNo());
 
             }
         });
@@ -234,12 +230,36 @@ public class CtmController {
 
         CTMDataStore ctm = new CTMDataStore();  
         if(totalData.size()<= tabNum) {
+    		mcsData = totalData.get(tabNum).getCTMTableList();
         	for(CTM c : mcsData) {
         		ctm.getCTMTableList().add(c);
         	}
         	totalData.add(ctm);
         } else {
-        	ctm = totalData.get(tabNum);
+        	mcsData = FXCollections.observableArrayList();
+        	for(int i=0;i<totalData.get(tabNum).getCTMTableList().size();i++) {
+        		final int temp = i;
+	    		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
+	    		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
+				comboBox1.setValue(totalData.get(tabNum).getCTMTableList().get(i).getCasesValue());
+				comboBox2.setValue(totalData.get(tabNum).getCTMTableList().get(i).getHazardousValue());
+        		mcsData.add(new CTM(controllerName, caName,comboBox1,1+temp,totalData.get(tabNum).getCTMTableList().get(i).getContexts(),comboBox2));
+	    		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+				      @Override
+	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+	  			    	totalData.get(tabNum).getCTMTableList().get(temp).setCasesValue(newValue);
+	  			      }
+	  			    });
+	        		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
+	  			      @Override
+	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+	  			    	totalData.get(tabNum).getCTMTableList().get(temp).setHazardousValue(newValue);
+	  			      }
+	  			    });
+        	}
+        	for(CTM c : mcsData) {
+        		ctm.getCTMTableList().add(c);
+        	}
         	totalData.set(tabNum, ctm);
         }
     	contextTable.setItems(totalData.get(tabNum).getCTMTableList());
@@ -347,7 +367,6 @@ public class CtmController {
 	private void ParseMCS(String[] temps) {
 		String[][] context = new String[contextheader.get(curTabNum).size()][temps.length];
 
-		System.out.println("contextheader.get(curTabNum).size():"+contextheader.get(curTabNum).size());
 		int i=0;
 		while(i < temps.length) {
 			String[] splits = temps[i].split("&");
@@ -402,7 +421,6 @@ public class CtmController {
 			}
 		}
 
-		System.out.println();
 		int curtableSize = totalData.get(curTabNum).getCTMTableList().size();
 		for(int y=0;y<temps.length;y++) {
 	        String[] contexts = new String[contextheader.get(curTabNum).size()];
@@ -423,14 +441,12 @@ public class CtmController {
 			      @Override
 			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 			    	totalData.get(curTabNum).getCTMTableList().get(curtableSize+a).setCasesValue(newValue);
-			    	System.out.println("cases.getValue():"+totalData.get(curTabNum).getCTMTableList().get(curtableSize+a).getCasesValue());
-			      }
+			      	}
 			    });
     		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
 			      @Override
 			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 			    	totalData.get(curTabNum).getCTMTableList().get(curtableSize+a).setHazardousValue(newValue);
-			    	System.out.println("hazardous.getValue():"+totalData.get(curTabNum).getCTMTableList().get(curtableSize+a).getHazardousValue());
 			      }
 			    });
 		}
