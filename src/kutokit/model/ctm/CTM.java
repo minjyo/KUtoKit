@@ -35,7 +35,6 @@ public class CTM {
 		this.cases = cases;
 		this.no = new SimpleIntegerProperty(no);
 		this.hazardous = hazardous;
-		//System.out.println( no +">>cases.getValue():"+cases.getValue()+ " "+cases+"@");
 		this.contexts = new StringProperty[contexts.length];
 		
 		cases.setOnAction(event -> {
