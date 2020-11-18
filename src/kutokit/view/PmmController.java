@@ -252,11 +252,12 @@ public class PmmController {
 
 	@FXML
     public void addToProcessModel() {
-
-		//makeModel(outputList.getSelectionModel().getSelectedItems());
-
+		
 		//add selected value from output list to value list
 	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+//		makeModel(outputList.getSelectionModel().getSelectedItems());
+		
+		System.out.println("선택한 output : "+outputList.getSelectionModel().getSelectedItems());
 	    ProcessModel PM = new ProcessModel();
 	    for(ProcessModel pm : pmmDB.getProcessModel()){
 	        if(pm.getControlActionName().equals(CAList.getValue()) && pm.getControllerName().equals(controllerList.getValue())){
@@ -279,8 +280,10 @@ public class PmmController {
 	         //for selectedOutputs, add related input datas in db
 	         for(String selectedOutput : selectedOutputs){
 	            int index = outputList.getItems().indexOf(selectedOutput);
-	            System.out.println("index:"+index);
+	            System.out.println("선택한 output index:"+index);
 	            if(!pmmDB.getInputList().isEmpty()) {
+	            	System.out.println("DB에 inputlist가 존재합니다.");
+	            	System.out.println(pmmDB.getInputList());
 		            for(String dbInput : pmmDB.getInputList().get(index)){
 		               boolean e = true;
 		               for(String pms : PM.getValuelist()){
@@ -311,7 +314,7 @@ public class PmmController {
     }
 	
 	// Make process model
-	public void makeModel(ObservableList<String> outputlist) {
+	public ArrayList<String> makeModel(ObservableList<String> outputlist) {
 	
 		ArrayList<String> connectedValues = new ArrayList<String>();
 		NodeList directlyConnectedNode;
@@ -320,24 +323,42 @@ public class PmmController {
 		List<String> directlyConnectedNodeList = new ArrayList<String>();
 		List<String> transitionNodeList = new ArrayList<String>();
 
+		ObservableList<String> innerList = FXCollections.observableArrayList();
 		ArrayList<String> curList = new ArrayList<String>();
 
 		for(int i=0; i<outputlist.size(); i++) {
+			innerList.clear();
+			curList.clear();
+			connectedValues.clear();
+			
 			String nodeType = outputlist.get(i).substring(0, 1);
 			try {
 				//directly connected nodes
 				directlyConnectedNode = XmlReader.getNodeList(XmlReader.getNode(outputlist.get(i)), "");
 				
-				// Get related variables from SDT/FSM/TTS nodes
-				if (nodeType.equals("f") || nodeType.equals("t") || nodeType.equals("h")) {
-					//SDT node
-					for (int j = 0; j < directlyConnectedNode.getLength(); j++) {
-						String str = directlyConnectedNode.item(j).getAttributes().getNamedItem("value").getTextContent();
-						connectedValues.add(str);
-					}
-					directlyConnectedNodeList = checkValue(connectedValues, outputlist);
-					for (Object value : directlyConnectedNodeList) {
-						curList.add(value.toString());
+				if(directlyConnectedNode != null) {
+					String str;
+					// Get related variables from SDT/FSM/TTS nodes
+					if (nodeType.equals("f") || nodeType.equals("t") || nodeType.equals("h")) {
+						for (int j = 0; j < directlyConnectedNode.getLength(); j++) {
+							if(nodeType.equals("f")) {
+								str = directlyConnectedNode.item(j).getAttributes().getNamedItem("value").getTextContent();
+							}
+							else str = directlyConnectedNode.item(j).getAttributes().getNamedItem("name").getTextContent();
+							connectedValues.add(str);
+						}
+						directlyConnectedNodeList = checkValue(connectedValues, outputlist.get(i));
+						for (Object value : directlyConnectedNodeList) {
+							curList.add(value.toString());
+						}
+						// Must get inner node's input variable
+//						for(String node : directlyConnectedNodeList) {
+//							if(outputlist.contains(node)) {
+//								innerList.add(node);
+//								curList.addAll(makeModel(innerList));
+//							}
+//						}
+						
 					}
 				}
 			} catch(NullPointerException e) {
@@ -345,6 +366,7 @@ public class PmmController {
 			}
 			finally {
 				try {
+					innerList.clear();
 					//other connected nodes connected to directly connected nodes
 					transitionNodes = xmlReader.getTransitionNodes(xmlReader.getNode(outputlist.get(i)));
 			
@@ -353,38 +375,50 @@ public class PmmController {
 					for(String value : transitionNodes) {
 						connectedValues.add(value);
 					}
-					transitionNodeList = checkValue(connectedValues, outputlist);
+					
+					transitionNodeList = checkValue(connectedValues, outputlist.get(i));
 					for (Object value : transitionNodeList) {
 						curList.add(value.toString());
 					}
+					// Must get inner node's input variable
+//					for(String node : transitionNodeList) {
+//						if(outputlist.contains(node)) {
+//							innerList.add(node);
+//							curList.addAll(makeModel(innerList));
+//						}	
+//					}
+
+					
 				} catch(NullPointerException e) {
 					e.printStackTrace();
+				} finally {
+					// Remove redundant variables between l1 and l2
+					TreeSet tree = new TreeSet();
+					for (String value : curList) {
+						tree.add(value);
+					}
+					curList.clear();
+					Iterator it = tree.iterator();
+					while (it.hasNext()) {
+						curList.add(it.next().toString());
+					}
+
+					System.out.println("i:"+i+","+curList);
+//					//save related input variables
+//					pmmDB.getInputList().add(curList);
+
 				}
 			}
 
-			// Remove redundant variables between l1 and l2
-			TreeSet tree = new TreeSet();
-			for (String value : curList) {
-				tree.add(value);
-			}
-
-//			curList.clear();
-
-			Iterator it = tree.iterator();
-			while (it.hasNext()) {
-				curList.add(it.next().toString());
-			}
-
-			//save related input variables
-			pmmDB.getInputList().add(curList);
 		}
+		return curList;
 	}
 	
 	// Search & remove expressions from value
-	public List<String> checkValue(ArrayList<String> valueName, ObservableList<String> outputVariables) {
+	public List<String> checkValue(ArrayList<String> valueName, String curOutput) {
 		//need to be fixed
 		String[] expressions = { "<", ">", "=", ":=", "&", "|", "\\+", ">=", "<=", ":" };
-		String[] conditions = {"true", "false", "k_", "g_"};
+		String[] conditions = {"true", "false", "k_", "g_", curOutput};
 		List<String> values = new ArrayList<String>();
 		List<String> result = new ArrayList<String>();
 	
@@ -414,7 +448,7 @@ public class PmmController {
 					// System.out.println("expression : "+arg);
 					next = str.indexOf(arg);
 					innerString.add(str.substring(0, next));
-					for (Object checked : checkValue(innerString, outputVariables)) {
+					for (Object checked : checkValue(innerString, curOutput)) {
 						values.add((String) checked);
 					}
 					str = str.substring(next + 1);
@@ -455,21 +489,11 @@ public class PmmController {
 				continue;
 			else if(isNumber)
 				continue;
-// || (conditions[4].equals(str))
-			else if ((conditions[0].equals(str)) || ((conditions[1]).equals(str)))
+			else if ((conditions[0].equals(str)) || ((conditions[1]).equals(str)) || (conditions[4].equals(str)))
 				continue;
 			else if (conditions[2].equals(str.substring(0, 2)) || conditions[3].equals(str.substring(0, 2)))
 				continue;
 			else {
-				for (String output : outputVariables) {
-					if (str.equals(output)) {
-						close = 1;
-						break;
-					}
-				}
-				if (close == 1)
-					continue;
-				else
 					result.add(str);
 			}
 		}
@@ -496,6 +520,9 @@ public class PmmController {
 					loader.setLocation(getClass().getResource("popup/VariablePopUpView.fxml"));
 					Parent parent = loader.load();
 					Scene scene = new Scene(parent);
+
+					valueStage.initModality(Modality.WINDOW_MODAL);
+					valueStage.initOwner(mainApp.getPrimaryStage());
 
 					valueStage.setTitle("Add Process Model variable");
 					valueStage.setResizable(false);
