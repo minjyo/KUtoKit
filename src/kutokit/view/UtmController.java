@@ -209,15 +209,16 @@ public class UtmController {
 				switch(c.getCases().getItems().indexOf(c.getCasesValue()))
 				{
 				case 0 :
-					ucaColumn = "Not Providing Causes Hazard";
-					break;
-				case 1 :
-					ucaColumn = "Incorrect Timing/Order";
-					break;
-				case 2:
 					ucaColumn = "Providing Causes Hazard";
 					break;
-				default :
+				case 1 :
+					ucaColumn = "Not Providing Causes Hazard";
+					break;
+				case 2:
+					ucaColumn = "Incorrect Timing/Order";
+					break;
+				case 3 :
+					ucaColumn = "Stopped Too Soon/Applied Too Long";
 					break;
 				}
 				String Context = "";
@@ -324,16 +325,20 @@ public class UtmController {
 			}
 
 			if(c.getHazardous().getValue().equals("O")){
+				System.out.println(c.getCases().getItems().indexOf(c.getCasesValue()));
 				switch(c.getCases().getItems().indexOf(c.getCasesValue()))
 				{
 				case 0 :
-					ucaColumn = "Not Providing Causes Hazard";
+					ucaColumn = "Providing Causes Hazard";
 					break;
 				case 1 :
-					ucaColumn = "Incorrect Timing/Order";
+					ucaColumn = "Not Providing Causes Hazard";
 					break;
 				case 2:
-					ucaColumn = "Providing Causes Hazard";
+					ucaColumn = "Incorrect Timing/Order";
+					break;
+				case 3 :
+					ucaColumn = "Stopped Too Soon/Applied Too Long";
 					break;
 				default :
 					break;
