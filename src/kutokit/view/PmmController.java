@@ -192,6 +192,12 @@ public class PmmController {
 
 		// Create XmlReader constructor
 		xmlReader = new XmlReader(selectedFile.toString());
+		if(xmlReader.getRootFod() == null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error!");
+			alert.setHeaderText("File doesn't fit NuSCR format");
+			alert.setContentText("You have to apply NuSCR file");
+		}
 		ArrayList<String> showGroupNodesItems = new ArrayList<String>();
 
 		//show popup to select group FODs from NuSRS file
@@ -236,7 +242,21 @@ public class PmmController {
 							for (String data : outputs) {
 								outputlist.add(data);
 							}
-							
+						}
+						for(int a = 0; a < outputlist.size(); a++) {
+							System.out.println("before : " + outputlist.get(a));
+						}
+						
+						//if output list has redundant data, remove from list
+						for(int i = 0; i < outputlist.size(); i++) {
+							for(int j = 0; j < outputlist.size(); j++) {
+								if(i < j && outputlist.get(i).equals(outputlist.get(j))) {
+									outputlist.remove(j);
+								}
+							}
+						}
+						for(int b = 0; b < outputlist.size(); b++) {
+							System.out.println("after : " + outputlist.get(b));
 						}
 						outputList.setItems(outputlist);
 						pmmDB.setOutputList(outputlist);
@@ -269,16 +289,17 @@ public class PmmController {
 	//    ArrayList<String> newValues = new ArrayList<String>();
 
 	    if (selectedFile != null && !selectedOutputs.isEmpty()) {
-	         ListView<String> lv = new ListView<String>();
-	         valueListControl(lv);
-	         for(Tab tab : tabPane.getTabs()){
-	            if(tab.getText().equals(CAList.getValue())){
-	               lv = listViewList.get(tabPane.getTabs().indexOf(tab));
+//	    	makeModel(selectedOutputs);
+	        ListView<String> lv = new ListView<String>();
+	        valueListControl(lv);
+	        for(Tab tab : tabPane.getTabs()){
+	        	if(tab.getText().equals(CAList.getValue())){
+	        		lv = listViewList.get(tabPane.getTabs().indexOf(tab));
 	            }
-	         }
-	         //for selectedOutputs, add related input datas in db
-	         for(String selectedOutput : selectedOutputs){
-	            int index = outputList.getItems().indexOf(selectedOutput);
+	        }
+	        //for selectedOutputs, add related input datas in db
+	        for(String selectedOutput : selectedOutputs){
+	        	int index = outputList.getItems().indexOf(selectedOutput);
 	            System.out.println("index:"+index);
 	            if(!pmmDB.getInputList().isEmpty()) {
 		            for(String dbInput : pmmDB.getInputList().get(index)){
@@ -368,7 +389,7 @@ public class PmmController {
 				tree.add(value);
 			}
 
-//			curList.clear();
+			curList.clear();
 
 			Iterator it = tree.iterator();
 			while (it.hasNext()) {
