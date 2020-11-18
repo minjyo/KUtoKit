@@ -51,9 +51,10 @@ public class CTMDataStore {
 			casesCombo.add("Too early, too late, out of order");
 			casesCombo.add("Stopped too soon, applied too long");
 
-    		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
-    		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
+    		
 			for(int i=0;i<rowSize;i++) {
+				ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
+	    		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
 				this.CTMTableList.add(new CTM(ctmController,ctmControlAction,comboBox1,i+1,ctmContexts.get(i),comboBox2));
 				CTMTableList.get(i).setCasesValue(this.ctmCases.get(i));
 				CTMTableList.get(i).setHazardousValue(this.ctmHazardous.get(i));
