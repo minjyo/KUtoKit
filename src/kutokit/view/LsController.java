@@ -73,20 +73,21 @@ public class LsController {
 	
 	public void addLossScenario() {
 		int tabIndex = tabPane.getSelectionModel().getSelectedIndex();
-		
+		System.out.println("tabIndex: " + tabIndex);
 		lossScenarioTableList = lsDB.getLsList();
 		
-		ucaColList.get(tabIndex+1).setCellValueFactory(cellData -> cellData.getValue().getUCAProperty());
-		lossFactorColList.get(tabIndex+1).setCellValueFactory(cellData -> cellData.getValue().getLossFactorProperty());
-		lossScenarioColList.get(tabIndex+1).setCellValueFactory(cellData -> cellData.getValue().getLossScenarioProperty());
+		ucaColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getUCAProperty());
+		lossFactorColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossFactorProperty());
+		lossScenarioColList.get(tabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossScenarioProperty());
 		
-		lsTableViewList.get(tabIndex+1).setItems(lossScenarioTableList);
+		lsTableViewList.get(tabIndex).setItems(lossScenarioTableList);
 		
 		/*
 		 * add items to loss scenario table
 		 */
 		addLossScenario.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
+				int curTabIndex = tabPane.getSelectionModel().getSelectedIndex();
 				//if text field is empty, warning pop up opens
 				if(lossScenarioTextField.getText().isEmpty()) {
 					try {
@@ -105,8 +106,14 @@ public class LsController {
 						e1.printStackTrace();
 					}
 				}else {
+					ucaColList.get(curTabIndex).setCellValueFactory(cellData -> cellData.getValue().getUCAProperty());
+					lossFactorColList.get(curTabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossFactorProperty());
+					lossScenarioColList.get(curTabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossScenarioProperty());
+					
 					LS ls = new LS(UcaComboBox.getValue(), lossFactorComboBox.getValue(), lossScenarioTextField.getText());
-					lsTableViewList.get(tabIndex+1).getItems().add(ls);
+					System.out.println("tabIndex2: " + curTabIndex);
+					lsTableViewList.get(curTabIndex).getItems().add(ls);
+					lossFactorComboBox.getSelectionModel().clearSelection();
 					lossScenarioTextField.clear();
 					
 				}
@@ -180,12 +187,12 @@ public class LsController {
 	    //add loss factor combobox
 		lossFactorComboBox.setItems(lossFactorCBList);
 		
-//		addNewTab(0);
+		addNewTab(0);
 		
 		addNewTab.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				System.out.println("add");
-				addNewTab(lsTableViewList.size() + 1);
+				addNewTab(lsTableViewList.size());
 				event.consume();
 			}
 		});
@@ -198,7 +205,6 @@ public class LsController {
 			alert.setHeaderText("No tab to work");
 			alert.setContentText("You have to add tab first");
 		}else {
-			addNewTab(lsTableViewList.size() + 1);
 			addLossScenario();
 		}
 	}
@@ -245,7 +251,7 @@ public class LsController {
 	private void addNewTab(int index) {
 		System.out.println("index: " + index);
 		Tab newTab = new Tab();
-		newTab.setText("LS" + Integer.toString(index));
+		newTab.setText("LS" + Integer.toString(index + 1));
 		tabPane.getTabs().add(newTab);
 
 		TableView<LS> newTable = new TableView<LS>();

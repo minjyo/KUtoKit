@@ -1,4 +1,3 @@
-
 package kutokit.model.ctm;
 
 import java.util.ArrayList;
@@ -60,6 +59,22 @@ public class CTMDataStore {
 				CTMTableList.get(i).setCasesValue(this.ctmCases.get(i));
 				CTMTableList.get(i).setHazardousValue(this.ctmHazardous.get(i));
 				final int temp = i;
+	      		comboBox1.valueProperty().addListener(new ChangeListener<String>() {
+	  			      @Override
+	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+	  			    	CTMTableList.get(temp).setCasesValue(newValue);
+	  			    	ctmCases.set(temp, newValue);
+	  			    	getCTMTableList();
+	  			      }
+  			    });
+        		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
+  			      @Override
+  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
+	  			    	CTMTableList.get(temp).setHazardousValue(newValue);
+	  			    	ctmHazardous.set(temp, newValue);
+	  			    	getCTMTableList();
+  			      }
+  			    });
 			}
 		}
 		return this.CTMTableList;
