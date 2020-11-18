@@ -40,6 +40,7 @@ import kutokit.MainApp;
 import kutokit.model.ctm.CTM;
 import kutokit.model.ctm.CTMDataStore;
 import kutokit.model.pmm.PmmDataStore;
+import kutokit.model.utm.UCA;
 import kutokit.model.utm.UCADataStore;
 import kutokit.model.pmm.ProcessModel;
 
@@ -138,7 +139,7 @@ public class CtmController {
 	}
 	
 	public Tab MakeTab(int tabNum, String controllerName, String caName, ObservableList<String> contextheader) {
-        final TableView<CTM> contextTable = this.MakeTable(contextheader);
+        final TableView<CTM> contextTable = this.MakeTable(tabNum, contextheader);
         if(totalData.size() >= tabNum+1) { 
         	mcsData = totalData.get(tabNum).getCTMTableList();
         	contextTable.setItems(totalData.get(tabNum).getCTMTableList());
@@ -164,7 +165,6 @@ public class CtmController {
         });
         hb.getChildren().addAll(fileButton);
 
-        String[] contexts = new String[contextheader.size()];
         final TextField[] addContexts = new TextField[contextheader.size()];
 		for(int t=0;t<contextheader.size();t++) {
 	        final TextField addContext = new TextField();
@@ -178,6 +178,7 @@ public class CtmController {
             @Override
             public void handle(ActionEvent e) {
         		int temp = contextTable.getItems().size();
+                String[] contexts = new String[contextheader.size()];
         		for(int t=0;t<contextheader.size();t++) {
         			contexts[t] = addContexts[t].getText();
         			addContexts[t].clear();
@@ -248,12 +249,14 @@ public class CtmController {
 				      @Override
 	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 	  			    	totalData.get(tabNum).getCTMTableList().get(temp).setCasesValue(newValue);
+	  			    	totalData.get(tabNum).getCases().set(temp, newValue);
 	  			      }
 	  			    });
 	        		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
 	  			      @Override
 	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 	  			    	totalData.get(tabNum).getCTMTableList().get(temp).setHazardousValue(newValue);
+	  			    	totalData.get(tabNum).getHazardous().set(temp, newValue);
 	  			      }
 	  			    });
         	}
@@ -266,7 +269,7 @@ public class CtmController {
         return tab;
 	}
 	
-	public TableView<CTM> MakeTable(ObservableList<String> contextheader) {
+	public TableView<CTM> MakeTable(int tabNum, ObservableList<String> contextheader) {
 		TableView<CTM> contextTable = new TableView<CTM>();
 		
 		contextTable.prefWidthProperty().bind(tabPane.widthProperty());
@@ -313,7 +316,29 @@ public class CtmController {
  	                    ((CTM) t.getTableView().getItems().get(
  	                        t.getTablePosition().getRow())
  	                        ).setContext(temp, t.getNewValue());
- 	                   System.out.println((t.getTableView().getItems().get(t.getTablePosition().getRow()).getContext(temp)));
+ 	                    
+ 	                   mcsData = t.getTableView().getItems();
+ 	 	                CTMDataStore ctm = new CTMDataStore();
+ 	 	              	for(CTM c : mcsData) {
+ 	 	              		ctm.getCTMTableList().add(c);
+ 	 	              	}
+ 	 	                totalData.set(tabNum, ctm);
+ 	                    
+
+ 	           		/*ObservableList<UCA> ucadata = t.getTableView().getItems();
+ 	           		UCA uca = ucadata.get(t.getTablePosition().getRow());
+ 	           		uca.setUCA(t.getTableColumn().getText(), t.getNewValue(), null);
+ 	           		
+ 	                mcsData = totalData.get(tabNum).getCTMTableList();
+ 	                CTMDataStore ctm = new CTMDataStore();
+ 	              	for(CTM c : mcsData) {
+ 	              		ctm.getCTMTableList().add(c);
+ 	              	}
+ 	              	totalData.set(tabNum, ctm);
+ 	              	totalData.get(tabNum).getCTMTableList();*/
+ 	      			System.out.println("table:"+(t.getTableView().getItems().get(t.getTablePosition().getRow()).getContext(temp)));
+ 	      			System.out.println("total:"+totalData.get(tabNum).getCTMTableList().get(t.getTablePosition().getRow()).getContext(temp));
+ 	                
  	                }
  	            }
  	        );

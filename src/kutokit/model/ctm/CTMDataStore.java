@@ -63,12 +63,16 @@ public class CTMDataStore {
 	  			      @Override
 	  			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 	  			    	CTMTableList.get(temp).setCasesValue(newValue);
+	  			    	ctmCases.set(temp, newValue);
+	  			    	getCTMTableList();
 	  			      }
   			    });
         		comboBox2.valueProperty().addListener(new ChangeListener<String>() {
   			      @Override
   			      public void changed(ObservableValue observable, String oldValue, String newValue) {
 	  			    	CTMTableList.get(temp).setHazardousValue(newValue);
+	  			    	ctmHazardous.set(temp, newValue);
+	  			    	getCTMTableList();
   			      }
   			    });
 			}
