@@ -164,7 +164,6 @@ public class CtmController {
         });
         hb.getChildren().addAll(fileButton);
 
-        String[] contexts = new String[contextheader.size()];
         final TextField[] addContexts = new TextField[contextheader.size()];
 		for(int t=0;t<contextheader.size();t++) {
 	        final TextField addContext = new TextField();
@@ -178,6 +177,7 @@ public class CtmController {
             @Override
             public void handle(ActionEvent e) {
         		int temp = contextTable.getItems().size();
+                String[] contexts = new String[contextheader.size()];
         		for(int t=0;t<contextheader.size();t++) {
         			contexts[t] = addContexts[t].getText();
         			addContexts[t].clear();
