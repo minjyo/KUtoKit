@@ -110,11 +110,10 @@ public class LsController {
 					lossFactorColList.get(curTabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossFactorProperty());
 					lossScenarioColList.get(curTabIndex).setCellValueFactory(cellData -> cellData.getValue().getLossScenarioProperty());
 					
-					//lsTableViewList.get(curTabIndex).setItems(lossScenarioTableList);
-					
 					LS ls = new LS(UcaComboBox.getValue(), lossFactorComboBox.getValue(), lossScenarioTextField.getText());
 					System.out.println("tabIndex2: " + curTabIndex);
 					lsTableViewList.get(curTabIndex).getItems().add(ls);
+					lossFactorComboBox.getSelectionModel().clearSelection();
 					lossScenarioTextField.clear();
 					
 				}
@@ -182,8 +181,6 @@ public class LsController {
 		    }
 		}
 		
-		ucaDatas.add("GPS signal =False, current location =?, current height =z, current speed =10km/s, sensor =true, ");
-		ucaDatas.add("GPS signal =False, current location =?, current height =z, current speed =20km/s, sensor =false, ");
 	    UcaComboBox.setItems(ucaDatas);
 	    System.out.println(ucaDatas + " : uca datas");
 	    

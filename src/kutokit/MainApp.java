@@ -48,7 +48,6 @@ public class MainApp extends Application {
 
 	 public static Components components;
 	 public static LhcDataStore lhcDataStore;
-	 public ProcessModel models;
 	 public static ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
 	 public static ObservableList<UCA> ucadatastore = FXCollections.observableArrayList();
 	 public static ObservableList<CTMDataStore> ctmDataStoreList = FXCollections.observableArrayList();
@@ -74,7 +73,6 @@ public class MainApp extends Application {
 	private void initDataStore() {
 		components = new Components();
 		lhcDataStore = new LhcDataStore();
-		models = new ProcessModel();
 		lsDataStore = new LSDataStore();
 		pmmDB = new PmmDataStore();
 	}
@@ -159,7 +157,7 @@ public class MainApp extends Application {
     public void showCtmView() {
         try {
         	//Open when pmm data isn't null
-        	if(models.getControllerName().isEmpty() || models.getControlActionName().isEmpty() || models.getValuelist().isEmpty()){
+        	if(pmmDB.getProcessModel().isEmpty()){
     	        Alert alert = new Alert(AlertType.INFORMATION);
         		alert.setTitle("Caution");
         		alert.setHeaderText("Condition not satisfied");
