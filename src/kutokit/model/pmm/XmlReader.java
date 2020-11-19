@@ -18,6 +18,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class XmlReader {
 
 	private static XPath xPath = XPathFactory.newInstance().newXPath();
@@ -153,6 +156,9 @@ public class XmlReader {
 					e.printStackTrace();
 				} 
 			}
+//			for(int i=0; i<findedList.getLength(); i++) {
+//				System.out.println("nodelist: "+findedList.item(i).getAttributes().getNamedItem("value"));
+//			}
 			return findedList;
 	}
 
@@ -165,16 +171,16 @@ public class XmlReader {
 		
 		// Way B : transitions
 		try {
+			String rootFodExpression = prevRootFodExpression + rootFod.getAttributes().getNamedItem("name").getTextContent() + "']";
 			String nodeName = node.getAttributes().getNamedItem("name").getTextContent();
 			// 1. Get target node list with refName[nodeName] 
-			targetNodelist = ((NodeList) xPath.evaluate(".//transitions/transition"+TARGET_EXPRESSION+nodeName+"']", doc, XPathConstants.NODESET));
+			targetNodelist = ((NodeList) xPath.evaluate(rootFodExpression+"/transitions/transition"+TARGET_EXPRESSION+nodeName+"']", doc, XPathConstants.NODESET));
 		
 			// 2. Get source node list in transition node list
 			sourceNodelist = getSourceNodeList(targetNodelist, "source");
 				
 			// Way A : transitions in TTS 
 			if( firstLetter.equals("t") || firstLetter.equals("h")) {
-				System.out.println();
 				String expression = nodeName+"']"+"/transitions/transition"+ASSIGN_EXPRESSION;
 				try {
 					// 1. Get assignments node list what contain [nodeName] contents
@@ -195,7 +201,7 @@ public class XmlReader {
 		  catch (NullPointerException e) { return sourceNodelist; }
 		
 //		for(String str: sourceNodelist) {
-//			System.out.println(str);
+//			System.out.println("transition Node list : "+str);
 //		}
 		
 		return sourceNodelist;
@@ -298,23 +304,31 @@ public class XmlReader {
 
 		return findedNode;
 	}
-//	
-//	public static void main(String args[]) {
-//		
+	
+	public static void main(String args[]) {
+		
 //		XmlReader reader = new XmlReader("CVM_ver4_complete_nographic.xml");
-////		XmlReader reader = new XmlReader("NuSCR_example.xml");
-////		reader.getNodeList(getNode("f_display_makeable_coffee_1"), "");
-////		reader.getTransitionNodes(getNode("f_display_makeable_coffee_1"));
+//		XmlReader reader = new XmlReader("NuSCR_example.xml");
 //
-//		// Show all FODs
-//		for(Node fod: reader.showValidFods()) {
-//			System.out.println(fod.getAttributes().getNamedItem("name") + ": root");
-//		}
-//		
+//		NodeList directlyConnectedNode;
+//		List<String> transitionlist;
 //		// Select FODs
-//		reader.setRootFod("g_Actuator");
+//		reader.setRootFod("g_LO_SG1_LEVEL");
 //		
 //		// Get output variables about Selected FODs
-//		System.out.println(	reader.getOutputs());
-//	}
+//		ObservableList<String> outputlist = FXCollections.observableArrayList();
+//		outputlist.addAll(reader.getOutputs());
+//		
+//		System.out.println("outputlist: "+outputlist.get(2));
+//		directlyConnectedNode = XmlReader.getNodeList(XmlReader.getNode(outputlist.get(2)), "");
+//
+//		for(int i=0; i<directlyConnectedNode.getLength(); i++) {
+//			System.out.println(directlyConnectedNode.item(i).getAttributes().getNamedItem("value"));
+//		}
+//		transitionlist = XmlReader.getTransitionNodes(XmlReader.getNode(outputlist.get(2)));
+//
+//		for(String str : transitionlist) {
+//			System.out.println(str);
+//		}
+	}
 }
