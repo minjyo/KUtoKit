@@ -91,10 +91,10 @@ public class CtmController {
 		hazardousOX.add("O");
 		
 		casesCombo = FXCollections.observableArrayList();
-		casesCombo.add("Not Providing\nCauses Hazard");
-		casesCombo.add("Providing causes hazard");
-		casesCombo.add("Too early, too late,\nout of order");
-		casesCombo.add("Stopped too soon,\napplied too long");
+		casesCombo.add("Providing Causes Hazard");
+		casesCombo.add("Not Providing Causes Hazard");
+		casesCombo.add("Incorrect Timing/Order");
+		casesCombo.add("Stopped Too Soon/Applied Too Long");
 		
 		this.mainApp = mainApp;
 		ctmDataStoreList = mainApp.ctmDataStoreList;
@@ -185,7 +185,7 @@ public class CtmController {
         		}
         		ComboBox<String> comboBox1 = new ComboBox<String> (casesCombo);
         		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
-				comboBox1.setValue("Not Providing\nCauses Hazard");
+				comboBox1.setValue("Providing Causes Hazard");
 				comboBox2.setValue("X");
         		mcsData = totalData.get(tabNum).getCTMTableList();
         		mcsData.add(new CTM(controllerName, caName,comboBox1,1+temp,contexts,comboBox2));
@@ -456,7 +456,7 @@ public class CtmController {
 			final int a=y;
 	   		ComboBox<String> comboBox1 = new ComboBox(casesCombo);
 	   		ComboBox<String> comboBox2 = new ComboBox(hazardousOX);
-			comboBox1.setValue("Not Providing\nCauses Hazard");
+			comboBox1.setValue("Providing Causes Hazard");
 			comboBox2.setValue("X");
 			totalData.get(curTabNum).getCTMTableList().add(
 					new CTM(controllerNames.get(curTabNum), controlActionNames.get(curTabNum),comboBox1,curtableSize+a+1,contexts,comboBox2)
