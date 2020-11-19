@@ -276,7 +276,7 @@ public class PmmController {
 		
 		//add selected value from output list to value list
 	    outputList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-//		makeModel(outputList.getSelectionModel().getSelectedItems());
+	    //makeModel(outputList.getSelectionModel().getSelectedItems());
 		
 		System.out.println("선택한 output : "+outputList.getSelectionModel().getSelectedItems());
 	    ProcessModel PM = new ProcessModel();
@@ -291,7 +291,6 @@ public class PmmController {
 	//    ArrayList<String> newValues = new ArrayList<String>();
 
 	    if (selectedFile != null && !selectedOutputs.isEmpty()) {
-//	    	makeModel(selectedOutputs);
 	        ListView<String> lv = new ListView<String>();
 	        valueListControl(lv);
 	        for(Tab tab : tabPane.getTabs()){
@@ -373,14 +372,7 @@ public class PmmController {
 						for (Object value : directlyConnectedNodeList) {
 							curList.add(value.toString());
 						}
-						// Must get inner node's input variable
-//						for(String node : directlyConnectedNodeList) {
-//							if(outputlist.contains(node)) {
-//								innerList.add(node);
-//								curList.addAll(makeModel(innerList));
-//							}
-//						}
-						
+	
 					}
 				}
 			} catch(NullPointerException e) {
@@ -407,7 +399,14 @@ public class PmmController {
 				} catch(NullPointerException e) {
 					e.printStackTrace();
 				} finally {
+					
+					// Add input nodes
+					for(Node input: XmlReader.getInputs()) {
+						curList.add(input.getAttributes().getNamedItem("name").getTextContent());						
+					}
+					
 					// Remove redundant variables between l1 and l2
+					
 					TreeSet tree = new TreeSet();
 					for (String value : curList) {
 						tree.add(value);
@@ -419,7 +418,7 @@ public class PmmController {
 					}
 
 					System.out.println("i:"+i+","+curList);
-//					//save related input variables
+					//save related input variables
 					pmmDB.getInputList().add(curList);
 				}
 			}
