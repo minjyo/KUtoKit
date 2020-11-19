@@ -401,13 +401,6 @@ public class PmmController {
 					for (Object value : transitionNodeList) {
 						curList.add(value.toString());
 					}
-					// Must get inner node's input variable
-//					for(String node : transitionNodeList) {
-//						if(outputlist.contains(node)) {
-//							innerList.add(node);
-//							curList.addAll(makeModel(innerList));
-//						}	
-//					}
 
 					
 				} catch(NullPointerException e) {
