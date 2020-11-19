@@ -42,6 +42,7 @@ public class XmlReader {
 	public static final String SOURCE_EXPRESSION = "/source";
 	public static final String ASSIGN_EXPRESSION = "/assignments";
 	public static final String OUTPUT_EXPRESSION = ".//output";
+	private static final String INPUT_EXPRESSION = ".//input";
 	public static String firstLetter = "";
 	
 	public XmlReader(String filePath) {
@@ -180,7 +181,7 @@ public class XmlReader {
 			sourceNodelist = getSourceNodeList(targetNodelist, "source");
 				
 			// Way A : transitions in TTS 
-			if( firstLetter.equals("t") || firstLetter.equals("h")) {
+			if( firstLetter.equals("t") || firstLetter.equals("h") || firstLetter.equals("f")) {
 				String expression = nodeName+"']"+"/transitions/transition"+ASSIGN_EXPRESSION;
 				try {
 					// 1. Get assignments node list what contain [nodeName] contents
@@ -188,6 +189,8 @@ public class XmlReader {
 						targetNodelist = ((NodeList) xPath.evaluate(TTS_BASE_EXPRESSION+expression, doc, XPathConstants.NODESET));
 					else if(firstLetter.equals("h")) 
 						targetNodelist = ((NodeList) xPath.evaluate(FSM_BASE_EXPRESSION+expression, doc, XPathConstants.NODESET));
+					else if(firstLetter.equals("f"))
+						targetNodelist = ((NodeList) xPath.evaluate(SDT_BASE_EXPRESSION+expression, doc, XPathConstants.NODESET));
 	 
 				} catch (XPathExpressionException e) { e.printStackTrace(); }
 				
@@ -273,6 +276,22 @@ public class XmlReader {
         	outputList.add((String) it.next());
         }
 		return outputList;
+	}
+	
+	public static List<Node> getInputs() {
+
+		NodeList inputNodes = XmlReader.getNodeList(XmlReader.getRootFod(), XmlReader.INPUT_EXPRESSION);
+		List<Node> inputs = new ArrayList<Node>();
+
+		for(int i = 0; i < inputNodes.getLength(); i ++) {
+			//            String name = outputNodes.item(i).getAttributes().getNamedItem("name").getTextContent();
+			//
+			//            //system.out.println("output : " + name);
+			inputs.add(inputNodes.item(i));
+
+		}
+		return inputs;
+
 	}
 	
 	public static List<Node> showValidFods() {
