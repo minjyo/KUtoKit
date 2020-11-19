@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import kutokit.view.PmmController;
 
 public class XmlReader {
 
@@ -327,27 +328,29 @@ public class XmlReader {
 	public static void main(String args[]) {
 		
 //		XmlReader reader = new XmlReader("CVM_ver4_complete_nographic.xml");
-//		XmlReader reader = new XmlReader("NuSCR_example.xml");
-//
-//		NodeList directlyConnectedNode;
-//		List<String> transitionlist;
-//		// Select FODs
-//		reader.setRootFod("g_LO_SG1_LEVEL");
-//		
-//		// Get output variables about Selected FODs
-//		ObservableList<String> outputlist = FXCollections.observableArrayList();
-//		outputlist.addAll(reader.getOutputs());
-//		
-//		System.out.println("outputlist: "+outputlist.get(2));
-//		directlyConnectedNode = XmlReader.getNodeList(XmlReader.getNode(outputlist.get(2)), "");
-//
+		XmlReader reader = new XmlReader("NuSCR_example.xml");
+		PmmController pmm = new PmmController();
+		
+		NodeList directlyConnectedNode;
+		List<String> transitionlist;
+		// Select FODs
+		reader.setRootFod("g_LO_SG1_LEVEL");
+		
+		// Get output variables about Selected FODs
+		ObservableList<String> outputlist = FXCollections.observableArrayList();
+		outputlist.addAll(reader.getOutputs());
+		
+		System.out.println("outputlist: "+outputlist.get(2));
+		directlyConnectedNode = XmlReader.getNodeList(XmlReader.getNode(outputlist.get(2)), "");
+
 //		for(int i=0; i<directlyConnectedNode.getLength(); i++) {
 //			System.out.println(directlyConnectedNode.item(i).getAttributes().getNamedItem("value"));
 //		}
-//		transitionlist = XmlReader.getTransitionNodes(XmlReader.getNode(outputlist.get(2)));
-//
+		transitionlist = XmlReader.getTransitionNodes(XmlReader.getNode(outputlist.get(2)));
+
 //		for(String str : transitionlist) {
 //			System.out.println(str);
 //		}
+		pmm.makeModel(outputlist);
 	}
 }
