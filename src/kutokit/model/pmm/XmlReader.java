@@ -8,7 +8,6 @@ import java.util.TreeSet;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -17,10 +16,6 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import kutokit.view.PmmController;
 
 public class XmlReader {
 
@@ -280,16 +275,21 @@ public class XmlReader {
 	}
 	
 	public static List<Node> getInputs() {
-
+		
 		NodeList inputNodes = XmlReader.getNodeList(XmlReader.getRootFod(), XmlReader.INPUT_EXPRESSION);
 		List<Node> inputs = new ArrayList<Node>();
 
+		try {
+			String expression = prevRootFodExpression+rootFod.getAttributes().getNamedItem("name").getTextContent()+"']";
+			inputNodes = ((NodeList) xPath.evaluate(expression+"/nodes/input", doc, XPathConstants.NODESET));
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		
 		for(int i = 0; i < inputNodes.getLength(); i ++) {
-			//            String name = outputNodes.item(i).getAttributes().getNamedItem("name").getTextContent();
-			//
-			//            //system.out.println("output : " + name);
+			//String name = inputNodes.item(i).getAttributes().getNamedItem("name").getTextContent();
+			//System.out.println("input : " + name);
 			inputs.add(inputNodes.item(i));
-
 		}
 		return inputs;
 
@@ -329,28 +329,29 @@ public class XmlReader {
 		
 //		XmlReader reader = new XmlReader("CVM_ver4_complete_nographic.xml");
 		XmlReader reader = new XmlReader("NuSCR_example.xml");
-		PmmController pmm = new PmmController();
 		
 		NodeList directlyConnectedNode;
 		List<String> transitionlist;
 		// Select FODs
 		reader.setRootFod("g_LO_SG1_LEVEL");
+//		
+//		// Get output variables about Selected FODs
+//		ObservableList<String> outputlist = FXCollections.observableArrayList();
+//		outputlist.addAll(reader.getOutputs());
+//		
+//		System.out.println("outputlist: "+outputlist.get(2));
+//		directlyConnectedNode = XmlReader.getNodeList(XmlReader.getNode(outputlist.get(2)), "");
+//
+////		for(int i=0; i<directlyConnectedNode.getLength(); i++) {
+////			System.out.println(directlyConnectedNode.item(i).getAttributes().getNamedItem("value"));
+////		}
+//		transitionlist = XmlReader.getTransitionNodes(XmlReader.getNode(outputlist.get(2)));
+//
+////		for(String str : transitionlist) {
+////			System.out.println(str);
+////		}
+//		pmm.makeModel(outputlist);
 		
-		// Get output variables about Selected FODs
-		ObservableList<String> outputlist = FXCollections.observableArrayList();
-		outputlist.addAll(reader.getOutputs());
-		
-		System.out.println("outputlist: "+outputlist.get(2));
-		directlyConnectedNode = XmlReader.getNodeList(XmlReader.getNode(outputlist.get(2)), "");
-
-//		for(int i=0; i<directlyConnectedNode.getLength(); i++) {
-//			System.out.println(directlyConnectedNode.item(i).getAttributes().getNamedItem("value"));
-//		}
-		transitionlist = XmlReader.getTransitionNodes(XmlReader.getNode(outputlist.get(2)));
-
-//		for(String str : transitionlist) {
-//			System.out.println(str);
-//		}
-		pmm.makeModel(outputlist);
+		reader.getInputs();
 	}
 }
