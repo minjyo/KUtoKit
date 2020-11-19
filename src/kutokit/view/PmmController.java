@@ -79,6 +79,7 @@ public class PmmController {
 
 	//to control each listview for each controller
 	ObservableList<ListView<String>> listViewList = FXCollections.observableArrayList();
+	ArrayList<String> inputList = new ArrayList<String>();
 
 	public PmmController() {
 
@@ -260,6 +261,7 @@ public class PmmController {
 						}
 						outputList.setItems(outputlist);
 						pmmDB.setOutputList(outputlist);
+//						inputList = makeModel(outputlist);
 						makeModel(outputlist);
 					}
 				}
