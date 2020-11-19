@@ -79,7 +79,7 @@ public class PmmController {
 
 	//to control each listview for each controller
 	ObservableList<ListView<String>> listViewList = FXCollections.observableArrayList();
-	ArrayList<String> inputList = new ArrayList<String>();
+	ArrayList<ArrayList<String>> inputList = new ArrayList<ArrayList<String>>();
 
 	public PmmController() {
 
@@ -261,7 +261,6 @@ public class PmmController {
 						}
 						outputList.setItems(outputlist);
 						pmmDB.setOutputList(outputlist);
-//						inputList = makeModel(outputlist);
 						makeModel(outputlist);
 					}
 				}
@@ -337,7 +336,7 @@ public class PmmController {
     }
 	
 	// Make process model
-	public ArrayList<String> makeModel(ObservableList<String> outputlist) {
+	public void makeModel(ObservableList<String> outputlist) {
 	
 		ArrayList<String> connectedValues = new ArrayList<String>();
 		NodeList directlyConnectedNode;
@@ -347,9 +346,9 @@ public class PmmController {
 		List<String> transitionNodeList = new ArrayList<String>();
 
 		ObservableList<String> innerList = FXCollections.observableArrayList();
-		ArrayList<String> curList = new ArrayList<String>();
 
 		for(int i=0; i<outputlist.size(); i++) {
+			ArrayList<String> curList = new ArrayList<String>();
 			innerList.clear();
 			curList.clear();
 			connectedValues.clear();
@@ -428,13 +427,10 @@ public class PmmController {
 
 					System.out.println("i:"+i+","+curList);
 //					//save related input variables
-//					pmmDB.getInputList().add(curList);
-
+					pmmDB.getInputList().add(curList);
 				}
 			}
-
 		}
-		return curList;
 	}
 	
 	// Search & remove expressions from value
