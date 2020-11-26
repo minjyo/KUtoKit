@@ -221,52 +221,57 @@
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NuSCR supporting">
+                     <Text layoutX="14.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NuSCR supporting">
                         <font>
                            <Font size="20.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="268.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) To choose controller&amp;output variable, use combo box in right side." wrappingWidth="762.984375">
+                     <Text layoutX="14.0" layoutY="231.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) To choose controller&amp;output variable, use combo box in right side." wrappingWidth="762.984375">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2-1) To add variable, click 'show output variables' button under combo boxes, then select NuSRS file from directory." wrappingWidth="766.125">
+                     <Text layoutX="14.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2-1) To add variable, click 'show output variables' button under combo boxes, then select NuSRS file from directory." wrappingWidth="766.125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="444.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3-1) To edit specific variable, right-click on the variable, click 'modify' from pop-up." wrappingWidth="756.4453125">
+                     <Text layoutX="14.0" layoutY="407.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3-1) To edit specific variable, right-click on the variable, click 'modify' from pop-up." wrappingWidth="756.4453125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) To delete specific variable, right-click on the variable, click 'delete' from pop-up.">
+                     <Text layoutX="14.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) To delete specific variable, right-click on the variable, click 'delete' from pop-up.">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="466.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3-2) Enter text into text field on pop-up. To apply changes, click Confirm button." wrappingWidth="756.4453125">
+                     <Text layoutX="14.0" layoutY="429.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3-2) Enter text into text field on pop-up. To apply changes, click Confirm button." wrappingWidth="756.4453125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="488.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3-3) Not to apply changes, click Cancel button." wrappingWidth="756.4453125">
+                     <Text layoutX="14.0" layoutY="451.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3-3) Not to apply changes, click Cancel button." wrappingWidth="756.4453125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2-2) After selecting NuSRS file, pop-up to choose groups of output variables will open" wrappingWidth="766.125">
+                     <Text layoutX="14.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2-2) After selecting NuSRS file, pop-up to choose groups of output variables will open" wrappingWidth="766.125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2-3) After selecting groups, cllick 'confirm' from pop-up and choose output variables from list view in right side." wrappingWidth="766.125">
+                     <Text layoutX="14.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2-3) After selecting groups, cllick 'confirm' from pop-up and choose output variables from list view in right side." wrappingWidth="766.125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2-4) After choosing output variables, press 'create process model' button to add input variables and related nodes into list view in left side." wrappingWidth="766.125">
+                     <Text layoutX="14.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2-4) After choosing output variables, press 'create process model' button to add input variables and related nodes into list view in left side." wrappingWidth="766.125">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="507.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click add tab button to add tab for selected controller / control action.">
                         <font>
                            <Font size="16.0" />
                         </font>
@@ -279,56 +284,61 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit in person">
+                        <Text layoutX="14.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit in person">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Text>
-                        <Text layoutX="14.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) After working with process models is done, all the formats to make context table will be ready-made." wrappingWidth="760.1953125">
+                        <Text layoutX="14.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) After working with process models is done, all the formats(tabs, columns) to make context table will be ready-made." wrappingWidth="760.1953125">
                         <font>
                            <Font size="16.0" />
                         </font></Text>
-                     <Text layoutX="14.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) To add items in context table, input needed informations in text fields at top, and press add button(right-end button)." wrappingWidth="760.1953125">
+                     <Text layoutX="14.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) To add items in context table, input needed informations in text fields at top, and press add button(right-end button)." wrappingWidth="760.1953125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) After adding items, select appropriate values for all two combo boxes in each row." wrappingWidth="760.1953125">
+                     <Text layoutX="14.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) After adding items, select appropriate values for all two combo boxes in each row." wrappingWidth="760.1953125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) To edit value, double click cell to edit, and input new value." wrappingWidth="760.1953125">
+                     <Text layoutX="14.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) To edit value, double click cell to edit, and input new value." wrappingWidth="760.1953125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NuSCR Supporting">
+                     <Text layoutX="14.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NuSCR Supporting">
                         <font>
                            <Font size="20.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) After working with process models is done, all the formats to make context table will be ready-made." wrappingWidth="760.1953125">
+                     <Text layoutX="14.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) After working with process models is done, all the formats to make context table will be ready-made." wrappingWidth="760.1953125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) To add MCS file, press file open button(left-end button), click file to apply and parse." wrappingWidth="760.1953125">
+                     <Text layoutX="14.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) To add MCS file, press file open button(left-end button), click file to apply and parse." wrappingWidth="760.1953125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) After adding file, select appropriate values for all two combo boxes in each row." wrappingWidth="760.1953125">
+                     <Text layoutX="14.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) After adding file, select appropriate values for all two combo boxes in each row." wrappingWidth="760.1953125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) To edit value, double click cell to edit, and input new value." wrappingWidth="760.1953125">
+                     <Text layoutX="14.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) To edit value, double click cell to edit, and input new value." wrappingWidth="760.1953125">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Text>
-                     <Text layoutX="14.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Once you choose value of &quot;O&quot; in hazardous column, information from such row will be added to Unsafe Control Action Table." wrappingWidth="760.1953125">
+                     <Text layoutX="14.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Once you choose value of &quot;O&quot; in hazardous column, information from such row will be added to Unsafe Control Action Table." wrappingWidth="760.1953125">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You have to choose controller / control action to work with." wrappingWidth="760.1953125">
                         <font>
                            <Font size="16.0" />
                         </font>
@@ -341,12 +351,17 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UCA Table Maker">
+                        <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Get context data">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="content" />
+                        <Text layoutX="14.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) Only contexts that you chose hazardous as &quot;O&quot;, becomes each UCA items." />
+                     <Text layoutX="14.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) To delete items, you have to make that context's hazardous value into &quot;X&quot;, and import data again." wrappingWidth="767.0283203125" />
+                     <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) To add items, you have to make that context's hazardous value into &quot;O&quot;, and import data again." />
+                     <Text layoutX="14.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) To edit itmes, you can just double-click certain cell and input text." />
+                     <Text layoutX="14.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5) You have to link each UCA with hazards you added in '1. Define Purpose of the Analysis'." wrappingWidth="767.0283203125" />
+                     <Text layoutX="14.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="6) You can add tab by changing controller / control action on top left side." wrappingWidth="767.0283203125" />
                      </children>
                   </AnchorPane>
                </content>
@@ -355,12 +370,16 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loss Scenario">
+                        <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Get UCA data">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="content" />
+                        <Text layoutX="14.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) Each UCA Data will be added into most-left combo box to choose. Select UCA from combo box." />
+                     <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) Select Loss Factor from combo box next to the UCA combo box." />
+                     <Text layoutX="14.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) Input text for loss scenario into text field next to loss factor combo box." />
+                     <Text layoutX="14.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) Click add button to add each UCA, loss factor, and loss scenario to the table." />
+                     <Text layoutX="14.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5) To add tab, click add new tab button, work with other UCA." />
                      </children>
                   </AnchorPane>
                </content>
@@ -369,12 +388,41 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Save, Save As ..">
+                        <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Open">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="content" />
+                        <Text layoutX="14.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) From dashboard, click File menu on top left, and then click Open." />
+                     <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) Select file(.xml) to open from file chooser.." />
+                     <Text layoutX="14.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Save">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="If you don't open certain file, it is as same as 'New' from other programs." />
+                     <Text layoutX="14.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) Click File menu on top left, and then click Save." />
+                     <Text layoutX="14.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) If this is first time you save working project, you have to select path for file to save." />
+                     <Text layoutX="14.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) If you have saved working project before, saved file will be updated." />
+                     <Text layoutX="14.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Save As">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="If you want to save working project in different directory or change file name, click File menu on top left, and then click Save As ..." wrappingWidth="764.9619140625" />
+                     <Text layoutX="14.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This pop up you are looking at it Help in menu." wrappingWidth="764.9619140625" />
+                     <Text layoutX="14.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dashboard">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Text>
+                     <Text layoutX="14.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What you see when you first started program." wrappingWidth="764.9619140625" />
+                     <Text layoutX="14.0" layoutY="502.0" strokeType="OUTSIDE" strokeWidth="0.0" text="If you want to see dashboard, you have to click Dashboard menu on top left." wrappingWidth="764.9619140625" />
                      </children>
                   </AnchorPane>
                </content>
