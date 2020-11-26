@@ -55,6 +55,7 @@ public class LsController {
 	ObservableList<LS> lossScenarioTableList;
 	ObservableList<String> lossFactorCBList = FXCollections.observableArrayList("1) Controller Problems", "2) Feedback Problems", "3) Control Path Problems", "4) Controlled Process Problems");
 	ObservableList<UCADataStore> ucaDataStoreList = FXCollections.observableArrayList();
+	ObservableList<String> ucaDatas = FXCollections.observableArrayList();
 	//	ObservableList<UCA> ucaCBList = ucaDB.getUCATableList();
 	/*
 	 * default constructor
@@ -166,23 +167,23 @@ public class LsController {
 //		tabPane.getTabs().remove(0);
 		
 		//set uca combobox
-		ObservableList<String> ucaDatas = FXCollections.observableArrayList();
 		
+		System.out.println("uca db list : " + ucaDataStoreList);
 		for(int i = 0; i < ucaDataStoreList.size(); i++) {
 		    for(UCA u : ucaDataStoreList.get(i).getUCATableList()){
-		    	String ucaType1 = u.getIncorrectTimingOrOrder().getValue();
-		        String ucaType2 = u.getNotProvidingCausesHazard().getValue();
-		        String ucaType3 = u.getIncorrectTimingOrOrder().getValue();
-		        String ucaType4 = u.getStoppedTooSoonOrAppliedTooLong().getValue();
+		    	String ucaType1 = u.getProvidingCausesHazard().get();
+		        String ucaType2 = u.getNotProvidingCausesHazard().get();
+		        String ucaType3 = u.getIncorrectTimingOrOrder().get();
+		        String ucaType4 = u.getStoppedTooSoonOrAppliedTooLong().get();
 		        if(!ucaType1.isEmpty()) ucaDatas.add(ucaType1);
 		        if(!ucaType2.isEmpty()) ucaDatas.add(ucaType2);
 		        if(!ucaType3.isEmpty()) ucaDatas.add(ucaType3);
 		        if(!ucaType4.isEmpty()) ucaDatas.add(ucaType4);
 		    }
 		}
+    	System.out.println("UCA Datas : " + ucaDatas);
 		
 	    UcaComboBox.setItems(ucaDatas);
-	    System.out.println(ucaDatas + " : uca datas");
 	    
 	    //add loss factor combobox
 		lossFactorComboBox.setItems(lossFactorCBList);
